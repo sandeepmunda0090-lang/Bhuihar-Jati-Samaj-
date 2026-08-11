@@ -5,35 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>भुईहर जाति समाज</title>
     <style>
-        :root {
-            --primary-color: #d9534f;
-            --secondary-color: #f4f6f9;
-            --text-color: #333;
-        }
+        :root { --primary-color: #d9534f; --secondary-color: #f4f6f9; --text-color: #333; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        /* Header with Top Corner Auth Icons */
-        header { 
-            background-color: var(--primary-color); 
-            color: white; 
-            padding: 15px; 
-            border-radius: 8px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 15px;
-        }
+        header { background-color: var(--primary-color); color: white; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         header h1 { font-size: 18px; }
-        .header-icons button { background: white; color: var(--primary-color); border: none; padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+        .header-btns button { background: white; color: var(--primary-color); border: none; padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 5px; }
 
-        /* Stats Cards */
         .stats-box { display: flex; gap: 10px; margin-bottom: 15px; }
         .stat-card { flex: 1; background: #333; color: white; padding: 10px; border-radius: 6px; text-align: center; font-size: 14px; }
         .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 5px; color: #2ecc71; }
 
-        /* 6 Padadhikari Grid */
         .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; }
         .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
         .card { background: #fafafa; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center; }
@@ -43,73 +27,62 @@
         .btn-call { background: #007bff; }
         .btn-wa { background: #25d366; }
 
-        /* Forms & Dashboards */
-        .form-box { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .box { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 15px; }
         input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
         .btn-submit { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; }
         .btn-login { background-color: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-reject { background-color: #d9534f; color: white; border: none; font-weight: bold; cursor: pointer; }
         
         .hidden { display: none; }
-        .family-member-item { background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 13px; }
-        
-        /* Admin Panel Styles */
-        .admin-badge { background: #e74c3c; color: white; padding: 2px 6px; font-size: 11px; border-radius: 3px; vertical-align: middle; }
+        .family-item { background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 13px; }
+
+        /* Print Settings */
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { position: absolute; left: 0; top: 0; width: 100%; background: white; padding: 20px; }
+            .no-print { display: none !important; }
+            .print-footer { display: block !important; margin-top: 60px; text-align: right; font-weight: bold; }
+        }
+        .print-footer { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header with Top Corner Auth Buttons -->
     <header>
         <h1>भुईहर जाति समाज</h1>
-        <div class="header-icons" id="headerAuthBtns">
-            <button onclick="switchView('signup')">📝 पंजीयन (Signup)</button>
-            <button onclick="switchView('login')">🔑 लॉगिन (Login)</button>
+        <div class="header-icons" id="topNavBtns">
+            <button onclick="showView('home')">🏠 होम</button>
+            <button onclick="showView('signup')">📝 Signup</button>
+            <button onclick="showView('login')">🔑 Login</button>
         </div>
     </header>
 
-    <!-- Separate Counts for Families and Members -->
-    <div class="stats-box">
-        <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
-        <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
-    </div>
-
-    <!-- 6 Padadhikari Section -->
-    <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
-    <div class="grid-6" id="padadhikariGrid"></div>
-
-    <!-- Main View Area (Dynamic) -->
-    <div id="mainView">
-        <!-- Achhi Bhasha me 'Samaj Jodein' Section -->
-        <div class="form-box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
-            <h3 style="color: #b71c1c; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
-            <p style="font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 12px;">
-                भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। अपने परिवार की जानकारी सुरक्षित रखने और समाज को मजबूत बनाने के लिए ऊपर दिए गए <b>पंजीयन (Signup)</b> या <b>लॉगिन (Login)</b> बटन पर क्लिक करें।
-            </p>
+    <div class="no-print">
+        <div class="stats-box">
+            <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
+            <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
         </div>
+
+        <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
+        <div class="grid-6" id="padadhikariGrid"></div>
     </div>
 
+    <!-- Dynamic Container for Views -->
+    <div id="dynamicView"></div>
 </div>
 
 <script>
-    // LocalStorage Data Setup
-    let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
-    let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
     const ADMIN_MOBILE = "6266240812";
 
-    // Update Counts
-    function updateCounts() {
-        let totalFamilies = users.length;
-        let totalMembersSum = users.reduce((acc, u) => acc + 1 + (u.family ? u.family.length : 0), 0);
-        
-        document.getElementById('familyCount').innerText = totalFamilies;
-        document.getElementById('memberCount').innerText = totalMembersSum;
-    }
-    updateCounts();
+    // Initialize LocalStorage Data
+    let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
+    let families = JSON.parse(localStorage.getItem('bhuihar_families')) || [];
+    let pending = JSON.parse(localStorage.getItem('bhuihar_pending')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
 
-    // Render 6 Padadhikari Cards
-    const grid = document.getElementById('padadhikariGrid');
-    let padadhikariList = [
+    let defaultPadadhikari = [
         {name: "श्री महतो जी", post: "अध्यक्ष", phone: "9800000000"},
         {name: "श्री सचिव जी", post: "सचिव", phone: "9800000001"},
         {name: "श्री कोषाध्यक्ष जी", post: "कोषाध्यक्ष", phone: "9800000002"},
@@ -117,48 +90,78 @@
         {name: "श्री सह-सचिव जी", post: "सह-सचिव", phone: "9800000004"},
         {name: "श्री मीडिया प्रभारी", post: "प्रभारी", phone: "9800000005"}
     ];
-    padadhikariList.forEach(p => {
-        grid.innerHTML += `
-            <div class="card">
-                <h4>${p.name}</h4>
-                <p>${p.post}</p>
-                <div class="card-btns">
-                    <a href="tel:+91${p.phone}" class="btn-call">📞 Call</a>
-                    <a href="https://wa.me/91${p.phone}" class="btn-wa">💬 WhatsApp</a>
-                </div>
-            </div>`;
-    });
+    let padadhikariList = JSON.parse(localStorage.getItem('bhuihar_padadhikari')) || defaultPadadhikari;
 
-    // View Switcher Handler
-    function switchView(viewName) {
-        let box = document.getElementById('mainView');
-        if(viewName === 'signup') {
+    // Update Counts
+    function updateCounts() {
+        document.getElementById('familyCount').innerText = families.length;
+        let totalMems = families.reduce((acc, f) => acc + 1 + (f.members ? f.members.length : 0), 0);
+        document.getElementById('memberCount').innerText = totalMems;
+    }
+    updateCounts();
+
+    // Render Padadhikari on Main Dashboard
+    function renderPadadhikari() {
+        const grid = document.getElementById('padadhikariGrid');
+        grid.innerHTML = "";
+        padadhikariList.forEach(p => {
+            grid.innerHTML += `
+                <div class="card">
+                    <h4>${p.name}</h4>
+                    <p>${p.post}</p>
+                    <div class="card-btns">
+                        <a href="tel:+91${p.phone}" class="btn-call">📞 Call</a>
+                        <a href="https://wa.me/91${p.phone}" class="btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>`;
+        });
+    }
+    renderPadadhikari();
+
+    // Navigation View Manager
+    function showView(viewName) {
+        let box = document.getElementById('dynamicView');
+        
+        if(currentUser) {
+            if(currentUser.isAdmin) {
+                renderAdminPanel();
+                return;
+            } else {
+                renderUserDashboard();
+                return;
+            }
+        }
+
+        if(viewName === 'home') {
             box.innerHTML = `
-                <div class="form-box">
-                    <h3>मुखिया पंजीकरण (Signup)</h3>
+                <div class="box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
+                    <h3 style="color: #b71c1c; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
+                    <p style="font-size: 13px; color: #444; line-height: 1.5;">भुईहर जाति समाज के डिजिटल मंच पर आपका स्वागत है। सदस्य बनने के लिए <b>Signup</b> करें और लॉगिन करके अपने परिवार की जानकारी जोड़ें।</p>
+                </div>`;
+        } else if(viewName === 'signup') {
+            box.innerHTML = `
+                <div class="box">
+                    <h3>सद्‌स्य पंजीकरण (Signup)</h3>
                     <input type="text" id="firstName" placeholder="First Name (पहला नाम)">
-                    <input type="text" id="lastName" placeholder="Last Name (उपनाम/गोत्र)">
+                    <input type="text" id="lastName" placeholder="Last Name (उपनाम / गोत्र)">
                     <input type="email" id="email" placeholder="Email Address">
                     <input type="tel" id="mobile" placeholder="Mobile Number (लॉगिन आईडी)">
                     <label style="font-size: 12px; color: #666;">जन्म तिथि (DOB):</label>
                     <input type="date" id="dob" onchange="calcAge()">
-                    <input type="text" id="age" placeholder="Age (आयु)" readonly style="background:#eee;">
+                    <input type="text" id="age" placeholder="Age (आयु - ऑटो कैलकुलेट)" readonly style="background:#eee;">
                     <select id="gender"><option value="">Gender चुनें</option><option value="Male">Male</option><option value="Female">Female</option></select>
-                    <button class="btn-submit" onclick="registerChief()">पंजीकृत करें</button>
+                    <button class="btn-submit" onclick="submitSignup()">पंजीकरण अनुरोध भेजें</button>
                 </div>`;
         } else if(viewName === 'login') {
             box.innerHTML = `
-                <div class="form-box">
+                <div class="box">
                     <h3>सद्‌स्य लॉगिन (Login)</h3>
-                    <input type="tel" id="loginMobile" placeholder="रजिस्टर्ड मोबाइल नंबर">
-                    <button class="btn-login" onclick="loginAction()">लॉगिन करें</button>
+                    <input type="tel" id="loginMobile" placeholder="रजिस्टर्ड मोबाइल नंबर दर्ज करें">
+                    <button class="btn-login" onclick="submitLogin()">लॉगिन करें</button>
                 </div>`;
-        } else if(viewName === 'dashboard') {
-            renderDashboard();
         }
     }
 
-    // Auto Calculate Age
     function calcAge() {
         let dob = document.getElementById('dob').value;
         if(!dob) return;
@@ -166,8 +169,7 @@
         document.getElementById('age').value = Math.abs(new Date(diff).getUTCFullYear() - 1970) + " वर्ष";
     }
 
-    // Register Chief User
-    function registerChief() {
+    function submitSignup() {
         let fName = document.getElementById('firstName').value.trim();
         let lName = document.getElementById('lastName').value.trim();
         let email = document.getElementById('email').value.trim();
@@ -177,27 +179,24 @@
         let gender = document.getElementById('gender').value;
 
         if(!fName || !mobile || !dob) { alert("कृपया सभी जरूरी विवरण भरें!"); return; }
-        if(users.some(u => u.mobile === mobile)) { alert("यह मोबाइल नंबर पहले से रजिस्टर्ड है!"); return; }
+        if(pending.some(r => r.mobile === mobile) || users.some(u => u.mobile === mobile)) {
+            alert("यह मोबाइल नंबर पहले से रजिस्टर्ड या लंबित है!"); return;
+        }
 
-        let newUser = { fName, lName, email, mobile, dob, age, gender, family: [] };
-        users.push(newUser);
-        localStorage.setItem('bhuihar_users', JSON.stringify(users));
-        currentUser = newUser;
-        localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
-        
-        alert("पंजीकरण सफल रहा!");
-        updateCounts();
-        switchView('dashboard');
+        pending.push({ fName, lName, email, mobile, dob, age, gender });
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        alert("पंजीकरण अनुरोध एडमिन के पास भेज दिया गया है!");
+        showView('home');
     }
 
-    // Login Action (Admin Check Included)
-    function loginAction() {
+    function submitLogin() {
         let mob = document.getElementById('loginMobile').value.trim();
+        if(!mob) { alert("मोबाइल नंबर दर्ज करें!"); return; }
+
         if(mob === ADMIN_MOBILE) {
-            currentUser = { fName: "Admin", lName: "Sahab", mobile: ADMIN_MOBILE, isAdmin: true, family: [] };
+            currentUser = { mobile: mob, isAdmin: true };
             localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
-            alert("एडमिन लॉगिन सफल!");
-            switchView('dashboard');
+            showView('admin');
             return;
         }
 
@@ -205,106 +204,155 @@
         if(found) {
             currentUser = found;
             localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
-            alert("लॉगिन सफल!");
-            switchView('dashboard');
+            showView('dashboard');
         } else {
-            alert("मोबाइल नंबर नहीं मिला! पहले Signup करें।");
+            alert("यह नंबर रजिस्टर्ड नहीं है या एडमिन द्वारा अभी स्वीकृत नहीं किया गया है!");
         }
     }
 
-    // Render User / Admin Dashboard
-    function renderDashboard() {
-        if(!currentUser) { switchView('login'); return; }
-        
-        if(currentUser.isAdmin) {
-            // Admin Panel View
-            let allUsersHtml = '';
-            if(users.length === 0) {
-                allUsersHtml = `<p style="font-size:13px; color:#777;">अभी कोई डेटा उपलब्ध नहीं है।</p>`;
-            } else {
-                users.forEach((u, i) => {
-                    allUsersHtml += `<div class="family-member-item"><b>${i+1}. मुखिया: ${u.fName} ${u.lName}</b> (${u.mobile})<br>परिवार सदस्य: ${u.family ? u.family.length : 0}</div>`;
-                });
-            }
+    // User Dashboard View
+    function renderUserDashboard() {
+        let famObj = families.find(f => f.mobile === currentUser.mobile) || { members: [] };
+        let famHtml = "";
+        famObj.members.forEach((m, i) => {
+            famHtml += `<div class="family-item"><b>${i+1}. ${m.name}</b> (${m.relation}) - उम्र: ${m.age} वर्ष</div>`;
+        });
 
-            document.getElementById('mainView').innerHTML = `
-                <div class="form-box" style="background: #fadbd8;">
-                    <h3>🛡️ एडमिन पैनल <span class="admin-badge">Admin</span></h3>
-                    <p style="font-size:13px; margin:5px 0;">रजिस्टर्ड मोबाइल: ${currentUser.mobile}</p>
-                    <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px;">लॉग आउट</button>
-                </div>
-                <div class="form-box">
-                    <h3>समाज के सभी पंजीकृत परिवार</h3>
-                    <div style="margin-top:10px;">${allUsersHtml}</div>
-                    <button onclick="window.print()" class="btn-submit" style="margin-top:15px;">🖨️ सूची प्रिंट करें</button>
-                </div>`;
-            return;
-        }
-
-        // Normal User Dashboard
-        currentUser = users.find(u => u.mobile === currentUser.mobile);
-        let familyHtml = '';
-        if(currentUser.family && currentUser.family.length > 0) {
-            currentUser.family.forEach((fam, idx) => {
-                familyHtml += `<div class="family-member-item"><b>${idx+1}. ${fam.name}</b> (${fam.relation}) - उम्र: ${fam.age}</div>`;
-            });
-        } else {
-            familyHtml = `<p style="font-size:13px; color:#777;">अभी कोई पारिवारिक सदस्य नहीं जोड़ा गया है।</p>`;
-        }
-
-        document.getElementById('mainView').innerHTML = `
-            <div class="form-box" style="background: #eaf2f8;">
+        document.getElementById('dynamicView').innerHTML = `
+            <div class="box" style="background: #eaf2f8;">
                 <h3>👋 स्वागत है, ${currentUser.fName} ${currentUser.lName}</h3>
-                <p style="font-size:13px; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
-                <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px;">लॉग आउट</button>
+                <p style="font-size:13px; color:#555; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
+                <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">लॉग आउट</button>
             </div>
-
-            <div class="form-box">
-                <h3>परिवार के सदस्य जोड़ें (Edit / Family Details)</h3>
-                <input type="text" id="famName" placeholder="सदस्य का नाम (Member Name)">
-                <input type="text" id="famRelation" placeholder="रिश्ता (जैसे: पत्नी, पुत्र, पुत्री)">
-                <input type="number" id="famAge" placeholder="आयु (Age)">
-                <button class="btn-submit" onclick="addFamilyMember()">+ परिवार सदस्य जोड़ें</button>
-                
-                <h4 style="margin-top:15px; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px;">रजिस्टर्ड पारिवारिक सदस्य:</h4>
-                <div style="margin-top:10px;" id="familyListContainer">
-                    ${familyHtml}
-                </div>
+            <div class="box">
+                <h3>परिवार के सदस्य जोड़ें (Family Details)</h3>
+                <input type="text" id="famName" placeholder="सदस्य का नाम">
+                <input type="text" id="famRelation" placeholder="रिश्ता (जैसे: पत्नी, पुत्र)">
+                <input type="number" id="famAge" placeholder="आयु">
+                <button class="btn-submit" onclick="addFamilyMember()">+ सदस्य जोड़ें</button>
+                <h4 style="margin-top:15px; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px;">आपके परिवार के सदस्य:</h4>
+                <div style="margin-top:10px;">${famHtml || '<p style="font-size:13px; color:#777;">कोई सदस्य नहीं जुड़ा।</p>'}</div>
             </div>`;
     }
 
-    // Add Family Member Logic
     function addFamilyMember() {
         let name = document.getElementById('famName').value.trim();
         let relation = document.getElementById('famRelation').value.trim();
         let age = document.getElementById('famAge').value.trim();
 
-        if(!name || !relation) { alert("कृपया नाम और रिश्ता भरें!"); return; }
+        if(!name || !relation) { alert("नाम और रिश्ता भरें!"); return; }
 
-        if(!currentUser.family) currentUser.family = [];
-        currentUser.family.push({ name, relation, age });
+        let famObj = families.find(f => f.mobile === currentUser.mobile);
+        if(famObj) {
+            if(!famObj.members) famObj.members = [];
+            famObj.members.push({ name, relation, age });
+            localStorage.setItem('bhuihar_families', JSON.stringify(families));
+            updateCounts();
+            renderUserDashboard();
+            alert("सदस्य जोड़ दिया गया है!");
+        }
+    }
 
-        let index = users.findIndex(u => u.mobile === currentUser.mobile);
-        if(index !== -1) {
-            users[index] = currentUser;
-            localStorage.setItem('bhuihar_users', JSON.stringify(users));
-            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+    // Admin Dashboard View
+    function renderAdminPanel() {
+        let pendingHtml = "";
+        if(pending.length === 0) {
+            pendingHtml = `<p style="font-size:13px; color:#666;">कोई लंबित अनुरोध नहीं है।</p>`;
+        } else {
+            pending.forEach((req, idx) => {
+                pendingHtml += `
+                    <div class="family-item">
+                        <b>${req.fName} ${req.lName}</b> (${req.mobile}) - ${req.age}<br>
+                        <button class="btn-submit" style="padding:4px 8px; margin-top:5px; width:auto;" onclick="approveReq(${idx})">✓ स्वीकृत करें</button>
+                        <button class="btn-reject" style="padding:4px 8px; margin-top:5px; width:auto;" onclick="rejectReq(${idx})">✕ हटाएं</button>
+                    </div>`;
+            });
         }
 
+        let padEditHtml = "";
+        padadhikariList.forEach((p, idx) => {
+            padEditHtml += `
+                <div style="margin-bottom:8px;">
+                    <b>पद ${idx+1}:</b>
+                    <input type="text" id="p_name_${idx}" value="${p.name}">
+                    <input type="text" id="p_post_${idx}" value="${p.post}">
+                    <input type="text" id="p_phone_${idx}" value="${p.phone}">
+                </div>`;
+        });
+
+        document.getElementById('dynamicView').innerHTML = `
+            <div id="printableArea">
+                <div class="box" style="background: #fadbd8;">
+                    <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
+                    <button class="no-print" onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
+                </div>
+
+                <div class="box no-print">
+                    <h3>कार्यकारिणी समिति (6 Padadhikari Edit करें)</h3>
+                    ${padEditHtml}
+                    <button class="btn-submit" onclick="savePadadhikari()">💾 पदाधिकारी सेव करें</button>
+                </div>
+
+                <div class="box no-print">
+                    <h3>लंबित पंजीकरण अनुरोध (Pending Approvals)</h3>
+                    ${pendingHtml}
+                </div>
+
+                <div class="box">
+                    <h3>समाज के सभी सत्यापित परिवार</h3>
+                    <div style="margin-top:10px;">
+                        ${families.map((f, i) => `<b>${i+1}. मुखिया: ${f.fName} ${f.lName}</b> (${f.mobile}) - सदस्य: ${f.members ? f.members.length : 0}<br>`).join('') || 'कोई परिवार नहीं।'}
+                    </div>
+                </div>
+
+                <div class="print-footer">
+                    मुखिया के हस्ताक्षर
+                </div>
+            </div>
+            <button class="no-print btn-submit" style="margin-top:15px; background:#333;" onclick="window.print()">🖨️ सूची प्रिंट करें</button>`;
+    }
+
+    function savePadadhikari() {
+        for(let i=0; i<6; i++) {
+            padadhikariList[i].name = document.getElementById(`p_name_${i}`).value;
+            padadhikariList[i].post = document.getElementById(`p_post_${i}`).value;
+            padadhikariList[i].phone = document.getElementById(`p_phone_${i}`).value;
+        }
+        localStorage.setItem('bhuihar_padadhikari', JSON.stringify(padadhikariList));
+        alert("पदाधिकारी अपडेट हो गए!");
+        location.reload();
+    }
+
+    function approveReq(idx) {
+        let approved = pending.splice(idx, 1)[0];
+        approved.members = [];
+        users.push(approved);
+        families.push(approved);
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        localStorage.setItem('bhuihar_users', JSON.stringify(users));
+        localStorage.setItem('bhuihar_families', JSON.stringify(families));
         updateCounts();
-        renderDashboard();
-        alert("परिवार का सदस्य जोड़ दिया गया है!");
+        renderAdminPanel();
+        alert("सदस्य स्वीकृत कर लिया गया!");
+    }
+
+    function rejectReq(idx) {
+        pending.splice(idx, 1);
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        renderAdminPanel();
     }
 
     function logout() {
         localStorage.removeItem('bhuihar_current_user');
         currentUser = null;
-        switchView('signup');
+        window.location.href = "index.html";
     }
 
-    // Initial State Check
+    // Initial View Load
     if(currentUser) {
-        switchView('dashboard');
+        showView(currentUser.isAdmin ? 'admin' : 'dashboard');
+    } else {
+        showView('home');
     }
 </script>
 </body>

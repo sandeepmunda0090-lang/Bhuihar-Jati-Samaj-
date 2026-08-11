@@ -13,117 +13,105 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        header { background-color: var(--primary-color); color: white; text-align: center; padding: 15px; font-size: 20px; font-weight: bold; border-radius: 8px; margin-bottom: 15px; }
         
-        .stats { background: #333; color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 15px; font-size: 16px; }
-        
+        /* Header with Top Corner Auth Icons */
+        header { 
+            background-color: var(--primary-color); 
+            color: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px;
+        }
+        header h1 { font-size: 18px; }
+        .header-icons button { background: white; color: var(--primary-color); border: none; padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+
+        /* Stats Cards */
+        .stats-box { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stat-card { flex: 1; background: #333; color: white; padding: 10px; border-radius: 6px; text-align: center; font-size: 14px; }
+        .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 5px; color: #2ecc71; }
+
         /* 6 Padadhikari Grid */
         .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; }
         .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
         .card { background: #fafafa; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center; }
-        .card h4 { font-size: 14px; margin-bottom: 5px; color: #444; }
+        .card h4 { font-size: 14px; margin-bottom: 3px; color: #444; }
         .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
         .card-btns a { text-decoration: none; padding: 4px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; }
         .btn-call { background: #007bff; }
         .btn-wa { background: #25d366; }
 
-        /* Forms Styling */
+        /* Forms & Dashboards */
         .form-box { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 15px; }
         input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
         .btn-submit { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; }
         .btn-login { background-color: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
         
         .hidden { display: none; }
-        .toggle-link { text-align: center; margin-top: 10px; color: #007bff; cursor: pointer; font-size: 14px; }
+        .family-member-item { background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 13px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>भुईहर जाति समाज</header>
+    <!-- Header with Top Corner Auth Buttons -->
+    <header>
+        <h1>भुईहर जाति समाज</h1>
+        <div class="header-icons" id="headerAuthBtns">
+            <button onclick="switchView('signup')">📝 Signup</button>
+            <button onclick="switchView('login')">🔑 Login</button>
+        </div>
+    </header>
 
-    <!-- Live Stats -->
-    <div class="stats">
-        कुल पंजीकृत सदस्य: <span id="memberCount">0</span>
+    <!-- Separate Counts for Families and Members -->
+    <div class="stats-box">
+        <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
+        <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
     </div>
 
     <!-- 6 Padadhikari Section -->
-    <div class="section-title">कार्यकारिणी समिति (6 Padadhikari)</div>
-    <div class="grid-6" id="padadhikariGrid">
-        <!-- JS se 6 cards load honge -->
-    </div>
+    <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
+    <div class="grid-6" id="padadhikariGrid"></div>
 
-    <!-- Navigation / Auth Toggle Buttons -->
-    <div id="authContainer">
-        <!-- Signup Form -->
-        <div class="form-box" id="signupFormBox">
-            <h3>सद्‌स्य पंजीकरण (Signup)</h3>
-            <input type="text" id="firstName" placeholder="First Name (पहला नाम)" required>
-            <input type="text" id="lastName" placeholder="Last Name (उपनाम/गोत्र)" required>
-            <input type="email" id="email" placeholder="Email Address">
-            <input type="tel" id="mobile" placeholder="Mobile Number (मोबाइल नंबर)" required>
-            
-            <label style="font-size: 12px; color: #666;">Date of Birth (जन्म तिथि):</label>
-            <input type="date" id="dob" onchange="calculateAge()" required>
-            <input type="text" id="age" placeholder="Age (आयु - ऑटो कैलकुलेट)" readonly style="background: #e9ecef;">
-            
-            <select id="gender">
-                <option value="">Gender चुनें</option>
-                <option value="Male">Male (पुरुष)</option>
-                <option value="Female">Female (महिला)</option>
-            </select>
-            
-            <button class="btn-submit" onclick="registerUser()">रजिस्टर करें (Register)</button>
-            <div class="toggle-link" onclick="showLogin()">पपहले سے रजिस्टर्ड हैं? Login Karein</div>
+    <!-- Main View Area (Dynamic) -->
+    <div id="mainView">
+        <!-- Default Landing / Home View -->
+        <div class="form-box" style="text-align: center; background: #fffbe6;">
+            <h3>समान aao judein!</h3>
+            <p style="font-size: 13px; color: #666; margin: 8px 0;">ऊपर दिए गए <b>Signup</b> या <b>Login</b> बटन पर क्लिक करके अपनी और अपने परिवार की जानकारी जोड़ें।</p>
         </div>
-
-        <!-- Login Form -->
-        <div class="form-box hidden" id="loginFormBox">
-            <h3>सद्‌स्य लॉगिन (Login)</h3>
-            <p style="font-size: 12px; color: #666; margin-bottom: 8px;">वही मोबाइल नंबर दर्ज करें जिससे रजिस्टर किया था:</p>
-            <input type="tel" id="loginMobile" placeholder="Registered Mobile Number" required>
-            <button class="btn-login" onclick="loginUser()">लॉगिन करें</button>
-            <div class="toggle-link" onclick="showSignup()">नया खाता बनाएँ (Signup)</div>
-        </div>
-    </div>
-
-    <!-- Logged In Dashboard View -->
-    <div id="userDashboard" class="form-box hidden" style="background: #e2f0d9; text-align: center;">
-        <h3>🎉 स्वागत है, <span id="welcomeName"></span>!</h3>
-        <p style="margin: 10px 0; font-size: 14px;">आप भुईहर जाति समाज के सत्यापित सदस्य हैं।</p>
-        <button onclick="logoutUser()" style="background: #d9534f; color: white; border:none; padding:8px 15px; border-radius:5px;">लॉग आउट (Logout)</button>
     </div>
 
 </div>
 
 <script>
-    // Load Members & Initialize Data
-    let members = JSON.parse(localStorage.getItem('bhuihar_members')) || [];
-    document.getElementById('memberCount').innerText = members.length;
+    // LocalStorage Data Setup
+    let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
 
-    // Auto Calculate Age from DOB
-    function calculateAge() {
-        const dobVal = document.getElementById('dob').value;
-        if (!dobVal) return;
-        const dobDate = new Date(dobVal);
-        const diff = Date.now() - dobDate.getTime();
-        const ageDate = new Date(diff);
-        const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
-        document.getElementById('age').value = calculatedAge + " वर्ष";
+    // Update Counts
+    function updateCounts() {
+        let totalFamilies = users.length;
+        let totalMembersSum = users.reduce((acc, u) => acc + 1 + (u.family ? u.family.length : 0), 0);
+        
+        document.getElementById('familyCount').innerText = totalFamilies;
+        document.getElementById('memberCount').innerText = totalMembersSum;
     }
+    updateCounts();
 
     // Render 6 Padadhikari Cards
     const grid = document.getElementById('padadhikariGrid');
     let padadhikariList = [
-        {name: "श्री महतो जी", post: "अध्यक्ष (Mahaton)", phone: "9800000000"},
-        {name: "श्री सचिव जी", post: "सचिव (Secretary)", phone: "9800000001"},
+        {name: "श्री महतो जी", post: "अध्यक्ष", phone: "9800000000"},
+        {name: "श्री सचिव जी", post: "सचिव", phone: "9800000001"},
         {name: "श्री कोषाध्यक्ष जी", post: "कोषाध्यक्ष", phone: "9800000002"},
         {name: "श्री संरक्षक जी", post: "संरक्षक", phone: "9800000003"},
         {name: "श्री सह-सचिव जी", post: "सह-सचिव", phone: "9800000004"},
         {name: "श्री मीडिया प्रभारी", post: "प्रभारी", phone: "9800000005"}
     ];
-
-    padadhikariListforEach = padadhikariList.forEach((p, index) => {
+    padadhikariList.forEach(p => {
         grid.innerHTML += `
             <div class="card">
                 <h4>${p.name}</h4>
@@ -132,22 +120,48 @@
                     <a href="tel:+91${p.phone}" class="btn-call">📞 Call</a>
                     <a href="https://wa.me/91${p.phone}" class="btn-wa">💬 WhatsApp</a>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 
-    // Toggle Forms
-    function showLogin() {
-        document.getElementById('signupFormBox').classList.add('hidden');
-        document.getElementById('loginFormBox').classList.remove('hidden');
-    }
-    function showSignup() {
-        document.getElementById('loginFormBox').classList.add('hidden');
-        document.getElementById('signupFormBox').classList.remove('hidden');
+    // View Switcher Handler
+    function switchView(viewName) {
+        let box = document.getElementById('mainView');
+        if(viewName === 'signup') {
+            box.innerHTML = `
+                <div class="form-box">
+                    <h3>मुखिया पंजीकरण (Signup)</h3>
+                    <input type="text" id="firstName" placeholder="First Name (पहला नाम)">
+                    <input type="text" id="lastName" placeholder="Last Name (उपनाम/गोत्र)">
+                    <input type="email" id="email" placeholder="Email Address">
+                    <input type="tel" id="mobile" placeholder="Mobile Number (लॉगिन आईडी)">
+                    <label style="font-size: 12px; color: #666;">जन्म तिथि (DOB):</label>
+                    <input type="date" id="dob" onchange="calcAge()">
+                    <input type="text" id="age" placeholder="Age (आयु)" readonly style="background:#eee;">
+                    <select id="gender"><option value="">Gender चुनें</option><option value="Male">Male</option><option value="Female">Female</option></select>
+                    <button class="btn-submit" onclick="registerChief()">पंजीकृत करें</button>
+                </div>`;
+        } else if(viewName === 'login') {
+            box.innerHTML = `
+                <div class="form-box">
+                    <h3>सद्‌स्य लॉगिन (Login)</h3>
+                    <input type="tel" id="loginMobile" placeholder="रजिस्टर्ड मोबाइल नंबर">
+                    <button class="btn-login" onclick="loginAction()">लॉगिन करें</button>
+                </div>`;
+        } else if(viewName === 'dashboard') {
+            renderDashboard();
+        }
     }
 
-    // Register Functionality
-    function registerUser() {
+    // Auto Calculate Age
+    function calcAge() {
+        let dob = document.getElementById('dob').value;
+        if(!dob) return;
+        let diff = Date.now() - new Date(dob).getTime();
+        document.getElementById('age').value = Math.abs(new Date(diff).getUTCFullYear() - 1970) + " वर्ष";
+    }
+
+    // Register Chief User
+    function registerChief() {
         let fName = document.getElementById('firstName').value.trim();
         let lName = document.getElementById('lastName').value.trim();
         let email = document.getElementById('email').value.trim();
@@ -156,67 +170,105 @@
         let age = document.getElementById('age').value;
         let gender = document.getElementById('gender').value;
 
-        if(!fName || !mobile || !dob || !gender) {
-            alert("कृपया सभी जरूरी जानकारी (First Name, Mobile, DOB, Gender) भरें!");
-            return;
-        }
+        if(!fName || !mobile || !dob) { alert("कृपया सभी जरूरी विवरण भरें!"); return; }
+        if(users.some(u => u.mobile === mobile)) { alert("यह मोबाइल नंबर पहले से रजिस्टर्ड है!"); return; }
 
-        // Check if mobile already exists
-        let existing = members.find(m => m.mobile === mobile);
-        if(existing) {
-            alert("यह मोबाइल नंबर पहले से रजिस्टर्ड है! कृपया सीधे Login करें।");
-            showLogin();
-            return;
-        }
-
-        let newUser = { fName, lName, email, mobile, dob, age, gender };
-        members.push(newUser);
-        localStorage.setItem('bhuihar_members', JSON.stringify(members));
-        localStorage.setItem('current_user', JSON.stringify(newUser));
+        let newUser = { fName, lName, email, mobile, dob, age, gender, family: [] };
+        users.push(newUser);
+        localStorage.setItem('bhuihar_users', JSON.stringify(users));
+        currentUser = newUser;
+        localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
         
         alert("पंजीकरण सफल रहा!");
-        checkLoginState();
+        updateCounts();
+        switchView('dashboard');
     }
 
-    // Login Functionality (By Mobile Number)
-    function loginUser() {
-        let loginMobile = document.getElementById('loginMobile').value.trim();
-        if(!loginMobile) {
-            alert("कृपया अपना रजिस्टर्ड मोबाइल नंबर दर्ज करें!");
-            return;
-        }
-
-        let user = members.find(m => m.mobile === loginMobile);
-        if(user) {
-            localStorage.setItem('current_user', JSON.stringify(user));
-            alert("लॉगिन सफल रहा!");
-            checkLoginState();
+    // Login Action
+    function loginAction() {
+        let mob = document.getElementById('loginMobile').value.trim();
+        let found = users.find(u => u.mobile === mob);
+        if(found) {
+            currentUser = found;
+            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+            alert("लॉगिन सफल!");
+            switchView('dashboard');
         } else {
-            alert("यह मोबाइल नंबर रजिस्टर्ड नहीं है! कृपया पहले Signup करें।");
-            showSignup();
+            alert("मोबाइल नंबर नहीं मिला! पहले Signup करें।");
         }
     }
 
-    // Check Active Login Session
-    function checkLoginState() {
-        let activeUser = JSON.parse(localStorage.getItem('current_user'));
-        if(activeUser) {
-            document.getElementById('authContainer').classList.add('hidden');
-            document.getElementById('userDashboard').classList.remove('hidden');
-            document.getElementById('welcomeName').innerText = activeUser.fName + " " + activeUser.lName;
+    // Render User Dashboard with Edit / Family Add Option
+    function renderDashboard() {
+        if(!currentUser) { switchView('login'); return; }
+        
+        // Refresh current user data from array
+        currentUser = users.find(u => u.mobile === currentUser.mobile);
+
+        let familyHtml = '';
+        if(currentUser.family && currentUser.family.length > 0) {
+            currentUser.family.forEach((fam, idx) => {
+                familyHtml += `<div class="family-member-item"><b>${idx+1}. ${fam.name}</b> (${fam.relation}) - उम्र: ${fam.age}</div>`;
+            });
         } else {
-            document.getElementById('authContainer').classList.remove('hidden');
-            document.getElementById('userDashboard').classList.add('hidden');
+            familyHtml = `<p style="font-size:13px; color:#777;">अभी कोई पारिवारिक सदस्य नहीं जोड़ा गया है।</p>`;
         }
+
+        document.getElementById('mainView').innerHTML = `
+            <div class="form-box" style="background: #eaf2f8;">
+                <h3>👋 स्वागत है, ${currentUser.fName} ${currentUser.lName}</h3>
+                <p style="font-size:13px; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
+                <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px;">लॉग आउट</button>
+            </div>
+
+            <div class="form-box">
+                <h3>परिवार के सदस्य जोड़ें (Edit / Family Details)</h3>
+                <input type="text" id="famName" placeholder="सदस्य का नाम (Member Name)">
+                <input type="text" id="famRelation" placeholder="रिश्ता (जैसे: पत्नी, पुत्र, पुत्री)">
+                <input type="number" id="famAge" placeholder="आयु (Age)">
+                <button class="btn-submit" onclick="addFamilyMember()">+ परिवार सदस्य जोड़ें</button>
+                
+                <h4 style="margin-top:15px; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px;">रजिस्टर्ड पारिवारिक सदस्य:</h4>
+                <div style="margin-top:10px;" id="familyListContainer">
+                    ${familyHtml}
+                </div>
+            </div>`;
     }
 
-    function logoutUser() {
-        localStorage.removeItem('current_user');
-        checkLoginState();
+    // Add Family Member Logic
+    function addFamilyMember() {
+        let name = document.getElementById('famName').value.trim();
+        let relation = document.getElementById('famRelation').value.trim();
+        let age = document.getElementById('famAge').value.trim();
+
+        if(!name || !relation) { alert("कृपया नाम और रिश्ता भरें!"); return; }
+
+        if(!currentUser.family) currentUser.family = [];
+        currentUser.family.push({ name, relation, age });
+
+        // Update in main users array
+        let index = users.findIndex(u => u.mobile === currentUser.mobile);
+        if(index !== -1) {
+            users[index] = currentUser;
+            localStorage.setItem('bhuihar_users', JSON.stringify(users));
+            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+        }
+
+        updateCounts();
+        renderDashboard();
+        alert("परिवार का सदस्य जोड़ दिया गया है!");
     }
 
-    // Run on startup
-    checkLoginState();
+    function logout() {
+        localStorage.removeItem('bhuihar_current_user');
+        currentUser = null;
+        switchView('signup');
+    }
+
+    // Initial State Check
+    if(currentUser) {
+        switchView('dashboard');
+    }
 </script>
 </body>
 </html>

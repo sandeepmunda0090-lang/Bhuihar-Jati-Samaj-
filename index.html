@@ -51,6 +51,9 @@
         
         .hidden { display: none; }
         .family-member-item { background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 13px; }
+        
+        /* Admin Panel Styles */
+        .admin-badge { background: #e74c3c; color: white; padding: 2px 6px; font-size: 11px; border-radius: 3px; vertical-align: middle; }
     </style>
 </head>
 <body>
@@ -60,8 +63,8 @@
     <header>
         <h1>भुईहर जाति समाज</h1>
         <div class="header-icons" id="headerAuthBtns">
-            <button onclick="switchView('signup')">📝 Signup</button>
-            <button onclick="switchView('login')">🔑 Login</button>
+            <button onclick="switchView('signup')">📝 पंजीयन (Signup)</button>
+            <button onclick="switchView('login')">🔑 लॉगिन (Login)</button>
         </div>
     </header>
 
@@ -77,10 +80,12 @@
 
     <!-- Main View Area (Dynamic) -->
     <div id="mainView">
-        <!-- Default Landing / Home View -->
-        <div class="form-box" style="text-align: center; background: #fffbe6;">
-            <h3>समान aao judein!</h3>
-            <p style="font-size: 13px; color: #666; margin: 8px 0;">ऊपर दिए गए <b>Signup</b> या <b>Login</b> बटन पर क्लिक करके अपनी और अपने परिवार की जानकारी जोड़ें।</p>
+        <!-- Achhi Bhasha me 'Samaj Jodein' Section -->
+        <div class="form-box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
+            <h3 style="color: #b71c1c; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
+            <p style="font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 12px;">
+                भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। अपने परिवार की जानकारी सुरक्षित रखने और समाज को मजबूत बनाने के लिए ऊपर दिए गए <b>पंजीयन (Signup)</b> या <b>लॉगिन (Login)</b> बटन पर क्लिक करें।
+            </p>
         </div>
     </div>
 
@@ -90,6 +95,7 @@
     // LocalStorage Data Setup
     let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
     let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
+    const ADMIN_MOBILE = "6266240812";
 
     // Update Counts
     function updateCounts() {
@@ -184,9 +190,17 @@
         switchView('dashboard');
     }
 
-    // Login Action
+    // Login Action (Admin Check Included)
     function loginAction() {
         let mob = document.getElementById('loginMobile').value.trim();
+        if(mob === ADMIN_MOBILE) {
+            currentUser = { fName: "Admin", lName: "Sahab", mobile: ADMIN_MOBILE, isAdmin: true, family: [] };
+            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+            alert("एडमिन लॉगिन सफल!");
+            switchView('dashboard');
+            return;
+        }
+
         let found = users.find(u => u.mobile === mob);
         if(found) {
             currentUser = found;
@@ -198,13 +212,37 @@
         }
     }
 
-    // Render User Dashboard with Edit / Family Add Option
+    // Render User / Admin Dashboard
     function renderDashboard() {
         if(!currentUser) { switchView('login'); return; }
         
-        // Refresh current user data from array
-        currentUser = users.find(u => u.mobile === currentUser.mobile);
+        if(currentUser.isAdmin) {
+            // Admin Panel View
+            let allUsersHtml = '';
+            if(users.length === 0) {
+                allUsersHtml = `<p style="font-size:13px; color:#777;">अभी कोई डेटा उपलब्ध नहीं है।</p>`;
+            } else {
+                users.forEach((u, i) => {
+                    allUsersHtml += `<div class="family-member-item"><b>${i+1}. मुखिया: ${u.fName} ${u.lName}</b> (${u.mobile})<br>परिवार सदस्य: ${u.family ? u.family.length : 0}</div>`;
+                });
+            }
 
+            document.getElementById('mainView').innerHTML = `
+                <div class="form-box" style="background: #fadbd8;">
+                    <h3>🛡️ एडमिन पैनल <span class="admin-badge">Admin</span></h3>
+                    <p style="font-size:13px; margin:5px 0;">रजिस्टर्ड मोबाइल: ${currentUser.mobile}</p>
+                    <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px;">लॉग आउट</button>
+                </div>
+                <div class="form-box">
+                    <h3>समाज के सभी पंजीकृत परिवार</h3>
+                    <div style="margin-top:10px;">${allUsersHtml}</div>
+                    <button onclick="window.print()" class="btn-submit" style="margin-top:15px;">🖨️ सूची प्रिंट करें</button>
+                </div>`;
+            return;
+        }
+
+        // Normal User Dashboard
+        currentUser = users.find(u => u.mobile === currentUser.mobile);
         let familyHtml = '';
         if(currentUser.family && currentUser.family.length > 0) {
             currentUser.family.forEach((fam, idx) => {
@@ -246,7 +284,6 @@
         if(!currentUser.family) currentUser.family = [];
         currentUser.family.push({ name, relation, age });
 
-        // Update in main users array
         let index = users.findIndex(u => u.mobile === currentUser.mobile);
         if(index !== -1) {
             users[index] = currentUser;

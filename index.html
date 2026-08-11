@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>भुईहर जाति समाज</title>
+    <style>
+        :root {
+            --primary-color: #d9534f;
+            --secondary-color: #f4f6f9;
+            --text-color: #333;
+            --whatsapp-color: #25d366;
+            --call-color: #007bff;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding-bottom: 40px;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 15px;
+        }
+        /* Login / Signup Button Section */
+        .auth-section {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .auth-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 15px;
+        }
+        .auth-btn:hover {
+            background-color: #0056b3;
+        }
+        /* Slider Banner */
+        .slider {
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: #ddd;
+        }
+        .slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Section Title */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            color: #444;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 8px;
+        }
+        /* Padadhikari Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            margin-right: 15px;
+        }
+        .card-info h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        .card-info p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .action-btns a {
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            color: white;
+            font-size: 13px;
+            margin-right: 5px;
+            display: inline-block;
+        }
+        .btn-call { background-color: var(--call-color); }
+        .btn-wa { background-color: var(--whatsapp-color); }
+
+        /* Admin Panel / Print Section */
+        .admin-panel {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        .print-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            font-size: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Print Specific Styling */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-area, #printable-area * {
+                visibility: visible;
+            }
+            #printable-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-footer {
+                display: block !important;
+                margin-top: 80px;
+                text-align: right;
+                font-weight: bold;
+                font-size: 16px;
+            }
+        }
+        .print-footer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>भुईहर जाति समाज</header>
+
+    <div class="container">
+        
+        <!-- Login / Signup Button Section -->
+        <div class="auth-section">
+            <a href="#signup" class="auth-btn">👤 sadasya Login / Signup Karein</a>
+        </div>
+
+        <!-- Slider Banner -->
+        <div class="slider">
+            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Samaj Banner" id="slider-img">
+        </div>
+
+        <!-- Padadhikari Section -->
+        <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
+        <div class="card-grid">
+            <!-- Padadhikari 1 -->
+            <div class="card">
+                <img src="https://via.placeholder.com/60" alt="Photo">
+                <div class="card-info">
+                    <h3>श्री महतो जी</h3>
+                    <p>पद: महaton / अध्यक्ष</p>
+                    <div class="action-btns">
+                        <a href="tel:+919800000000" class="btn-call">📞 Call</a>
+                        <a href="https://wa.me/919800000000" class="btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Padadhikari 2 -->
+            <div class="card">
+                <img src="https://via.placeholder.com/60" alt="Photo">
+                <div class="card-info">
+                    <h3>श्री सचिव जी</h3>
+                    <p>पद: सचिव (Secretary)</p>
+                    <div class="action-btns">
+                        <a href="tel:+919800000000" class="btn-call">📞 Call</a>
+                        <a href="https://wa.me/919800000000" class="btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel & Print Area -->
+        <div class="admin-panel" id="printable-area">
+            <div class="section-title">एडमिन पैनल - पंजीकृत सदस्यों की सूची</div>
+            <p style="font-size: 13px; color: #666; margin-bottom: 10px;">यहाँ से एडमिन सदस्यों का रिकॉर्ड देख और प्रिंट कर सकते हैं।</p>
+            
+            <table style="width:100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+                <thead>
+                    <tr style="background: #eee; text-align: left;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">क्र.</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">नाम</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">गोत्र / गाँव</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">मोबाइल</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">1</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">राहुल सिंह</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">कश्यप / रायपुर</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">98XXXXXXXX</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">विकास भुईहर</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">भारद्वाज / बिलासपुर</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">97XXXXXXXX</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Print Footer Signature -->
+            <div class="print-footer">
+                मुखिया के हस्ताक्षर
+            </div>
+        </div>
+
+        <!-- Print Button (Hidden on Print) -->
+        <div class="no-print">
+            <button class="print-btn" onclick="window.print()">🖨️ सूची प्रिंट या PDF निकालें (Admin)</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple Image Slider Script
+        const images = [
+            "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80"
+        ];
+        let currentIndex = 0;
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('slider-img').src = images[currentIndex];
+        }, 3000);
+    </script>
+</body>
+</html>

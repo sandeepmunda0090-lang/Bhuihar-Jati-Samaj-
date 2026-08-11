@@ -5,36 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>भुईहर जाति समाज</title>
     <style>
-        :root { --primary-color: #d9534f; --secondary-color: #f4f6f9; --text-color: #333; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        :root { 
+            --primary-color: #8B0000; 
+            --secondary-color: #fdfbf7; 
+            --accent-color: #d4af37;
+            --text-color: #333; 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
+        body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; padding-bottom: 70px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); }
         
-        header { background-color: var(--primary-color); color: white; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        header h1 { font-size: 18px; }
-        .header-btns button { background: white; color: var(--primary-color); border: none; padding: 6px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+        /* Top Center Logo Header */
+        header { 
+            text-align: center; 
+            padding: 15px 0; 
+            border-bottom: 2px dashed #e0d0c0;
+            margin-bottom: 15px; 
+        }
+        .logo-container {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 10px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2);
+            animation: pulseLogo 3s infinite alternate;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @keyframes pulseLogo {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
 
+        /* Stats Cards */
         .stats-box { display: flex; gap: 10px; margin-bottom: 15px; }
-        .stat-card { flex: 1; background: #333; color: white; padding: 10px; border-radius: 6px; text-align: center; font-size: 14px; }
-        .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 5px; color: #2ecc71; }
+        .stat-card { flex: 1; background: linear-gradient(135deg, #8B0000, #a93226); color: white; padding: 12px; border-radius: 8px; text-align: center; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 4px; color: #f1c40f; }
 
-        .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; }
-        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .card { background: #fafafa; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center; }
-        .card h4 { font-size: 14px; margin-bottom: 3px; color: #444; }
-        .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
-        .card-btns a { text-decoration: none; padding: 4px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; }
-        .btn-call { background: #007bff; }
-        .btn-wa { background: #25d366; }
-
-        .box { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
-        .btn-submit { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-login { background-color: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-reject { background-color: #d9534f; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; color: var(--primary-color); }
         
-        .hidden { display: none; }
-        .family-item { background: #f9f9f9; border: 1px solid #eee; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 13px; }
+        /* Padadhikari Grid with Hover Motion */
+        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .card { background: #fff; border: 1px solid #e0d0c0; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
+        .card h4 { font-size: 14px; margin-bottom: 3px; color: #222; }
+        .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
+        
+        .card-btns a { text-decoration: none; padding: 5px 10px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; font-weight: bold; }
+        .btn-call { background: #007bff; }
+        .btn-call:hover { background: #0056b3; transform: scale(1.05); }
+        .btn-wa { background: #25d366; }
+        .btn-wa:hover { background: #1ebe57; transform: scale(1.05); }
+
+        .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 5px rgba(139,0,0,0.2); }
+        
+        .btn-submit { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-submit:hover { background-color: #219653; }
+        .btn-login { background-color: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-login:hover { background-color: #1f618d; }
+        .btn-reject { background-color: #c0392b; color: white; border: none; font-weight: bold; cursor: pointer; }
+        
+        .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 8px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+
+        /* Bottom Fixed Navigation Bar (Left to Right) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border-top: 2px solid var(--accent-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .nav-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .nav-btn:hover {
+            background: #a93226;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(139,0,0,0.3);
+        }
 
         /* Print Settings */
         @media print {
@@ -50,13 +120,14 @@
 <body>
 
 <div class="container">
+    <!-- Top Center Logo & Header -->
     <header>
-        <h1>भुईहर जाति समाज</h1>
-        <div class="header-icons" id="topNavBtns">
-            <button onclick="showView('home')">🏠 होम</button>
-            <button onclick="showView('signup')">📝 Signup</button>
-            <button onclick="showView('login')">🔑 Login</button>
+        <div class="logo-container">
+            <!-- Yahan aapke diye gaye logo ki image link set ki gayi hai -->
+            <img src="1000337852.png" alt="Bhujar Samaj Logo">
         </div>
+        <h1>भुईहर जाति समाज</h1>
+        <p style="font-size: 12px; color: #666; margin-top: 3px;">एकता • सेवा • सम्मान</p>
     </header>
 
     <div class="no-print">
@@ -73,10 +144,16 @@
     <div id="dynamicView"></div>
 </div>
 
+<!-- Bottom Left to Right Navigation Bar -->
+<div class="bottom-nav no-print">
+    <button class="nav-btn" onclick="showView('home')">🏠 Home</button>
+    <button class="nav-btn" onclick="showView('signup')">📝 Signup</button>
+    <button class="nav-btn" onclick="showView('login')">🔑 Login</button>
+</div>
+
 <script>
     const ADMIN_MOBILE = "6266240812";
 
-    // Initialize LocalStorage Data
     let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
     let families = JSON.parse(localStorage.getItem('bhuihar_families')) || [];
     let pending = JSON.parse(localStorage.getItem('bhuihar_pending')) || [];
@@ -92,7 +169,6 @@
     ];
     let padadhikariList = JSON.parse(localStorage.getItem('bhuihar_padadhikari')) || defaultPadadhikari;
 
-    // Update Counts
     function updateCounts() {
         document.getElementById('familyCount').innerText = families.length;
         let totalMems = families.reduce((acc, f) => acc + 1 + (f.members ? f.members.length : 0), 0);
@@ -100,7 +176,6 @@
     }
     updateCounts();
 
-    // Render Padadhikari on Main Dashboard
     function renderPadadhikari() {
         const grid = document.getElementById('padadhikariGrid');
         grid.innerHTML = "";
@@ -118,7 +193,6 @@
     }
     renderPadadhikari();
 
-    // Navigation View Manager
     function showView(viewName) {
         let box = document.getElementById('dynamicView');
         
@@ -135,8 +209,8 @@
         if(viewName === 'home') {
             box.innerHTML = `
                 <div class="box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
-                    <h3 style="color: #b71c1c; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
-                    <p style="font-size: 13px; color: #444; line-height: 1.5;">भुईहर जाति समाज के डिजिटल मंच पर आपका स्वागत है। सदस्य बनने के लिए <b>Signup</b> करें और लॉगिन करके अपने परिवार की जानकारी जोड़ें।</p>
+                    <h3 style="color: #8B0000; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
+                    <p style="font-size: 13px; color: #444; line-height: 1.5;">भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। परिवार जोड़ने के लिए नीचे दिए गए <b>Signup</b> या <b>Login</b> बटन का उपयोग करें।</p>
                 </div>`;
         } else if(viewName === 'signup') {
             box.innerHTML = `
@@ -210,7 +284,6 @@
         }
     }
 
-    // User Dashboard View
     function renderUserDashboard() {
         let famObj = families.find(f => f.mobile === currentUser.mobile) || { members: [] };
         let famHtml = "";
@@ -222,7 +295,7 @@
             <div class="box" style="background: #eaf2f8;">
                 <h3>👋 स्वागत है, ${currentUser.fName} ${currentUser.lName}</h3>
                 <p style="font-size:13px; color:#555; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
-                <button onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">लॉग आउट</button>
+                <button onclick="logout()" style="background:#c0392b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">लॉग आउट</button>
             </div>
             <div class="box">
                 <h3>परिवार के सदस्य जोड़ें (Family Details)</h3>
@@ -253,7 +326,6 @@
         }
     }
 
-    // Admin Dashboard View
     function renderAdminPanel() {
         let pendingHtml = "";
         if(pending.length === 0) {
@@ -284,7 +356,7 @@
             <div id="printableArea">
                 <div class="box" style="background: #fadbd8;">
                     <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
-                    <button class="no-print" onclick="logout()" style="background:#d9534f; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
+                    <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
                 </div>
 
                 <div class="box no-print">
@@ -348,7 +420,6 @@
         window.location.href = "index.html";
     }
 
-    // Initial View Load
     if(currentUser) {
         showView(currentUser.isAdmin ? 'admin' : 'dashboard');
     } else {

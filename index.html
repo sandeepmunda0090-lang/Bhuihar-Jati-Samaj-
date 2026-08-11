@@ -9,274 +9,214 @@
             --primary-color: #d9534f;
             --secondary-color: #f4f6f9;
             --text-color: #333;
-            --whatsapp-color: #25d366;
-            --call-color: #007bff;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            padding-bottom: 40px;
-        }
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 15px;
-        }
-        /* Login / Signup Button Section */
-        .auth-section {
-            text-align: center;
-            margin: 15px 0;
-        }
-        .auth-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-size: 15px;
-        }
-        .auth-btn:hover {
-            background-color: #0056b3;
-        }
-        /* Slider Banner */
-        .slider {
-            width: 100%;
-            height: 180px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            background: #ddd;
-        }
-        .slider img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        /* Section Title */
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 15px 0 10px 0;
-            color: #444;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 8px;
-        }
-        /* Padadhikari Cards */
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .card img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-color);
-            margin-right: 15px;
-        }
-        .card-info h3 {
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-        .card-info p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        .action-btns a {
-            text-decoration: none;
-            padding: 5px 12px;
-            border-radius: 4px;
-            color: white;
-            font-size: 13px;
-            margin-right: 5px;
-            display: inline-block;
-        }
-        .btn-call { background-color: var(--call-color); }
-        .btn-wa { background-color: var(--whatsapp-color); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        header { background-color: var(--primary-color); color: white; text-align: center; padding: 15px; font-size: 20px; font-weight: bold; border-radius: 8px; margin-bottom: 15px; }
+        
+        .stats { background: #333; color: white; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 15px; font-size: 16px; }
+        
+        /* 6 Padadhikari Grid */
+        .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; }
+        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .card { background: #fafafa; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center; }
+        .card h4 { font-size: 14px; margin-bottom: 5px; color: #444; }
+        .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .card-btns a { text-decoration: none; padding: 4px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; }
+        .btn-call { background: #007bff; }
+        .btn-wa { background: #25d366; }
 
-        /* Admin Panel / Print Section */
-        .admin-panel {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-top: 20px;
-        }
-        .print-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 15px;
-            font-size: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        /* Print Specific Styling */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #printable-area, #printable-area * {
-                visibility: visible;
-            }
-            #printable-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                background: white;
-                padding: 20px;
-            }
-            .no-print {
-                display: none !important;
-            }
-            .print-footer {
-                display: block !important;
-                margin-top: 80px;
-                text-align: right;
-                font-weight: bold;
-                font-size: 16px;
-            }
-        }
-        .print-footer {
-            display: none;
-        }
+        /* Forms Styling */
+        .form-box { background: #fff; border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .btn-submit { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-login { background-color: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
+        
+        .hidden { display: none; }
+        .toggle-link { text-align: center; margin-top: 10px; color: #007bff; cursor: pointer; font-size: 14px; }
     </style>
 </head>
 <body>
 
+<div class="container">
     <header>भुईहर जाति समाज</header>
 
-    <div class="container">
-        
-        <!-- Login / Signup Button Section -->
-        <div class="auth-section">
-            <a href="#signup" class="auth-btn">👤 sadasya Login / Signup Karein</a>
-        </div>
-
-        <!-- Slider Banner -->
-        <div class="slider">
-            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Samaj Banner" id="slider-img">
-        </div>
-
-        <!-- Padadhikari Section -->
-        <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
-        <div class="card-grid">
-            <!-- Padadhikari 1 -->
-            <div class="card">
-                <img src="https://via.placeholder.com/60" alt="Photo">
-                <div class="card-info">
-                    <h3>श्री महतो जी</h3>
-                    <p>पद: महaton / अध्यक्ष</p>
-                    <div class="action-btns">
-                        <a href="tel:+919800000000" class="btn-call">📞 Call</a>
-                        <a href="https://wa.me/919800000000" class="btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Padadhikari 2 -->
-            <div class="card">
-                <img src="https://via.placeholder.com/60" alt="Photo">
-                <div class="card-info">
-                    <h3>श्री सचिव जी</h3>
-                    <p>पद: सचिव (Secretary)</p>
-                    <div class="action-btns">
-                        <a href="tel:+919800000000" class="btn-call">📞 Call</a>
-                        <a href="https://wa.me/919800000000" class="btn-wa">💬 WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Panel & Print Area -->
-        <div class="admin-panel" id="printable-area">
-            <div class="section-title">एडमिन पैनल - पंजीकृत सदस्यों की सूची</div>
-            <p style="font-size: 13px; color: #666; margin-bottom: 10px;">यहाँ से एडमिन सदस्यों का रिकॉर्ड देख और प्रिंट कर सकते हैं।</p>
-            
-            <table style="width:100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
-                <thead>
-                    <tr style="background: #eee; text-align: left;">
-                        <th style="padding: 8px; border: 1px solid #ddd;">क्र.</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">नाम</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">गोत्र / गाँव</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;">मोबाइल</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding: 8px; border: 1px solid #ddd;">1</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">राहुल सिंह</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">कश्यप / रायपुर</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">98XXXXXXXX</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 8px; border: 1px solid #ddd;">2</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">विकास भुईहर</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">भारद्वाज / बिलासपुर</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">97XXXXXXXX</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Print Footer Signature -->
-            <div class="print-footer">
-                मुखिया के हस्ताक्षर
-            </div>
-        </div>
-
-        <!-- Print Button (Hidden on Print) -->
-        <div class="no-print">
-            <button class="print-btn" onclick="window.print()">🖨️ सूची प्रिंट या PDF निकालें (Admin)</button>
-        </div>
-
+    <!-- Live Stats -->
+    <div class="stats">
+        कुल पंजीकृत सदस्य: <span id="memberCount">0</span>
     </div>
 
-    <script>
-        // Simple Image Slider Script
-        const images = [
-            "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
-            "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80"
-        ];
-        let currentIndex = 0;
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % images.length;
-            document.getElementById('slider-img').src = images[currentIndex];
-        }, 3000);
-    </script>
+    <!-- 6 Padadhikari Section -->
+    <div class="section-title">कार्यकारिणी समिति (6 Padadhikari)</div>
+    <div class="grid-6" id="padadhikariGrid">
+        <!-- JS se 6 cards load honge -->
+    </div>
+
+    <!-- Navigation / Auth Toggle Buttons -->
+    <div id="authContainer">
+        <!-- Signup Form -->
+        <div class="form-box" id="signupFormBox">
+            <h3>सद्‌स्य पंजीकरण (Signup)</h3>
+            <input type="text" id="firstName" placeholder="First Name (पहला नाम)" required>
+            <input type="text" id="lastName" placeholder="Last Name (उपनाम/गोत्र)" required>
+            <input type="email" id="email" placeholder="Email Address">
+            <input type="tel" id="mobile" placeholder="Mobile Number (मोबाइल नंबर)" required>
+            
+            <label style="font-size: 12px; color: #666;">Date of Birth (जन्म तिथि):</label>
+            <input type="date" id="dob" onchange="calculateAge()" required>
+            <input type="text" id="age" placeholder="Age (आयु - ऑटो कैलकुलेट)" readonly style="background: #e9ecef;">
+            
+            <select id="gender">
+                <option value="">Gender चुनें</option>
+                <option value="Male">Male (पुरुष)</option>
+                <option value="Female">Female (महिला)</option>
+            </select>
+            
+            <button class="btn-submit" onclick="registerUser()">रजिस्टर करें (Register)</button>
+            <div class="toggle-link" onclick="showLogin()">पपहले سے रजिस्टर्ड हैं? Login Karein</div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-box hidden" id="loginFormBox">
+            <h3>सद्‌स्य लॉगिन (Login)</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 8px;">वही मोबाइल नंबर दर्ज करें जिससे रजिस्टर किया था:</p>
+            <input type="tel" id="loginMobile" placeholder="Registered Mobile Number" required>
+            <button class="btn-login" onclick="loginUser()">लॉगिन करें</button>
+            <div class="toggle-link" onclick="showSignup()">नया खाता बनाएँ (Signup)</div>
+        </div>
+    </div>
+
+    <!-- Logged In Dashboard View -->
+    <div id="userDashboard" class="form-box hidden" style="background: #e2f0d9; text-align: center;">
+        <h3>🎉 स्वागत है, <span id="welcomeName"></span>!</h3>
+        <p style="margin: 10px 0; font-size: 14px;">आप भुईहर जाति समाज के सत्यापित सदस्य हैं।</p>
+        <button onclick="logoutUser()" style="background: #d9534f; color: white; border:none; padding:8px 15px; border-radius:5px;">लॉग आउट (Logout)</button>
+    </div>
+
+</div>
+
+<script>
+    // Load Members & Initialize Data
+    let members = JSON.parse(localStorage.getItem('bhuihar_members')) || [];
+    document.getElementById('memberCount').innerText = members.length;
+
+    // Auto Calculate Age from DOB
+    function calculateAge() {
+        const dobVal = document.getElementById('dob').value;
+        if (!dobVal) return;
+        const dobDate = new Date(dobVal);
+        const diff = Date.now() - dobDate.getTime();
+        const ageDate = new Date(diff);
+        const calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+        document.getElementById('age').value = calculatedAge + " वर्ष";
+    }
+
+    // Render 6 Padadhikari Cards
+    const grid = document.getElementById('padadhikariGrid');
+    let padadhikariList = [
+        {name: "श्री महतो जी", post: "अध्यक्ष (Mahaton)", phone: "9800000000"},
+        {name: "श्री सचिव जी", post: "सचिव (Secretary)", phone: "9800000001"},
+        {name: "श्री कोषाध्यक्ष जी", post: "कोषाध्यक्ष", phone: "9800000002"},
+        {name: "श्री संरक्षक जी", post: "संरक्षक", phone: "9800000003"},
+        {name: "श्री सह-सचिव जी", post: "सह-सचिव", phone: "9800000004"},
+        {name: "श्री मीडिया प्रभारी", post: "प्रभारी", phone: "9800000005"}
+    ];
+
+    padadhikariListforEach = padadhikariList.forEach((p, index) => {
+        grid.innerHTML += `
+            <div class="card">
+                <h4>${p.name}</h4>
+                <p>${p.post}</p>
+                <div class="card-btns">
+                    <a href="tel:+91${p.phone}" class="btn-call">📞 Call</a>
+                    <a href="https://wa.me/91${p.phone}" class="btn-wa">💬 WhatsApp</a>
+                </div>
+            </div>
+        `;
+    });
+
+    // Toggle Forms
+    function showLogin() {
+        document.getElementById('signupFormBox').classList.add('hidden');
+        document.getElementById('loginFormBox').classList.remove('hidden');
+    }
+    function showSignup() {
+        document.getElementById('loginFormBox').classList.add('hidden');
+        document.getElementById('signupFormBox').classList.remove('hidden');
+    }
+
+    // Register Functionality
+    function registerUser() {
+        let fName = document.getElementById('firstName').value.trim();
+        let lName = document.getElementById('lastName').value.trim();
+        let email = document.getElementById('email').value.trim();
+        let mobile = document.getElementById('mobile').value.trim();
+        let dob = document.getElementById('dob').value;
+        let age = document.getElementById('age').value;
+        let gender = document.getElementById('gender').value;
+
+        if(!fName || !mobile || !dob || !gender) {
+            alert("कृपया सभी जरूरी जानकारी (First Name, Mobile, DOB, Gender) भरें!");
+            return;
+        }
+
+        // Check if mobile already exists
+        let existing = members.find(m => m.mobile === mobile);
+        if(existing) {
+            alert("यह मोबाइल नंबर पहले से रजिस्टर्ड है! कृपया सीधे Login करें।");
+            showLogin();
+            return;
+        }
+
+        let newUser = { fName, lName, email, mobile, dob, age, gender };
+        members.push(newUser);
+        localStorage.setItem('bhuihar_members', JSON.stringify(members));
+        localStorage.setItem('current_user', JSON.stringify(newUser));
+        
+        alert("पंजीकरण सफल रहा!");
+        checkLoginState();
+    }
+
+    // Login Functionality (By Mobile Number)
+    function loginUser() {
+        let loginMobile = document.getElementById('loginMobile').value.trim();
+        if(!loginMobile) {
+            alert("कृपया अपना रजिस्टर्ड मोबाइल नंबर दर्ज करें!");
+            return;
+        }
+
+        let user = members.find(m => m.mobile === loginMobile);
+        if(user) {
+            localStorage.setItem('current_user', JSON.stringify(user));
+            alert("लॉगिन सफल रहा!");
+            checkLoginState();
+        } else {
+            alert("यह मोबाइल नंबर रजिस्टर्ड नहीं है! कृपया पहले Signup करें।");
+            showSignup();
+        }
+    }
+
+    // Check Active Login Session
+    function checkLoginState() {
+        let activeUser = JSON.parse(localStorage.getItem('current_user'));
+        if(activeUser) {
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('userDashboard').classList.remove('hidden');
+            document.getElementById('welcomeName').innerText = activeUser.fName + " " + activeUser.lName;
+        } else {
+            document.getElementById('authContainer').classList.remove('hidden');
+            document.getElementById('userDashboard').classList.add('hidden');
+        }
+    }
+
+    function logoutUser() {
+        localStorage.removeItem('current_user');
+        checkLoginState();
+    }
+
+    // Run on startup
+    checkLoginState();
+</script>
 </body>
 </html>

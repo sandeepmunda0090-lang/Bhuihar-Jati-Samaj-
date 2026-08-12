@@ -169,7 +169,7 @@
             transform: scale(1.05);
         }
 
-        /* Print Settings & Styling */
+        /* Print Settings & Table Styling */
         .print-header, .print-footer { display: none; }
 
         @media print {
@@ -181,45 +181,60 @@
                 top: 0; 
                 width: 100%; 
                 background: white; 
-                padding: 15px; 
+                padding: 10px; 
             }
             .no-print { display: none !important; }
             
-            /* Print Header Logo & Title */
             .print-header {
                 display: block !important;
                 text-align: center;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
                 border-bottom: 2px solid #8B0000;
-                padding-bottom: 10px;
+                padding-bottom: 8px;
             }
             .print-header img {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
                 object-fit: cover;
                 border: 2px solid #d4af37;
             }
             .print-header h2 {
                 color: #8B0000;
-                font-size: 22px;
-                margin-top: 5px;
+                font-size: 20px;
+                margin-top: 4px;
             }
 
-            /* Print Footer Signature on every page bottom */
             .print-footer {
                 display: block !important;
                 position: fixed;
                 bottom: 10px;
                 right: 20px;
                 font-weight: bold;
-                font-size: 15px;
+                font-size: 14px;
                 color: #333;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+            th, td {
+                border: 1px solid #333;
+                padding: 6px;
+                text-align: left;
+                vertical-align: top;
+            }
+            th {
+                background-color: #f2f2f2 !important;
+                color: #000;
             }
             
             @page {
                 size: A4;
-                margin: 15mm;
+                margin: 10mm;
             }
         }
     </style>
@@ -501,40 +516,51 @@
                 </div>`;
         });
 
-        // Detailed Printable Family Records format with all members, gender, age, mobile
-        let printableFamiliesHtml = "";
+        // Professional Table Format for Print and Admin List
+        let tableRowsHtml = "";
         if(families.length === 0) {
-            printableFamiliesHtml = `<p>कोई परिवार रजिस्टर्ड नहीं है।</p>`;
+            tableRowsHtml = `<tr><td colspan="6" style="text-align:center;">कोई परिवार रजिस्टर्ड नहीं है।</td></tr>`;
         } else {
             families.forEach((f, i) => {
-                let membersList = "";
+                let mainIndex = i + 1;
+                // 1. Mukhiya Row
+                tableRowsHtml += `
+                    <tr>
+                        <td style="text-align:center; font-weight:bold;">${mainIndex}</td>
+                        <td style="font-weight:bold;">${f.fName} ${f.lName} (मुखिया)</td>
+                        <td>${f.mobile}</td>
+                        <td>${f.gender}</td>
+                        <td>${f.age}</td>
+                        <td><b>रजि. मुखिया</b></td>
+                    </tr>`;
+
+                // 2. Family Members Sub-Rows
                 if(f.members && f.members.length > 0) {
                     f.members.forEach((m, mi) => {
-                        membersList += `&nbsp;&nbsp;&nbsp;&nbsp;• ${mi+1}. ${m.name} (रिश्ता: ${m.relation}, लिंग: ${m.gender}, उम्र: ${m.age})<br>`;
+                        let subIndex = `${mainIndex}.${mi + 1}`;
+                        tableRowsHtml += `
+                            <tr>
+                                <td style="text-align:center; color:#555;">${subIndex}</td>
+                                <td style="padding-left:15px;">↳ ${m.name}</td>
+                                <td style="color:#777;">-</td>
+                                <td>${m.gender}</td>
+                                <td>${m.age}</td>
+                                <td>रिश्ता: ${m.relation}</td>
+                            </tr>`;
                     });
-                } else {
-                    membersList = `&nbsp;&nbsp;&nbsp;&nbsp;<i>(पारिवारिक सदस्य नहीं जोड़े गए)</i><br>`;
                 }
-
-                printableFamiliesHtml += `
-                    <div style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 8px; font-size: 13px;">
-                        <b>${i+1}. मुखिया: ${f.fName} ${f.lName}</b> | मोबाइल: ${f.mobile} | लिंग: ${f.gender} | उम्र: ${f.age}<br>
-                        <b>परिवार के सदस्य:</b><br>
-                        ${membersList}
-                    </div>`;
             });
         }
 
         document.getElementById('dynamicView').innerHTML = `
             <div id="printableArea">
-                <!-- Print Header with Logo & Title -->
                 <div class="print-header">
-                    <img id="printLogoImg" src="1000337852.png" alt="Logo" onerror="this.src='https://via.placeholder.com/70?text=Logo'">
+                    <img id="printLogoImg" src="1000337852.png" alt="Logo" onerror="this.src='https://via.placeholder.com/60?text=Logo'">
                     <h2>भुईहर जाति समाज - पंजीकृत परिवार सूची</h2>
-                    <p style="font-size: 12px; color: #555;">(एकता • सेवा • सम्मान)</p>
+                    <p style="font-size: 11px; color: #555;">(एकता • सेवा • सम्मान)</p>
                 </div>
 
-                <div class="box" style="background: #fadbd8;">
+                <div class="box no-print" style="background: #fadbd8;">
                     <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
                     <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
                 </div>
@@ -558,7 +584,7 @@
                 </div>
 
                 <div class="box no-print">
-                    <h3>कार्यकारिणी समिति (6 Padadhikari Edit करें)</h3>
+                    <h3>कार्यकारी समिति (6 Padadhikari Edit करें)</h3>
                     ${padEditHtml}
                     <button class="btn-submit" onclick="savePadadhikari()">💾 पदाधिकारी सेव करें</button>
                 </div>
@@ -568,21 +594,31 @@
                     ${pendingHtml}
                 </div>
 
-                <div class="box">
-                    <h3>समाज के सभी सत्यापित परिवार एवं सदस्य सूची</h3>
-                    <div style="margin-top:10px;">
-                        ${printableFamiliesHtml}
-                    </div>
+                <div class="box" style="overflow-x:auto;">
+                    <h3>समाज के सभी परिवारों की सारणी (Table)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">क्र.</th>
+                                <th style="width: 32%;">नाम (मुखिया / सदस्य)</th>
+                                <th style="width: 18%;">मोबाइल नंबर</th>
+                                <th style="width: 12%;">लिंग</th>
+                                <th style="width: 12%;">आयु</th>
+                                <th style="width: 18%;">विवरण / रिश्ता</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRowsHtml}
+                        </tbody>
+                    </table>
                 </div>
 
-                <!-- Print Footer Signature on every page corner -->
                 <div class="print-footer">
                     मुखिया के हस्ताक्षर
                 </div>
             </div>
-            <button class="no-print btn-submit" style="margin-top:15px; background:#333;" onclick="window.print()">🖨️ पूरी सूची प्रिंट या PDF निकालें</button>`;
+            <button class="no-print btn-submit" style="margin-top:15px; background:#333;" onclick="window.print()">🖨️ सारणी (Table) प्रिंट या PDF निकालें</button>`;
         
-        // Sync print logo with header logo
         let currentLogoSrc = document.getElementById('headerLogoImg').src;
         let printLogoEl = document.getElementById('printLogoImg');
         if(printLogoEl) printLogoEl.src = currentLogoSrc;

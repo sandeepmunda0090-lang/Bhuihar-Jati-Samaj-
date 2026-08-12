@@ -13,14 +13,12 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
         
-        /* Poore phone ki screen par failne ke liye */
         html, body {
             width: 100%;
             min-height: 100vh;
             background-color: var(--secondary-color);
             color: var(--text-color);
             overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
         }
 
         .container { 
@@ -29,9 +27,7 @@
             min-height: 100vh;
             margin: 0; 
             background: white; 
-            padding: 12px 12px 80px 12px; 
-            box-shadow: none;
-            border: none;
+            padding: 12px 12px 90px 12px; 
         }
 
         @media (min-width: 768px) {
@@ -44,7 +40,7 @@
                 border: 2px solid var(--accent-color);
                 margin-top: 20px;
                 margin-bottom: 20px;
-                padding-bottom: 20px;
+                padding-bottom: 30px;
             }
         }
         
@@ -71,9 +67,25 @@
         .logo-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
         header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
+
+        /* Slider Banner Styling */
+        .slider-banner {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid var(--accent-color);
+        }
+        .slider-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* Stats Cards */
         .stats-box { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
@@ -86,8 +98,8 @@
         .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
         .card { background: #fff; border: 1px solid #e0d0c0; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
-        .card h4 { font-size: 14px; margin-bottom: 3px; color: #222; }
-        .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .card h4 { font-size: 14px; margin-bottom: 2px; color: #222; }
+        .card p { font-size: 12px; color: var(--primary-color); font-weight: bold; margin-bottom: 8px; }
         
         .card-btns a { text-decoration: none; padding: 5px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; font-weight: bold; }
         .btn-call { background: #007bff; }
@@ -95,7 +107,6 @@
 
         .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; width: 100%; }
         input, select, button { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
-        input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 5px rgba(139,0,0,0.2); }
         
         .btn-submit { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
         .btn-login { background-color: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
@@ -103,7 +114,7 @@
         
         .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
 
-        /* Bottom Fixed Navigation Bar (Left to Right) with Motion Effects */
+        /* Bottom Fixed Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -113,7 +124,7 @@
             border-top: 2px solid var(--accent-color);
             display: flex;
             justify-content: space-around;
-            padding: 12px 5px;
+            padding: 10px 5px;
             box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
             z-index: 1000;
         }
@@ -121,21 +132,19 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             font-size: 14px;
             font-weight: bold;
+            boarder-radius: 25px;
             border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease, background 0.2s ease;
         }
-        .nav-btn:hover, .nav-btn:active {
+        .nav-btn:hover {
             background: #a93226;
-            transform: scale(1.08);
-            box-shadow: 0 4px 10px rgba(139,0,0,0.3);
+            transform: scale(1.05);
         }
 
-        /* Print Settings */
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
@@ -149,17 +158,20 @@
 <body>
 
 <div class="container">
-    <!-- Top Center Logo & Header -->
     <header>
         <div class="logo-container">
-            <!-- Yahan file name exact match kiya gaya hai -->
-            <img src="1000337852.png" alt="Bhujar Samaj Logo" onerror="this.src='https://via.placeholder.com/100?text=Logo'">
+            <img id="headerLogoImg" src="1000337852.png" alt="Logo" onerror="this.src='https://via.placeholder.com/100?text=Logo'">
         </div>
         <h1>भुईहर जाति समाज</h1>
         <p style="font-size: 12px; color: #666; margin-top: 3px;">एकता • सेवा • सम्मान</p>
     </header>
 
     <div class="no-print" id="mainDashboardStats">
+        <!-- Slider Banner -->
+        <div class="slider-banner">
+            <img id="sliderImg" src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Slider">
+        </div>
+
         <div class="stats-box">
             <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
             <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
@@ -169,11 +181,9 @@
         <div class="grid-6" id="padadhikariGrid"></div>
     </div>
 
-    <!-- Dynamic Container for Views -->
     <div id="dynamicView"></div>
 </div>
 
-<!-- Bottom Left to Right Navigation Bar -->
 <div class="bottom-nav no-print">
     <button class="nav-btn" onclick="showView('home')">🏠 Home</button>
     <button class="nav-btn" onclick="showView('signup')">📝 Signup</button>
@@ -181,12 +191,32 @@
 </div>
 
 <script>
-    const ADMIN_MOBILE = "6266240812";
+    // Dynamic Admin Mobile Management
+    let adminMobile = localStorage.getItem('bhuihar_admin_mob') || "6266240812";
 
     let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
     let families = JSON.parse(localStorage.getItem('bhuihar_families')) || [];
     let pending = JSON.parse(localStorage.getItem('bhuihar_pending')) || [];
     let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
+
+    // Custom Logo Setup
+    let savedLogo = localStorage.getItem('bhuihar_custom_logo');
+    if(savedLogo) {
+        document.getElementById('headerLogoImg').src = savedLogo;
+    }
+
+    // Slider Banner Script
+    const sliderImages = [
+        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80"
+    ];
+    let currentSlide = 0;
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % sliderImages.length;
+        let imgEl = document.getElementById('sliderImg');
+        if(imgEl) imgEl.src = sliderImages[currentSlide];
+    }, 3500);
 
     let defaultPadadhikari = [
         {name: "श्री महतो जी", post: "अध्यक्ष", phone: "9800000000"},
@@ -301,7 +331,7 @@
         let mob = document.getElementById('loginMobile').value.trim();
         if(!mob) { alert("मोबाइल नंबर दर्ज करें!"); return; }
 
-        if(mob === ADMIN_MOBILE) {
+        if(mob === adminMobile) {
             currentUser = { mobile: mob, isAdmin: true };
             localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
             showView('admin');
@@ -383,7 +413,7 @@
                 <div style="margin-bottom:10px; background:#fff; padding:8px; border-radius:5px; border:1px solid #ddd;">
                     <b>पद ${idx+1}:</b>
                     <input type="text" id="p_name_${idx}" value="${p.name}" placeholder="नाम">
-                    <input type="text" id="p_post_${idx}" value="${p.post}" placeholder="पद">
+                    <input type="text" id="p_post_${idx}" value="${p.post}" placeholder="पद (जैसे: अध्यक्ष)">
                     <input type="text" id="p_phone_${idx}" value="${p.phone}" placeholder="मोबाइल">
                 </div>`;
         });
@@ -393,6 +423,20 @@
                 <div class="box" style="background: #fadbd8;">
                     <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
                     <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
+                </div>
+
+                <!-- Logo Upload Section -->
+                <div class="box no-print" style="background:#e8f8f5;">
+                    <h3>🖼️ वेबसाइट लोगो बदलें (Change Logo)</h3>
+                    <input type="file" id="logoFile" accept="image/*" style="margin-top:5px;">
+                    <button class="btn-submit" onclick="uploadLogo()" style="margin-top:5px;">नया लोगो सेव करें</button>
+                </div>
+
+                <!-- Admin Mobile Handover Section -->
+                <div class="box no-print" style="background:#fef9e7;">
+                    <h3>🔑 एडमिन मोबाइल नंबर बदलें (Handover)</h3>
+                    <input type="text" id="newAdminMob" value="${adminMobile}" placeholder="नया एडमिन मोबाइल नंबर">
+                    <button class="btn-login" onclick="changeAdminMobile()" style="margin-top:5px;">एडमिन नंबर अपडेट करें</button>
                 </div>
 
                 <div class="box no-print">
@@ -418,6 +462,34 @@
                 </div>
             </div>
             <button class="no-print btn-submit" style="margin-top:15px; background:#333;" onclick="window.print()">🖨️ सूची प्रिंट करें</button>`;
+    }
+
+    // Logo Upload Handler
+    function uploadLogo() {
+        let fileInput = document.getElementById('logoFile');
+        if(fileInput.files && fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('bhuihar_custom_logo', e.target.result);
+                document.getElementById('headerLogoImg').src = e.target.result;
+                alert("लोगो सफलतापूर्वक बदल दिया गया है!");
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            alert("कृपया पहले कोई छवि (Image) चुनें!");
+        }
+    }
+
+    // Change Admin Mobile Handler
+    function changeAdminMobile() {
+        let newMob = document.getElementById('newAdminMob').value.trim();
+        if(newMob.length < 10) {
+            alert("कृपया वैध मोबाइल नंबर दर्ज करें!");
+            return;
+        }
+        localStorage.setItem('bhuihar_admin_mob', newMob);
+        adminMobile = newMob;
+        alert("एडमिन मोबाइल नंबर सफलतापूर्वक बदल दिया गया है! अब नए नंबर से लॉगिन होगा।");
     }
 
     function savePadadhikari() {

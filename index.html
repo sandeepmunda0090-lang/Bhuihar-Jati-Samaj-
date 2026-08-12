@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>भुईहर जाति समाज</title>
     <style>
         :root { 
@@ -12,70 +12,98 @@
             --text-color: #333; 
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
-        body { background-color: var(--secondary-color); color: var(--text-color); padding: 10px; padding-bottom: 70px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); }
+        
+        /* Poore phone ki screen par failne ke liye */
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 100%; 
+            min-height: 100vh;
+            margin: 0; 
+            background: white; 
+            padding: 12px 12px 80px 12px; 
+            box-shadow: none;
+            border: none;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 650px;
+                margin: auto;
+                min-height: auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                border: 2px solid var(--accent-color);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+            }
+        }
         
         /* Top Center Logo Header */
         header { 
             text-align: center; 
-            padding: 15px 0; 
+            padding: 10px 0; 
             border-bottom: 2px dashed #e0d0c0;
             margin-bottom: 15px; 
         }
         .logo-container {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 10px auto;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 8px auto;
             border-radius: 50%;
             overflow: hidden;
             border: 3px solid var(--accent-color);
             box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2);
-            animation: pulseLogo 3s infinite alternate;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .logo-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-        @keyframes pulseLogo {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            object-fit: contain;
         }
         header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
 
         /* Stats Cards */
-        .stats-box { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stats-box { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
         .stat-card { flex: 1; background: linear-gradient(135deg, #8B0000, #a93226); color: white; padding: 12px; border-radius: 8px; text-align: center; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 4px; color: #f1c40f; }
 
         .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; color: var(--primary-color); }
         
-        /* Padadhikari Grid with Hover Motion */
-        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        /* Padadhikari Grid */
+        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
         .card { background: #fff; border: 1px solid #e0d0c0; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
         .card h4 { font-size: 14px; margin-bottom: 3px; color: #222; }
         .card p { font-size: 12px; color: #666; margin-bottom: 8px; }
         
-        .card-btns a { text-decoration: none; padding: 5px 10px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; font-weight: bold; }
+        .card-btns a { text-decoration: none; padding: 5px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; font-weight: bold; }
         .btn-call { background: #007bff; }
-        .btn-call:hover { background: #0056b3; transform: scale(1.05); }
         .btn-wa { background: #25d366; }
-        .btn-wa:hover { background: #1ebe57; transform: scale(1.05); }
 
-        .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        input, select, button { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; width: 100%; }
+        input, select, button { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
         input:focus, select:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 5px rgba(139,0,0,0.2); }
         
         .btn-submit { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-submit:hover { background-color: #219653; }
         .btn-login { background-color: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-login:hover { background-color: #1f618d; }
         .btn-reject { background-color: #c0392b; color: white; border: none; font-weight: bold; cursor: pointer; }
         
-        .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 8px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; }
+        .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
 
-        /* Bottom Fixed Navigation Bar (Left to Right) */
+        /* Bottom Fixed Navigation Bar (Left to Right) with Motion Effects */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -85,7 +113,7 @@
             border-top: 2px solid var(--accent-color);
             display: flex;
             justify-content: space-around;
-            padding: 10px 0;
+            padding: 12px 5px;
             box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
             z-index: 1000;
         }
@@ -93,17 +121,18 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 18px;
-            font-size: 13px;
+            padding: 10px 20px;
+            font-size: 14px;
             font-weight: bold;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background 0.2s ease;
         }
-        .nav-btn:hover {
+        .nav-btn:hover, .nav-btn:active {
             background: #a93226;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(139,0,0,0.3);
+            transform: scale(1.08);
+            box-shadow: 0 4px 10px rgba(139,0,0,0.3);
         }
 
         /* Print Settings */
@@ -123,14 +152,14 @@
     <!-- Top Center Logo & Header -->
     <header>
         <div class="logo-container">
-            <!-- Yahan aapke diye gaye logo ki image link set ki gayi hai -->
-            <img src="1000337852.png" alt="Bhujar Samaj Logo">
+            <!-- Yahan file name exact match kiya gaya hai -->
+            <img src="1000337852.png" alt="Bhujar Samaj Logo" onerror="this.src='https://via.placeholder.com/100?text=Logo'">
         </div>
         <h1>भुईहर जाति समाज</h1>
         <p style="font-size: 12px; color: #666; margin-top: 3px;">एकता • सेवा • सम्मान</p>
     </header>
 
-    <div class="no-print">
+    <div class="no-print" id="mainDashboardStats">
         <div class="stats-box">
             <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
             <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
@@ -195,8 +224,10 @@
 
     function showView(viewName) {
         let box = document.getElementById('dynamicView');
+        let statsBox = document.getElementById('mainDashboardStats');
         
         if(currentUser) {
+            statsBox.style.display = "none";
             if(currentUser.isAdmin) {
                 renderAdminPanel();
                 return;
@@ -207,12 +238,14 @@
         }
 
         if(viewName === 'home') {
+            statsBox.style.display = "block";
             box.innerHTML = `
                 <div class="box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
                     <h3 style="color: #8B0000; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
-                    <p style="font-size: 13px; color: #444; line-height: 1.5;">भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। परिवार जोड़ने के लिए नीचे दिए गए <b>Signup</b> या <b>Login</b> बटन का उपयोग करें।</p>
+                    <p style="font-size: 14px; color: #444; line-height: 1.5;">भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। परिवार जोड़ने के लिए नीचे दिए गए <b>Signup</b> या <b>Login</b> बटन का उपयोग करें।</p>
                 </div>`;
         } else if(viewName === 'signup') {
+            statsBox.style.display = "none";
             box.innerHTML = `
                 <div class="box">
                     <h3>सद्‌स्य पंजीकरण (Signup)</h3>
@@ -220,13 +253,14 @@
                     <input type="text" id="lastName" placeholder="Last Name (उपनाम / गोत्र)">
                     <input type="email" id="email" placeholder="Email Address">
                     <input type="tel" id="mobile" placeholder="Mobile Number (लॉगिन आईडी)">
-                    <label style="font-size: 12px; color: #666;">जन्म तिथि (DOB):</label>
+                    <label style="font-size: 13px; color: #666;">जन्म तिथि (DOB):</label>
                     <input type="date" id="dob" onchange="calcAge()">
                     <input type="text" id="age" placeholder="Age (आयु - ऑटो कैलकुलेट)" readonly style="background:#eee;">
                     <select id="gender"><option value="">Gender चुनें</option><option value="Male">Male</option><option value="Female">Female</option></select>
                     <button class="btn-submit" onclick="submitSignup()">पंजीकरण अनुरोध भेजें</button>
                 </div>`;
         } else if(viewName === 'login') {
+            statsBox.style.display = "none";
             box.innerHTML = `
                 <div class="box">
                     <h3>सद्‌स्य लॉगिन (Login)</h3>
@@ -285,6 +319,7 @@
     }
 
     function renderUserDashboard() {
+        document.getElementById('mainDashboardStats').style.display = "none";
         let famObj = families.find(f => f.mobile === currentUser.mobile) || { members: [] };
         let famHtml = "";
         famObj.members.forEach((m, i) => {
@@ -294,8 +329,8 @@
         document.getElementById('dynamicView').innerHTML = `
             <div class="box" style="background: #eaf2f8;">
                 <h3>👋 स्वागत है, ${currentUser.fName} ${currentUser.lName}</h3>
-                <p style="font-size:13px; color:#555; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
-                <button onclick="logout()" style="background:#c0392b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; cursor:pointer;">लॉग आउट</button>
+                <p style="font-size:14px; color:#555; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
+                <button onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; cursor:pointer; margin-top:5px;">लॉग आउट</button>
             </div>
             <div class="box">
                 <h3>परिवार के सदस्य जोड़ें (Family Details)</h3>
@@ -303,8 +338,8 @@
                 <input type="text" id="famRelation" placeholder="रिश्ता (जैसे: पत्नी, पुत्र)">
                 <input type="number" id="famAge" placeholder="आयु">
                 <button class="btn-submit" onclick="addFamilyMember()">+ सदस्य जोड़ें</button>
-                <h4 style="margin-top:15px; font-size:14px; border-bottom:1px solid #ddd; padding-bottom:5px;">आपके परिवार के सदस्य:</h4>
-                <div style="margin-top:10px;">${famHtml || '<p style="font-size:13px; color:#777;">कोई सदस्य नहीं जुड़ा।</p>'}</div>
+                <h4 style="margin-top:15px; font-size:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">आपके परिवार के सदस्य:</h4>
+                <div style="margin-top:10px;">${famHtml || '<p style="font-size:14px; color:#777;">कोई सदस्य नहीं जुड़ा।</p>'}</div>
             </div>`;
     }
 
@@ -327,16 +362,17 @@
     }
 
     function renderAdminPanel() {
+        document.getElementById('mainDashboardStats').style.display = "none";
         let pendingHtml = "";
         if(pending.length === 0) {
-            pendingHtml = `<p style="font-size:13px; color:#666;">कोई लंबित अनुरोध नहीं है।</p>`;
+            pendingHtml = `<p style="font-size:14px; color:#666;">कोई लंबित अनुरोध नहीं है।</p>`;
         } else {
             pending.forEach((req, idx) => {
                 pendingHtml += `
                     <div class="family-item">
                         <b>${req.fName} ${req.lName}</b> (${req.mobile}) - ${req.age}<br>
-                        <button class="btn-submit" style="padding:4px 8px; margin-top:5px; width:auto;" onclick="approveReq(${idx})">✓ स्वीकृत करें</button>
-                        <button class="btn-reject" style="padding:4px 8px; margin-top:5px; width:auto;" onclick="rejectReq(${idx})">✕ हटाएं</button>
+                        <button class="btn-submit" style="padding:6px 10px; margin-top:5px; width:auto;" onclick="approveReq(${idx})">✓ स्वीकृत करें</button>
+                        <button class="btn-reject" style="padding:6px 10px; margin-top:5px; width:auto;" onclick="rejectReq(${idx})">✕ हटाएं</button>
                     </div>`;
             });
         }
@@ -344,11 +380,11 @@
         let padEditHtml = "";
         padadhikariList.forEach((p, idx) => {
             padEditHtml += `
-                <div style="margin-bottom:8px;">
+                <div style="margin-bottom:10px; background:#fff; padding:8px; border-radius:5px; border:1px solid #ddd;">
                     <b>पद ${idx+1}:</b>
-                    <input type="text" id="p_name_${idx}" value="${p.name}">
-                    <input type="text" id="p_post_${idx}" value="${p.post}">
-                    <input type="text" id="p_phone_${idx}" value="${p.phone}">
+                    <input type="text" id="p_name_${idx}" value="${p.name}" placeholder="नाम">
+                    <input type="text" id="p_post_${idx}" value="${p.post}" placeholder="पद">
+                    <input type="text" id="p_phone_${idx}" value="${p.phone}" placeholder="मोबाइल">
                 </div>`;
         });
 
@@ -356,7 +392,7 @@
             <div id="printableArea">
                 <div class="box" style="background: #fadbd8;">
                     <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
-                    <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:12px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
+                    <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
                 </div>
 
                 <div class="box no-print">
@@ -373,7 +409,7 @@
                 <div class="box">
                     <h3>समाज के सभी सत्यापित परिवार</h3>
                     <div style="margin-top:10px;">
-                        ${families.map((f, i) => `<b>${i+1}. मुखिया: ${f.fName} ${f.lName}</b> (${f.mobile}) - सदस्य: ${f.members ? f.members.length : 0}<br>`).join('') || 'कोई परिवार नहीं।'}
+                        ${families.map((f, i) => `<div class="family-item"><b>${i+1}. मुखिया: ${f.fName} ${f.lName}</b> (${f.mobile}) - सदस्य: ${f.members ? f.members.length : 0}</div>`).join('') || 'कोई परिवार नहीं।'}
                     </div>
                 </div>
 

@@ -2,118 +2,65 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>भुईहर जाति समाज</title>
     <style>
-        :root { --primary-color: #8B0000; --secondary-color: #fdfbf7; --accent-color: #d4af37; --text-color: #333; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
-        html, body { width: 100%; min-height: 100vh; background-color: var(--secondary-color); color: var(--text-color); overflow-x: hidden; }
-        .container { width: 100%; max-width: 100%; min-height: 100vh; margin: 0; background: white; padding: 12px 12px 130px 12px; }
-        @media (min-width: 768px) { .container { max-width: 650px; margin: auto; min-height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); margin-top: 20px; margin-bottom: 20px; padding-bottom: 50px; } }
-        header { text-align: center; padding: 10px 0; border-bottom: 2px dashed #e0d0c0; margin-bottom: 15px; }
-        .logo-container { width: 100px; height: 100px; margin: 0 auto 8px auto; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-color); box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2); background: #fff; display: flex; align-items: center; justify-content: center; }
-        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
-        header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
-        .slider-banner { width: 100%; height: 160px; border-radius: 8px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: 1px solid var(--accent-color); }
-        .slider-banner img { width: 100%; height: 160px; object-fit: cover; }
-        .stats-box { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
-        .stat-card { flex: 1; background: linear-gradient(135deg, #8B0000, #a93226); color: white; padding: 12px; border-radius: 8px; text-align: center; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 4px; color: #f1c40f; }
-        .notice-board { background: #fff3cd; border: 1px solid #ffeeba; border-left: 5px solid #ffc107; padding: 12px 15px; border-radius: 6px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .notice-board h4 { font-size: 14px; color: #856404; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-        .notice-board p { font-size: 13px; color: #333; line-height: 1.4; word-break: break-word; }
-        .ad-banner-box { width: 100%; background: #f1f2f6; border: 2px dashed #bdc3c7; text-align: center; padding: 8px; margin-top: 20px; border-radius: 6px; }
-        .ad-banner-box p { font-size: 11px; color: #7f8c8d; margin-bottom: 3px; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-top: 2px solid var(--accent-color); display: flex; justify-content: space-around; padding: 10px 5px; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 1000; }
-        .nav-btn { background: var(--primary-color); color: white; border: none; padding: 10px 22px; font-size: 14px; font-weight: bold; border-radius: 25px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .nav-btn:hover { background: #a93226; transform: scale(1.05); }
-        #dynamicView { margin-top: 15px; width: 100%; }
-        .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 10px; width: 100%; }
-        input, select, textarea, button { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-        .btn-submit { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-login { background-color: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
+        :root { --primary: #8B0000; --accent: #d4af37; --bg: #fdfbf7; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; min-height: 100vh; padding-bottom: 80px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        header { text-align: center; padding: 20px; border-bottom: 2px solid var(--primary); }
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
+        .slider { width: 100%; height: 200px; overflow: hidden; }
+        .slider img { width: 100%; height: 100%; object-fit: cover; }
+        .stats { display: flex; justify-content: space-around; padding: 20px; background: var(--primary); color: white; }
+        .card { padding: 15px; margin: 10px; border: 1px solid #ddd; border-radius: 10px; }
+        .nav { position: fixed; bottom: 0; width: 100%; max-width: 600px; background: white; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #ddd; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; background: var(--primary); color: white; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div class="logo-container">
-            <img id="headerLogoImg" src="https://via.placeholder.com/100?text=Logo" alt="Logo">
-        </div>
-        <h1>भुईहर जाति समाज</h1>
+        <img id="logo" src="https://via.placeholder.com/150" class="logo">
+        <h2>भुईहर जाति समाज</h2>
     </header>
 
-    <div class="no-print" id="mainDashboardStats">
-        <div class="slider-banner">
-            <img id="sliderImg" src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Slider">
-        </div>
-
-        <div class="stats-box">
-            <div class="stat-card">कुल परिवार<span id="familyCount">0</span></div>
-            <div class="stat-card">कुल सदस्य<span id="memberCount">0</span></div>
-        </div>
-
-        <div class="notice-board">
-            <h4>📢 महत्वपूर्ण सूचना</h4>
-            <p id="displayAdminMessage">समाज के डिजिटल मंच पर आपका स्वागत है।</p>
-        </div>
+    <div class="slider">
+        <img id="banner" src="https://via.placeholder.com/600x200" alt="Banner">
     </div>
 
-    <div id="dynamicView"></div>
-
-    <div class="no-print ad-banner-box">
-        <p>--- Advertisement / विज्ञापन ---</p>
-        <div style="background:#e2e8f0; padding:10px; color:#64748b; font-size:12px; font-weight:bold; border-radius:4px;">
-            [ Ad Space ]
-        </div>
+    <div class="stats">
+        <div>परिवार: <span id="fam">0</span></div>
+        <div>सदस्य: <span id="mem">0</span></div>
     </div>
-</div>
 
-<div class="bottom-nav no-print">
-    <button class="nav-btn" onclick="showHome()">🏠 Home</button>
-    <button class="nav-btn" onclick="showAdmin()">🛡️ Admin</button>
+    <div id="content" class="card">
+        <h3>सूचना</h3>
+        <p id="msg">समाज के डिजिटल मंच पर स्वागत है।</p>
+    </div>
+
+    <div class="nav">
+        <button onclick="location.reload()">Home</button>
+        <button onclick="admin()">Admin</button>
+    </div>
 </div>
 
 <script>
-    // Pull-to-Refresh
-    let touchStartY = 0;
-    window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive: true});
-    window.addEventListener('touchend', e => { let touchEndY = e.changedTouches[0].clientY; if (window.scrollY === 0 && touchEndY - touchStartY > 150) { location.reload(); } }, {passive: true});
+    // Initial Load
+    document.getElementById('logo').src = localStorage.getItem('logo') || 'https://via.placeholder.com/150';
+    document.getElementById('banner').src = localStorage.getItem('banner') || 'https://via.placeholder.com/600x200';
+    document.getElementById('msg').innerText = localStorage.getItem('msg') || "Welcome!";
 
-    // Data Load
-    document.getElementById('headerLogoImg').src = localStorage.getItem('bhuihar_custom_logo') || 'https://via.placeholder.com/100?text=Logo';
-    document.getElementById('sliderImg').src = localStorage.getItem('bhuihar_slider_img') || 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80';
-    document.getElementById('displayAdminMessage').innerText = localStorage.getItem('bhuihar_admin_msg') || "समाज के इस मंच पर आपका स्वागत है।";
-
-    function showHome() {
-        document.getElementById('mainDashboardStats').style.display = 'block';
-        document.getElementById('dynamicView').innerHTML = '';
-    }
-
-    function showAdmin() {
-        let pass = prompt("एडमिन पासवर्ड डालें:");
-        if(pass === "1234") {
-            document.getElementById('mainDashboardStats').style.display = 'none';
-            document.getElementById('dynamicView').innerHTML = `
-                <div class="box">
-                    <h3>🛡️ एडमिन पैनल</h3>
-                    <input type="text" id="adminMsgInput" placeholder="सूचना बदलें" value="${localStorage.getItem('bhuihar_admin_msg') || ''}">
-                    <input type="text" id="logoUrlInput" placeholder="लोगो URL डालें" value="${localStorage.getItem('bhuihar_custom_logo') || ''}">
-                    <input type="text" id="bannerUrlInput" placeholder="बैनर URL डालें" value="${localStorage.getItem('bhuihar_slider_img') || ''}">
-                    <button class="btn-submit" onclick="saveAdminData()">💾 सेव करें</button>
-                </div>`;
-        } else {
-            alert("गलत पासवर्ड!");
+    function admin() {
+        let p = prompt("Password (1234):");
+        if(p == "1234") {
+            let l = prompt("Logo URL:", localStorage.getItem('logo'));
+            let b = prompt("Banner URL:", localStorage.getItem('banner'));
+            let m = prompt("Message:", localStorage.getItem('msg'));
+            localStorage.setItem('logo', l); localStorage.setItem('banner', b); localStorage.setItem('msg', m);
+            location.reload();
         }
-    }
-
-    function saveAdminData() {
-        localStorage.setItem('bhuihar_admin_msg', document.getElementById('adminMsgInput').value);
-        localStorage.setItem('bhuihar_custom_logo', document.getElementById('logoUrlInput').value);
-        localStorage.setItem('bhuihar_slider_img', document.getElementById('bannerUrlInput').value);
-        alert("अपडेट हो गया!");
-        location.reload();
     }
 </script>
 </body>

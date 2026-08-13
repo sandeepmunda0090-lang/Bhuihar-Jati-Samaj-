@@ -2,65 +2,735 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>भुईहर जाति समाज</title>
     <style>
-        :root { --primary: #8B0000; --accent: #d4af37; --bg: #fdfbf7; }
-        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
-        .container { max-width: 600px; margin: auto; background: white; min-height: 100vh; padding-bottom: 80px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        header { text-align: center; padding: 20px; border-bottom: 2px solid var(--primary); }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; }
-        .slider { width: 100%; height: 200px; overflow: hidden; }
-        .slider img { width: 100%; height: 100%; object-fit: cover; }
-        .stats { display: flex; justify-content: space-around; padding: 20px; background: var(--primary); color: white; }
-        .card { padding: 15px; margin: 10px; border: 1px solid #ddd; border-radius: 10px; }
-        .nav { position: fixed; bottom: 0; width: 100%; max-width: 600px; background: white; display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #ddd; }
-        button { padding: 10px 20px; border: none; border-radius: 5px; background: var(--primary); color: white; cursor: pointer; }
+        :root { 
+            --primary-color: #8B0000; 
+            --secondary-color: #fdfbf7; 
+            --accent-color: #d4af37;
+            --text-color: #333; 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 100%; 
+            min-height: 100vh;
+            margin: 0; 
+            background: white; 
+            padding: 12px 12px 130px 12px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 650px;
+                margin: auto;
+                min-height: auto;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                border: 2px solid var(--accent-color);
+                margin-top: 20px;
+                margin-bottom: 20px;
+                padding-bottom: 50px;
+            }
+        }
+        
+        header { 
+            text-align: center; 
+            padding: 10px 0; 
+            border-bottom: 2px dashed #e0d0c0;
+            margin-bottom: 15px; 
+        }
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 8px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 10px rgba(139, 0, 0, 0.2);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
+
+        .slider-banner {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid var(--accent-color);
+        }
+        .slider-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .stats-box { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
+        .stat-card { flex: 1; background: linear-gradient(135deg, #8B0000, #a93226); color: white; padding: 12px; border-radius: 8px; text-align: center; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 4px; color: #f1c40f; }
+
+        .notice-board {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-left: 5px solid #ffc107;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .notice-board h4 {
+            font-size: 14px;
+            color: #856404;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .notice-board p {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; color: var(--primary-color); }
+        
+        .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
+        .card { background: #fff; border: 1px solid #e0d0c0; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
+        .card h4 { font-size: 14px; margin-bottom: 2px; color: #222; }
+        .card p { font-size: 12px; color: var(--primary-color); font-weight: bold; margin-bottom: 8px; }
+        
+        .card-btns a { text-decoration: none; padding: 5px 8px; font-size: 11px; color: white; border-radius: 4px; display: inline-block; margin: 2px; font-weight: bold; }
+        .btn-call { background: #007bff; }
+        .btn-wa { background: #25d366; }
+
+        .box { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; width: 100%; }
+        input, select, textarea, button { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
+        
+        .btn-submit { background-color: #27ae60; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-login { background-color: #2980b9; color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-reject { background-color: #c0392b; color: white; border: none; font-weight: bold; cursor: pointer; }
+        
+        .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
+
+        .ad-banner-box {
+            width: 100%;
+            background: #f1f2f6;
+            border: 2px dashed #bdc3c7;
+            text-align: center;
+            padding: 8px;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        .ad-banner-box p {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-bottom: 3px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border-top: 2px solid var(--accent-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 5px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .nav-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .nav-btn:hover {
+            background: #a93226;
+            transform: scale(1.05);
+        }
+
+        .print-header, .print-footer { display: none; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                background: white; 
+                padding: 10px; 
+            }
+            .no-print { display: none !important; }
+            
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #8B0000;
+                padding-bottom: 8px;
+            }
+            .print-header img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #d4af37;
+            }
+            .print-header h2 {
+                color: #8B0000;
+                font-size: 20px;
+                margin-top: 4px;
+            }
+
+            .print-footer {
+                display: block !important;
+                position: fixed;
+                bottom: 10px;
+                right: 20px;
+                font-weight: bold;
+                font-size: 14px;
+                color: #333;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+            th, td {
+                border: 1px solid #333;
+                padding: 6px;
+                text-align: left;
+                vertical-align: top;
+            }
+            th {
+                background-color: #f2f2f2 !important;
+                color: #000;
+            }
+            
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <img id="logo" src="https://via.placeholder.com/150" class="logo">
-        <h2>भुईहर जाति समाज</h2>
+        <div class="logo-container">
+            <img id="headerLogoImg" src="1000337852.png" alt="Logo" onerror="this.src='https://via.placeholder.com/100?text=Logo'">
+        </div>
+        <h1>भुईहर जाति समाज</h1>
+        <p style="font-size: 12px; color: #666; margin-top: 3px;">एकता • सेवा • सम्मान</p>
     </header>
 
-    <div class="slider">
-        <img id="banner" src="https://via.placeholder.com/600x200" alt="Banner">
+    <div class="no-print" id="mainDashboardStats">
+        <div class="slider-banner">
+            <img id="sliderImg" src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80" alt="Slider">
+        </div>
+
+        <div class="stats-box">
+            <div class="stat-card">कुल परिवार (Families)<span id="familyCount">0</span></div>
+            <div class="stat-card">कुल सदस्य (Members)<span id="memberCount">0</span></div>
+        </div>
+
+        <div class="notice-board">
+            <h4>📢 महत्वपूर्ण सूचना / संदेश (Admin Notice)</h4>
+            <p id="displayAdminMessage">समाज के डिजिटल मंच पर आपका स्वागत है।</p>
+        </div>
+
+        <div class="section-title">कार्यकारिणी समिति (Padadhikari)</div>
+        <div class="grid-6" id="padadhikariGrid"></div>
     </div>
 
-    <div class="stats">
-        <div>परिवार: <span id="fam">0</span></div>
-        <div>सदस्य: <span id="mem">0</span></div>
-    </div>
+    <div id="dynamicView"></div>
 
-    <div id="content" class="card">
-        <h3>सूचना</h3>
-        <p id="msg">समाज के डिजिटल मंच पर स्वागत है।</p>
-    </div>
-
-    <div class="nav">
-        <button onclick="location.reload()">Home</button>
-        <button onclick="admin()">Admin</button>
+    <div class="no-print ad-banner-box" style="padding: 0; overflow: hidden; border: none;">
+        <a href="https://wa.me/916266240812" target="_blank">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" style="width: 100%; height: 60px; object-fit: cover; display: block; border-radius: 6px;" alt="Advertisement">
+        </a>
     </div>
 </div>
 
-<script>
-    // Initial Load
-    document.getElementById('logo').src = localStorage.getItem('logo') || 'https://via.placeholder.com/150';
-    document.getElementById('banner').src = localStorage.getItem('banner') || 'https://via.placeholder.com/600x200';
-    document.getElementById('msg').innerText = localStorage.getItem('msg') || "Welcome!";
+<div class="bottom-nav no-print">
+    <button class="nav-btn" onclick="showView('home')">🏠 Home</button>
+    <button class="nav-btn" onclick="showView('signup')">📝 Signup</button>
+    <button class="nav-btn" onclick="showView('login')">🔑 Login</button>
+</div>
 
-    function admin() {
-        let p = prompt("Password (1234):");
-        if(p == "1234") {
-            let l = prompt("Logo URL:", localStorage.getItem('logo'));
-            let b = prompt("Banner URL:", localStorage.getItem('banner'));
-            let m = prompt("Message:", localStorage.getItem('msg'));
-            localStorage.setItem('logo', l); localStorage.setItem('banner', b); localStorage.setItem('msg', m);
+<script>
+    // Pull-to-Refresh Gesture Logic
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+        touchStartY = e.touches[0].clientY;
+    }, {passive: true});
+
+    window.addEventListener('touchend', e => {
+        let touchEndY = e.changedTouches[0].clientY;
+        if (window.scrollY === 0 && touchEndY - touchStartY > 150) {
             location.reload();
         }
+    }, {passive: true});
+
+    let adminMobile = localStorage.getItem('bhuihar_admin_mob') || "6266240812";
+    let adminMessage = localStorage.getItem('bhuihar_admin_msg') || "भुईहर जाति समाज के इस मंच पर सभी सजातियों का स्वागत है। कृपया अपने परिवार की सही जानकारी दर्ज करें।";
+    document.getElementById('displayAdminMessage').innerText = adminMessage;
+
+    let users = JSON.parse(localStorage.getItem('bhuihar_users')) || [];
+    let families = JSON.parse(localStorage.getItem('bhuihar_families')) || [];
+    let pending = JSON.parse(localStorage.getItem('bhuihar_pending')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('bhuihar_current_user')) || null;
+
+    let savedLogo = localStorage.getItem('bhuihar_custom_logo');
+    if(savedLogo) {
+        document.getElementById('headerLogoImg').src = savedLogo;
+    }
+
+    let defaultSliderImages = [
+        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80"
+    ];
+    let sliderImages = JSON.parse(localStorage.getItem('bhuihar_slider_images')) || defaultSliderImages;
+
+    let currentSlide = 0;
+    let imgEl = document.getElementById('sliderImg');
+    if(imgEl && sliderImages.length > 0) {
+        imgEl.src = sliderImages[0];
+    }
+    
+    setInterval(() => {
+        if(sliderImages.length > 0) {
+            currentSlide = (currentSlide + 1) % sliderImages.length;
+            let currentImgEl = document.getElementById('sliderImg');
+            if(currentImgEl) currentImgEl.src = sliderImages[currentSlide];
+        }
+    }, 3500);
+
+    let defaultPadadhikari = [
+        {name: "श्री महतो जी", post: "अध्यक्ष", phone: "9800000000"},
+        {name: "श्री सचिव जी", post: "सचिव", phone: "9800000001"},
+        {name: "श्री कोषाध्यक्ष जी", post: "कोषाध्यक्ष", phone: "9800000002"},
+        {name: "श्री संरक्षक जी", post: "संरक्षक", phone: "9800000003"},
+        {name: "श्री सह-सचिव जी", post: "सह-सचिव", phone: "9800000004"},
+        {name: "श्री मीडिया प्रभारी", post: "प्रभारी", phone: "9800000005"}
+    ];
+    let padadhikariList = JSON.parse(localStorage.getItem('bhuihar_padadhikari')) || defaultPadadhikari;
+
+    function updateCounts() {
+        document.getElementById('familyCount').innerText = families.length;
+        let totalMems = families.reduce((acc, f) => acc + 1 + (f.members ? f.members.length : 0), 0);
+        document.getElementById('memberCount').innerText = totalMems;
+    }
+    updateCounts();
+
+    function renderPadadhikari() {
+        const grid = document.getElementById('padadhikariGrid');
+        grid.innerHTML = "";
+        padadhikariList.forEach(p => {
+            grid.innerHTML += `
+                <div class="card">
+                    <h4>${p.name}</h4>
+                    <p>${p.post}</p>
+                    <div class="card-btns">
+                        <a href="tel:+91${p.phone}" class="btn-call">📞 Call</a>
+                        <a href="https://wa.me/91${p.phone}" class="btn-wa">💬 WhatsApp</a>
+                    </div>
+                </div>`;
+        });
+    }
+    renderPadadhikari();
+
+    function showView(viewName) {
+        let box = document.getElementById('dynamicView');
+        let statsBox = document.getElementById('mainDashboardStats');
+        
+        if(currentUser) {
+            statsBox.style.display = "none";
+            if(currentUser.isAdmin) {
+                renderAdminPanel();
+                return;
+            } else {
+                renderUserDashboard();
+                return;
+            }
+        }
+
+        if(viewName === 'home') {
+            statsBox.style.display = "block";
+            box.innerHTML = `
+                <div class="box" style="background: #fff8e1; border-color: #ffe082; text-align: center;">
+                    <h3 style="color: #8B0000; margin-bottom: 8px;">🤝 आइए, हम सब मिलकर समाज को जोड़ें!</h3>
+                    <p style="font-size: 14px; color: #444; line-height: 1.5;">भुईहर जाति समाज के इस डिजिटल मंच पर आपका स्वागत है। परिवार जोड़ने के लिए नीचे दिए गए <b>Signup</b> या <b>Login</b> बटन का उपयोग करें।</p>
+                </div>`;
+        } else if(viewName === 'signup') {
+            statsBox.style.display = "none";
+            box.innerHTML = `
+                <div class="box">
+                    <h3>सद्‌स्य पंजीकरण (Signup)</h3>
+                    <input type="text" id="firstName" placeholder="First Name (पहला नाम)">
+                    <input type="text" id="lastName" placeholder="Last Name (उपनाम / गोत्र)">
+                    <input type="email" id="email" placeholder="Email Address">
+                    <input type="tel" id="mobile" placeholder="Mobile Number (लॉगिन आईडी)">
+                    <label style="font-size: 13px; color: #666;">जन्म तिथि (DOB):</label>
+                    <input type="date" id="dob" onchange="calcAge()">
+                    <input type="text" id="age" placeholder="Age (आयु - ऑटो कैलकुलेट)" readonly style="background:#eee;">
+                    <select id="gender"><option value="">Gender चुनें</option><option value="Male">Male</option><option value="Female">Female</option></select>
+                    <button class="btn-submit" onclick="submitSignup()">पंजीकरण अनुरोध भेजें</button>
+                </div>`;
+        } else if(viewName === 'login') {
+            statsBox.style.display = "none";
+            box.innerHTML = `
+                <div class="box">
+                    <h3>सद्‌स्य लॉगिन (Login)</h3>
+                    <input type="tel" id="loginMobile" placeholder="रजिस्टर्ड मोबाइल नंबर दर्ज करें">
+                    <button class="btn-login" onclick="submitLogin()">लॉगिन करें</button>
+                </div>`;
+        }
+    }
+
+    function calcAge() {
+        let dob = document.getElementById('dob').value;
+        if(!dob) return;
+        let diff = Date.now() - new Date(dob).getTime();
+        document.getElementById('age').value = Math.abs(new Date(diff).getUTCFullYear() - 1970) + " वर्ष";
+    }
+
+    function submitSignup() {
+        let fName = document.getElementById('firstName').value.trim();
+        let lName = document.getElementById('lastName').value.trim();
+        let email = document.getElementById('email').value.trim();
+        let mobile = document.getElementById('mobile').value.trim();
+        let dob = document.getElementById('dob').value;
+        let age = document.getElementById('age').value;
+        let gender = document.getElementById('gender').value;
+
+        if(!fName || !mobile || !dob) { alert("कृपया सभी जरूरी विवरण भरें!"); return; }
+        if(pending.some(r => r.mobile === mobile) || users.some(u => u.mobile === mobile)) {
+            alert("यह मोबाइल नंबर पहले से रजिस्टर्ड या लंबित है!"); return;
+        }
+
+        pending.push({ fName, lName, email, mobile, dob, age, gender });
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        alert("पंजीकरण अनुरोध एडमिन के पास भेज दिया गया है!");
+        showView('home');
+    }
+
+    function submitLogin() {
+        let mob = document.getElementById('loginMobile').value.trim();
+        if(!mob) { alert("मोबाइल नंबर दर्ज करें!"); return; }
+
+        if(mob === adminMobile) {
+            currentUser = { mobile: mob, isAdmin: true };
+            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+            showView('admin');
+            return;
+        }
+
+        let found = users.find(u => u.mobile === mob);
+        if(found) {
+            currentUser = found;
+            localStorage.setItem('bhuihar_current_user', JSON.stringify(currentUser));
+            showView('dashboard');
+        } else {
+            alert("यह नंबर रजिस्टर्ड नहीं है या एडमिन द्वारा अभी स्वीकृत नहीं किया गया है!");
+        }
+    }
+
+    function renderUserDashboard() {
+        document.getElementById('mainDashboardStats').style.display = "none";
+        let famObj = families.find(f => f.mobile === currentUser.mobile) || { members: [] };
+        let famHtml = "";
+        famObj.members.forEach((m, i) => {
+            famHtml += `<div class="family-item"><b>${i+1}. ${m.name}</b> (${m.relation}) - लिंग: ${m.gender}, उम्र: ${m.age} वर्ष</div>`;
+        });
+
+        document.getElementById('dynamicView').innerHTML = `
+            <div class="box" style="background: #eaf2f8;">
+                <h3>👋 स्वागत है, ${currentUser.fName} ${currentUser.lName}</h3>
+                <p style="font-size:14px; color:#555; margin:5px 0;">मोबाइल: ${currentUser.mobile}</p>
+                <button onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; cursor:pointer; margin-top:5px;">लॉग आउट</button>
+            </div>
+            <div class="box">
+                <h3>परिवार के सदस्य जोड़ें (Family Details)</h3>
+                <input type="text" id="famName" placeholder="सदस्य का नाम (First & Last Name)">
+                <input type="text" id="famRelation" placeholder="रिश्ता (जैसे: पत्नी, पुत्र, पुत्री)">
+                <select id="famGender"><option value="">लिंग चुनें</option><option value="Male">Male (पुरुष)</option><option value="Female">Female (महिला)</option></select>
+                <label style="font-size: 13px; color: #666; margin-top:5px; display:block;">जन्म तिथि (DOB):</label>
+                <input type="date" id="famDob" onchange="calcFamAge()">
+                <input type="text" id="famAge" placeholder="आयु (ऑटो कैलकुलेट)" readonly style="background:#eee;">
+                <button class="btn-submit" onclick="addFamilyMember()">+ सदस्य जोड़ें</button>
+                <h4 style="margin-top:15px; font-size:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">आपके परिवार के सदस्य:</h4>
+                <div style="margin-top:10px;">${famHtml || '<p style="font-size:14px; color:#777;">कोई सदस्य नहीं जुड़ा।</p>'}</div>
+            </div>`;
+    }
+
+    function calcFamAge() {
+        let dob = document.getElementById('famDob').value;
+        if(!dob) return;
+        let diff = Date.now() - new Date(dob).getTime();
+        document.getElementById('age').value = Math.abs(new Date(diff).getUTCFullYear() - 1970) + " वर्ष";
+    }
+
+    function addFamilyMember() {
+        let name = document.getElementById('famName').value.trim();
+        let relation = document.getElementById('famRelation').value.trim();
+        let gender = document.getElementById('famGender').value;
+        let age = document.getElementById('famAge').value;
+
+        if(!name || !relation || !gender || !age) { alert("कृपया सभी विवरण भरें!"); return; }
+
+        let famObj = families.find(f => f.mobile === currentUser.mobile);
+        if(famObj) {
+            if(!famObj.members) famObj.members = [];
+            famObj.members.push({ name, relation, gender, age });
+            localStorage.setItem('bhuihar_families', JSON.stringify(families));
+            updateCounts();
+            renderUserDashboard();
+            alert("सदस्य जोड़ दिया गया है!");
+        }
+    }
+
+    function renderAdminPanel() {
+        document.getElementById('mainDashboardStats').style.display = "none";
+        let pendingHtml = "";
+        if(pending.length === 0) {
+            pendingHtml = `<p style="font-size:14px; color:#666;">कोई लंबित अनुरोध नहीं है।</p>`;
+        } else {
+            pending.forEach((req, idx) => {
+                pendingHtml += `
+                    <div class="family-item">
+                        <b>${req.fName} ${req.lName}</b> (${req.mobile}) - ${req.age}, ${req.gender}<br>
+                        <button class="btn-submit" style="padding:6px 10px; margin-top:5px; width:auto;" onclick="approveReq(${idx})">✓ स्वीकृत करें</button>
+                        <button class="btn-reject" style="padding:6px 10px; margin-top:5px; width:auto;" onclick="rejectReq(${idx})">✕ हटाएं</button>
+                    </div>`;
+            });
+        }
+
+        let padEditHtml = "";
+        padadhikariList.forEach((p, idx) => {
+            padEditHtml += `
+                <div style="margin-bottom:10px; background:#fff; padding:8px; border-radius:5px; border:1px solid #ddd;">
+                    <b>पद ${idx+1}:</b>
+                    <input type="text" id="p_name_${idx}" value="${p.name}" placeholder="नाम">
+                    <input type="text" id="p_post_${idx}" value="${p.post}" placeholder="पद">
+                    <input type="text" id="p_phone_${idx}" value="${p.phone}" placeholder="मोबाइल">
+                </div>`;
+        });
+
+        let tableRowsHtml = "";
+        if(families.length === 0) {
+            tableRowsHtml = `<tr><td colspan="6" style="text-align:center;">कोई परिवार रजिस्टर्ड नहीं है।</td></tr>`;
+        } else {
+            families.forEach((f, i) => {
+                let mainIndex = i + 1;
+                tableRowsHtml += `
+                    <tr>
+                        <td style="text-align:center; font-weight:bold;">${mainIndex}</td>
+                        <td style="font-weight:bold;">${f.fName} ${f.lName} (मुखिया)</td>
+                        <td>${f.mobile}</td>
+                        <td>${f.gender}</td>
+                        <td>${f.age}</td>
+                        <td><b>रजि. मुखिया</b></td>
+                    </tr>`;
+
+                if(f.members && f.members.length > 0) {
+                    f.members.forEach((m, mi) => {
+                        let subIndex = `${mainIndex}.${mi + 1}`;
+                        tableRowsHtml += `
+                            <tr>
+                                <td style="text-align:center; color:#555;">${subIndex}</td>
+                                <td style="padding-left:15px;">↳ ${m.name}</td>
+                                <td style="color:#777;">-</td>
+                                <td>${m.gender}</td>
+                                <td>${m.age}</td>
+                                <td>रिश्ता: ${m.relation}</td>
+                            </tr>`;
+                    });
+                }
+            });
+        }
+
+        document.getElementById('dynamicView').innerHTML = `
+            <div id="printableArea">
+                <div class="print-header">
+                    <img id="printLogoImg" src="1000337852.png" alt="Logo" onerror="this.src='https://via.placeholder.com/60?text=Logo'">
+                    <h2>भुईहर जाति समाज - पंजीकृत परिवार सूची</h2>
+                    <p style="font-size: 11px; color: #555;">(एकता • सेवा • सम्मान)</p>
+                </div>
+
+                <div class="box" style="background: #fadbd8;">
+                    <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
+                    <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
+                </div>
+
+                <div class="box no-print" style="background:#fff3cd;">
+                    <h3>💬 समाज संदेश / नोटिस बदलें (Admin Notice Box)</h3>
+                    <textarea id="adminMsgInput" rows="3" placeholder="यहाँ संदेश लिखें...">${adminMessage}</textarea>
+                    <button class="btn-submit" onclick="saveAdminMessage()" style="margin-top:5px;">संदेश पब्लिश करें</button>
+                </div>
+
+                <div class="box no-print" style="background:#eafaf1;">
+                    <h3>🖼️ बैनर स्लाइडर इमेज URL बदलें (Fast Loading)</h3>
+                    <input type="text" id="sliderImg1" value="${sliderImages[0] || ''}" placeholder="Image URL 1">
+                    <input type="text" id="sliderImg2" value="${sliderImages[1] || ''}" placeholder="Image URL 2">
+                    <input type="text" id="sliderImg3" value="${sliderImages[2] || ''}" placeholder="Image URL 3">
+                    <button class="btn-submit" onclick="saveSliderImagesUrl()" style="margin-top:5px;">बैनर लिंक सेव करें</button>
+                </div>
+
+                <div class="box no-print" style="background:#fef9e7;">
+                    <h3>🔑 एडमिन मोबाइल नंबर बदलें (Handover)</h3>
+                    <input type="text" id="newAdminMob" value="${adminMobile}" placeholder="नया एडमिन मोबाइल नंबर">
+                    <button class="btn-login" onclick="changeAdminMobile()" style="margin-top:5px;">एडमिन नंबर अपडेट करें</button>
+                </div>
+
+                <div class="box no-print">
+                    <h3>कार्यकारी समिति (6 Padadhikari Edit करें)</h3>
+                    ${padEditHtml}
+                    <button class="btn-submit" onclick="savePadadhikari()">💾 पदाधिकारी सेव करें</button>
+                </div>
+
+                <div class="box no-print">
+                    <h3>लंबित पंजीकरण अनुरोध (Pending Approvals)</h3>
+                    ${pendingHtml}
+                </div>
+
+                <div class="box" style="overflow-x:auto;">
+                    <h3>समाज के सभी परिवारों की सारणी (Table)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">क्र.</th>
+                                <th style="width: 32%;">नाम (मुखिया / सदस्य)</th>
+                                <th style="width: 18%;">मोबाइल नंबर</th>
+                                <th style="width: 12%;">लिंग</th>
+                                <th style="width: 12%;">आयु</th>
+                                <th style="width: 18%;">विवरण / रिश्ता</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRowsHtml}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="print-footer">
+                    मुखिया के हस्ताक्षर
+                </div>
+            </div>
+            <button class="no-print btn-submit" style="margin-top:15px; background:#333;" onclick="window.print()">🖨️ सारणी (Table) प्रिंट या PDF निकालें</button>`;
+        
+        let currentLogoSrc = document.getElementById('headerLogoImg').src;
+        let printLogoEl = document.getElementById('printLogoImg');
+        if(printLogoEl) printLogoEl.src = currentLogoSrc;
+    }
+
+    function saveSliderImagesUrl() {
+        let img1 = document.getElementById('sliderImg1').value.trim();
+        let img2 = document.getElementById('sliderImg2').value.trim();
+        let img3 = document.getElementById('sliderImg3').value.trim();
+
+        sliderImages = [img1, img2, img3].filter(url => url !== "");
+        if(sliderImages.length === 0) {
+            alert("कम से कम एक इमेज लिंक डालें!");
+            return;
+        }
+        localStorage.setItem('bhuihar_slider_images', JSON.stringify(sliderImages));
+        alert("बैनर लिंक्स अपडेट हो गए!");
+        location.reload();
+    }
+
+    function saveAdminMessage() {
+        let newMsg = document.getElementById('adminMsgInput').value.trim();
+        if(!newMsg) { alert("कृपया संदेश लिखें!"); return; }
+        localStorage.setItem('bhuihar_admin_msg', newMsg);
+        adminMessage = newMsg;
+        document.getElementById('displayAdminMessage').innerText = newMsg;
+        alert("संदेश पब्लिश कर दिया गया है!");
+    }
+
+    function changeAdminMobile() {
+        let newMob = document.getElementById('newAdminMob').value.trim();
+        if(newMob.length < 10) { alert("वैध मोबाइल नंबर दर्ज करें!"); return; }
+        localStorage.setItem('bhuihar_admin_mob', newMob);
+        adminMobile = newMob;
+        alert("एडमिन नंबर बदल दिया गया है!");
+    }
+
+    function savePadadhikari() {
+        for(let i=0; i<6; i++) {
+            padadhikariList[i].name = document.getElementById(`p_name_${i}`).value;
+            padadhikariList[i].post = document.getElementById(`p_post_${i}`).value;
+            padadhikariList[i].phone = document.getElementById(`p_phone_${i}`).value;
+        }
+        localStorage.setItem('bhuihar_padadhikari', JSON.stringify(padadhikariList));
+        alert("पदाधिकारी अपडेट हो गए!");
+        location.reload();
+    }
+
+    function approveReq(idx) {
+        let approved = pending.splice(idx, 1)[0];
+        approved.members = [];
+        users.push(approved);
+            families.push(approved);
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        localStorage.setItem('bhuihar_users', JSON.stringify(users));
+        localStorage.setItem('bhuihar_families', JSON.stringify(families));
+        updateCounts();
+        renderAdminPanel();
+        alert("सदस्य स्वीकृत कर लिया गया!");
+    }
+
+    function rejectReq(idx) {
+        pending.splice(idx, 1);
+        localStorage.setItem('bhuihar_pending', JSON.stringify(pending));
+        renderAdminPanel();
+    }
+
+    function logout() {
+        localStorage.removeItem('bhuihar_current_user');
+        currentUser = null;
+        window.location.href = "index.html";
+    }
+
+    if(currentUser) {
+        showView(currentUser.isAdmin ? 'admin' : 'dashboard');
+    } else {
+        showView('home');
     }
 </script>
 </body>

@@ -27,7 +27,7 @@
             min-height: 100vh;
             margin: 0; 
             background: white; 
-            padding: 12px 12px 90px 12px; 
+            padding: 12px 12px 130px 12px;
         }
 
         @media (min-width: 768px) {
@@ -40,11 +40,10 @@
                 border: 2px solid var(--accent-color);
                 margin-top: 20px;
                 margin-bottom: 20px;
-                padding-bottom: 30px;
+                padding-bottom: 50px;
             }
         }
         
-        /* Top Center Logo Header */
         header { 
             text-align: center; 
             padding: 10px 0; 
@@ -71,7 +70,6 @@
         }
         header h1 { font-size: 20px; color: var(--primary-color); font-weight: bold; }
 
-        /* Slider Banner Styling */
         .slider-banner {
             width: 100%;
             height: 160px;
@@ -87,12 +85,10 @@
             object-fit: cover;
         }
 
-        /* Stats Cards */
         .stats-box { display: flex; gap: 10px; margin-bottom: 15px; width: 100%; }
         .stat-card { flex: 1; background: linear-gradient(135deg, #8B0000, #a93226); color: white; padding: 12px; border-radius: 8px; text-align: center; font-size: 13px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .stat-card span { display: block; font-size: 18px; font-weight: bold; margin-top: 4px; color: #f1c40f; }
 
-        /* Admin Notice Board Box */
         .notice-board {
             background: #fff3cd;
             border: 1px solid #ffeeba;
@@ -119,7 +115,6 @@
 
         .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; border-left: 4px solid var(--primary-color); padding-left: 6px; color: var(--primary-color); }
         
-        /* Padadhikari Grid */
         .grid-6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
         .card { background: #fff; border: 1px solid #e0d0c0; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(139,0,0,0.15); border-color: var(--accent-color); }
@@ -139,7 +134,21 @@
         
         .family-item { background: #fdfbf7; border: 1px solid #e0d0c0; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 14px; }
 
-        /* Bottom Fixed Navigation Bar */
+        .ad-banner-box {
+            width: 100%;
+            background: #f1f2f6;
+            border: 2px dashed #bdc3c7;
+            text-align: center;
+            padding: 8px;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        .ad-banner-box p {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-bottom: 3px;
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -169,7 +178,6 @@
             transform: scale(1.05);
         }
 
-        /* Print Settings & Table Styling */
         .print-header, .print-footer { display: none; }
 
         @media print {
@@ -270,6 +278,13 @@
     </div>
 
     <div id="dynamicView"></div>
+
+    <div class="no-print ad-banner-box">
+        <p>--- Advertisement / विज्ञापन ---</p>
+        <div style="background:#e2e8f0; padding:15px; color:#64748b; font-size:13px; font-weight:bold; border-radius:4px;">
+            [ Ad Banner Space: 320x50 / AdMob ]
+        </div>
+    </div>
 </div>
 
 <div class="bottom-nav no-print">
@@ -293,16 +308,26 @@
         document.getElementById('headerLogoImg').src = savedLogo;
     }
 
-    const sliderImages = [
+    // Slider Images Setup
+    let defaultSliderImages = [
         "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
         "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
         "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80"
     ];
+    let sliderImages = JSON.parse(localStorage.getItem('bhuihar_slider_images')) || defaultSliderImages;
+
     let currentSlide = 0;
+    let imgEl = document.getElementById('sliderImg');
+    if(imgEl && sliderImages.length > 0) {
+        imgEl.src = sliderImages[0];
+    }
+    
     setInterval(() => {
-        currentSlide = (currentSlide + 1) % sliderImages.length;
-        let imgEl = document.getElementById('sliderImg');
-        if(imgEl) imgEl.src = sliderImages[currentSlide];
+        if(sliderImages.length > 0) {
+            currentSlide = (currentSlide + 1) % sliderImages.length;
+            let currentImgEl = document.getElementById('sliderImg');
+            if(currentImgEl) currentImgEl.src = sliderImages[currentSlide];
+        }
     }, 3500);
 
     let defaultPadadhikari = [
@@ -516,14 +541,12 @@
                 </div>`;
         });
 
-        // Professional Table Format for Print and Admin List
         let tableRowsHtml = "";
         if(families.length === 0) {
             tableRowsHtml = `<tr><td colspan="6" style="text-align:center;">कोई परिवार रजिस्टर्ड नहीं है।</td></tr>`;
         } else {
             families.forEach((f, i) => {
                 let mainIndex = i + 1;
-                // 1. Mukhiya Row
                 tableRowsHtml += `
                     <tr>
                         <td style="text-align:center; font-weight:bold;">${mainIndex}</td>
@@ -534,7 +557,6 @@
                         <td><b>रजि. मुखिया</b></td>
                     </tr>`;
 
-                // 2. Family Members Sub-Rows
                 if(f.members && f.members.length > 0) {
                     f.members.forEach((m, mi) => {
                         let subIndex = `${mainIndex}.${mi + 1}`;
@@ -560,7 +582,7 @@
                     <p style="font-size: 11px; color: #555;">(एकता • सेवा • सम्मान)</p>
                 </div>
 
-                <div class="box no-print" style="background: #fadbd8;">
+                <div class="box" style="background: #fadbd8;">
                     <h3>🛡️ एडमिन नियंत्रण कक्ष (Admin Panel)</h3>
                     <button class="no-print" onclick="logout()" style="background:#c0392b; color:white; border:none; padding:8px 12px; border-radius:4px; font-size:13px; margin-top:8px; cursor:pointer;">लॉग आउट</button>
                 </div>
@@ -569,6 +591,14 @@
                     <h3>💬 समाज संदेश / नोटिस बदलें (Admin Notice Box)</h3>
                     <textarea id="adminMsgInput" rows="3" placeholder="यहाँ संदेश लिखें...">${adminMessage}</textarea>
                     <button class="btn-submit" onclick="saveAdminMessage()" style="margin-top:5px;">संदेश पब्लिश करें</button>
+                </div>
+
+                <div class="box no-print" style="background:#eafaf1;">
+                    <h3>🖼️ बैनर स्लाइडर इमेज बदलें (Slider Images)</h3>
+                    <input type="text" id="sliderImg1" value="${sliderImages[0] || ''}" placeholder="Banner Image URL 1">
+                    <input type="text" id="sliderImg2" value="${sliderImages[1] || ''}" placeholder="Banner Image URL 2">
+                    <input type="text" id="sliderImg3" value="${sliderImages[2] || ''}" placeholder="Banner Image URL 3">
+                    <button class="btn-submit" onclick="saveSliderImages()" style="margin-top:5px;">बैनर इमेज सेव करें</button>
                 </div>
 
                 <div class="box no-print" style="background:#e8f8f5;">
@@ -622,6 +652,21 @@
         let currentLogoSrc = document.getElementById('headerLogoImg').src;
         let printLogoEl = document.getElementById('printLogoImg');
         if(printLogoEl) printLogoEl.src = currentLogoSrc;
+    }
+
+    function saveSliderImages() {
+        let img1 = document.getElementById('sliderImg1').value.trim();
+        let img2 = document.getElementById('sliderImg2').value.trim();
+        let img3 = document.getElementById('sliderImg3').value.trim();
+        
+        sliderImages = [img1, img2, img3].filter(url => url !== "");
+        if(sliderImages.length === 0) {
+            alert("कम से कम एक इमेज का URL अवश्य डालें!");
+            return;
+        }
+        localStorage.setItem('bhuihar_slider_images', JSON.stringify(sliderImages));
+        alert("बैनर स्लाइडर इमेज सफलताપूर्वक सेव हो गईं!");
+        location.reload();
     }
 
     function saveAdminMessage() {

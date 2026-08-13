@@ -308,7 +308,6 @@
         document.getElementById('headerLogoImg').src = savedLogo;
     }
 
-    // Slider Images Setup
     let defaultSliderImages = [
         "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=600&q=80",
         "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
@@ -594,11 +593,10 @@
                 </div>
 
                 <div class="box no-print" style="background:#eafaf1;">
-                    <h3>🖼️ बैनर स्लाइडर इमेज बदलें (Slider Images)</h3>
-                    <input type="text" id="sliderImg1" value="${sliderImages[0] || ''}" placeholder="Banner Image URL 1">
-                    <input type="text" id="sliderImg2" value="${sliderImages[1] || ''}" placeholder="Banner Image URL 2">
-                    <input type="text" id="sliderImg3" value="${sliderImages[2] || ''}" placeholder="Banner Image URL 3">
-                    <button class="btn-submit" onclick="saveSliderImages()" style="margin-top:5px;">बैनर इमेज सेव करें</button>
+                    <h3>🖼️ बैनर स्लाइडर फोटो अपलोड करें (Gallery Photos)</h3>
+                    <label style="font-size: 13px; color: #555; display:block; margin-top:5px;">बैनर फोटो चुनें (आप एक या अधिक चुन सकते हैं):</label>
+                    <input type="file" id="sliderFiles" accept="image/*" multiple style="margin-top:5px;">
+                    <button class="btn-submit" onclick="uploadSliderImages()" style="margin-top:5px;">बैनर फोटो सेव करें</button>
                 </div>
 
                 <div class="box no-print" style="background:#e8f8f5;">
@@ -654,19 +652,30 @@
         if(printLogoEl) printLogoEl.src = currentLogoSrc;
     }
 
-    function saveSliderImages() {
-        let img1 = document.getElementById('sliderImg1').value.trim();
-        let img2 = document.getElementById('sliderImg2').value.trim();
-        let img3 = document.getElementById('sliderImg3').value.trim();
-        
-        sliderImages = [img1, img2, img3].filter(url => url !== "");
-        if(sliderImages.length === 0) {
-            alert("कम से कम एक इमेज का URL अवश्य डालें!");
-            return;
+    function uploadSliderImages() {
+        let fileInput = document.getElementById('sliderFiles');
+        if(fileInput.files && fileInput.files.length > 0) {
+            let newImages = [];
+            let filesCount = fileInput.files.length;
+            let processed = 0;
+
+            for(let i = 0; i < filesCount; i++) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    newImages.push(e.target.result);
+                    processed++;
+                    if(processed === filesCount) {
+                        sliderImages = newImages;
+                        localStorage.setItem('bhuihar_slider_images', JSON.stringify(sliderImages));
+                        alert("बैनर फोटो सफलतापूर्वक अपलोड और सेव हो गई!");
+                        location.reload();
+                    }
+                };
+                reader.readAsDataURL(fileInput.files[i]);
+            }
+        } else {
+            alert("कृपया कम से कम एक फोटो चुनें!");
         }
-        localStorage.setItem('bhuihar_slider_images', JSON.stringify(sliderImages));
-        alert("बैनर स्लाइडर इमेज सफलताપूर्वक सेव हो गईं!");
-        location.reload();
     }
 
     function saveAdminMessage() {

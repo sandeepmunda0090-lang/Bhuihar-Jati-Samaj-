@@ -3,228 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#7a1020">
+<meta name="theme-color" content="#751226">
 <title>भुईहर जाति समाज</title>
 <style>
-:root{
-  --maroon:#7a1020;
-  --maroon-dark:#4d0712;
-  --gold:#d7a62a;
-  --cream:#fffaf0;
-  --bg:#f7f4ef;
-  --text:#241b1d;
-  --muted:#746b6d;
-  --white:#fff;
-  --green:#237a4b;
-  --shadow:0 12px 35px rgba(62,25,30,.10);
-  --radius:22px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:system-ui,-apple-system,"Noto Sans Devanagari","Nirmala UI",sans-serif;
-  background:var(--bg);color:var(--text);min-height:100vh;
-}
-button,input,select{font:inherit}
-button{cursor:pointer;border:0}
-.app{max-width:480px;margin:auto;min-height:100vh;background:#fbfaf8;box-shadow:0 0 45px rgba(0,0,0,.08)}
-.topbar{
-  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);
-  backdrop-filter:blur(14px);padding:13px 16px;border-bottom:1px solid #eee6e2;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{
-  width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
-  background:radial-gradient(circle at 50% 38%,#f7d56a 0 22%,transparent 23%),
-             linear-gradient(145deg,#8e1628,#510914);
-  border:3px solid var(--gold);color:#fff;font-weight:900;font-size:17px;
-  box-shadow:0 5px 15px rgba(122,16,32,.25)
-}
-.brand h1{font-size:18px;color:var(--maroon);line-height:1.1}
-.brand small{color:var(--muted);font-size:11px}
-.icon-btn{width:42px;height:42px;border-radius:14px;background:#fff3f4;color:var(--maroon);font-size:20px}
-.hero{padding:18px 16px 8px}
-.hero-card{
-  position:relative;overflow:hidden;min-height:205px;border-radius:28px;
-  padding:25px 22px;color:#fff;background:
-  radial-gradient(circle at 90% 15%,rgba(244,197,71,.4),transparent 30%),
-  linear-gradient(135deg,#4d0712,#8e1628 58%,#b26b13);
-  box-shadow:var(--shadow);
-}
-.hero-card:after{
-  content:"";position:absolute;width:170px;height:170px;border:1px solid rgba(255,255,255,.18);
-  border-radius:50%;right:-65px;bottom:-70px;
-}
-.badge{display:inline-flex;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:7px 11px;border-radius:99px;font-size:11px}
-.hero h2{font-size:28px;margin-top:18px;line-height:1.15}
-.hero p{margin-top:8px;font-size:13px;color:#f9e9e5;line-height:1.6;max-width:330px}
-.actions{display:flex;gap:9px;margin-top:17px}
-.btn{padding:11px 14px;border-radius:13px;font-weight:800;font-size:13px}
-.btn.primary{background:#fff;color:var(--maroon)}
-.btn.gold{background:var(--gold);color:#4b2600}
-.section{padding:13px 16px}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.section-head h3{font-size:18px}
-.section-head span{font-size:11px;color:var(--maroon);font-weight:700}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{background:#fff;border:1px solid #eee5df;border-radius:18px;padding:15px;box-shadow:0 5px 18px rgba(50,20,25,.04)}
-.stat .ico{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:#fff2e0;margin-bottom:9px}
-.stat b{font-size:22px;color:var(--maroon);display:block}
-.stat small{font-size:11px;color:var(--muted)}
-.notice{
-  background:#fff;border-radius:20px;border:1px solid #eee5df;overflow:hidden;box-shadow:var(--shadow)
-}
-.notice-img{height:120px;background:linear-gradient(135deg,#711022,#c28a20);display:grid;place-items:center;color:#fff;font-size:35px}
-.notice-body{padding:14px}
-.notice-body h4{font-size:16px;margin-bottom:6px}
-.notice-body p{font-size:12px;line-height:1.6;color:var(--muted)}
-.notice-meta{display:flex;justify-content:space-between;margin-top:10px;color:#927d80;font-size:10px}
-.officers{display:flex;gap:12px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none}
-.officers::-webkit-scrollbar{display:none}
-.officer{
-  min-width:180px;background:#fff;border:1px solid #eee5df;border-radius:20px;padding:15px;
-  box-shadow:0 6px 20px rgba(50,20,25,.05)
-}
-.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(145deg,#eee,#d8d0ca);display:grid;place-items:center;font-size:25px;margin-bottom:10px;border:3px solid #f0d27b}
-.officer h4{font-size:15px}.role{font-size:11px;color:var(--maroon);font-weight:800;margin-top:3px}
-.officer p{font-size:10px;color:var(--muted);margin:5px 0 10px}
-.contact{display:flex;gap:7px}
-.contact button{flex:1;padding:8px;border-radius:10px;font-size:11px;font-weight:800}
-.call{background:#e9f7ef;color:#187344}.wa{background:#e9f7ef;color:#128c4b}
-.event{
-  background:#fff;border:1px solid #eee5df;border-radius:19px;padding:14px;display:flex;gap:12px
-}
-.date{min-width:54px;height:60px;border-radius:14px;background:#fff2e0;color:var(--maroon);display:grid;place-items:center;text-align:center}
-.date b{font-size:20px}.date small{font-size:9px}
-.event h4{font-size:14px}.event p{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
-.bottom{
-  position:sticky;bottom:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(15px);
-  border-top:1px solid #eee6e2;padding:8px 7px 10px;display:grid;grid-template-columns:repeat(5,1fr)
-}
-.nav-item{background:none;color:#8a7b7e;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px}
-.nav-item b{font-size:19px;font-weight:500}.nav-item.active{color:var(--maroon);font-weight:800}
-.login-box{display:none;padding:24px 16px 30px}
-.card{background:#fff;border:1px solid #eee5df;border-radius:22px;padding:20px;box-shadow:var(--shadow)}
-.field{margin-bottom:13px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}
-.field input,.field select{width:100%;border:1px solid #ddd3d0;border-radius:13px;padding:12px;background:#fff;outline:none}
-.field input:focus,.field select:focus{border-color:var(--maroon);box-shadow:0 0 0 3px rgba(122,16,32,.08)}
-.full{width:100%;background:var(--maroon);color:#fff;padding:13px;border-radius:14px;font-weight:800}
-.link{background:none;color:var(--maroon);font-size:12px;margin-top:12px;width:100%}
-@media(min-width:700px){body{padding:25px}.app{border-radius:28px;overflow:hidden}}
+:root{--p:#751226;--pd:#4b0715;--g:#d6a62a;--cream:#fff9ef;--bg:#f5f2ee;--card:#fff;--text:#241b1d;--muted:#776d70;--line:#eadfda;--green:#16834d;--danger:#b32635;--blue:#245d9c;--shadow:0 12px 30px rgba(66,24,31,.09);--r:20px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Devanagari","Nirmala UI",sans-serif}.app{max-width:480px;margin:auto;min-height:100vh;background:#fbfaf8;box-shadow:0 0 45px #00000012}.top{position:sticky;top:0;z-index:50;background:#fffffff2;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:11px 14px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:9px;align-items:center}.logo{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:18px;border:3px solid var(--g);background:radial-gradient(circle,#f7d56d 0 20%,transparent 21%),linear-gradient(145deg,#8e172b,#4b0715);box-shadow:0 6px 15px #75122633}.brand h1{font-size:17px;line-height:1.05;color:var(--p);margin:0}.brand small{font-size:10px;color:var(--muted)}.top-actions{display:flex;gap:7px}.ico{width:40px;height:40px;border:0;border-radius:13px;background:#fff2f2;color:var(--p);font-size:19px}.view{display:none;padding-bottom:85px}.view.active{display:block}.hero{padding:15px}.hero-card{min-height:235px;border-radius:27px;padding:22px;position:relative;overflow:hidden;color:#fff;background:radial-gradient(circle at 90% 10%,#e4bd4b66,transparent 30%),linear-gradient(135deg,#4b0715,#8c172c 60%,#b7791b);box-shadow:var(--shadow)}.hero-card:before{content:"";position:absolute;width:190px;height:190px;border:1px solid #ffffff22;border-radius:50%;right:-70px;bottom:-80px}.pill{display:inline-block;padding:6px 10px;border:1px solid #ffffff40;background:#ffffff16;border-radius:50px;font-size:10px}.hero h2{font-size:28px;line-height:1.15;margin:18px 0 8px}.hero p{font-size:12px;line-height:1.65;color:#ffefe9;max-width:340px}.row{display:flex;gap:8px}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;font-size:12px}.btn.light{background:#fff;color:var(--p)}.btn.gold{background:var(--g);color:#412400}.btn.red{background:var(--p);color:#fff}.btn.outline{background:#fff;border:1px solid var(--line);color:var(--p)}.section{padding:9px 15px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.head h3{font-size:17px;margin:0}.head span{font-size:11px;color:var(--p);font-weight:800}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat,.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 18px #40131b08}.stat{padding:14px}.stat-icon{width:34px;height:34px;border-radius:11px;background:#fff2e1;display:grid;place-items:center;margin-bottom:7px}.stat b{font-size:21px;color:var(--p)}.stat small{display:block;color:var(--muted);font-size:10px}.banner{height:150px;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#641023,#b17b20);color:#fff;padding:18px}.banner h3{margin:5px 0;font-size:19px}.banner p{font-size:11px;max-width:260px;line-height:1.5}.dots{position:absolute;bottom:12px;left:18px;display:flex;gap:5px}.dot{width:7px;height:7px;border-radius:50%;background:#ffffff66}.dot.on{background:#fff}.notice,.event,.profile-card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:14px}.notice{display:flex;gap:12px}.notice-img{width:75px;height:75px;border-radius:15px;background:linear-gradient(135deg,#751226,#c08a21);display:grid;place-items:center;color:#fff;font-size:28px;flex:none}.notice h4,.event h4{margin:0;font-size:14px}.notice p,.event p{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0}.meta{font-size:9px;color:#9b898d}.scroll{display:flex;gap:10px;overflow:auto;scrollbar-width:none}.scroll::-webkit-scrollbar{display:none}.officer{min-width:180px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:19px}.avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#eee4de;border:3px solid #f0cf71;font-size:25px;margin-bottom:8px}.officer h4{margin:0;font-size:14px}.role{color:var(--p);font-size:11px;font-weight:900;margin-top:3px}.officer p{font-size:10px;color:var(--muted);margin:5px 0 10px}.contact{display:flex;gap:6px}.contact button{flex:1;border:0;border-radius:10px;padding:8px;font-size:10px;font-weight:800}.call{background:#e9f7ef;color:#167347}.wa{background:#e8f8ef;color:#128447}.event{display:flex;gap:11px}.date{width:55px;height:58px;background:#fff1df;color:var(--p);border-radius:14px;display:grid;place-items:center;text-align:center;flex:none}.date b{font-size:20px}.date small{font-size:9px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.quick button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:13px 5px;font-size:10px;font-weight:800;color:#51464a}.quick b{display:block;font-size:22px;margin-bottom:4px}.form-card{margin:15px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.form-title{text-align:center;margin-bottom:18px}.form-title h2{color:var(--p);margin:8px 0 4px;font-size:22px}.form-title p{color:var(--muted);font-size:11px}.field{margin-bottom:12px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #dcd0cc;border-radius:12px;outline:none;background:#fff;font-size:12px}.field textarea{min-height:80px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px #75122612}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.section-title{font-size:13px;color:var(--p);font-weight:900;margin:18px 0 10px;padding-bottom:7px;border-bottom:1px dashed #ddcfca}.status{display:inline-flex;padding:5px 9px;border-radius:50px;font-size:9px;font-weight:900}.pending{background:#fff3d8;color:#986500}.active-status{background:#e8f7ef;color:#187344}.danger-status{background:#ffe9ec;color:#a51f31}.dashboard-head{margin:15px;background:linear-gradient(135deg,#4b0715,#8c172c);color:#fff;border-radius:22px;padding:17px;display:flex;gap:12px;align-items:center}.dashboard-head .avatar{margin:0;background:#ffffff22;border-color:#e2bd51}.dashboard-head h2{font-size:17px;margin:0}.dashboard-head p{font-size:10px;color:#ffe7df;margin:4px 0}.idline{font-size:9px;background:#ffffff17;padding:5px 8px;border-radius:50px;display:inline-block}.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;padding:0 15px}.dash-action{padding:15px;border:1px solid var(--line);background:#fff;border-radius:17px;text-align:left}.dash-action b{font-size:22px;display:block}.dash-action strong{font-size:12px}.dash-action small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}.table{width:100%;border-collapse:collapse;min-width:650px;background:#fff;font-size:10px}.table th{background:#fff2e0;color:var(--p);text-align:left}.table th,.table td{padding:9px;border-bottom:1px solid #eee4df}.admin-top{margin:15px;background:linear-gradient(135deg,#3e0612,#7d1126);color:#fff;border-radius:22px;padding:18px}.admin-top h2{margin:0;font-size:20px}.admin-top p{font-size:10px;color:#f8dcd7}.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;padding:0 15px}.admin-card{padding:14px}.admin-card b{font-size:21px;color:var(--p)}.admin-card small{display:block;color:var(--muted);font-size:10px}.menu-list{padding:0 15px;display:grid;gap:8px}.menu-list button{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;text-align:left;font-weight:800;font-size:11px;color:#403538}.menu-list button span{font-size:18px;margin-right:8px}.toolbar{display:flex;gap:7px;overflow:auto;margin-bottom:10px}.toolbar button{white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:10px;font-weight:800}.approval{padding:13px;border:1px solid var(--line);border-radius:17px;background:#fff;margin-bottom:9px}.approval-top{display:flex;gap:10px;align-items:center}.approval .avatar{width:48px;height:48px;margin:0}.approval h4{font-size:13px;margin:0}.approval p{font-size:9px;color:var(--muted);margin:3px 0}.approval-actions{display:flex;gap:6px;margin-top:10px}.approval-actions button{flex:1;border:0;border-radius:10px;padding:8px;font-size:10px;font-weight:900}.approve{background:#e8f7ef;color:#147443}.reject{background:#ffe9ec;color:#a62032}.print-preview{background:#fff;border:1px solid #ddd;border-radius:5px;padding:22px;box-shadow:var(--shadow);color:#111}.print-preview h2{text-align:center;font-size:18px;margin:0}.print-preview h3{text-align:center;font-size:12px;margin:5px 0 15px}.print-table{width:100%;border-collapse:collapse;font-size:8px}.print-table th,.print-table td{border:1px solid #999;padding:5px}.print-table th{background:#f0f0f0}.sign{text-align:right;margin-top:35px;font-size:10px}.id-card{width:100%;aspect-ratio:1.586;background:linear-gradient(135deg,#fffaf0,#f8e9d5);border:2px solid var(--g);border-radius:15px;padding:12px;position:relative;overflow:hidden}.id-card:after{content:"भ";position:absolute;right:-15px;bottom:-40px;font-size:150px;color:#75122610;font-weight:900}.id-head{text-align:center;color:var(--p);font-weight:900;font-size:13px}.id-body{display:flex;gap:10px;margin-top:10px}.id-photo{width:70px;height:82px;background:#ddd;border-radius:7px;display:grid;place-items:center;font-size:28px}.id-info{font-size:8px;line-height:1.8}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);z-index:100;background:#fffffff5;backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:7px 5px 9px;display:grid;grid-template-columns:repeat(5,1fr)}.nav{border:0;background:none;color:#8a7b7f;font-size:9px;display:flex;flex-direction:column;align-items:center;gap:3px}.nav b{font-size:18px;font-weight:500}.nav.active{color:var(--p);font-weight:900}.modal{position:fixed;inset:0;background:#0008;z-index:200;display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(480px,100%);background:#fff;border-radius:25px 25px 0 0;padding:20px;max-height:90vh;overflow:auto}.sheet-head{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#f4eded;border-radius:10px;width:36px;height:36px}.toast{position:fixed;top:75px;left:50%;transform:translate(-50%,-20px);background:#241b1d;color:#fff;padding:10px 15px;border-radius:12px;font-size:11px;opacity:0;pointer-events:none;transition:.25s;z-index:300}.toast.show{opacity:1;transform:translate(-50%,0)}@media(min-width:800px){body{padding:24px}.app{border-radius:28px;overflow:hidden}.bottom{position:sticky;transform:none;left:auto;width:100%;border-radius:0}.view{padding-bottom:20px}}
+@media print{body{background:#fff}.app{max-width:none;box-shadow:none}.top,.bottom,.no-print{display:none!important}.view{display:block!important}.print-preview{box-shadow:none;border:0}.print-preview h2{font-size:20px}.print-table{font-size:9px}}
 </style>
 </head>
 <body>
 <div class="app">
-
-<header class="topbar">
-  <div class="brand">
-    <div class="logo">भ</div>
-    <div><h1>भुईहर जाति समाज</h1><small>एकता • सम्मान • सेवा</small></div>
-  </div>
-  <button class="icon-btn" aria-label="सूचनाएं">🔔</button>
+<header class="top">
+  <div class="brand"><div class="logo">भ</div><div><h1>भुईहर जाति समाज</h1><small>एकता • सम्मान • सेवा</small></div></div>
+  <div class="top-actions"><button class="ico" onclick="toast('नई सूचनाएँ यहाँ दिखाई देंगी')">🔔</button><button class="ico" onclick="openView('profile')">👤</button></div>
 </header>
 
-<main id="home">
-<section class="hero">
-  <div class="hero-card">
-    <span class="badge">समाज का डिजिटल मंच</span>
-    <h2>आपका स्वागत है<br>भुईहर जाति समाज में</h2>
-    <p>सदस्य पंजीकरण, परिवार विवरण, समाज की सूचनाएँ, कार्यक्रम और पदाधिकारियों से सीधे संपर्क — सब एक जगह।</p>
-    <div class="actions">
-      <button class="btn primary" onclick="showLogin()">लॉगिन करें</button>
-      <button class="btn gold" onclick="showLogin()">सदस्य बनें</button>
-    </div>
-  </div>
+<!-- HOME -->
+<section id="home" class="view active">
+  <div class="hero"><div class="hero-card">
+    <span class="pill">समाज का डिजिटल मंच</span>
+    <h2>भुईहर जाति समाज</h2>
+    <p>सदस्य, परिवार, पदाधिकारी, समाज की सूचना और कार्यक्रम — सब एक ही जगह।</p>
+    <div class="row"><button class="btn light" onclick="openView('register')">सदस्य पंजीकरण</button><button class="btn gold" onclick="openView('login')">लॉगिन करें</button></div>
+  </div></div>
+  <section class="section"><div class="head"><h3>समाज की झलक</h3><span>सांकेतिक डेमो</span></div><div class="stats">
+    <div class="stat"><div class="stat-icon">👥</div><b>1,248</b><small>कुल सदस्य</small></div>
+    <div class="stat"><div class="stat-icon">👨‍👩‍👧</div><b>486</b><small>कुल परिवार</small></div>
+    <div class="stat"><div class="stat-icon">📍</div><b>12</b><small>जिले</small></div>
+    <div class="stat"><div class="stat-icon">🏘️</div><b>84</b><small>पंचायत</small></div>
+  </div></section>
+  <section class="section"><div class="head"><h3>मुख्य बैनर</h3><span>Admin बदलेगा</span></div><div class="banner"><span class="pill">समाज सूचना</span><h3>सभी सदस्यों का स्वागत है</h3><p>सही जानकारी के साथ पंजीकरण करें और अपने परिवार के सदस्यों को जोड़ें।</p><div class="dots"><i class="dot on"></i><i class="dot"></i><i class="dot"></i></div></div></section>
+  <section class="section"><div class="head"><h3>नवीनतम सूचना</h3><span>सभी देखें →</span></div><div class="notice"><div class="notice-img">📢</div><div><h4>सदस्य पंजीकरण एवं परिवार विवरण</h4><p>सभी सदस्यों से अनुरोध है कि अपना विवरण सही तरीके से दर्ज करें।</p><span class="meta">आज • भुईहर जाति समाज</span></div></div></section>
+  <section class="section"><div class="head"><h3>समाज पदाधिकारी</h3><span>सभी देखें →</span></div><div class="scroll">
+    <div class="officer"><div class="avatar">👤</div><h4>राम कुमार</h4><div class="role">अध्यक्ष</div><p>महाराजगंज • संपर्क हेतु उपलब्ध</p><div class="contact"><button class="call" onclick="call('6266240812')">📞 कॉल</button><button class="wa" onclick="whatsapp('6266240812')">💬 WhatsApp</button></div></div>
+    <div class="officer"><div class="avatar">👤</div><h4>सुरेश कुमार</h4><div class="role">उपाध्यक्ष</div><p>महाराजगंज • संपर्क हेतु उपलब्ध</p><div class="contact"><button class="call" onclick="call('9876543210')">📞 कॉल</button><button class="wa" onclick="whatsapp('9876543210')">💬 WhatsApp</button></div></div>
+    <div class="officer"><div class="avatar">👤</div><h4>अजय कुमार</h4><div class="role">सचिव</div><p>महाराजगंज • संपर्क हेतु उपलब्ध</p><div class="contact"><button class="call" onclick="call('9123456780')">📞 कॉल</button><button class="wa" onclick="whatsapp('9123456780')">💬 WhatsApp</button></div></div>
+  </div></section>
+  <section class="section"><div class="head"><h3>आगामी कार्यक्रम</h3><span>सभी देखें →</span></div><div class="event"><div class="date"><b>15</b><small>अगस्त</small></div><div><h4>समाज सदस्य बैठक</h4><p>📍 सामुदायिक भवन<br>⏰ सुबह 10:00 बजे</p></div></div></section>
+  <section class="section"><div class="head"><h3>त्वरित सेवाएँ</h3></div><div class="quick">
+    <button onclick="openView('search')"><b>🔎</b>सदस्य खोजें</button><button onclick="openView('family')"><b>👨‍👩‍👧</b>मेरा परिवार</button><button onclick="openView('idcard')"><b>🪪</b>पहचान पत्र</button><button onclick="openView('print')"><b>🖨️</b>परिवार PDF</button><button onclick="openView('events')"><b>📅</b>कार्यक्रम</button><button onclick="openView('blood')"><b>🩸</b>रक्त समूह</button>
+  </div></section>
 </section>
 
-<section class="section">
- <div class="section-head"><h3>समाज की झलक</h3><span>लाइव आंकड़े</span></div>
- <div class="stats">
-  <div class="stat"><div class="ico">👥</div><b>1,248</b><small>कुल सदस्य</small></div>
-  <div class="stat"><div class="ico">👨‍👩‍👧</div><b>486</b><small>कुल परिवार</small></div>
-  <div class="stat"><div class="ico">📍</div><b>12</b><small>जिले</small></div>
-  <div class="stat"><div class="ico">🏘️</div><b>84</b><small>पंचायत</small></div>
- </div>
+<!-- LOGIN -->
+<section id="login" class="view"><div class="form-card"><div class="form-title"><div class="logo" style="margin:auto">भ</div><h2>सदस्य लॉगिन</h2><p>भुईहर जाति समाज</p></div><div class="field"><label>मोबाइल नंबर</label><input id="loginMobile" type="tel" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div><button class="btn red" style="width:100%" onclick="demoLogin()">लॉगिन करें</button><button class="btn outline" style="width:100%;margin-top:8px" onclick="openView('register')">नए सदस्य हैं? पंजीकरण करें</button></div></section>
+
+<!-- REGISTER -->
+<section id="register" class="view"><div class="form-card"><div class="form-title"><div class="logo" style="margin:auto">भ</div><h2>सदस्य पंजीकरण</h2><p>सही जानकारी भरें • यह अभी UI डेमो है</p></div>
+  <div class="section-title">1. व्यक्तिगत जानकारी</div>
+  <div class="field"><label>पूरा नाम *</label><input placeholder="अपना पूरा नाम"></div>
+  <div class="grid2"><div class="field"><label>पिता/पति का नाम</label><input placeholder="नाम"></div><div class="field"><label>माता का नाम</label><input placeholder="नाम"></div></div>
+  <div class="grid2"><div class="field"><label>मोबाइल नंबर *</label><input type="tel" maxlength="10" placeholder="10 अंक"></div><div class="field"><label>जन्म तिथि *</label><input type="date" onchange="ageDemo(this)"></div></div>
+  <div class="grid2"><div class="field"><label>वर्तमान आयु</label><input id="age" readonly placeholder="DOB से स्वतः"></div><div class="field"><label>लिंग</label><select><option>चुनें</option><option>पुरुष</option><option>महिला</option><option>अन्य</option></select></div></div>
+  <div class="field"><label>फोटो</label><input type="file" accept="image/*"></div>
+  <div class="section-title">2. समाज जानकारी</div>
+  <div class="grid2"><div class="field"><label>जाति *</label><select><option>भुईहर</option></select></div><div class="field"><label>नौकरी/व्यवसाय *</label><select><option>चुनें</option><option>सरकारी नौकरी</option><option>प्राइवेट नौकरी</option><option>मजदूरी</option><option>कृषि</option><option>व्यापार</option><option>विद्यार्थी</option><option>अन्य</option></select></div></div>
+  <div class="section-title">3. स्थान की जानकारी</div>
+  <div class="field"><label>जिला *</label><select><option>जिला चुनें</option><option>महाराजगंज</option><option>रायपुर</option><option>दुर्ग</option><option>बिलासपुर</option></select></div>
+  <div class="grid2"><div class="field"><label>पंचायत *</label><select><option>पंचायत चुनें</option><option>पंचायत 01</option><option>पंचायत 02</option></select></div><div class="field"><label>गाँव *</label><select><option>गाँव चुनें</option><option>गाँव 01</option><option>गाँव 02</option></select></div></div>
+  <div class="section-title">4. पता और परिवार</div>
+  <div class="field"><label>पूरा पता</label><textarea placeholder="घर नंबर, मोहल्ला आदि"></textarea></div>
+  <div class="grid2"><div class="field"><label>परिवार के सदस्यों की संख्या</label><input type="number" min="1" placeholder="जैसे 5"></div><div class="field"><label>रक्त समूह</label><select><option>चुनें</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select></div></div>
+  <button class="btn red" style="width:100%" onclick="registrationDemo()">पंजीकरण करें</button>
+  <p style="font-size:9px;color:var(--muted);text-align:center;margin-top:10px">नोट: नए सदस्य का आवेदन पहले Admin Approval के लिए जाएगा।</p>
+</div></section>
+
+<!-- USER DASHBOARD -->
+<section id="dashboard" class="view"><div class="dashboard-head"><div class="avatar">👤</div><div><h2>राम कुमार</h2><p>सदस्य • सक्रिय</p><span class="idline">Member ID: BJS-000125</span></div></div>
+<div class="dash-grid"><button class="dash-action" onclick="openView('profile')"><b>👤</b><strong>मेरी प्रोफाइल</strong><small>व्यक्तिगत विवरण</small></button><button class="dash-action" onclick="openView('family')"><b>👨‍👩‍👧</b><strong>मेरा परिवार</strong><small>BJS-FAM-000125</small></button><button class="dash-action" onclick="openView('idcard')"><b>🪪</b><strong>पहचान पत्र</strong><small>प्रिंट / PDF</small></button><button class="dash-action" onclick="openView('print')"><b>📄</b><strong>परिवार PDF</strong><small>कॉलम में विवरण</small></button></div>
+<section class="section"><div class="head"><h3>मेरी जानकारी</h3><span class="status active-status">Active</span></div><div class="profile-card"><div class="grid2"><div><small>नाम</small><b>राम कुमार</b></div><div><small>मोबाइल</small><b>98XXXXXX10</b></div><div><small>जन्म तिथि</small><b>12-05-1990</b></div><div><small>आयु</small><b>36 वर्ष</b></div><div><small>जिला</small><b>महाराजगंज</b></div><div><small>पंचायत</small><b>पंचायत 01</b></div></div></div></section>
 </section>
 
-<section class="section">
- <div class="section-head"><h3>समाज की सूचना</h3><span>सभी देखें →</span></div>
- <div class="notice">
-   <div class="notice-img">📢</div>
-   <div class="notice-body">
-    <h4>सदस्य पंजीकरण एवं परिवार विवरण</h4>
-    <p>सभी सदस्यों से अनुरोध है कि अपना विवरण सही तरीके से दर्ज करें और परिवार के सदस्यों को भी जोड़ें।</p>
-    <div class="notice-meta"><span>भुईहर जाति समाज</span><span>आज</span></div>
-   </div>
- </div>
-</section>
+<!-- FAMILY -->
+<section id="family" class="view"><div class="form-card"><div class="head"><h3>मेरा परिवार</h3><span>BJS-FAM-000125</span></div><p style="font-size:10px;color:var(--muted);margin-bottom:12px">परिवार के सभी सदस्य यहाँ व्यवस्थित रूप से दिखाई देंगे।</p><button class="btn red" onclick="openModal()">＋ सदस्य जोड़ें</button></div><section class="section"><div class="table-wrap"><table class="table"><thead><tr><th>क्रम</th><th>सदस्य ID</th><th>नाम</th><th>संबंध</th><th>DOB</th><th>आयु</th><th>मोबाइल</th><th>व्यवसाय</th></tr></thead><tbody><tr><td>01</td><td>BJS-FAM-000125-01</td><td>सीमा देवी</td><td>पत्नी</td><td>15-08-1993</td><td>33</td><td>98XXXX</td><td>गृहिणी</td></tr><tr><td>02</td><td>BJS-FAM-000125-02</td><td>अमित कुमार</td><td>पुत्र</td><td>02-04-2014</td><td>12</td><td>—</td><td>विद्यार्थी</td></tr><tr><td>03</td><td>BJS-FAM-000125-03</td><td>नेहा कुमारी</td><td>पुत्री</td><td>10-09-2018</td><td>7</td><td>—</td><td>विद्यार्थी</td></tr></tbody></table></div><div class="row" style="margin-top:10px"><button class="btn red" onclick="openView('print')">📄 परिवार PDF</button><button class="btn outline" onclick="window.print()">🖨️ प्रिंट</button></div></section></section>
 
-<section class="section">
- <div class="section-head"><h3>समाज पदाधिकारी</h3><span>सभी देखें →</span></div>
- <div class="officers">
-  <article class="officer">
-   <div class="avatar">👤</div><h4>राम कुमार</h4><div class="role">अध्यक्ष</div>
-   <p>महाराजगंज • संपर्क हेतु उपलब्ध</p>
-   <div class="contact"><button class="call" onclick="alert('Call action')">📞 कॉल</button><button class="wa" onclick="alert('WhatsApp action')">💬 WhatsApp</button></div>
-  </article>
-  <article class="officer">
-   <div class="avatar">👤</div><h4>सुरेश कुमार</h4><div class="role">उपाध्यक्ष</div>
-   <p>महाराजगंज • संपर्क हेतु उपलब्ध</p>
-   <div class="contact"><button class="call" onclick="alert('Call action')">📞 कॉल</button><button class="wa" onclick="alert('WhatsApp action')">💬 WhatsApp</button></div>
-  </article>
-  <article class="officer">
-   <div class="avatar">👤</div><h4>अजय कुमार</h4><div class="role">सचिव</div>
-   <p>महाराजगंज • संपर्क हेतु उपलब्ध</p>
-   <div class="contact"><button class="call" onclick="alert('Call action')">📞 कॉल</button><button class="wa" onclick="alert('WhatsApp action')">💬 WhatsApp</button></div>
-  </article>
- </div>
-</section>
+<!-- ID CARD -->
+<section id="idcard" class="view"><div class="section"><div class="head"><h3>सदस्य पहचान पत्र</h3><span>85.6 × 54 mm</span></div><div class="id-card"><div class="id-head">भुईहर जाति समाज</div><div class="id-body"><div class="id-photo">👤</div><div class="id-info"><b>नाम:</b> राम कुमार<br><b>Member ID:</b> BJS-000125<br><b>Family ID:</b> BJS-FAM-000125<br><b>जिला:</b> महाराजगंज<br><b>पंचायत:</b> पंचायत 01<br><b>गाँव:</b> गाँव 01</div></div><div style="font-size:7px;margin-top:9px">यह पहचान पत्र समाज के सदस्य विवरण के आधार पर जारी किया जाएगा।</div></div><div class="row no-print" style="margin-top:10px"><button class="btn red" onclick="window.print()">🖨️ प्रिंट</button><button class="btn outline" onclick="toast('PDF UI तैयार है; वास्तविक PDF बाद में जोड़ा जाएगा')">📄 PDF</button></div></div></section>
 
-<section class="section">
- <div class="section-head"><h3>आगामी कार्यक्रम</h3><span>कैलेंडर →</span></div>
- <div class="event">
-   <div class="date"><b>15</b><small>अगस्त</small></div>
-   <div><h4>समाज सदस्य बैठक</h4><p>📍 सामुदायिक भवन<br>समय: सुबह 10:00 बजे</p></div>
- </div>
-</section>
-</main>
+<!-- SEARCH -->
+<section id="search" class="view"><div class="form-card"><div class="form-title"><h2>सदस्य खोजें</h2><p>जिला, पंचायत और गाँव के अनुसार खोज</p></div><div class="field"><label>नाम / Member ID</label><input placeholder="खोजें..."></div><div class="grid2"><div class="field"><label>जिला</label><select><option>सभी जिले</option><option>महाराजगंज</option></select></div><div class="field"><label>पंचायत</label><select><option>सभी पंचायत</option><option>पंचायत 01</option></select></div></div><button class="btn red" style="width:100%" onclick="toast('डेमो में खोज परिणाम दिखाए गए')">खोजें</button></div><section class="section"><div class="approval"><div class="approval-top"><div class="avatar">👤</div><div><h4>राम कुमार</h4><p>BJS-000125 • महाराजगंज • पंचायत 01</p></div></div></div></section></section>
 
-<section class="login-box" id="login">
- <div class="card">
-  <div style="text-align:center;margin-bottom:20px">
-   <div class="logo" style="margin:auto">भ</div>
-   <h2 style="color:var(--maroon);margin-top:10px">सदस्य लॉगिन</h2>
-   <p style="font-size:12px;color:var(--muted);margin-top:4px">भुईहर जाति समाज</p>
-  </div>
-  <div class="field"><label>मोबाइल नंबर</label><input type="tel" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div>
-  <button class="full" onclick="demoLogin()">लॉगिन करें</button>
-  <button class="link" onclick="showHome()">← होम पेज पर वापस जाएँ</button>
- </div>
-</section>
+<!-- EVENTS -->
+<section id="events" class="view"><div class="section"><div class="head"><h3>समाज के कार्यक्रम</h3><span>Upcoming</span></div><div class="event" style="margin-bottom:9px"><div class="date"><b>15</b><small>अगस्त</small></div><div><h4>समाज सदस्य बैठक</h4><p>📍 सामुदायिक भवन<br>⏰ सुबह 10:00 बजे</p></div></div><div class="event"><div class="date"><b>02</b><small>सितंबर</small></div><div><h4>समाज जागरूकता कार्यक्रम</h4><p>📍 पंचायत भवन<br>⏰ दोपहर 12:00 बजे</p></div></div></div></section>
+
+<!-- BLOOD -->
+<section id="blood" class="view"><div class="form-card"><div class="form-title"><h2>रक्त समूह निर्देशिका</h2><p>जरूरत के समय संपर्क के लिए</p></div><div class="grid2"><div class="field"><label>रक्त समूह</label><select><option>सभी</option><option>A+</option><option>B+</option><option>O+</option><option>AB+</option></select></div><div class="field"><label>जिला</label><select><option>सभी जिले</option><option>महाराजगंज</option></select></div></div><button class="btn red" style="width:100%" onclick="toast('रक्त समूह खोज UI')">खोजें</button></div><section class="section"><div class="approval"><div class="approval-top"><div style="font-size:25px;font-weight:900;color:var(--p)">B+</div><div><h4>सुरेश कुमार</h4><p>महाराजगंज • पंचायत 01</p></div><button class="btn outline" onclick="call('9876543210')">📞</button></div></div></section></section>
+
+<!-- PROFILE -->
+<section id="profile" class="view"><div class="form-card"><div class="form-title"><div class="avatar" style="margin:auto">👤</div><h2>मेरी प्रोफाइल</h2><p>Member ID: BJS-000125</p></div><div class="field"><label>नाम</label><input value="राम कुमार" readonly></div><div class="field"><label>मोबाइल</label><input value="98XXXXXX10" readonly></div><div class="field"><label>जन्म तिथि</label><input value="12-05-1990" readonly></div><div class="field"><label>वर्तमान आयु</label><input value="36 वर्ष" readonly></div><div class="field"><label>नौकरी/व्यवसाय</label><input value="कृषि" readonly></div><div class="field"><label>स्थान</label><input value="महाराजगंज • पंचायत 01 • गाँव 01" readonly></div></div></section>
+
+<!-- PRINT -->
+<section id="print" class="view"><div class="form-card no-print"><div class="head"><h3>Print Setup</h3><span>A4</span></div><div class="toolbar"><button>जिला</button><button>पंचायत</button><button>गाँव</button><button>नौकरी</button><button>Alphabetical</button></div><div class="grid2"><div class="field"><label>जिला</label><select><option>सभी जिले</option><option>महाराजगंज</option></select></div><div class="field"><label>पंचायत</label><select><option>सभी पंचायत</option></select></div></div><button class="btn red" style="width:100%" onclick="window.print()">🖨️ Print Preview / Print</button></div><div class="section"><div class="print-preview"><h2>भुईहर जाति समाज</h2><h3>सदस्य विवरण रिपोर्ट</h3><div style="font-size:8px;margin-bottom:8px">जिला: महाराजगंज &nbsp; | &nbsp; पंचायत: सभी &nbsp; | &nbsp; दिनांक: 15-08-2026</div><table class="print-table"><thead><tr><th>क्र.</th><th>सदस्य ID</th><th>नाम</th><th>मोबाइल</th><th>DOB</th><th>आयु</th><th>जिला</th><th>पंचायत</th><th>व्यवसाय</th></tr></thead><tbody><tr><td>1</td><td>BJS-000125</td><td>राम कुमार</td><td>98XXXX</td><td>12-05-1990</td><td>36</td><td>महाराजगंज</td><td>पंचायत 01</td><td>कृषि</td></tr><tr><td>2</td><td>BJS-000126</td><td>सुरेश कुमार</td><td>98XXXX</td><td>08-02-1988</td><td>38</td><td>महाराजगंज</td><td>पंचायत 02</td><td>प्राइवेट</td></tr></tbody></table><div class="sign">मुखिया हस्ताक्षर: __________________<br><br>दिनांक: __________</div></div></div></section>
+
+<!-- ADMIN -->
+<section id="admin" class="view"><div class="admin-top"><span class="pill">ADMIN CONTROL PANEL</span><h2 style="margin-top:10px">भुईहर जाति समाज</h2><p>समाज पोर्टल का संपूर्ण प्रबंधन</p></div><div class="admin-stats"><div class="card admin-card"><b>1,248</b><small>कुल सदस्य</small></div><div class="card admin-card"><b>18</b><small>Pending Approval</small></div><div class="card admin-card"><b>486</b><small>कुल परिवार</small></div><div class="card admin-card"><b>12 / 84</b><small>जिला / पंचायत</small></div></div><section class="section"><div class="head"><h3>Admin Menu</h3><span>सभी नियंत्रण</span></div><div class="menu-list"><button onclick="openView('approval')"><span>🔔</span>Pending Approval <b style="float:right;color:var(--danger)">18</b></button><button onclick="toast('सदस्य प्रबंधन UI')"><span>👥</span>सदस्य प्रबंधन</button><button onclick="toast('जिला / पंचायत / गाँव management UI')"><span>📍</span>जिला • पंचायत • गाँव</button><button onclick="toast('पदाधिकारी management UI')"><span>🧑‍💼</span>पदाधिकारी प्रबंधन</button><button onclick="toast('Banner management UI')"><span>🖼️</span>Banner Management</button><button onclick="toast('Post management UI')"><span>📢</span>समाज की सूचना / पोस्ट</button><button onclick="openView('events')"><span>📅</span>कार्यक्रम प्रबंधन</button><button onclick="openView('print')"><span>🖨️</span>Print Setup / PDF Reports</button><button onclick="toast('Settings UI')"><span>⚙️</span>Settings</button></div></section></section>
+
+<!-- APPROVAL -->
+<section id="approval" class="view"><div class="form-card"><div class="head"><h3>नए सदस्य Approval</h3><span class="status pending">18 Pending</span></div><p style="font-size:10px;color:var(--muted)">Admin पूरी जानकारी देखकर ही सदस्य को Approve करेगा।</p></div><section class="section"><div class="approval"><div class="approval-top"><div class="avatar">👤</div><div><h4>मोहन कुमार</h4><p>मोबाइल: 98XXXXXX21</p><p>महाराजगंज • पंचायत 01 • गाँव 02</p></div></div><div style="margin-top:7px"><span class="status pending">Pending</span> <span style="font-size:9px;color:var(--muted)">कृषि • आवेदन आज</span></div><div class="approval-actions"><button class="approve" onclick="toast('Approve UI action')">✓ Approve</button><button class="reject" onclick="toast('Reject UI action')">✕ Reject</button><button class="approve" onclick="toast('Full details UI')">Details</button></div></div></section></section>
 
 <nav class="bottom">
- <button class="nav-item active" onclick="showHome()"><b>⌂</b>होम</button>
- <button class="nav-item"><b>👥</b>सदस्य</button>
- <button class="nav-item"><b>📢</b>सूचना</button>
- <button class="nav-item"><b>📅</b>कार्यक्रम</button>
- <button class="nav-item" onclick="showLogin()"><b>👤</b>प्रोफाइल</button>
+<button class="nav active" onclick="openView('home')"><b>⌂</b>होम</button>
+<button class="nav" onclick="openView('search')"><b>🔎</b>सदस्य</button>
+<button class="nav" onclick="openView('events')"><b>📅</b>कार्यक्रम</button>
+<button class="nav" onclick="openView('family')"><b>👨‍👩‍👧</b>परिवार</button>
+<button class="nav" onclick="openView('profile')"><b>👤</b>प्रोफाइल</button>
 </nav>
 </div>
 
+<div id="modal" class="modal" onclick="if(event.target.id==='modal')closeModal()"><div class="sheet"><div class="sheet-head"><h3 style="margin:0;color:var(--p)">परिवार सदस्य जोड़ें</h3><button class="close" onclick="closeModal()">✕</button></div><div class="field" style="margin-top:15px"><label>नाम</label><input placeholder="सदस्य का नाम"></div><div class="grid2"><div class="field"><label>संबंध</label><select><option>पुत्र</option><option>पुत्री</option><option>पत्नी</option><option>पिता</option><option>माता</option><option>अन्य</option></select></div><div class="field"><label>जन्म तिथि</label><input type="date"></div></div><div class="field"><label>मोबाइल (वैकल्पिक)</label><input type="tel" maxlength="10"></div><div class="field"><label>व्यवसाय</label><select><option>चुनें</option><option>सरकारी नौकरी</option><option>प्राइवेट नौकरी</option><option>मजदूरी</option><option>कृषि</option><option>विद्यार्थी</option></select></div><button class="btn red" style="width:100%" onclick="closeModal();toast('Family member UI demo में जोड़ दिया गया')">सदस्य जोड़ें</button></div></div>
+<div id="toast" class="toast"></div>
 <script>
-function showLogin(){
- document.getElementById('home').style.display='none';
- document.getElementById('login').style.display='block';
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function showHome(){
- document.getElementById('home').style.display='block';
- document.getElementById('login').style.display='none';
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function demoLogin(){
- alert('यह अभी UI demo है। अगले चरण में Firebase login जोड़ा जाएगा।');
-}
+const views=[...document.querySelectorAll('.view')];
+function openView(id){views.forEach(v=>v.classList.remove('active'));document.getElementById(id)?.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active'));if(id==='home')document.querySelector('.nav').classList.add('active')}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>t.classList.remove('show'),2200)}
+function call(n){window.location.href='tel:'+n}
+function whatsapp(n){window.open('https://wa.me/91'+n,'_blank')}
+function demoLogin(){const n=document.getElementById('loginMobile').value;if(n.length!==10){toast('कृपया 10 अंकों का मोबाइल नंबर डालें');return}toast('यह UI डेमो है — Firebase अभी नहीं जोड़ा गया');setTimeout(()=>openView('dashboard'),700)}
+function registrationDemo(){toast('पंजीकरण UI तैयार है — Firebase/डेटाबेस बाद में जोड़ा जाएगा')}
+function ageDemo(el){if(!el.value)return;const d=new Date(el.value),now=new Date();let a=now.getFullYear()-d.getFullYear();if(now.getMonth()<d.getMonth()||(now.getMonth()===d.getMonth()&&now.getDate()<d.getDate()))a--;document.getElementById('age').value=a+' वर्ष'}
+function openModal(){document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
 </script>
 </body>
 </html>

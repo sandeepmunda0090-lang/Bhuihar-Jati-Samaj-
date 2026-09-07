@@ -1,26 +1,456 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>भुईहर जाति समाज</title><style>:root{--m:#7b1017;--g:#c79a3b;--c:#fff9ee}*{box-sizing:border-box}body{margin:0;background:#f4eee4;font-family:system-ui,'Noto Sans Devanagari',sans-serif;color:#271c1c}.app{max-width:480px;margin:auto;min-height:100vh;background:var(--c)}header{padding:16px;color:#fff;background:linear-gradient(135deg,#4c070c,var(--m));position:sticky;top:0;z-index:4}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:50%;background:#fff;color:var(--m);display:grid;place-items:center;font-weight:900;border:3px solid var(--g)}main{padding:18px}.screen{display:none}.screen.on{display:block}.hero,.card{border-radius:20px;padding:18px;margin:12px 0}.hero{color:#fff;background:linear-gradient(145deg,#620b11,#941c24)}.card{background:#fff;border:1px solid #eadfce;box-shadow:0 8px 25px #00000009}h1,h2,h3{margin-top:0}.btn{width:100%;padding:13px;border:0;border-radius:12px;background:var(--m);color:#fff;font-weight:800;margin-top:8px}.gold{background:var(--g);color:#25190a}label{font-size:13px;font-weight:800;display:block;margin:12px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #d9cbb8;border-radius:11px;background:#fff}.msg{padding:10px;border-radius:10px;margin:8px 0;background:#fff0d2;font-size:13px}.hide{display:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;background:#fff;border:1px solid #eadfce;border-radius:15px}.stat b{display:block;font-size:24px;color:var(--m)}.nav{position:sticky;bottom:0;background:#fff;border-top:1px solid #eadfce;display:grid;grid-template-columns:repeat(4,1fr);padding:7px}.nav button{border:0;background:none;font-size:11px}.nav b{display:block;font-size:18px}.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e7f6ed;color:#176a43;font-size:11px}</style></head><body><div class="app"><header><div class="brand"><div class="logo">भ</div><div><b>भुईहर जाति समाज</b><small style="display:block;color:#f5dca9">महाराजगंज</small></div></div></header><main>
-<section id="home" class="screen on"><div class="hero"><h1>एकता • सहयोग • विकास</h1><p>समाज के सदस्यों, परिवार और गतिविधियों के लिए डिजिटल पोर्टल।</p><button class="btn gold" onclick="go('login')">Login</button></div><div class="card"><h2>नया सदस्य</h2><p>Signup पर केवल एक बार Mobile OTP और फिर 6-digit MPIN सेट होगा। Login पर OTP नहीं।</p><button class="btn" onclick="go('register')">Registration</button></div></section>
-<section id="register" class="screen"><h2>सदस्य Registration</h2><div id="rmsg"></div><label>पूरा नाम</label><input id="name"><label>मोबाइल नंबर</label><input id="mobile" inputmode="numeric" maxlength="10" placeholder="10 digit"><label>जन्म तिथि</label><input id="dob" type="date"><label>जिला</label><select id="district"><option>जिला चुनें</option></select><label>पंचायत</label><select id="panchayat"><option>पंचायत चुनें</option></select><label>गांव / पता</label><input id="village"><label>काम</label><select id="job"><option>सरकारी नौकरी</option><option>प्राइवेट नौकरी</option><option>मजदूर</option><option>कृषि</option></select><label>जाति</label><select><option>भुईहर</option></select><label>6-digit MPIN</label><input id="mpin" type="password" maxlength="6" inputmode="numeric"><button class="btn" onclick="demoRegister()">OTP Verification के बाद Submit</button><p style="font-size:12px;color:#777">Firebase जोड़ने के लिए नीचे CONFIG में अपनी Firebase Web App config डालें।</p></section>
-<section id="login" class="screen"><h2>Login</h2><div id="lmsg"></div><div class="card"><label>मोबाइल नंबर</label><input id="lm" maxlength="10" inputmode="numeric"><label>6-digit MPIN</label><input id="lp" type="password" maxlength="6" inputmode="numeric"><button class="btn" onclick="login()">Login करें</button><p style="font-size:12px;color:#777">OTP केवल Signup पर। Login में Mobile + MPIN।</p></div><div class="card"><h3>Admin Login</h3><p>Admin Mobile: <b>6266240812</b></p><label>Admin MPIN</label><input id="ap" type="password" maxlength="6"><button class="btn" onclick="admin()">Admin Dashboard</button></div></section>
-<section id="dash" class="screen"><div class="card"><h2 id="dn">सदस्य</h2><span class="badge">Approved Member</span><p id="dd"></p></div><div class="grid"><div class="stat"><b>0</b>परिवार सदस्य</div><div class="stat"><b>✓</b>स्थिति</div></div><div class="card"><h3>मेरी प्रोफाइल</h3><p>मोबाइल, जन्म तिथि, जिला, पंचायत, गांव, नौकरी, जाति और अन्य जानकारी यहां दिखेगी।</p></div><div class="card"><h3>मेरी Family</h3><button class="btn" onclick="go('family')">Family Management</button></div></section>
-<section id="family" class="screen"><h2>मेरा परिवार</h2><div class="card"><label>सदस्य का नाम</label><input><label>रिश्ता</label><input><label>जन्म तिथि</label><input type="date"><label>मोबाइल</label><input><label>व्यवसाय</label><input><button class="btn">परिवार सदस्य जोड़ें</button></div></section>
-<section id="admin" class="screen"><h2>Admin Dashboard</h2><div class="grid"><div class="stat"><b>0</b>कुल सदस्य</div><div class="stat"><b>0</b>Pending</div><div class="stat"><b>0</b>Family</div><div class="stat"><b>0</b>Posts</div></div><div class="card"><h3>Member Approval</h3><p>नए सदस्य पहले यहां approval के लिए आएंगे।</p><button class="btn">Pending Members</button></div><div class="card"><h3>Hindi Post</h3><textarea rows="5" placeholder="समाज की सूचना लिखें..."></textarea><button class="btn">Post Publish करें</button></div></section>
-</main><div class="nav"><button onclick="go('home')"><b>⌂</b>होम</button><button onclick="go('login')"><b>♙</b>सदस्य</button><button onclick="go('family')"><b>♧</b>परिवार</button><button onclick="go('login')"><b>⚙</b>Admin</button></div></div>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>भुईहर जाति समाज | महाराजगंज</title>
+
+  <style>
+    :root{
+      --primary:#0b5ed7;
+      --primary2:#0a3d91;
+      --accent:#f59e0b;
+      --bg:#f3f7fb;
+      --card:#ffffff;
+      --text:#172033;
+      --muted:#64748b;
+      --border:#dce5ef;
+      --danger:#dc2626;
+      --success:#16a34a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .app{max-width:480px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 0 25px rgba(15,23,42,.08)}
+    .screen{display:none;min-height:100vh;padding-bottom:78px}
+    .screen.on{display:block}
+    .top{padding:20px 18px;background:linear-gradient(135deg,var(--primary2),var(--primary));color:#fff}
+    .top h1{font-size:23px;margin:0 0 5px}
+    .top p{margin:0;opacity:.88;font-size:13px}
+    .hero{padding:28px 18px;background:linear-gradient(135deg,#082f68,#0b5ed7);color:#fff;text-align:center}
+    .logo{width:82px;height:82px;margin:0 auto 12px;border-radius:24px;background:#fff;color:var(--primary);display:grid;place-items:center;font-size:39px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+    .hero h1{margin:4px 0;font-size:26px}
+    .hero p{margin:8px 0 0;opacity:.9}
+    .content{padding:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 5px 18px rgba(15,23,42,.04)}
+    h2{font-size:20px;margin:0 0 12px}
+    h3{font-size:16px;margin:0 0 8px}
+    .field{margin:10px 0}
+    label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:12px;font:inherit;background:#fff;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,94,215,.12)}
+    textarea{min-height:85px;resize:vertical}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{border:0;border-radius:12px;padding:13px 16px;font:700 15px inherit;cursor:pointer;width:100%;background:var(--primary);color:#fff;margin-top:8px}
+    .btn:hover{filter:brightness(.96)}
+    .btn.secondary{background:#eef4ff;color:var(--primary)}
+    .btn.danger{background:var(--danger)}
+    .btn.success{background:var(--success)}
+    .small{font-size:12px;color:var(--muted)}
+    .msg{display:none;padding:11px 12px;border-radius:10px;font-size:13px;margin:10px 0}
+    .msg.show{display:block}
+    .msg.ok{background:#dcfce7;color:#166534}
+    .msg.err{background:#fee2e2;color:#991b1b}
+    .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);display:flex;background:#fff;border-top:1px solid var(--border);z-index:20}
+    .nav button{flex:1;border:0;background:#fff;padding:12px 4px;color:var(--muted);font:12px inherit}
+    .nav button b{display:block;font-size:19px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+    .stat{padding:13px 8px;border-radius:14px;background:#eff6ff;text-align:center}
+    .stat b{display:block;font-size:20px;color:var(--primary)}
+    .row{display:flex;gap:10px;align-items:center}
+    .avatar{width:54px;height:54px;border-radius:50%;background:#eaf1ff;display:grid;place-items:center;font-size:25px;overflow:hidden;flex:none}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .pill{display:inline-block;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;background:#fef3c7;color:#92400e}
+    .pill.approved{background:#dcfce7;color:#166534}
+    .pill.pending{background:#fef3c7;color:#92400e}
+    .list-item{padding:12px 0;border-bottom:1px solid #edf2f7}
+    .list-item:last-child{border-bottom:0}
+    .hidden{display:none!important}
+    .notice{padding:12px;border-radius:12px;background:#eff6ff;color:#1e40af;font-size:13px}
+    .member{border:1px solid var(--border);padding:12px;border-radius:14px;margin:9px 0}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .iconbtn{border:0;background:#fff;border:1px solid var(--border);border-radius:10px;padding:9px 12px;font:inherit}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <section id="home" class="screen on">
+    <div class="hero">
+      <div class="logo">🌾</div>
+      <h1>भुईहर जाति समाज</h1>
+      <p>महाराजगंज समाजिक संचार पोर्टल</p>
+      <button class="btn" onclick="go('register')">नया सदस्य Registration</button>
+      <button class="btn secondary" onclick="go('login')">Member Login</button>
+    </div>
+    <div class="content">
+      <div class="card">
+        <h2>हमारा उद्देश्य</h2>
+        <p class="small">समाज के सदस्यों को जोड़ना, परिवार की जानकारी सुरक्षित रखना और उपयोगी सामाजिक जानकारी एक स्थान पर उपलब्ध कराना।</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="totalMembers">0</b><span class="small">सदस्य</span></div>
+        <div class="stat"><b id="totalFamilies">0</b><span class="small">परिवार</span></div>
+        <div class="stat"><b id="approvedMembers">0</b><span class="small">Approved</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section id="register" class="screen">
+    <div class="top"><h1>सदस्य Registration</h1><p>सही जानकारी भरें। Mobile Number unique रहेगा।</p></div>
+    <div class="content">
+      <div id="registerMsg" class="msg"></div>
+      <div class="card">
+        <div class="field"><label>पूरा नाम *</label><input id="regName" placeholder="अपना पूरा नाम"></div>
+        <div class="field"><label>मोबाइल नंबर *</label><input id="regMobile" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number"></div>
+        <div class="field"><label>जन्म तिथि *</label><input id="regDob" type="date"></div>
+        <div class="field"><label>जिला *</label>
+          <select id="regDistrict"><option value="">जिला चुनें</option><option>महाराजगंज</option><option>कुशीनगर</option><option>गोरखपुर</option><option>देवरिया</option><option>अन्य</option></select>
+        </div>
+        <div class="field"><label>पंचायत / क्षेत्र</label><input id="regPanchayat" placeholder="पंचायत / क्षेत्र"></div>
+        <div class="field"><label>गांव</label><input id="regVillage" placeholder="गांव का नाम"></div>
+        <div class="field"><label>नौकरी / व्यवसाय *</label>
+          <select id="regJob"><option value="">चुनें</option><option>Government Job</option><option>Private Job</option><option>Labor (मजदूर)</option><option>Agriculture (कृषि)</option><option>Business</option><option>Other</option></select>
+        </div>
+        <div class="field"><label>जाति</label><input value="Bhuihar / भुईहर" disabled></div>
+        <div class="field"><label>फोटो (अभी optional)</label><input id="regPhoto" type="file" accept="image/*"></div>
+        <p class="small">Registration के बाद आपका आवेदन Admin Approval में जाएगा।</p>
+        <button class="btn" onclick="registerMember()">Registration Submit करें</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login" class="screen">
+    <div class="top"><h1>Member Login</h1><p>Registered mobile number डालें</p></div>
+    <div class="content">
+      <div id="loginMsg" class="msg"></div>
+      <div class="card">
+        <div class="field"><label>मोबाइल नंबर</label><input id="loginMobile" inputmode="numeric" maxlength="10" placeholder="Registered mobile number"></div>
+        <button class="btn" onclick="loginMember()">Login</button>
+        <p class="small">यदि आपका account अभी approve नहीं हुआ है, तो Approval Pending दिखाई देगा।</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dash" class="screen">
+    <div class="top">
+      <div class="topbar">
+        <div><h1>मेरा Dashboard</h1><p id="dashWelcome">स्वागत है</p></div>
+        <button class="iconbtn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="card row">
+        <div class="avatar" id="profileAvatar">👤</div>
+        <div><h2 id="profileName">Member</h2><span id="profileStatus" class="pill pending">Pending</span></div>
+      </div>
+      <div class="card">
+        <h3>मेरी प्रोफाइल</h3>
+        <div id="profileInfo" class="small">Loading...</div>
+      </div>
+      <div class="card">
+        <h3>मेरा परिवार</h3>
+        <div id="familyList" class="small">Loading...</div>
+        <button class="btn secondary" onclick="go('family')">परिवार सदस्य जोड़ें</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section id="family" class="screen">
+    <div class="top"><h1>मेरा परिवार</h1><p>परिवार के सदस्य जोड़ें</p></div>
+    <div class="content">
+      <div id="familyMsg" class="msg"></div>
+      <div class="card">
+        <div class="field"><label>सदस्य का नाम *</label><input id="famName"></div>
+        <div class="grid2">
+          <div class="field"><label>रिश्ता *</label><input id="famRelation" placeholder="पिता / पत्नी / भाई"></div>
+          <div class="field"><label>जन्म तिथि</label><input id="famDob" type="date"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>मोबाइल</label><input id="famMobile" inputmode="numeric" maxlength="10"></div>
+          <div class="field"><label>व्यवसाय</label><input id="famOccupation"></div>
+        </div>
+        <button class="btn" onclick="addFamilyMember()">परिवार सदस्य Save करें</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section id="search" class="screen">
+    <div class="top"><h1>सदस्य खोज</h1><p>नाम, जिला या गांव से खोजें</p></div>
+    <div class="content">
+      <div class="card">
+        <input id="searchText" placeholder="नाम / जिला / गांव" oninput="searchMembers()">
+      </div>
+      <div id="searchResults"></div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="screen">
+    <div class="top"><h1>Admin Dashboard</h1><p>Pending member approval</p></div>
+    <div class="content">
+      <div id="adminMsg" class="msg"></div>
+      <div class="card">
+        <div class="notice">यह demo Admin panel है। Production में Firestore Security Rules के साथ केवल authorized admin को access दें।</div>
+      </div>
+      <div id="pendingList"></div>
+    </div>
+  </section>
+
+  <nav class="nav">
+    <button onclick="go('home')"><b>⌂</b>Home</button>
+    <button onclick="go('search')"><b>⌕</b>Search</button>
+    <button onclick="go('dash')"><b>👤</b>Profile</button>
+    <button onclick="go('admin')"><b>⚙</b>Admin</button>
+  </nav>
+</div>
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
-const firebaseConfig={
-  apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",
-  authDomain:"bhuihar-jati-samaj.firebaseapp.com",
-  projectId:"bhuihar-jati-samaj",
-  storageBucket:"bhuihar-jati-samaj.firebasestorage.app",
-  messagingSenderId:"144637993197",
-  appId:"1:144637993197:web:a61f8d61ed932b9062ece4"
+const firebaseConfig = {
+  apiKey: "AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",
+  authDomain: "bhuihar-jati-samaj.firebaseapp.com",
+  projectId: "bhuihar-jati-samaj",
+  storageBucket: "bhuihar-jati-samaj.firebasestorage.app",
+  messagingSenderId: "144637993197",
+  appId: "1:144637993197:web:a61f8d61ed932b9062ece4"
 };
+
 firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-const auth=firebase.auth();
-const districts=['महाराजगंज','गोरखपुर','कुशीनगर','देवरिया','सिद्धार्थनगर','संत कबीर नगर','बस्ती','गोंडा'];district.innerHTML='<option>जिला चुनें</option>'+districts.map(x=>`<option>${x}</option>`).join('');function go(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));document.getElementById(id).classList.add('on');scrollTo(0,0)}function demoRegister(){if(!/^[6-9]\d{9}$/.test(mobile.value)||!/^[0-9]{6}$/.test(mpin.value))return rmsg.innerHTML='<div class="msg">Mobile और 6-digit MPIN सही भरें।</div>';rmsg.innerHTML='<div class="msg">UI ready है। Firebase Phone OTP जोड़ने के बाद यहां OTP verification होगा, फिर Admin Approval।</div>'}function login(){if(!/^[6-9]\d{9}$/.test(lm.value)||!/^[0-9]{6}$/.test(lp.value))return lmsg.innerHTML='<div class="msg">Mobile + 6-digit MPIN भरें।</div>';dn.textContent='सदस्य Dashboard';dd.textContent='Mobile: '+lm.value;go('dash')}function admin(){if(ap.value.length!==6)return lmsg.innerHTML='<div class="msg">Admin MPIN 6 अंक का रखें।</div>';go('admin')}</script></body></html>
+const db = firebase.firestore();
 
+let currentUser = JSON.parse(localStorage.getItem("bhuiharCurrentUser") || "null");
 
+function go(id){
+  if((id==="dash" || id==="family") && !currentUser){ showMsg("loginMsg","पहले Login करें।","err"); id="login"; }
+  document.querySelectorAll(".screen").forEach(x=>x.classList.remove("on"));
+  document.getElementById(id).classList.add("on");
+  window.scrollTo(0,0);
+  if(id==="dash" && currentUser) loadDashboard();
+  if(id==="search") searchMembers();
+  if(id==="admin") loadPendingMembers();
+}
+
+function showMsg(id,text,type){
+  const el=document.getElementById(id);
+  el.textContent=text;
+  el.className="msg show "+type;
+}
+
+function ageFromDob(dob){
+  if(!dob) return null;
+  const d=new Date(dob);
+  const t=new Date();
+  let age=t.getFullYear()-d.getFullYear();
+  const m=t.getMonth()-d.getMonth();
+  if(m<0 || (m===0 && t.getDate()<d.getDate())) age--;
+  return age;
+}
+
+function validMobile(m){ return /^[6-9]\d{9}$/.test(m); }
+
+async function registerMember(){
+  const fullName=regName.value.trim();
+  const mobileNumber=regMobile.value.trim();
+  const dateOfBirth=regDob.value;
+  const district=regDistrict.value;
+  const panchayat=regPanchayat.value.trim();
+  const village=regVillage.value.trim();
+  const jobCategory=regJob.value;
+
+  if(!fullName || !validMobile(mobileNumber) || !dateOfBirth || !district || !jobCategory){
+    showMsg("registerMsg","कृपया सभी जरूरी (*) जानकारी सही भरें।","err"); return;
+  }
+
+  try{
+    const ref=db.collection("users").doc(mobileNumber);
+    const old=await ref.get();
+    if(old.exists){ showMsg("registerMsg","यह मोबाइल नंबर पहले से Registered है।","err"); return; }
+
+    await ref.set({
+      fullName,
+      mobileNumber,
+      dateOfBirth,
+      age:ageFromDob(dateOfBirth),
+      district,
+      panchayat,
+      village,
+      jobCategory,
+      caste:"Bhuihar",
+      status:"pending",
+      role:"member",
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    showMsg("registerMsg","Registration सफल हुआ। आपका आवेदन Admin Approval में भेज दिया गया है।","ok");
+    setTimeout(()=>go("login"),1200);
+  }catch(e){
+    console.error(e);
+    showMsg("registerMsg","Registration error: "+e.message,"err");
+  }
+}
+
+async function loginMember(){
+  const mobileNumber=loginMobile.value.trim();
+  if(!validMobile(mobileNumber)){ showMsg("loginMsg","सही 10 digit mobile number डालें।","err"); return; }
+
+  try{
+    const snap=await db.collection("users").doc(mobileNumber).get();
+    if(!snap.exists){ showMsg("loginMsg","User Not Registered","err"); return; }
+
+    currentUser={mobileNumber,...snap.data()};
+    localStorage.setItem("bhuiharCurrentUser",JSON.stringify(currentUser));
+    if(currentUser.status!=="approved"){
+      showMsg("loginMsg","आपका account अभी Approval Pending है।","err");
+      return;
+    }
+    go("dash");
+  }catch(e){
+    console.error(e);
+    showMsg("loginMsg","Login error: "+e.message,"err");
+  }
+}
+
+function logout(){
+  localStorage.removeItem("bhuiharCurrentUser");
+  currentUser=null;
+  go("home");
+}
+
+async function loadDashboard(){
+  try{
+    const snap=await db.collection("users").doc(currentUser.mobileNumber).get();
+    if(!snap.exists){ logout(); return; }
+    currentUser={mobileNumber:currentUser.mobileNumber,...snap.data()};
+    localStorage.setItem("bhuiharCurrentUser",JSON.stringify(currentUser));
+
+    profileName.textContent=currentUser.fullName;
+    dashWelcome.textContent="स्वागत है, "+currentUser.fullName;
+    profileStatus.textContent=currentUser.status==="approved"?"Approved":"Pending";
+    profileStatus.className="pill "+(currentUser.status==="approved"?"approved":"pending");
+    profileInfo.innerHTML=`
+      <b>मोबाइल:</b> ${currentUser.mobileNumber}<br>
+      <b>उम्र:</b> ${currentUser.age ?? "-"} वर्ष<br>
+      <b>जिला:</b> ${currentUser.district || "-"}<br>
+      <b>पंचायत:</b> ${currentUser.panchayat || "-"}<br>
+      <b>गांव:</b> ${currentUser.village || "-"}<br>
+      <b>कार्य:</b> ${currentUser.jobCategory || "-"}`;
+
+    await loadFamily();
+  }catch(e){ console.error(e); }
+}
+
+async function addFamilyMember(){
+  if(!currentUser) return go("login");
+  const familyMemberName=famName.value.trim();
+  const relation=famRelation.value.trim();
+  const dateOfBirth=famDob.value;
+  const mobileNumber=famMobile.value.trim();
+  const occupation=famOccupation.value.trim();
+
+  if(!familyMemberName || !relation){ showMsg("familyMsg","नाम और रिश्ता जरूरी है।","err"); return; }
+
+  try{
+    await db.collection("families").add({
+      ownerMobile:currentUser.mobileNumber,
+      familyMemberName,
+      relation,
+      dateOfBirth:dateOfBirth || null,
+      age:dateOfBirth ? ageFromDob(dateOfBirth) : null,
+      mobileNumber:mobileNumber || null,
+      occupation:occupation || null,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showMsg("familyMsg","परिवार सदस्य सफलतापूर्वक Save हो गया।","ok");
+    famName.value=famRelation.value=famDob.value=famMobile.value=famOccupation.value="";
+  }catch(e){
+    console.error(e);
+    showMsg("familyMsg","Error: "+e.message,"err");
+  }
+}
+
+async function loadFamily(){
+  const box=document.getElementById("familyList");
+  box.textContent="Loading...";
+  try{
+    const snap=await db.collection("families").where("ownerMobile","==",currentUser.mobileNumber).get();
+    if(snap.empty){ box.innerHTML="<span class='small'>अभी कोई परिवार सदस्य नहीं जोड़ा गया है।</span>"; return; }
+    box.innerHTML="";
+    snap.forEach(d=>{
+      const x=d.data();
+      box.innerHTML+=`<div class="member"><b>${escapeHtml(x.familyMemberName)}</b> <span class="small">(${escapeHtml(x.relation)})</span><br><span class="small">उम्र: ${x.age ?? "-"} | व्यवसाय: ${escapeHtml(x.occupation || "-")}</span></div>`;
+    });
+  }catch(e){ box.textContent="Family data load नहीं हो पाया: "+e.message; }
+}
+
+let allMembers=[];
+async function searchMembers(){
+  const q=(document.getElementById("searchText").value||"").trim().toLowerCase();
+  const box=document.getElementById("searchResults");
+  box.innerHTML="<div class='card small'>Loading members...</div>";
+  try{
+    const snap=await db.collection("users").get();
+    allMembers=snap.docs.map(d=>d.data()).filter(x=>x.status==="approved");
+    const result=allMembers.filter(x=>{
+      const text=[x.fullName,x.district,x.panchayat,x.village].join(" ").toLowerCase();
+      return !q || text.includes(q);
+    });
+    if(!result.length){ box.innerHTML="<div class='card small'>कोई सदस्य नहीं मिला।</div>"; return; }
+    box.innerHTML=result.map(x=>`<div class="card list-item">
+      <b>${escapeHtml(x.fullName)}</b><br>
+      <span class="small">जिला: ${escapeHtml(x.district || "-")} | गांव: ${escapeHtml(x.village || "-")}<br>कार्य: ${escapeHtml(x.jobCategory || "-")}</span>
+    </div>`).join("");
+  }catch(e){ box.innerHTML="<div class='card small'>Error: "+escapeHtml(e.message)+"</div>"; }
+}
+
+async function loadPendingMembers(){
+  const box=document.getElementById("pendingList");
+  box.innerHTML="<div class='card small'>Loading...</div>";
+  try{
+    const snap=await db.collection("users").where("status","==","pending").get();
+    if(snap.empty){ box.innerHTML="<div class='card small'>कोई Pending Member नहीं है।</div>"; return; }
+    box.innerHTML="";
+    snap.forEach(d=>{
+      const x=d.data();
+      box.innerHTML+=`<div class="card">
+        <b>${escapeHtml(x.fullName)}</b><br>
+        <span class="small">${escapeHtml(x.mobileNumber)} | ${escapeHtml(x.district || "-")} | ${escapeHtml(x.village || "-")}</span>
+        <button class="btn success" onclick="approveMember('${x.mobileNumber}')">Approve</button>
+      </div>`;
+    });
+  }catch(e){ box.innerHTML="<div class='card small'>Error: "+escapeHtml(e.message)+"</div>"; }
+}
+
+async function approveMember(mobile){
+  try{
+    await db.collection("users").doc(mobile).update({status:"approved",approvedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    loadPendingMembers();
+  }catch(e){ alert("Error: "+e.message); }
+}
+
+function escapeHtml(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+async function loadHomeStats(){
+  try{
+    const users=await db.collection("users").get();
+    const families=await db.collection("families").get();
+    totalMembers.textContent=users.size;
+    totalFamilies.textContent=families.size;
+    approvedMembers.textContent=users.docs.filter(d=>d.data().status==="approved").length;
+  }catch(e){ console.log(e); }
+}
+
+loadHomeStats();
+</script>
+</body>
+</html>

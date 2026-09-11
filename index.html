@@ -295,31 +295,35 @@ async function completeRegistration(){
  finally{regLoader.classList.remove("show")}
 }
 
-// Updated Admin Login - Supports UID Document or Email Query
+// 🛡️ Admin Login with Direct Super-Admin Support
 async function adminLogin(){
- const email=(adminEmail.value||"").trim(), password=adminPassword.value||"";
+ const email=(adminEmail.value||"").trim().toLowerCase(), password=adminPassword.value||"";
  if(!email||!password){msg("adminLoginMsg","Admin Email और Password भरें।","err");return}
  try{
   const cred=await auth.signInWithEmailAndPassword(email,password);
   const uid=cred.user.uid;
-  
-  // 1. Check direct doc by UID
-  let snap = await db.collection("admins").doc(uid).get();
-  let a = null;
 
-  if (snap.exists) {
-    a = snap.data();
-  } else {
-    // 2. Fallback: Query by email if UID doc mismatch occurs
-    const q = await db.collection("admins").where("email", "==", email).get();
-    if (!q.empty) {
-      a = q.docs[0].data();
-    }
+  // आपका सुपर एडमिन ईमेल - बिना किसी रुकावट के सीधा लॉगिन
+  if(email==="sandeepmunda0090@gmail.com"){
+   currentAdmin={uid,email:cred.user.email,role:"admin",status:"active"};
+   sessionStorage.setItem("bhuiharPortalAdmin",JSON.stringify(currentAdmin));
+   msg("adminLoginMsg","Admin Login सफल। Dashboard खोला जा रहा है…","ok");
+   go("admin");
+   return;
+  }
+
+  // अन्य एडमिन्स के लिए Firestore वेरिफिकेशन
+  let snap=await db.collection("admins").doc(uid).get();
+  let a=null;
+  if(snap.exists){a=snap.data()}
+  else{
+   const q=await db.collection("admins").where("email","==",email).get();
+   if(!q.empty)a=q.docs[0].data();
   }
 
   if(!a){
    await auth.signOut();
-   msg("adminLoginMsg","यह Admin authorized नहीं है। Admins collection में ईमेल या UID जांचें।","err");
+   msg("adminLoginMsg","Admin authorized नहीं है। Admins collection चेक करें।","err");
    return;
   }
 
@@ -328,7 +332,7 @@ async function adminLogin(){
 
   if(adminStatus!=="active" || !["admin","superadmin"].includes(adminRole)){
    await auth.signOut();
-   msg("adminLoginMsg","Admin access active नहीं है। Firestore role/status check करें।","err");
+   msg("adminLoginMsg","Admin access active नहीं है। Role/Status चेक करें।","err");
    return;
   }
 

@@ -152,7 +152,7 @@
         <button id="completeRegBtn" class="btn gold" onclick="completeRegistration()">🌾 Registration Complete करें</button>
       </div>
     </div>
-    <div id="regLoader" class="loader">कृपया प्रतीक्षा करें, फोटो और विवरण सुरक्षित किए जा रहे हैं…</div>
+    <div id="regLoader" class="loader">कृपया प्रतीक्षा करें…</div>
   </div>
 </section>
 
@@ -442,11 +442,10 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 <script>
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth(),db=firebase.firestore(),storage=firebase.storage();
+const auth=firebase.auth(),db=firebase.firestore();
 let currentUser=JSON.parse(localStorage.getItem("bhuiharPortalUser")||"null"),currentAdmin=JSON.parse(sessionStorage.getItem("bhuiharPortalAdmin")||"null"),confirmationResult=null,recaptchaVerifier=null,otpVerifiedMobile=null;
 let districtsData = {};
 let bannersList = [];
@@ -480,37 +479,42 @@ function setAge(){age.value=ageCalc(dob.value)||""}
 async function sha256(text){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
-// ⚡ SUPERFAST CLIENT-SIDE IMAGE COMPRESSOR (Reduces 10MB to ~50-80KB within milliseconds)
-function compressImage(file, maxWidth = 500, quality = 0.7) {
+// ⚡ ULTRA-FAST BASE64 PHOTO CONVERTER (No Firebase Storage Needed, 15KB tiny size)
+function fileToBase64(file, maxDimension = 160, quality = 0.65) {
   return new Promise((resolve) => {
     if (!file || !file.type.startsWith('image/')) {
-      resolve(file);
+      resolve(null);
       return;
     }
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
+    reader.onload = (e) => {
       const img = new Image();
-      img.src = event.target.result;
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
+        if (width > height) {
+          if (width > maxDimension) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          }
+        } else {
+          if (height > maxDimension) {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
         }
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        canvas.toBlob((blob) => {
-          resolve(blob || file);
-        }, 'image/jpeg', quality);
+        resolve(canvas.toDataURL('image/jpeg', quality));
       };
-      img.onerror = () => resolve(file);
+      img.onerror = () => resolve(null);
+      img.src = e.target.result;
     };
-    reader.onerror = () => resolve(file);
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
   });
 }
 
@@ -858,7 +862,7 @@ function initSliderAutoPlay(){
  }, 3500);
 }
 
-// 📱 OTP & FAST REGISTRATION (WITH AUTO-COMPRESSION)
+// 📱 OTP & 1-SECOND INSTANT REGISTRATION (WITHOUT STORAGE)
 function initRecaptcha(){
  if(recaptchaVerifier)return;
  recaptchaVerifier=new firebase.auth.RecaptchaVerifier("recaptcha-container",{size:"invisible"});
@@ -871,7 +875,7 @@ async function sendOTP(){
   sendOtpBtn.disabled=true;sendOtpBtn.textContent="OTP भेजा जा रहा है…";
   confirmationResult=await auth.signInWithPhoneNumber("+91"+m,recaptchaVerifier);
   otpArea.classList.remove("hide");msg("regMsg","OTP आपके मोबाइल नंबर पर भेज दिया गया है।","ok");
- }catch(e){console.error(e);msg("regMsg","OTP error: "+e.message,"err");try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}
+ }catch(e){msg("regMsg","OTP error: "+e.message,"err");try{recaptchaVerifier.clear()}catch(_){}recaptchaVerifier=null}
  finally{sendOtpBtn.disabled=false;sendOtpBtn.textContent="📩 OTP भेजें"}
 }
 async function verifyOTP(){
@@ -898,21 +902,18 @@ async function completeRegistration(){
  try{
   btn.disabled = true;
   regLoader.classList.add("show");
-  regLoader.textContent = "फोटो कंप्रेस और सुरक्षित की जा रही है…";
+  regLoader.textContent = "सत्यापन एवं डेटाबेस में सेव किया जा रहा है…";
 
   const ref=db.collection("users").doc(data.mobileNumber),old=await ref.get();
   if(old.exists){msg("regMsg","यह मोबाइल पहले से Registered है।","err");return}
   data.mpinHash=await sha256(p);data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
   
+  // Convert Image to Direct Lightweight Base64 (0 Storage issues)
   const rawFile=photo.files[0];
   if(rawFile){
-   const compressedBlob = await compressImage(rawFile, 500, 0.75);
-   const sr=storage.ref().child("profiles/"+data.mobileNumber+"/"+Date.now()+".jpg");
-   await sr.put(compressedBlob, { contentType: 'image/jpeg' });
-   data.photoUrl=await sr.getDownloadURL();
+   data.photoUrl = await fileToBase64(rawFile, 150, 0.65);
   }
 
-  regLoader.textContent = "डेटाबेस में सुरक्षित किया जा रहा है…";
   await ref.set(data);
   if(data.bloodGroup)await db.collection("blood").doc(data.mobileNumber).set({name:data.fullName,mobileNumber:data.mobileNumber,bloodGroup:data.bloodGroup,district:data.district,village:data.village,status:"available",updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
   msg("regMsg","Registration सफल! Admin approval के बाद Login करें।","ok");
@@ -995,21 +996,18 @@ async function loadProfile(){
  <div class="info-row"><span>मोबाइल</span><span>${esc(u.mobileNumber)}</span></div><div class="info-row"><span>उम्र</span><span>${esc(u.age)} वर्ष</span></div><div class="info-row"><span>जिला</span><span>${esc(u.district||"-")}</span></div><div class="info-row"><span>पंचायत</span><span>${esc(u.panchayat||"-")}</span></div><div class="info-row"><span>गांव</span><span>${esc(u.village||"-")}</span></div><div class="info-row"><span>कार्य</span><span>${esc(u.occupation||"-")}</span></div><div class="info-row"><span>Blood Group</span><span>${esc(u.bloodGroup||"-")}</span></div>`;
 }
 
-// 👨‍👩‍👧 FAST FAMILY ADD WITH AUTO-COMPRESSION
+// 👨‍👩‍👧 DIRECT FAST FAMILY ADD (WITHOUT STORAGE)
 async function addFamily(){
  if(!currentUser)return;
  const n=famName.value.trim(),r=famRelation.value.trim(),d=famDob.value;
  if(!n||!r){msg("familyMsg","नाम और रिश्ता आवश्यक है।","err");return}
  const btn = document.getElementById("saveFamBtn");
  try{
-  btn.disabled = true; btn.textContent = "फोटो कंप्रेस और सेव हो रही है…";
+  btn.disabled = true; btn.textContent = "सेव हो रहा है…";
   let memberPhotoUrl = null;
   const rawFile = famPhoto.files[0];
   if(rawFile){
-   const compressedBlob = await compressImage(rawFile, 400, 0.75);
-   const sr = storage.ref().child("family_photos/" + currentUser.mobileNumber + "/" + Date.now() + ".jpg");
-   await sr.put(compressedBlob, { contentType: 'image/jpeg' });
-   memberPhotoUrl = await sr.getDownloadURL();
+   memberPhotoUrl = await fileToBase64(rawFile, 140, 0.65);
   }
   await db.collection("families").add({
    ownerMobile: currentUser.mobileNumber, familyMemberName: n, relation: r, dateOfBirth: d || null, age: d ? ageCalc(d) : null, mobileNumber: famMobile.value.trim() || null, occupation: famOccupation.value.trim() || null, photoUrl: memberPhotoUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp()

@@ -204,7 +204,7 @@
     <div class="card"><div class="field"><label>Title</label><input id="noticeTitle"></div><div class="field"><label>Hindi Message</label><textarea id="noticeText"></textarea></div><button class="btn" onclick="postNotice()">Publish Notice</button></div>
     <div class="section-title"><h2>Add Event</h2></div>
     <div class="card"><div class="field"><label>Event Name</label><input id="eventName"></div><div class="field"><label>Date</label><input id="eventDate" type="date"></div><div class="field"><label>Location</label><input id="eventLocation"></div><button class="btn" onclick="addEvent()">Save Event</button></div>
-    <p class="admin-note">यह Admin panel Firebase Email/Password Login के बाद <b>admins/{UID}</b> document की <b>role</b> और <b>status</b> check करके खुलता है।</p>
+    <p class="admin-note">यह Admin panel Firebase Email/Password Login के बाद <b>admins</b> collection की <b>role</b> और <b>status</b> check करके खुलता है।</p>
   </div>
 </section>
 
@@ -294,21 +294,35 @@ async function completeRegistration(){
  }catch(e){console.error(e);msg("regMsg","Registration error: "+e.message,"err")}
  finally{regLoader.classList.remove("show")}
 }
+
+// Updated Admin Login - Supports UID Document or Email Query
 async function adminLogin(){
  const email=(adminEmail.value||"").trim(), password=adminPassword.value||"";
  if(!email||!password){msg("adminLoginMsg","Admin Email और Password भरें।","err");return}
  try{
   const cred=await auth.signInWithEmailAndPassword(email,password);
   const uid=cred.user.uid;
-  const snap=await db.collection("admins").doc(uid).get();
+  
+  // 1. Check direct doc by UID
+  let snap = await db.collection("admins").doc(uid).get();
+  let a = null;
 
-  if(!snap.exists){
+  if (snap.exists) {
+    a = snap.data();
+  } else {
+    // 2. Fallback: Query by email if UID doc mismatch occurs
+    const q = await db.collection("admins").where("email", "==", email).get();
+    if (!q.empty) {
+      a = q.docs[0].data();
+    }
+  }
+
+  if(!a){
    await auth.signOut();
-   msg("adminLoginMsg","यह Firebase account Admin list में authorized नहीं है। UID: "+uid,"err");
+   msg("adminLoginMsg","यह Admin authorized नहीं है। Admins collection में ईमेल या UID जांचें।","err");
    return;
   }
 
-  const a=snap.data()||{};
   const adminRole=String(a.role||"").trim().toLowerCase();
   const adminStatus=String(a.status||"").trim().toLowerCase();
 
@@ -327,6 +341,7 @@ async function adminLogin(){
   msg("adminLoginMsg","Admin Login error: "+(e.code||e.message||"Unknown error"),"err");
  }
 }
+
 async function adminLogout(){
  currentAdmin=null;
  sessionStorage.removeItem("bhuiharPortalAdmin");

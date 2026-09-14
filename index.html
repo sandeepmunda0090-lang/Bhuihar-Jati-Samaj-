@@ -2,100 +2,175 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#0b5cab">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0a192f">
 <title>भुईहर जाति समाज | महाराजगंज</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--red:#d93025;--shadow:0 10px 28px rgba(20,42,72,.09)}
-body.dark-mode{--p:#2d8deb;--p2:#106ebd;--navy:#06182e;--gold:#f6c95b;--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--line:#334155;--shadow:0 10px 28px rgba(0,0,0,.4)}
-*{box-sizing:border-box}body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text);transition:background 0.3s}
-body.dark-mode{background:#0a0f1d}
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow:hidden;transition:background 0.3s}.page{display:none;min-height:100vh;padding-bottom:82px}.page.active{display:block}
-.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:28px 20px 38px;border-radius:0 0 32px 32px;position:relative}.brand{display:flex;align-items:center;gap:13px}.logo{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:31px;box-shadow:0 8px 20px rgba(0,0,0,.18)}.brand h1{margin:0;font-size:23px}.brand p{margin:4px 0 0;font-size:12px;opacity:.82}
-.hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800}.hero-sub{font-size:13px;line-height:1.6;opacity:.88}.container{padding:16px}
-.theme-toggle{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);border:0;color:#fff;font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2,.card h3{margin:0 0 10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.section-title h2{font-size:18px;margin:0}
-.btn{border:0;border-radius:14px;padding:14px 16px;width:100%;font:700 15px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:9px;box-shadow:0 7px 15px rgba(7,87,163,.18)}.btn.secondary{background:#eaf3ff;color:var(--p);box-shadow:none}.btn.green{background:linear-gradient(135deg,#128047,#21aa62)}.btn.red{background:#e53935}.btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}.btn.small{width:auto;padding:8px 12px;font-size:12px;margin:0}.btn.link{background:none;box-shadow:none;color:var(--p);padding:8px 0;margin:6px 0 0;font-size:13px}
-.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 6px}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:13px;padding:13px;font:inherit;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,87,163,.11)}textarea{min-height:85px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.notice{background:#eef6ff;color:#164b80;border:1px solid #d6e9ff;border-radius:14px;padding:12px;font-size:13px;line-height:1.5}.msg{display:none;padding:11px 12px;border-radius:12px;font-size:13px;margin:10px 0}.msg.show{display:block}.msg.ok{background:#ddf7e8;color:#116338}.msg.err{background:#ffe5e3;color:#a5231d}.msg.info{background:#eaf3ff;color:#164b80}
-.topbar{padding:17px 16px;background:linear-gradient(135deg,var(--navy),var(--p));color:#fff;display:flex;align-items:center;gap:12px}.back{border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}.topbar h1{font-size:19px;margin:0}.topbar p{font-size:11px;opacity:.82;margin:2px 0 0}
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.action{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;cursor:pointer;text-align:left;box-shadow:var(--shadow);color:var(--text)}.action .ic{font-size:26px;margin-bottom:8px}.action b{display:block;font-size:13.5px}.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 8px;text-align:center}.stat b{display:block;font-size:22px;color:var(--p)}.stat span{font-size:11px;color:var(--muted)}
-.profile-head{background:linear-gradient(145deg,var(--card),#edf6ff);border-radius:22px;padding:17px;display:flex;gap:13px;align-items:center}.avatar{width:64px;height:64px;border-radius:22px;background:#dbeeff;display:grid;place-items:center;font-size:31px;overflow:hidden;flex:none}.avatar img{width:100%;height:100%;object-fit:cover}.profile-head h2{font-size:20px;margin:0 0 5px}.profile-head p{font-size:12px;color:var(--muted);margin:0}
-.pill{display:inline-block;padding:4px 9px;border-radius:99px;font-size:11px;font-weight:800}.approved{background:#dcfce7;color:#166534}.pending{background:#fef3c7;color:#92400e}.rejected,.blocked{background:#fee2e2;color:#991b1b}
-.info-row{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.info-row:last-child{border-bottom:0}.info-row span:first-child{color:var(--muted)}.info-row span:last-child{font-weight:700;text-align:right}
-.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}.item h3{font-size:15px;margin:0 0 5px}.item p{font-size:12px;color:var(--muted);margin:4px 0;line-height:1.5}
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:7px 3px}.nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:6px 2px;cursor:pointer}.nav b{display:block;font-size:19px}.nav button.active{color:var(--p);font-weight:800}
-.banner{border-radius:20px;padding:18px;background:linear-gradient(135deg,#f9d982,#eaa42a);color:#4b3200;margin-bottom:14px}.banner h3{margin:0 0 6px}.banner p{font-size:12px;margin:0;line-height:1.5}
-.hide{display:none!important}.loader{display:none;text-align:center;padding:13px;font-size:13px;color:var(--p);font-weight:700}.loader.show{display:block}.searchbar{position:sticky;top:0;background:var(--bg);padding-bottom:8px;z-index:2}.admin-note{font-size:11px;color:var(--muted);line-height:1.5}
+:root{
+  --navy:#0a192f;
+  --navy-light:#112240;
+  --navy-card:#1e293b;
+  --p:#1d4ed8;
+  --p-gradient:linear-gradient(135deg,#1e3a8a,#2563eb);
+  --gold:#f59e0b;
+  --gold-gradient:linear-gradient(135deg,#d97706,#fbbf24);
+  --gold-glow:rgba(245,158,11,0.25);
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --green:#10b981;
+  --red:#ef4444;
+  --shadow-sm:0 2px 8px rgba(10,25,47,0.06);
+  --shadow-md:0 10px 30px rgba(10,25,47,0.08);
+  --shadow-lg:0 20px 40px rgba(10,25,47,0.12);
+  --radius:20px;
+}
+body.dark-mode{
+  --bg:#070d18;
+  --card:#0f172a;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --line:#1e293b;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.4);
+  --shadow-md:0 10px 30px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#cbd5e1;font-family:'Plus Jakarta Sans',system-ui,"Noto Sans Devanagari",sans-serif;color:var(--text);transition:background 0.3s}
+body.dark-mode{background:#030712}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15)}
+.page{display:none;min-height:100vh;padding-bottom:95px}
+.page.active{display:block;animation:fadeIn 0.25s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Royal Hero Section */
+.hero{background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);color:#fff;padding:32px 20px 40px;border-radius:0 0 32px 32px;position:relative;box-shadow:var(--shadow-lg)}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(245,158,11,0.15),transparent 50%);pointer-events:none}
+.brand{display:flex;align-items:center;gap:14px;position:relative;z-index:2}
+.logo{width:60px;height:60px;border-radius:18px;background:var(--gold-gradient);display:grid;place-items:center;font-size:32px;box-shadow:0 8px 24px var(--gold-glow)}
+.brand h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.brand p{margin:3px 0 0;font-size:12px;opacity:0.85}
+.hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800;letter-spacing:-0.5px}
+.hero-sub{font-size:13px;line-height:1.6;opacity:0.85}
+.container{padding:18px}
+.theme-toggle{position:absolute;top:22px;right:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);z-index:10}
+
+/* Cards & Components */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:all 0.2s}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}
+.section-title h2{font-size:18px;font-weight:800;margin:0;letter-spacing:-0.3px}
+
+.btn{border:0;border-radius:14px;padding:14px 18px;width:100%;font:700 15px inherit;cursor:pointer;background:var(--p-gradient);color:#fff;margin-top:10px;box-shadow:0 8px 20px rgba(37,99,235,0.25);transition:transform 0.1s,filter 0.2s;display:inline-flex;justify-content:center;align-items:center;gap:8px}
+.btn:active{transform:scale(0.97)}
+.btn.secondary{background:rgba(37,99,235,0.08);color:var(--p);box-shadow:none;border:1px solid rgba(37,99,235,0.15)}
+.btn.green{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 8px 20px rgba(16,185,129,0.25)}
+.btn.red{background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 8px 20px rgba(239,68,68,0.25)}
+.btn.gold{background:var(--gold-gradient);color:#451a03;box-shadow:0 8px 20px var(--gold-glow)}
+.btn.small{width:auto;padding:8px 14px;font-size:12px;margin:0}
+.btn.link{background:none;box-shadow:none;color:var(--p);padding:8px 0;margin:6px 0 0;font-size:13px}
+
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:13px;font:inherit;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(37,99,235,0.12)}
+textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.notice{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;border-radius:16px;padding:14px;font-size:13px;line-height:1.5}
+.msg{display:none;padding:12px 14px;border-radius:14px;font-size:13px;margin:12px 0;font-weight:600}
+.msg.show{display:block}.msg.ok{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}.msg.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.msg.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+
+.topbar{padding:18px 16px;background:linear-gradient(135deg,#0a192f,#1e3a8a);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-md)}
+.back{border:0;background:rgba(255,255,255,0.15);color:#fff;border-radius:12px;padding:9px 14px;font:inherit;cursor:pointer;backdrop-filter:blur(6px)}
+.topbar h1{font-size:19px;margin:0;font-weight:800}.topbar p{font-size:11px;opacity:0.85;margin:2px 0 0}
+
+/* Modern 3D Style Quick Action Grid */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.action{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;cursor:pointer;text-align:left;box-shadow:var(--shadow-sm);color:var(--text);transition:transform 0.15s,box-shadow 0.15s;position:relative;overflow:hidden}
+.action:active{transform:scale(0.97)}
+.action .ic{width:46px;height:46px;border-radius:14px;background:rgba(37,99,235,0.08);display:grid;place-items:center;font-size:24px;margin-bottom:12px}
+.action b{display:block;font-size:14px;font-weight:800}
+.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat b{display:block;font-size:24px;font-weight:800;color:var(--p);letter-spacing:-0.5px}.stat span{font-size:11px;color:var(--muted)}
+
+.profile-head{background:linear-gradient(145deg,var(--card),#f8fafc);border-radius:22px;padding:18px;display:flex;gap:14px;align-items:center}
+.avatar{width:68px;height:68px;border-radius:22px;background:var(--p-gradient);display:grid;place-items:center;font-size:32px;overflow:hidden;flex:none;box-shadow:0 8px 20px rgba(37,99,235,0.25)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+
+.pill{display:inline-block;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:800}
+.approved{background:#dcfce7;color:#166534}.pending{background:#fef3c7;color:#92400e}.rejected,.blocked{background:#fee2e2;color:#991b1b}
+
+.info-row{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+.info-row:last-child{border-bottom:0}.info-row span:first-child{color:var(--muted)}.info-row span:last-child{font-weight:700;text-align:right}
+
+.item{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.item h3{font-size:15px;margin:0 0 6px;font-weight:800}.item p{font-size:12px;color:var(--muted);margin:4px 0;line-height:1.5}
+
+/* Floating Capsule Bottom Navigation */
+.nav{position:fixed;z-index:60;bottom:14px;left:50%;transform:translateX(-50%);width:min(460px,calc(100% - 24px));background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.6);border-radius:26px;display:flex;padding:6px;box-shadow:0 12px 36px rgba(10,25,47,0.18)}
+body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255,0.08)}
+.nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:8px 4px;cursor:pointer;border-radius:18px;transition:all 0.2s}
+.nav b{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:var(--p);font-weight:800;background:rgba(37,99,235,0.08)}
 
 /* Sliders */
-.slider-container{position:relative;width:100%;height:170px;overflow:hidden;border-radius:18px;margin-bottom:15px;background:#1e293b;box-shadow:var(--shadow);touch-action:pan-y}
+.slider-container{position:relative;width:100%;height:180px;overflow:hidden;border-radius:22px;margin-bottom:16px;background:#0a192f;box-shadow:var(--shadow-md);touch-action:pan-y}
 .slider-track{display:flex;transition:transform 0.4s ease-out;height:100%}
-.slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:15px;user-select:none}
-.slide-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.1) 60%)}
+.slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;user-select:none}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,25,47,0.85) 0%,rgba(10,25,47,0.1) 60%)}
 .slide-content{position:relative;z-index:2;color:#fff}
-.slide-content h4{margin:0 0 4px;font-size:16px}
-.slide-content p{margin:0;font-size:12px;opacity:0.9}
-.slider-dots{position:absolute;bottom:8px;right:12px;display:flex;gap:5px;z-index:3}
-.s-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer}
-.s-dot.active{background:#fff;width:16px;border-radius:4px}
+.slide-content h4{margin:0 0 4px;font-size:16px;font-weight:800}.slide-content p{margin:0;font-size:12px;opacity:0.9}
+.slider-dots{position:absolute;bottom:10px;right:14px;display:flex;gap:6px;z-index:3}
+.s-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.2s}
+.s-dot.active{background:#fff;width:20px;border-radius:6px}
 
-.officer-slider-container{position:relative;width:100%;overflow:hidden;border-radius:18px;background:var(--card);border:1px solid var(--line);padding:14px;margin-bottom:15px;box-shadow:var(--shadow);touch-action:pan-y}
+.officer-slider-container{position:relative;width:100%;overflow:hidden;border-radius:22px;background:var(--card);border:1px solid var(--line);padding:16px;margin-bottom:16px;box-shadow:var(--shadow-sm);touch-action:pan-y}
 .officer-track{display:flex;transition:transform 0.4s ease-out}
 .officer-slide{min-width:100%;display:flex;gap:14px;align-items:center;user-select:none}
-.officer-img{width:75px;height:75px;border-radius:50%;object-fit:cover;border:3px solid var(--p);flex:none;background:#eef6ff}
+.officer-img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);flex:none;background:#eef6ff;box-shadow:0 4px 12px var(--gold-glow)}
 .officer-info{flex:1}
-.officer-role{background:#fef3c7;color:#92400e;font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:4px}
+.officer-role{background:#fef3c7;color:#92400e;font-size:11px;font-weight:800;padding:3px 10px;border-radius:8px;display:inline-block;margin-bottom:4px}
 
 /* Contact Actions */
-.contact-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.btn-call{background:#2563eb;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
-.btn-emergency{background:#dc2626;color:#fff;text-decoration:none;border-radius:8px;padding:7px 14px;font-size:13px;display:inline-flex;align-items:center;gap:5px;font-weight:800}
-.btn-wa{background:#16a34a;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
-.btn-web{background:#0d7bd3;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.contact-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn-call{background:#2563eb;color:#fff;text-decoration:none;border-radius:10px;padding:7px 14px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.btn-emergency{background:#ef4444;color:#fff;text-decoration:none;border-radius:10px;padding:8px 16px;font-size:13px;display:inline-flex;align-items:center;gap:6px;font-weight:800}
+.btn-wa{background:#10b981;color:#fff;text-decoration:none;border-radius:10px;padding:7px 14px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.btn-web{background:#0284c7;color:#fff;text-decoration:none;border-radius:10px;padding:7px 14px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
 
-/* Digital ID Card */
-.id-card-wrapper{background:#0b5cab;padding:12px;border-radius:24px;box-shadow:0 12px 30px rgba(7,87,163,.25);margin-bottom:14px}
-.id-card{background:linear-gradient(135deg,#0757a3,#0d7bd3);color:#fff;border-radius:18px;padding:18px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.2)}
-.id-card::after{content:'🌾 भुईहर';position:absolute;right:-15px;bottom:-10px;font-size:60px;opacity:0.12;font-weight:900;pointer-events:none}
-.id-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:10px;margin-bottom:12px}
-.id-body{display:flex;gap:15px;align-items:center}
-.id-photo{width:75px;height:75px;border-radius:14px;background:#fff;object-fit:cover;border:2px solid #fff}
-.id-details h3{margin:0 0 4px;font-size:17px}
-.id-details p{margin:2px 0;font-size:12px;opacity:0.95}
+/* Royal Smart Digital ID Card */
+.id-card-wrapper{background:linear-gradient(135deg,#0a192f,#1e3a8a);padding:14px;border-radius:26px;box-shadow:var(--shadow-lg);margin-bottom:16px;border:1px solid rgba(245,158,11,0.3)}
+.id-card{background:linear-gradient(135deg,#112240,#1e3a8a);color:#fff;border-radius:20px;padding:20px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.15)}
+.id-card::after{content:'🌾 भुईहर';position:absolute;right:-15px;bottom:-10px;font-size:75px;opacity:0.08;font-weight:900;pointer-events:none}
+.chip-graphic{width:36px;height:26px;border-radius:6px;background:linear-gradient(135deg,#f59e0b,#fbbf24);margin-bottom:12px;position:relative;box-shadow:0 2px 8px rgba(245,158,11,0.4)}
+.id-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:10px;margin-bottom:14px}
+.id-body{display:flex;gap:16px;align-items:center}
+.id-photo{width:80px;height:80px;border-radius:16px;background:#fff;object-fit:cover;border:2px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.id-details h3{margin:0 0 4px;font-size:18px;font-weight:800}
+.id-details p{margin:2px 0;font-size:12px;opacity:0.9}
 
 /* Biodata Card Styling */
-.biodata-card{background:#fff;color:#152238;border:2px solid #0757a3;border-radius:16px;padding:18px;margin-bottom:14px;position:relative}
-.biodata-card h2{text-align:center;color:#0757a3;border-bottom:2px dashed #0757a3;padding-bottom:8px;margin:0 0 12px;font-size:18px}
+.biodata-card{background:#fff;color:#0f172a;border:2px solid var(--p);border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:var(--shadow-md)}
+.biodata-card h2{text-align:center;color:var(--p);border-bottom:2px dashed var(--p);padding-bottom:10px;margin:0 0 14px;font-size:19px;font-weight:800}
 
-/* Donation Receipt Styling */
-.receipt-box{background:#fff;color:#111;border:2px solid #168c50;border-radius:16px;padding:18px;margin-bottom:14px;position:relative}
-.receipt-header{text-align:center;border-bottom:2px solid #168c50;padding-bottom:10px;margin-bottom:12px}
-.receipt-stamp{border:2px solid #168c50;color:#168c50;padding:4px 8px;display:inline-block;border-radius:6px;font-weight:800;font-size:11px;transform:rotate(-5deg);margin-top:8px}
+/* Donation Receipt Box */
+.receipt-box{background:#fff;color:#111;border:2px solid var(--green);border-radius:20px;padding:20px;margin-bottom:14px}
+.receipt-header{text-align:center;border-bottom:2px solid var(--green);padding-bottom:10px;margin-bottom:12px}
+.receipt-stamp{border:2px solid var(--green);color:var(--green);padding:5px 10px;display:inline-block;border-radius:8px;font-weight:800;font-size:11px;transform:rotate(-5deg);margin-top:8px}
 
-/* Gallery Grid */
-.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.gallery-img{width:100%;height:130px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
-
-/* Printable Official Family Slip */
-#familyPrintArea{background:#fff;color:#111;padding:24px;border:2px solid #0757a3;border-radius:14px;margin-top:14px}
-.doc-header{text-align:center;border-bottom:2px solid #0757a3;padding-bottom:12px;margin-bottom:16px}
-.doc-header h2{margin:0;color:#0757a3;font-size:22px}
-.doc-header p{margin:4px 0 0;font-size:12px;color:#444}
-.doc-user-info{display:flex;gap:16px;align-items:center;margin-bottom:18px;background:#f8fafc;padding:12px;border-radius:10px;border:1px solid #e2e8f0}
-.doc-user-info img{width:80px;height:80px;border-radius:10px;object-fit:cover;border:2px solid #0757a3}
-.doc-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
-.doc-table th,.doc-table td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left}
-.doc-table th{background:#e2e8f0;color:#0f172a;font-weight:bold}
-.doc-footer{display:flex;justify-content:flex-end;margin-top:35px;padding-top:10px}
-.signature-box{text-align:center;width:220px}
-.signature-line{border-top:1.5px dashed #000;margin-bottom:6px}
-
-@media(max-width:360px){.grid2{grid-template-columns:1fr}.brand h1{font-size:20px}}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gallery-img{width:100%;height:135px;object-fit:cover;border-radius:16px;border:1px solid var(--line)}
+.hide{display:none!important}
+.loader{display:none;text-align:center;padding:14px;font-size:13px;color:var(--p);font-weight:700}
+.loader.show{display:block}
+.searchbar{position:sticky;top:0;background:var(--bg);padding-bottom:10px;z-index:5}
+.admin-note{font-size:11.5px;color:var(--muted);line-height:1.5}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -111,12 +186,19 @@ body.dark-mode{background:#0a0f1d}
 <section id="home" class="page active">
   <div class="hero">
     <button class="theme-toggle" onclick="toggleTheme()" title="डार्क/लाइट मोड">🌓</button>
-    <div class="brand"><div class="logo">🌾</div><div><h1>भुईहर जाति समाज</h1><p>महाराजगंज • समाजिक संपर्क एवं सेवा पोर्टल</p></div></div>
+    <div class="brand">
+      <div class="logo">🌾</div>
+      <div>
+        <h1>भुईहर जाति समाज</h1>
+        <p>महाराजगंज • सामाजिक संपर्क एवं डिजिटल सेवा</p>
+      </div>
+    </div>
     <div class="hero-title">समाज को जोड़ें,<br>परिवार को डिजिटल बनाएं।</div>
-    <div class="hero-sub">सदस्य पंजीकरण, डिजिटल आईडी कार्ड, आपातकालीन रक्त, बायोडेटा, रोजगार व समाज कोष।</div>
-    <button class="btn" onclick="go('register')">✨ नया सदस्य बनें</button>
-    <button class="btn secondary" onclick="go('login')">🔐 Member Login</button>
+    <div class="hero-sub">सदस्य पंजीकरण, स्मार्ट आईडी कार्ड, आपातकालीन ब्लड सहायता, वैवाहिक बायोडेटा एवं समाज कोष।</div>
+    <button class="btn gold" onclick="go('register')">✨ नया सदस्य बनें</button>
+    <button class="btn secondary" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="go('login')">🔐 Member Login</button>
   </div>
+
   <div class="container">
     <div id="homeBannerSlider"></div>
 
@@ -129,10 +211,11 @@ body.dark-mode{background:#0a0f1d}
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
     
-    <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <!-- WhatsApp Share Invite Banner -->
+    <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px">
       <div>
-        <b style="color:#166534;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
-        <p style="margin:2px 0 0;font-size:11px;color:#15803d">यह पोर्टल अपने परिवार व WhatsApp ग्रुपों में भेजें</p>
+        <b style="color:#065f46;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
+        <p style="margin:2px 0 0;font-size:11px;color:#047857">यह पोर्टल अपने परिवार व WhatsApp ग्रुपों में भेजें</p>
       </div>
       <button class="btn small green" onclick="sharePortalWhatsApp()">शेयर करें</button>
     </div>
@@ -140,18 +223,18 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2>मुख्य सेवाएं</h2></div>
     <div class="action-grid">
       <button class="action" onclick="go('search')"><div class="ic">🔎</div><b>सदस्य खोज</b><span>नाम, जिला, गांव</span></button>
-      <button class="action" onclick="go('blood')"><div class="ic">🩸</div><b>Blood Directory</b><span>आपातकालीन रक्त</span></button>
-      <button class="action" onclick="go('matrimonial')"><div class="ic">💍</div><b>वैवाहिक व बायोडेटा</b><span>रिश्ते व PDF कार्ड</span></button>
+      <button class="action" onclick="go('blood')"><div class="ic" style="background:rgba(239,68,68,0.1)">🩸</div><b>Blood Directory</b><span>आपातकालीन रक्त</span></button>
+      <button class="action" onclick="go('matrimonial')"><div class="ic" style="background:rgba(245,158,11,0.1)">💍</div><b>वैवाहिक बायोडेटा</b><span>रिश्ते व कार्ड</span></button>
       <button class="action" onclick="go('jobs')"><div class="ic">💼</div><b>रोज़गार एवं करियर</b><span>नौकरियां व काम</span></button>
       <button class="action" onclick="go('business')"><div class="ic">🏪</div><b>बिजनेस डायरेक्टरी</b><span>समाज व्यापार</span></button>
-      <button class="action" onclick="go('donation')"><div class="ic">🪙</div><b>दान एवं कोष</b><span>रसीद सहित सहयोग</span></button>
+      <button class="action" onclick="go('donation')"><div class="ic" style="background:rgba(16,185,129,0.1)">🪙</div><b>दान एवं कोष</b><span>रसीद सहित सहयोग</span></button>
       <button class="action" onclick="go('history')"><div class="ic">📜</div><b>इतिहास व गोत्र</b><span>कुलदेवी व परंपरा</span></button>
-      <button class="action" onclick="go('talent')"><div class="ic">🎓</div><b>प्रतिभा सम्मान</b><span>होनहार छात्र-छात्राएं</span></button>
+      <button class="action" onclick="go('talent')"><div class="ic">🎓</div><b>प्रतिभा सम्मान</b><span>होनहार छात्र</span></button>
       <button class="action" onclick="go('obituary')"><div class="ic">🕊️</div><b>शोक संदेश</b><span>श्रद्धांजलि कॉर्नर</span></button>
       <button class="action" onclick="go('polls')"><div class="ic">🗳️</div><b>रायशुमारी पोल</b><span>सामुदायिक मत</span></button>
       <button class="action" onclick="go('schemes')"><div class="ic">🏛️</div><b>सरकारी योजनाएं</b><span>मार्गदर्शन व लाभ</span></button>
       <button class="action" onclick="go('gallery')"><div class="ic">🖼️</div><b>फोटो गैलरी</b><span>आयोजन यादें</span></button>
-      <button class="action" onclick="go('events')"><div class="ic">📅</div><b>कार्यक्रम व कैलेंडर</b><span>पर्व एवं आयोजन</span></button>
+      <button class="action" onclick="go('events')"><div class="ic">📅</div><b>कार्यक्रम कैलेंडर</b><span>पर्व एवं आयोजन</span></button>
       <button class="action" onclick="go('support')"><div class="ic">🤝</div><b>सहायता केंद्र</b><span>शिकायत व अर्जी</span></button>
     </div>
     
@@ -245,8 +328,8 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2>🌾 समाज के प्रमुख पदाधिकारी</h2></div>
     <div id="dashOfficerSlider"></div>
 
-    <div class="card"><div class="profile-head"><div id="avatar" class="avatar">👤</div><div><h2 id="dashName">सदस्य</h2><p id="dashMobile"></p><span id="statusPill" class="pill pending">Pending</span></div></div></div>
-    <div id="pendingBanner" class="banner hide"><h3>⏳ Approval Pending</h3><p>आपका पंजीकरण सुरक्षित दर्ज हो चुका है। समिति द्वारा सत्यापन के बाद डिजिटल आईडी सक्रिय होगी।</p></div>
+    <div class="card"><div class="profile-head"><div id="avatar" class="avatar">👤</div><div><h2 id="dashName">सदस्य</h2><p id="dashMobile" style="margin:2px 0 6px"></p><span id="statusPill" class="pill pending">Pending</span></div></div></div>
+    <div id="pendingBanner" class="card hide" style="background:#fefce8;border-color:#fef08a"><h3>⏳ Approval Pending</h3><p class="admin-note">आपका पंजीकरण दर्ज हो चुका है। समिति द्वारा सत्यापन के बाद डिजिटल पहचान पत्र जारी किया जाएगा।</p></div>
     
     <div class="section-title"><h2>मेरी सुविधाएं</h2></div>
     <div class="action-grid">
@@ -294,7 +377,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🎓 TALENT & SCHOLAR RECOGNITION (View Only) -->
+<!-- 🎓 TALENT & SCHOLAR RECOGNITION -->
 <section id="talent" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>मेधावी छात्र एवं प्रतिभा सम्मान</h1><p>समाज के होनहार सितारे</p></div></div>
   <div class="container">
@@ -310,7 +393,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🕊️ OBITUARY & CONDOLENCE (View Only) -->
+<!-- 🕊️ OBITUARY & CONDOLENCE -->
 <section id="obituary" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>शोक संदेश एवं श्रद्धांजलि</h1><p>दिवंगतों को नमन व शोक सभा सूचना</p></div></div>
   <div class="container">
@@ -342,7 +425,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🏛️ SCHEMES & GUIDES (विस्तारित सरकारी योजनाएं) -->
+<!-- 🏛️ SCHEMES & GUIDES -->
 <section id="schemes" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सरकारी योजनाएं व सहायता</h1><p>कल्याणकारी योजनाओं की जानकारी</p></div></div>
   <div class="container">
@@ -392,7 +475,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 💍 MATRIMONIAL & BIODATA GENERATOR (Privacy Protected) -->
+<!-- 💍 MATRIMONIAL & BIODATA GENERATOR -->
 <section id="matrimonial" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1><p>रिश्ते एवं 1-क्लिक बायोडेटा कार्ड</p></div></div>
   <div class="container">
@@ -422,22 +505,21 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🪙 DONATION & DIGITAL RECEIPT (ऑटो-टोटल फंड सहित) -->
+<!-- 🪙 DONATION & DIGITAL RECEIPT -->
 <section id="donation" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>दान एवं समाज कोष</h1><p>पारदर्शी सहयोग व रसीद</p></div></div>
   <div class="container">
-    <!-- ऑटो कुल संकलित राशि कार्ड -->
-    <div class="card" style="background:linear-gradient(135deg,#168c50,#21aa62);color:#fff;text-align:center">
+    <div class="card" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;text-align:center;box-shadow:0 10px 25px rgba(16,185,129,0.25)">
       <span style="font-size:12px;opacity:0.9">🌾 समाज कोष कुल संकलित सहयोग 🌾</span>
-      <h2 id="totalDonationFund" style="font-size:28px;margin:6px 0 2px">₹0 /-</h2>
+      <h2 id="totalDonationFund" style="font-size:30px;margin:6px 0 2px;font-weight:800">₹0 /-</h2>
       <p style="margin:0;font-size:11px;opacity:0.85">समस्त सामाजिक विकास एवं भवन निर्माण हेतु सुरक्षित</p>
     </div>
 
     <div class="card" style="text-align:center">
       <h3>🌾 भुईहर समाज कल्याण कोष</h3>
       <p class="admin-note">समाज भवन, धर्मशाला निर्माण व आकस्मिक सहायता हेतु सहयोग करें।</p>
-      <div style="background:#eef6ff;border:2px dashed #0757a3;border-radius:16px;padding:16px;margin:12px 0">
-        <p style="margin:0;font-size:13px;font-weight:700">UPI ID: <span style="color:#0757a3">bhuiharsamaj@upi</span></p>
+      <div style="background:#eff6ff;border:2px dashed var(--p);border-radius:18px;padding:16px;margin:14px 0">
+        <p style="margin:0;font-size:14px;font-weight:800">UPI ID: <span style="color:var(--p)">bhuiharsamaj@upi</span></p>
         <p style="margin:4px 0 0;font-size:11px;color:var(--muted)">Google Pay / PhonePe / Paytm से सहयोग भेजें</p>
       </div>
       <button class="btn green" onclick="generateDonationReceiptPrompt()">🧾 सहयोग उपरांत दान रसीद प्राप्त करें</button>
@@ -451,7 +533,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 💼 JOBS & CAREER (ऑनलाइन लिंक सपोर्ट के साथ) -->
+<!-- 💼 JOBS & CAREER -->
 <section id="jobs" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1><p>समाज रोजगार मंच</p></div></div>
   <div class="container">
@@ -467,7 +549,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🏪 BUSINESS DIRECTORY (View Only) -->
+<!-- 🏪 BUSINESS DIRECTORY -->
 <section id="business" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>बिजनेस डायरेक्टरी</h1><p>समाज के व्यापार व सेवाएं</p></div></div>
   <div class="container">
@@ -570,7 +652,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 📅 EVENTS & SOCIAL CALENDAR (Google Map सपोर्ट सहित) -->
+<!-- 📅 EVENTS & SOCIAL CALENDAR -->
 <section id="events" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>कार्यक्रम व समाज कैलेंडर</h1><p>समाज के पर्व एवं वार्षिक आयोजन</p></div></div>
   <div class="container">
@@ -595,7 +677,7 @@ body.dark-mode{background:#0a0f1d}
 
     <!-- 🔍 ADMIN USER LOOKUP & FAMILY PDF GENERATOR -->
     <div class="section-title"><h2>🔍 सदस्य लुकअप & सपरिवार PDF</h2></div>
-    <div class="card" style="background:#f0f7ff;border-color:#bcdbff">
+    <div class="card" style="background:#f8fafc;border-color:#cbd5e1">
       <div class="field">
         <label>सदस्य का 10 अंकों का मोबाइल नंबर डालें *</label>
         <div style="display:flex;gap:8px">
@@ -605,9 +687,8 @@ body.dark-mode{background:#0a0f1d}
       </div>
       <div id="adminLookupLoader" class="loader">सदस्य व परिवार का डेटा खोजा जा रहा है...</div>
       
-      <!-- Lookup Results Box -->
       <div id="adminLookupResult" class="hide" style="margin-top:12px">
-        <div class="item" style="border:1.5px solid #0757a3">
+        <div class="item" style="border:1.5px solid var(--p)">
           <div style="display:flex;justify-content:space-between;align-items:center">
             <h3 id="lkName" style="margin:0"></h3>
             <span id="lkStatusPill" class="pill"></span>
@@ -615,59 +696,17 @@ body.dark-mode{background:#0a0f1d}
           <p id="lkBasicInfo" style="margin:6px 0"></p>
           <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
             <button id="lkBlockBtn" class="btn small red"></button>
-            <button class="btn small green" onclick="downloadFamilySlipPDF()">📥 सपरिवार PDF डाउनलोड करें</button>
-          </div>
-        </div>
-
-        <!-- Printable Element -->
-        <div id="familyPrintWrapper" class="hide">
-          <div id="familyPrintArea">
-            <div class="doc-header">
-              <h2>🌾 भुईहर जाति समाज, महाराजगंज 🌾</h2>
-              <p>समाजिक संपर्क, सेवा एवं पारिवारिक अभिलेख पंजीयन प्रमाण पत्र</p>
-              <p style="font-size:11px;color:#666;margin-top:2px">प्रमाण पत्र जारी दिनांक: <span id="docPrintDate"></span></p>
-            </div>
-            <div class="doc-user-info">
-              <div id="docUserPhotoArea"></div>
-              <div style="flex:1">
-                <h3 id="docHeadName" style="margin:0 0 4px;font-size:18px;color:#0757a3"></h3>
-                <p style="margin:2px 0;font-size:13px"><b>मोबाइल:</b> +91 <span id="docHeadMobile"></span> • <b>ID:</b> <span id="docHeadId"></span></p>
-                <p style="margin:2px 0;font-size:13px"><b>पता:</b> <span id="docHeadAddress"></span></p>
-                <p style="margin:2px 0;font-size:13px"><b>व्यवसाय:</b> <span id="docHeadOccupation"></span> • <b>रक्त समूह:</b> <span id="docHeadBlood"></span></p>
-              </div>
-            </div>
-            
-            <h4 style="margin:16px 0 8px;font-size:15px;color:#0f172a;border-bottom:1.5px solid #e2e8f0;padding-bottom:4px">👨‍👩‍👧 पंजीकृत परिवार के सदस्य तालिका</h4>
-            <table class="doc-table">
-              <thead>
-                <tr>
-                  <th style="width:40px">क्र.</th>
-                  <th>सदस्य का नाम</th>
-                  <th>रिश्ता</th>
-                  <th>उम्र</th>
-                  <th>व्यवसाय</th>
-                </tr>
-              </thead>
-              <tbody id="docFamilyTbody"></tbody>
-            </table>
-
-            <div class="doc-footer">
-              <div class="signature-box">
-                <div class="signature-line"></div>
-                <b style="font-size:13px">हस्ताक्षर / मुहर</b><br>
-                <b style="color:#0757a3;font-size:13px">मुखिया (महतो)</b><br>
-                <span style="font-size:11px;color:#555">भुईहर जाति समाज, महाराजगंज</span>
-              </div>
-            </div>
+            <button id="lkPdfBtn" class="btn small green" onclick="downloadFamilySlipPDF()">📥 सपरिवार PDF डाउनलोड करें</button>
           </div>
         </div>
       </div>
     </div>
     
+    <!-- 📊 CSV EXPORT -->
     <div class="card" style="margin-top:14px;background:#f0fdf4;border-color:#bbf7d0">
       <h3 style="color:#166534">📊 सदस्य डेटा डाउनलोड</h3>
-      <p class="admin-note">स्वीकृत सदस्यों का विवरण एक्सेल में डाउनलोड करें।</p>
-      <button class="btn green" onclick="exportMembersToCSV()">📥 Download All Members (CSV/Excel)</button>
+      <p class="admin-note">स्वीकृत सदस्यों का पूरा विवरण एक्सेल/CSV में डाउनलोड करें।</p>
+      <button id="exportCsvBtn" class="btn green" onclick="exportMembersToCSV()">📥 Download All Members (CSV/Excel)</button>
     </div>
 
     <div class="section-title"><h2>Pending Approval</h2></div>
@@ -677,7 +716,7 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2 style="color:var(--red)">🚫 ब्लॉक किए गए सदस्य (Blocked Members)</h2></div>
     <div id="blockedMembersList"><div class="card"><span class="admin-note">कोई ब्लॉक सदस्य नहीं है।</span></div></div>
 
-    <!-- 📢 ADMIN: JOBS POSTING (ऑनलाइन लिंक फ़ील्ड सहित) -->
+    <!-- 📢 ADMIN: JOBS POSTING -->
     <div class="section-title"><h2>जॉब / रोजगार पोस्ट करें</h2></div>
     <div class="card">
       <div class="field"><label>काम / पद का नाम *</label><input id="adJobTitle" placeholder="उदा. ड्राइवर, कम्प्यूटर ऑपरेटर"></div>
@@ -688,7 +727,7 @@ body.dark-mode{background:#0a0f1d}
       <div class="field"><label>सम्पर्क मोबाइल *</label><input id="adJobContact" inputmode="numeric" maxlength="10"></div>
       <div class="field"><label>ऑफिशियल / अप्लाई लिंक (URL Optional)</label><input id="adJobLink" placeholder="https://example.com/apply"></div>
       <div class="field"><label>विवरण</label><textarea id="adJobDesc" placeholder="शर्तें व योग्यता..."></textarea></div>
-      <button class="btn gold" onclick="saveAdminJob()">📢 जॉब प्रकाशित करें</button>
+      <button id="saveJobBtn" class="btn gold" onclick="saveAdminJob()">📢 जॉब प्रकाशित करें</button>
     </div>
 
     <!-- 🏪 ADMIN: BUSINESS LISTING -->
@@ -701,7 +740,7 @@ body.dark-mode{background:#0a0f1d}
       </div>
       <div class="field"><label>मोबाइल नंबर *</label><input id="adBizMobile" inputmode="numeric" maxlength="10"></div>
       <div class="field"><label>विवरण</label><textarea id="adBizDesc" placeholder="दुकान के काम व सुविधाएं..."></textarea></div>
-      <button class="btn gold" onclick="saveAdminBusiness()">🏪 बिजनेस जोड़ें</button>
+      <button id="saveBizBtn" class="btn gold" onclick="saveAdminBusiness()">🏪 बिजनेस जोड़ें</button>
     </div>
 
     <!-- 🎓 ADMIN: TALENT ENTRY -->
@@ -713,7 +752,7 @@ body.dark-mode{background:#0a0f1d}
         <div class="field"><label>अंक / रैंक</label><input id="adTalScore" placeholder="उदा. 94%"></div>
       </div>
       <div class="field"><label>स्थान / गांव</label><input id="adTalLoc" placeholder="उदा. पनियरा"></div>
-      <button class="btn gold" onclick="saveAdminTalent()">🎓 छात्र का नाम जोड़ें</button>
+      <button id="saveTalBtn" class="btn gold" onclick="saveAdminTalent()">🎓 छात्र का नाम जोड़ें</button>
     </div>
 
     <!-- 🕊️ ADMIN: OBITUARY POSTING -->
@@ -725,7 +764,7 @@ body.dark-mode{background:#0a0f1d}
         <div class="field"><label>स्थान / गांव</label><input id="adObitLoc" placeholder="स्थान"></div>
       </div>
       <div class="field"><label>शोक सभा व तेरहवीं विवरण</label><textarea id="adObitDesc" placeholder="कार्यक्रम विवरण..."></textarea></div>
-      <button class="btn red" onclick="saveAdminObituary()">🕊️ शोक संदेश प्रसारित करें</button>
+      <button id="saveObitBtn" class="btn red" onclick="saveAdminObituary()">🕊️ शोक संदेश प्रसारित करें</button>
     </div>
     
     <div class="section-title"><h2>फोटो गैलरी प्रबंधन</h2></div>
@@ -769,7 +808,7 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2>सदस्यों की अर्जियां (Helpdesk)</h2></div>
     <div id="adminSupportList">Loading...</div>
 
-    <!-- 🖼️ ADMIN: BANNER MANAGER (ड्रॉपडाउन डिलीट के साथ) -->
+    <!-- 🖼️ ADMIN: BANNER MANAGER -->
     <div class="section-title"><h2>Slider Banners प्रबंधन</h2></div>
     <div class="card">
       <div class="field"><label>नया बैनर URL</label><input id="adBannerImg" placeholder="https://example.com/banner.jpg"></div>
@@ -784,9 +823,12 @@ body.dark-mode{background:#0a0f1d}
     </div>
 
     <div class="section-title"><h2>Post Notice</h2></div>
-    <div class="card"><div class="field"><label>Title</label><input id="noticeTitle"></div><div class="field"><label>Hindi Message</label><textarea id="noticeText"></textarea></div><button class="btn" onclick="postNotice()">Publish Notice</button></div>
+    <div class="card">
+      <div class="field"><label>Title</label><input id="noticeTitle"></div>
+      <div class="field"><label>Hindi Message</label><textarea id="noticeText"></textarea></div>
+      <button id="postNoticeBtn" class="btn" onclick="postNotice()">Publish Notice</button>
+    </div>
     
-    <!-- 📅 ADD EVENT (Google Map लिंक सपोर्ट) -->
     <div class="section-title"><h2>Add Event</h2></div>
     <div class="card">
       <div class="field"><label>Event Name *</label><input id="eventName"></div>
@@ -795,12 +837,12 @@ body.dark-mode{background:#0a0f1d}
         <div class="field"><label>Location *</label><input id="eventLocation"></div>
       </div>
       <div class="field"><label>Google Map Link (Optional)</label><input id="eventMapLink" placeholder="https://maps.app.goo.gl/..."></div>
-      <button class="btn" onclick="addEvent()">Save Event</button>
+      <button id="saveEventBtn" class="btn" onclick="addEvent()">Save Event</button>
     </div>
   </div>
 </section>
 
-<!-- 📱 NAVIGATION BAR -->
+<!-- 📱 FLOATING CAPSULE BOTTOM NAVIGATION BAR -->
 <nav class="nav">
   <button onclick="go('home')" id="navHome"><b>⌂</b>Home</button>
   <button onclick="go('search')"><b>⌕</b>Search</button>
@@ -838,22 +880,39 @@ function sharePortalWhatsApp(){
   window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
 }
 
-// 🔔 OneSignal Push Trigger
-async function sendAdminPushAlert(userName, userDistrict) {
+// 🔔 PUSH NOTIFICATION (OneSignal REST API)
+const OS_AUTH_KEY = "Basic os_v2_app_iwhhftgoafelxnnhkyknrgxgsftfnykgbodufgmtuoznlewqpx7smiths3i7b5fbpenelasqx7yansmrahprorseou6upj637k2aoua";
+
+async function triggerPushToAllUsers(titleText, bodyText) {
   try {
-    const kPart1 = "os_v2_app_iwhhftgoafelxnnhkyknrgxgsftfnykgbodufgmtuoznlewqpx7s";
-    const kPart2 = "miths3i7b5fbpenelasqx7yansmrahprorseou6upj637k2aoua";
     fetch("https://onesignal.com/api/v1/notifications", {
       method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": "Basic " + (kPart1 + kPart2) },
+      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": OS_AUTH_KEY },
       body: JSON.stringify({
         app_id: "458e72cc-ce01-48bb-b5a7-5614d8ae691",
         included_segments: ["Total Subscriptions"],
-        headings: {"en": "🌾 नया सदस्य पंजीकरण!"},
-        contents: {"en": `${userName} (${userDistrict}) ने रजिस्ट्रेशन किया है। सत्यापन करें।`}
+        headings: {"en": titleText},
+        contents: {"en": bodyText}
       })
     });
-  } catch(e) {}
+  } catch(e) { console.error("Push Error:", e); }
+}
+
+async function triggerPushToAdminOnly(userName, userDistrict) {
+  try {
+    fetch("https://onesignal.com/api/v1/notifications", {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": OS_AUTH_KEY },
+      body: JSON.stringify({
+        app_id: "458e72cc-ce01-48bb-b5a7-5614d8ae691",
+        filters: [
+          {"field": "tag", "key": "role", "relation": "=", "value": "admin"}
+        ],
+        headings: {"en": "🌾 नया सदस्य रजिस्ट्रेशन!"},
+        contents: {"en": `${userName} (${userDistrict}) ने नया रजिस्ट्रेशन किया है। समीक्षा व सत्यापन करें।`}
+      })
+    });
+  } catch(e) { console.error("Admin Push Error:", e); }
 }
 
 // 🧭 STEP-BY-STEP BACK & NAVIGATION
@@ -966,7 +1025,7 @@ async function renderOfficersSlider(){
    <img src="${esc(o.photo)}" class="officer-img" alt="${esc(o.name)}">
    <div class="officer-info">
     <span class="officer-role">${esc(o.role)}</span>
-    <h3 style="margin:2px 0 4px;font-size:16px">${esc(o.name)}</h3>
+    <h3 style="margin:2px 0 4px;font-size:16px;font-weight:800">${esc(o.name)}</h3>
     <p style="margin:0;font-size:12px;color:var(--muted)">📞 +91 ${currentUser ? esc(o.mobile) : maskMob(o.mobile)}</p>
     <div class="contact-actions">
      ${currentUser ? `<a href="tel:${esc(o.mobile)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(o.mobile)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button>`}
@@ -1039,21 +1098,28 @@ function attachSwipeListeners(cClass,tClass,total,onIdx){
  });
 }
 
-// 🪪 DIGITAL ID CARD
+// 🪪 DIGITAL ID CARD (रॉयल स्मार्ट कार्ड ग्राफ़िक्स)
 function renderDigitalIdCard(u){
  const b=document.getElementById("digitalIdArea");
  if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर <b>डिजिटल पहचान पत्र</b> यहाँ उपलब्ध होगा।</div>`;return}
  b.innerHTML=`
   <div class="id-card-wrapper" id="idCardExportArea">
    <div class="id-card">
-    <div class="id-header"><div><b>🌾 भुईहर जाति समाज</b><br><small>सदस्यता पहचान पत्र</small></div><span class="pill approved">Verified</span></div>
+    <div class="id-header">
+      <div>
+        <b style="font-size:15px;letter-spacing:-0.3px">🌾 भुईहर जाति समाज</b><br>
+        <small style="color:var(--gold);font-weight:700">डिजिटल सदस्यता पहचान पत्र</small>
+      </div>
+      <span class="pill approved">Verified</span>
+    </div>
+    <div class="chip-graphic"></div>
     <div class="id-body">
      <img src="${esc(u.photoUrl||'https://via.placeholder.com/100')}" class="id-photo" alt="Photo" crossorigin="anonymous">
      <div class="id-details">
       <h3>${esc(u.fullName)}</h3>
       <p>🆔 BHU-${esc(u.mobileNumber.slice(-4))} • 📞 ${esc(u.mobileNumber)}</p>
       <p>📍 ${esc(u.village||"-")}, ${esc(u.district||"-")}</p>
-      <p>🩸 Blood: <b>${esc(u.bloodGroup||"-")}</b></p>
+      <p>🩸 Blood: <b style="color:var(--gold)">${esc(u.bloodGroup||"-")}</b></p>
      </div>
     </div>
    </div>
@@ -1134,7 +1200,7 @@ async function loadMatrimonial(){
  }
 }
 
-// 🪙 DONATION & DIGITAL RECEIPT (ऑटो कुल संकलित सहयोग)
+// 🪙 DONATION & DIGITAL RECEIPT
 function generateDonationReceiptPrompt(){
  const n=prompt("दानदाता का नाम दर्ज करें:", currentUser?currentUser.fullName:"");
  const amt=prompt("सहयोग राशि (₹) दर्ज करें:","501");
@@ -1143,7 +1209,7 @@ function generateDonationReceiptPrompt(){
  const rNum="REC-"+Date.now().toString().slice(-6);
  document.getElementById("donationReceiptArea").innerHTML=`
   <div class="receipt-header">
-   <b style="font-size:16px;color:#168c50">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
+   <b style="font-size:16px;color:var(--green)">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
    <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
   </div>
   <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>
@@ -1204,10 +1270,13 @@ async function loadPollStats(){
 async function saveAdminTalent(){
  const n=adTalName.value.trim(),ex=adTalExam.value.trim(),sc=adTalScore.value.trim(),lc=adTalLoc.value.trim();
  if(!n){msg("adminMsg","विद्यार्थी का नाम आवश्यक है।","err");return}
+ const btn = document.getElementById("saveTalBtn");
  try{
+  btn.disabled = true;
   await db.collection("talents").add({name:n,exam:ex||"-",score:sc||"-",location:lc||"-",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
   adTalName.value=adTalExam.value=adTalScore.value=adTalLoc.value="";msg("adminMsg","छात्र का नाम जुड़ गया!","ok");loadTalents();
  }catch(e){msg("adminMsg",e.message,"err")}
+ finally{setTimeout(() => { if(btn) btn.disabled = false; }, 3500);}
 }
 async function loadTalents(){
  const b=document.getElementById("talentList");
@@ -1223,10 +1292,14 @@ async function loadTalents(){
 async function saveAdminObituary(){
  const n=adObitName.value.trim(),dt=adObitDate.value,lc=adObitLoc.value.trim(),dc=adObitDesc.value.trim();
  if(!n){msg("adminMsg","दिवंगत का नाम भरें।","err");return}
+ const btn = document.getElementById("saveObitBtn");
  try{
+  btn.disabled = true;
   await db.collection("obituaries").add({name:n,date:dt||"-",location:lc||"-",desc:dc||"",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+  triggerPushToAllUsers("🕊️ भुईहर समाज शोक संदेश", `स्व. ${n} (${lc}) का निधन। श्रद्धांजलि एवं कार्यक्रम विवरण देखें।`);
   adObitName.value=adObitLoc.value=adObitDesc.value="";msg("adminMsg","शोक संदेश प्रसारित हुआ।","ok");loadObituaries();
  }catch(e){msg("adminMsg",e.message,"err")}
+ finally{setTimeout(() => { if(btn) btn.disabled = false; }, 3500);}
 }
 async function loadObituaries(){
  const b=document.getElementById("obituaryList");
@@ -1257,7 +1330,7 @@ async function loadGallery(){
  }catch(e){b.innerHTML="लोड नहीं हो सका"}
 }
 
-// 📥 IMAGE EXPORTER (HTML2CANVAS)
+// 📥 IMAGE EXPORTER
 function downloadImage(elemId,filename){
  const el=document.getElementById(elemId);if(!el)return;
  html2canvas(el,{scale:2,useCORS:true}).then(cv=>{
@@ -1265,7 +1338,7 @@ function downloadImage(elemId,filename){
  });
 }
 
-// 📱 REGISTRATION & PIN RESET
+// 📱 REGISTRATION (केवल एडमिन को तुरंत पुश अलर्ट)
 async function completeRegistration(){
  const mob=regMobile.value.trim();if(!mobileOK(mob)){msg("regMsg","सही 10 अंकों का मोबाइल नंबर डालें।","err");return}
  const data={fullName:fullName.value.trim(),mobileNumber:mob,dateOfBirth:dob.value,age:Number(age.value),district:district.value,panchayat:panchayatSelect.value,village:village.value.trim(),occupation:occupation.value,bloodGroup:bloodGroup.value,caste:"Bhuihar",status:"pending",role:"member"};
@@ -1282,7 +1355,9 @@ async function completeRegistration(){
   if(rawFile){data.photoUrl=await fileToBase64(rawFile,180,0.65)}
   await ref.set(data);
   if(data.bloodGroup)await db.collection("blood").doc(data.mobileNumber).set({name:data.fullName,mobileNumber:data.mobileNumber,bloodGroup:data.bloodGroup,district:data.district,village:data.village,status:"available",updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-  sendAdminPushAlert(data.fullName,data.district);
+  
+  triggerPushToAdminOnly(data.fullName, data.district);
+
   msg("regMsg","Registration सफल! समिति सत्यापन बाद लॉगिन करें।","ok");setTimeout(()=>go('login'),2000);
  }catch(e){msg("regMsg","Registration Error: "+e.message,"err")}
  finally{btn.disabled=false;regLoader.classList.remove("show")}
@@ -1309,10 +1384,32 @@ async function adminLogin(){
   const cred=await auth.signInWithEmailAndPassword(email,password);
   currentAdmin={uid:cred.user.uid,email:cred.user.email,role:"admin"};
   sessionStorage.setItem("bhuiharPortalAdmin",JSON.stringify(currentAdmin));
+  
+  try {
+    if(window.OneSignalDeferred) {
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.User.addTag("role", "admin");
+      });
+    }
+  } catch(e) {}
+
   go("admin");
  }catch(e){msg("adminLoginMsg",e.message,"err")}
 }
-async function adminLogout(){currentAdmin=null;sessionStorage.removeItem("bhuiharPortalAdmin");try{await auth.signOut()}catch(e){}go("home")}
+
+async function adminLogout(){
+  currentAdmin=null;
+  sessionStorage.removeItem("bhuiharPortalAdmin");
+  try {
+    if(window.OneSignalDeferred) {
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.User.removeTag("role");
+      });
+    }
+    await auth.signOut();
+  }catch(e){}
+  go("home");
+}
 
 async function login(){
  const m=loginMobile.value.trim(),p=loginMpin.value.trim();
@@ -1364,16 +1461,20 @@ async function loadBlood(){
  }catch(e){bloodList.innerHTML="Error"}
 }
 
-// 💼 JOBS (अप्लाई/ऑफिशियल लिंक सपोर्ट सहित)
+// 💼 JOBS
 async function saveAdminJob(){
  const t=adJobTitle.value.trim(),s=adJobSalary.value.trim(),l=adJobLocation.value.trim(),c=adJobContact.value.trim(),k=adJobLink.value.trim(),d=adJobDesc.value.trim();
  if(!t||!c){msg("adminMsg","काम का नाम और संपर्क आवश्यक है।","err");return}
+ const btn = document.getElementById("saveJobBtn");
  try{
+  btn.disabled = true;
   await db.collection("jobs").add({title:t,salary:s||"निगोशिएबल",location:l||"महाराजगंज",contact:c,applyLink:k||null,desc:d,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+  triggerPushToAllUsers("💼 नई नौकरी / काम की सूचना", `${t} हेतु आवश्यकता है। स्थान: ${l || 'महाराजगंज'}। तुरंत विवरण देखें।`);
   adJobTitle.value=adJobSalary.value=adJobLocation.value=adJobContact.value=adJobLink.value=adJobDesc.value="";
   msg("adminMsg","जॉब पोस्ट प्रकाशित हुआ!","ok");
   loadJobs();
  }catch(e){msg("adminMsg",e.message,"err")}
+ finally{setTimeout(() => { if(btn) btn.disabled = false; }, 3500);}
 }
 async function loadJobs(){
  const b=document.getElementById("jobsList");
@@ -1400,12 +1501,15 @@ async function loadJobs(){
 async function saveAdminBusiness(){
  const n=adBizName.value.trim(),c=adBizCategory.value.trim(),a=adBizAddress.value.trim(),m=adBizMobile.value.trim(),d=adBizDesc.value.trim();
  if(!n||!m){msg("adminMsg","नाम और मोबाइल भरें।","err");return}
+ const btn = document.getElementById("saveBizBtn");
  try{
+  btn.disabled = true;
   await db.collection("businesses").add({name:n,category:c||"व्यापार",address:a||"-",mobile:m,desc:d,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
   adBizName.value=adBizCategory.value=adBizAddress.value=adBizMobile.value=adBizDesc.value="";
   msg("adminMsg","दुकान जुड़ गई!","ok");
   loadBusiness();
  }catch(e){msg("adminMsg",e.message,"err")}
+ finally{setTimeout(() => { if(btn) btn.disabled = false; }, 3500);}
 }
 async function loadBusiness(){
  const b=document.getElementById("businessList");
@@ -1425,7 +1529,7 @@ async function loadUserTickets(){
   b.innerHTML=s.empty?"<div class='card'>कोई अर्जी दर्ज नहीं है।</div>":s.docs.map(d=>{
    const x=d.data();
    const isRes = x.status === "resolved";
-   return `<div class="item"><div style="display:flex;justify-content:space-between;align-items:center"><h3>📌 ${esc(x.subject)}</h3><span class="pill ${isRes?'approved':'pending'}">${isRes?'Resolved':'Pending'}</span></div><p>${esc(x.details)}</p>${x.adminReply?`<p style="color:#0757a3;margin-top:6px"><b>उत्तर:</b> ${esc(x.adminReply)}</p>`:`<span class="admin-note">प्रक्रियाधीन...</span>`}</div>`
+   return `<div class="item"><div style="display:flex;justify-content:space-between;align-items:center"><h3>📌 ${esc(x.subject)}</h3><span class="pill ${isRes?'approved':'pending'}">${isRes?'Resolved':'Pending'}</span></div><p>${esc(x.details)}</p>${x.adminReply?`<p style="color:var(--p);margin-top:6px"><b>उत्तर:</b> ${esc(x.adminReply)}</p>`:`<span class="admin-note">प्रक्रियाधीन...</span>`}</div>`
   }).join("")
  }catch(e){b.innerHTML="Error"}
 }
@@ -1556,7 +1660,7 @@ async function loadFamily(){
   b.innerHTML=familyCache.length ? familyCache.map(x=>`
     <div class="item" style="display:flex;gap:12px;align-items:center;justify-content:space-between">
       <div style="display:flex;gap:12px;align-items:center">
-        <div class="avatar" style="width:45px;height:45px;font-size:22px">
+        <div class="avatar" style="width:48px;height:48px;font-size:24px;border-radius:14px">
           ${x.photoUrl ? `<img src="${esc(x.photoUrl)}">` : `👤`}
         </div>
         <div>
@@ -1565,7 +1669,7 @@ async function loadFamily(){
         </div>
       </div>
       <div style="display:flex;gap:6px">
-        <button type="button" class="btn small" style="background:#eaf3ff;color:var(--p)" onclick="startEditFamily('${esc(x.id)}')">✏️</button>
+        <button type="button" class="btn small secondary" onclick="startEditFamily('${esc(x.id)}')">✏️</button>
         <button type="button" class="btn small red" onclick="deleteFamily('${esc(x.id)}', this)">🗑️</button>
       </div>
     </div>
@@ -1595,7 +1699,7 @@ async function searchMembers(){
  }catch(e){b.innerHTML="Error"}
 }
 
-// ⚙️ ADMIN LOGIC, BLOCK/UNBLOCK & PDF
+// ⚙️ ADMIN LOGIC & LOOKUP
 async function loadAdmin(){
   if(!currentAdmin) return;
   try{
@@ -1606,7 +1710,6 @@ async function loadAdmin(){
     adPending.textContent = a.filter(x => x.status === "pending").length;
     adApproved.textContent = a.filter(x => x.status === "approved").length;
 
-    // 1. Pending Approval List
     const p = a.filter(x => x.status === "pending");
     pendingList.innerHTML = p.length ? p.map(x => `
       <div class="item">
@@ -1617,7 +1720,6 @@ async function loadAdmin(){
       </div>
     `).join("") : "<div class='card'>कोई पेंडिंग सदस्य नहीं है।</div>";
 
-    // 2. Blocked Members List
     const bList = document.getElementById("blockedMembersList");
     const blocked = a.filter(x => x.status === "blocked");
     bList.innerHTML = blocked.length ? blocked.map(x => `
@@ -1666,7 +1768,6 @@ async function adminLookupUser(){
     lookedUpFamily = fSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
     renderLookupCard();
-    renderFamilyPrintSlip();
     resultBox.classList.remove("hide");
     msg("adminMsg", "सदस्य विवरण प्राप्त हुआ।", "ok");
   }catch(e){
@@ -1731,59 +1832,110 @@ async function toggleBlockStatus(mobile, newStatus){
   }
 }
 
-function renderFamilyPrintSlip(){
+// 📄 सपरिवार PDF डाउनलोड (Native Print/PDF Window)
+function downloadFamilySlipPDF(){
+  if(!lookedUpUser) return;
+  const btn = document.getElementById("lkPdfBtn");
+  if(btn) { btn.disabled = true; btn.textContent = "⏳ PDF तैयार हो रहा है..."; }
+
   const u = lookedUpUser;
-  document.getElementById("docPrintDate").textContent = new Date().toLocaleDateString('hi-IN');
-  document.getElementById("docHeadName").textContent = u.fullName;
-  document.getElementById("docHeadMobile").textContent = u.mobileNumber;
-  document.getElementById("docHeadId").textContent = "BHU-" + u.mobileNumber.slice(-4);
-  document.getElementById("docHeadAddress").textContent = `${u.village||"-"}, ${u.panchayat||"-"}, जिला- ${u.district||"-"}`;
-  document.getElementById("docHeadOccupation").textContent = u.occupation || "-";
-  document.getElementById("docHeadBlood").textContent = u.bloodGroup || "-";
+  const curDate = new Date().toLocaleDateString('hi-IN');
+  const userPhotoHtml = u.photoUrl 
+    ? `<img src="${esc(u.photoUrl)}" style="width:85px;height:85px;border-radius:12px;object-fit:cover;border:2px solid #0a192f">` 
+    : `<div style="width:85px;height:85px;border-radius:12px;background:#e2e8f0;display:grid;place-items:center;font-size:36px">👤</div>`;
 
-  const photoArea = document.getElementById("docUserPhotoArea");
-  if(u.photoUrl){
-    photoArea.innerHTML = `<img src="${esc(u.photoUrl)}" crossorigin="anonymous">`;
-  } else {
-    photoArea.innerHTML = `<div style="width:80px;height:80px;border-radius:10px;background:#e2e8f0;display:grid;place-items:center;font-size:32px">👤</div>`;
-  }
-
-  const tbody = document.getElementById("docFamilyTbody");
+  let rowsHtml = "";
   if(!lookedUpFamily.length){
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b">कोई परिवार सदस्य दर्ज नहीं है।</td></tr>`;
+    rowsHtml = `<tr><td colspan="5" style="text-align:center;padding:12px;color:#64748b">कोई परिवार सदस्य दर्ज नहीं है।</td></tr>`;
   } else {
-    tbody.innerHTML = lookedUpFamily.map((f, i) => `
+    rowsHtml = lookedUpFamily.map((f, i) => `
       <tr>
-        <td style="text-align:center">${i+1}</td>
-        <td><b>${esc(f.familyMemberName)}</b></td>
-        <td>${esc(f.relation)}</td>
-        <td>${esc(f.age||"-")} वर्ष</td>
-        <td>${esc(f.occupation||"-")}</td>
+        <td style="text-align:center;padding:10px;border:1px solid #cbd5e1">${i+1}</td>
+        <td style="padding:10px;border:1px solid #cbd5e1"><b>${esc(f.familyMemberName)}</b></td>
+        <td style="padding:10px;border:1px solid #cbd5e1">${esc(f.relation)}</td>
+        <td style="padding:10px;border:1px solid #cbd5e1">${esc(f.age||"-")} वर्ष</td>
+        <td style="padding:10px;border:1px solid #cbd5e1">${esc(f.occupation||"-")}</td>
       </tr>
     `).join("");
   }
-}
 
-function downloadFamilySlipPDF(){
-  const elem = document.getElementById("familyPrintArea");
-  const wrapper = document.getElementById("familyPrintWrapper");
-  wrapper.classList.remove("hide");
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="hi">
+    <head>
+      <meta charset="UTF-8">
+      <title>Bhuihar_Parivar_${esc(u.fullName)}</title>
+      <style>
+        body{font-family:system-ui,"Noto Sans Devanagari",sans-serif;margin:0;padding:24px;color:#0f172a;background:#fff}
+        .slip-box{border:2.5px solid #0a192f;border-radius:16px;padding:22px;max-width:720px;margin:auto}
+        .header{text-align:center;border-bottom:2px solid #0a192f;padding-bottom:14px;margin-bottom:16px}
+        .header h2{margin:0;color:#0a192f;font-size:24px;font-weight:800}
+        .header p{margin:4px 0 0;font-size:12px;color:#475569}
+        .user-meta{display:flex;gap:16px;align-items:center;background:#f8fafc;padding:14px;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:18px}
+        .table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+        .table th{background:#e2e8f0;border:1px solid #cbd5e1;padding:10px;text-align:left}
+        .footer{display:flex;justify-content:flex-end;margin-top:45px}
+        .sig-box{text-align:center;width:230px}
+        .sig-line{border-top:1.5px dashed #000;margin-bottom:6px}
+        @media print{body{padding:0}.slip-box{border:2px solid #0a192f}}
+      </style>
+    </head>
+    <body>
+      <div class="slip-box">
+        <div class="header">
+          <h2>🌾 भुईहर जाति समाज, महाराजगंज 🌾</h2>
+          <p>समाजिक संपर्क, सेवा एवं पारिवारिक अभिलेख पंजीयन प्रमाण पत्र</p>
+          <p style="font-size:11px;color:#64748b;margin-top:4px">प्रमाण पत्र जारी दिनांक: ${curDate}</p>
+        </div>
+        <div class="user-meta">
+          ${userPhotoHtml}
+          <div style="flex:1">
+            <h3 style="margin:0 0 4px;font-size:18px;color:#0a192f">${esc(u.fullName)}</h3>
+            <p style="margin:2px 0;font-size:13px"><b>मोबाइल:</b> +91 ${esc(u.mobileNumber)} • <b>ID:</b> BHU-${esc(u.mobileNumber.slice(-4))}</p>
+            <p style="margin:2px 0;font-size:13px"><b>पता:</b> ${esc(u.village||"-")}, ${esc(u.panchayat||"-")}, जिला- ${esc(u.district||"-")}</p>
+            <p style="margin:2px 0;font-size:13px"><b>व्यवसाय:</b> ${esc(u.occupation||"-")} • <b>रक्त समूह:</b> ${esc(u.bloodGroup||"-")}</p>
+          </div>
+        </div>
+        <h4 style="margin:16px 0 8px;font-size:15px;color:#0a192f;border-bottom:1.5px solid #e2e8f0;padding-bottom:6px">👨‍👩‍👧 पंजीकृत परिवार के सदस्य तालिका</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:40px;text-align:center">क्र.</th>
+              <th>सदस्य का नाम</th>
+              <th>रिश्ता</th>
+              <th>उम्र</th>
+              <th>व्यवसाय</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+        <div class="footer">
+          <div class="sig-box">
+            <div class="sig-line"></div>
+            <b style="font-size:13px">हस्ताक्षर / मुहर</b><br>
+            <b style="color:#0a192f;font-size:13px">मुखिया (महतो)</b><br>
+            <span style="font-size:11px;color:#64748b">भुईहर जाति समाज, महाराजगंज</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        window.onload = function(){
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
 
-  const opt = {
-    margin: [10, 10, 10, 10],
-    filename: `Bhuihar_Parivar_${lookedUpUser.fullName}_${lookedUpUser.mobileNumber}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(elem).save().then(() => {
-    wrapper.classList.add("hide");
-  }).catch(err => {
-    console.error(err);
-    wrapper.classList.add("hide");
-    msg("adminMsg", "PDF जनरेट करने में समस्या आई।", "err");
-  });
+  msg("adminMsg", "✓ सपरिवार PDF प्रिंट/डाउनलोड विंडो सफलतापूर्वक खुल गई!", "ok");
+  if(btn) { 
+    btn.disabled = false; 
+    btn.textContent = "📥 सपरिवार PDF डाउनलोड करें"; 
+  }
 }
 
 async function saveOfficer(){
@@ -1802,29 +1954,90 @@ async function loadAdminSupport(){
   const x=d.data();return `<div class="item"><h3>${esc(x.name)} (${esc(x.mobile)})</h3><p>${esc(x.subject)}: ${esc(x.details)}</p><input id="rep_${d.id}" placeholder="उत्तर लिखें"><div style="display:flex;gap:6px;margin-top:6px"><button class="btn small green" onclick="db.collection('support_tickets').doc('${d.id}').update({adminReply:rep_${d.id}.value,status:'resolved'});loadAdminSupport()">उत्तर भेजें</button></div></div>`;
  }).join("");
 }
-async function exportMembersToCSV(){
- const snap=await db.collection("users").where("status","==","approved").get();
- if(snap.empty){alert("कोई स्वीकृत सदस्य नहीं मिला।");return}
- let csv="\uFEFFनाम,मोबाइल,जिला,पंचायत,गांव,व्यवसाय,ब्लड\n";
- snap.docs.forEach(d=>{const x=d.data();csv+=`"${x.fullName||""}","${x.mobileNumber||""}","${x.district||""}","${x.panchayat||""}","${x.village||""}","${x.occupation||""}","${x.bloodGroup||""}"\n`});
- const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="Bhuihar_Members.csv";a.click();
-}
-async function postNotice(){if(!noticeTitle.value.trim())return;await db.collection("notices").add({title:noticeTitle.value.trim(),text:noticeText.value.trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});noticeTitle.value=noticeText.value="";loadNotices()}
 
-// 📅 SAVE EVENT (Google Map लिंक के साथ)
+// 📊 CSV EXPORT
+async function exportMembersToCSV(){
+  const btn = document.getElementById("exportCsvBtn");
+  try{
+    if(btn) { btn.disabled = true; btn.textContent = "⏳ डेटा तैयार हो रहा है..."; }
+    
+    const snap = await db.collection("users").where("status","==","approved").get();
+    if(snap.empty){
+      msg("adminMsg", "कोई स्वीकृत सदस्य नहीं मिला।", "info");
+      return;
+    }
+
+    let csv = "\uFEFFनाम,मोबाइल,जिला,पंचायत,गांव,व्यवसाय,ब्लड\n";
+    snap.docs.forEach(d => {
+      const x = d.data();
+      csv += `"${x.fullName||""}","${x.mobileNumber||""}","${x.district||""}","${x.panchayat||""}","${x.village||""}","${x.occupation||""}","${x.bloodGroup||""}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Bhuihar_Members_${Date.now().toString().slice(-4)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    msg("adminMsg", "✓ सभी सदस्यों की CSV फ़ाइल सफलतापूर्वक डाउनलोड हो गई!", "ok");
+  }catch(e){
+    msg("adminMsg", "CSV डाउनलोड में समस्या आई: " + e.message, "err");
+  }finally{
+    if(btn) { btn.disabled = false; btn.textContent = "📥 Download All Members (CSV/Excel)"; }
+  }
+}
+
+// 📢 NOTICE POST
+async function postNotice(){
+  if(!noticeTitle.value.trim()) return;
+  const t = noticeTitle.value.trim();
+  const tx = noticeText.value.trim();
+  const btn = document.getElementById("postNoticeBtn");
+  try {
+    btn.disabled = true;
+    await db.collection("notices").add({
+      title: t,
+      text: tx,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    triggerPushToAllUsers("📢 भुईहर समाज महत्वपूर्ण सूचना", t);
+    noticeTitle.value = noticeText.value = "";
+    loadNotices();
+    msg("adminMsg", "सूचना प्रकाशित और सभी सदस्यों को नोटिफिकेशन भेज दी गई!", "ok");
+  }catch(e) {
+    msg("adminMsg", e.message, "err");
+  }finally {
+    setTimeout(() => { if(btn) btn.disabled = false; }, 3500);
+  }
+}
+
+// 📅 SAVE EVENT
 async function addEvent(){
   const n=eventName.value.trim(), dt=eventDate.value, loc=eventLocation.value.trim(), mLink=eventMapLink.value.trim();
   if(!n || !dt || !loc) return;
-  await db.collection("events").add({
-    name:n,
-    date:dt,
-    location:loc,
-    mapLink:mLink||null,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp()
-  });
-  eventName.value=eventLocation.value=eventMapLink.value="";
-  loadEvents();
-  msg("adminMsg","कार्यक्रम सफलता से जुड़ गया।","ok");
+  const btn = document.getElementById("saveEventBtn");
+  try {
+    btn.disabled = true;
+    await db.collection("events").add({
+      name:n,
+      date:dt,
+      location:loc,
+      mapLink:mLink||null,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    triggerPushToAllUsers("📅 आगामी समाज कार्यक्रम", `${n} • दिनांक: ${dt} • स्थान: ${loc}। अवश्य पधारें!`);
+    eventName.value=eventLocation.value=eventMapLink.value="";
+    loadEvents();
+    msg("adminMsg","कार्यक्रम सफलता से जुड़ गया व सूचना प्रेषित हुई।","ok");
+  }catch(e) {
+    msg("adminMsg", e.message, "err");
+  }finally {
+    setTimeout(() => { if(btn) btn.disabled = false; }, 3500);
+  }
 }
 
 async function loadNotices(){const s=await db.collection("notices").get();noticeList.innerHTML=s.empty?"<div class='card'>कोई सूचना नहीं है।</div>":s.docs.map(d=>`<div class="card"><h3>📢 ${esc(d.data().title)}</h3><p class="admin-note">${esc(d.data().text)}</p></div>`).join("")}

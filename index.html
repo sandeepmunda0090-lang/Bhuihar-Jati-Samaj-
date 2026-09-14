@@ -22,7 +22,7 @@ body.dark-mode{background:#0a0f1d}
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.action{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;cursor:pointer;text-align:left;box-shadow:var(--shadow);color:var(--text)}.action .ic{font-size:26px;margin-bottom:8px}.action b{display:block;font-size:13.5px}.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 8px;text-align:center}.stat b{display:block;font-size:22px;color:var(--p)}.stat span{font-size:11px;color:var(--muted)}
 .profile-head{background:linear-gradient(145deg,var(--card),#edf6ff);border-radius:22px;padding:17px;display:flex;gap:13px;align-items:center}.avatar{width:64px;height:64px;border-radius:22px;background:#dbeeff;display:grid;place-items:center;font-size:31px;overflow:hidden;flex:none}.avatar img{width:100%;height:100%;object-fit:cover}.profile-head h2{font-size:20px;margin:0 0 5px}.profile-head p{font-size:12px;color:var(--muted);margin:0}
-.pill{display:inline-block;padding:4px 9px;border-radius:99px;font-size:11px;font-weight:800}.approved{background:#dcfce7;color:#166534}.pending{background:#fef3c7;color:#92400e}.rejected{background:#fee2e2;color:#991b1b}
+.pill{display:inline-block;padding:4px 9px;border-radius:99px;font-size:11px;font-weight:800}.approved{background:#dcfce7;color:#166534}.pending{background:#fef3c7;color:#92400e}.rejected,.blocked{background:#fee2e2;color:#991b1b}
 .info-row{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.info-row:last-child{border-bottom:0}.info-row span:first-child{color:var(--muted)}.info-row span:last-child{font-weight:700;text-align:right}
 .item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}.item h3{font-size:15px;margin:0 0 5px}.item p{font-size:12px;color:var(--muted);margin:4px 0;line-height:1.5}
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:7px 3px}.nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:6px 2px;cursor:pointer}.nav b{display:block;font-size:19px}.nav button.active{color:var(--p);font-weight:800}
@@ -77,9 +77,24 @@ body.dark-mode{background:#0a0f1d}
 .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .gallery-img{width:100%;height:130px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
 
+/* Printable Official Family Slip Styling */
+#familyPrintArea{background:#fff;color:#111;padding:24px;border:2px solid #0757a3;border-radius:14px;margin-top:14px}
+.doc-header{text-align:center;border-bottom:2px solid #0757a3;padding-bottom:12px;margin-bottom:16px}
+.doc-header h2{margin:0;color:#0757a3;font-size:22px}
+.doc-header p{margin:4px 0 0;font-size:12px;color:#444}
+.doc-user-info{display:flex;gap:16px;align-items:center;margin-bottom:18px;background:#f8fafc;padding:12px;border-radius:10px;border:1px solid #e2e8f0}
+.doc-user-info img{width:80px;height:80px;border-radius:10px;object-fit:cover;border:2px solid #0757a3}
+.doc-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+.doc-table th,.doc-table td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left}
+.doc-table th{background:#e2e8f0;color:#0f172a;font-weight:bold}
+.doc-footer{display:flex;justify-content:flex-end;margin-top:35px;padding-top:10px}
+.signature-box{text-align:center;width:220px}
+.signature-line{border-top:1.5px dashed #000;margin-bottom:6px}
+
 @media(max-width:360px){.grid2{grid-template-columns:1fr}.brand h1{font-size:20px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -113,7 +128,6 @@ body.dark-mode{background:#0a0f1d}
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
     
-    <!-- WhatsApp Share Invite Banner -->
     <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px">
       <div>
         <b style="color:#166534;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
@@ -363,14 +377,12 @@ body.dark-mode{background:#0a0f1d}
   <div class="container">
     <div id="matMsg" class="msg"></div>
 
-    <!-- बिना लॉगिन वाले विज़िटर हेतु लॉगिन प्रॉम्प्ट -->
     <div id="matLoginNotice" class="card hide" style="background:#fefce8;border-color:#fef08a;text-align:center">
       <h3 style="color:#854d0e">💍 अपना वैवाहिक बायोडेटा जोड़ें</h3>
       <p class="admin-note">बायोडेटा बनाने और अपलोड करने के लिए समाज पोर्टल पर सदस्य रजिस्ट्रेशन / लॉगिन अनिवार्य है।</p>
       <button class="btn gold small" style="margin-top:8px" onclick="go('login')">🔐 Member Login / Register करें</button>
     </div>
 
-    <!-- केवल पंजीकृत / लॉगिन सदस्यों हेतु फॉर्म -->
     <div class="card hide" id="matForm">
       <h3>💍 शादी बायोडेटा कार्ड बनाएं</h3>
       <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech / B.A."></div></div>
@@ -548,10 +560,81 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- ⚙️ ADMIN DASHBOARD -->
 <section id="admin" class="page">
-  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • CSV • फोटो • रसीद</p></div></div>
+  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • यूज़र लुकअप • PDF • ब्लॉक</p></div></div>
   <div class="container">
     <div id="adminMsg" class="msg"></div>
     <div class="stats"><div class="stat"><b id="adTotal">0</b><span>Members</span></div><div class="stat"><b id="adPending">0</b><span>Pending</span></div><div class="stat"><b id="adApproved">0</b><span>Approved</span></div></div>
+
+    <!-- 🔍 NEW: ADMIN USER LOOKUP & FAMILY PDF GENERATOR -->
+    <div class="section-title"><h2>🔍 सदस्य लुकअप & सपरिवार PDF</h2></div>
+    <div class="card" style="background:#f0f7ff;border-color:#bcdbff">
+      <div class="field">
+        <label>सदस्य का 10 अंकों का मोबाइल नंबर डालें *</label>
+        <div style="display:flex;gap:8px">
+          <input id="adminSearchMobile" inputmode="numeric" maxlength="10" placeholder="10 Digit Mobile Number">
+          <button class="btn small" style="width:auto;padding:12px 18px" onclick="adminLookupUser()">खोजें</button>
+        </div>
+      </div>
+      <div id="adminLookupLoader" class="loader">सदस्य व परिवार का डेटा खोजा जा रहा है...</div>
+      
+      <!-- Lookup Results Box -->
+      <div id="adminLookupResult" class="hide" style="margin-top:12px">
+        <div class="item" style="border:1.5px solid #0757a3">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 id="lkName" style="margin:0"></h3>
+            <span id="lkStatusPill" class="pill"></span>
+          </div>
+          <p id="lkBasicInfo" style="margin:6px 0"></p>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button id="lkBlockBtn" class="btn small red"></button>
+            <button class="btn small green" onclick="downloadFamilySlipPDF()">📥 सपरिवार PDF डाउनलोड करें</button>
+          </div>
+        </div>
+
+        <!-- Hidden Printable Element -->
+        <div id="familyPrintWrapper" class="hide">
+          <div id="familyPrintArea">
+            <div class="doc-header">
+              <h2>🌾 भुईहर जाति समाज, महाराजगंज 🌾</h2>
+              <p>समाजिक संपर्क, सेवा एवं पारिवारिक अभिलेख पंजीयन प्रमाण पत्र</p>
+              <p style="font-size:11px;color:#666;margin-top:2px">प्रमाण पत्र जारी दिनांक: <span id="docPrintDate"></span></p>
+            </div>
+            <div class="doc-user-info">
+              <div id="docUserPhotoArea"></div>
+              <div style="flex:1">
+                <h3 id="docHeadName" style="margin:0 0 4px;font-size:18px;color:#0757a3"></h3>
+                <p style="margin:2px 0;font-size:13px"><b>मोबाइल:</b> +91 <span id="docHeadMobile"></span> • <b>ID:</b> <span id="docHeadId"></span></p>
+                <p style="margin:2px 0;font-size:13px"><b>पता:</b> <span id="docHeadAddress"></span></p>
+                <p style="margin:2px 0;font-size:13px"><b>व्यवसाय:</b> <span id="docHeadOccupation"></span> • <b>रक्त समूह:</b> <span id="docHeadBlood"></span></p>
+              </div>
+            </div>
+            
+            <h4 style="margin:16px 0 8px;font-size:15px;color:#0f172a;border-bottom:1.5px solid #e2e8f0;padding-bottom:4px">👨‍👩‍👧 पंजीकृत परिवार के सदस्य तालिका</h4>
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th style="width:40px">क्र.</th>
+                  <th>सदस्य का नाम</th>
+                  <th>रिश्ता</th>
+                  <th>उम्र</th>
+                  <th>व्यवसाय</th>
+                </tr>
+              </thead>
+              <tbody id="docFamilyTbody"></tbody>
+            </table>
+
+            <div class="doc-footer">
+              <div class="signature-box">
+                <div class="signature-line"></div>
+                <b style="font-size:13px">हस्ताक्षर / मुहर</b><br>
+                <b style="color:#0757a3;font-size:13px">मुखिया (महतो)</b><br>
+                <span style="font-size:11px;color:#555">भुईहर जाति समाज, महाराजगंज</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <div class="card" style="margin-top:14px;background:#f0fdf4;border-color:#bbf7d0">
       <h3 style="color:#166534">📊 सदस्य डेटा डाउनलोड</h3>
@@ -690,6 +773,7 @@ let currentUser=JSON.parse(localStorage.getItem("bhuiharPortalUser")||"null"),cu
 let districtsData={},bannersList=[],officersList=[];
 let sliderInterval=null,officerInterval=null,curBannerIdx=0,curOfficerIdx=0;
 let familyCache = [];
+let lookedUpUser = null, lookedUpFamily = [];
 
 // 🌓 DARK MODE
 function toggleTheme(){
@@ -908,7 +992,6 @@ async function loadMatrimonial(){
  const formBox = document.getElementById("matForm");
  const loginNotice = document.getElementById("matLoginNotice");
 
- // केवल लॉगिन सदस्य को फॉर्म दिखेगा
  if(currentUser){
   formBox.classList.remove("hide");
   loginNotice.classList.add("hide");
@@ -1004,7 +1087,7 @@ async function loadPollStats(){
  }catch(e){}
 }
 
-// 🎓 TALENT CORNER (Admin Posts, Users View)
+// 🎓 TALENT CORNER
 async function saveAdminTalent(){
  const n=adTalName.value.trim(),ex=adTalExam.value.trim(),sc=adTalScore.value.trim(),lc=adTalLoc.value.trim();
  if(!n){msg("adminMsg","विद्यार्थी का नाम आवश्यक है।","err");return}
@@ -1023,7 +1106,7 @@ async function loadTalents(){
  }catch(e){b.innerHTML="लोड नहीं हो सका"}
 }
 
-// 🕊️ OBITUARY (Admin Posts, Users View)
+// 🕊️ OBITUARY
 async function saveAdminObituary(){
  const n=adObitName.value.trim(),dt=adObitDate.value,lc=adObitLoc.value.trim(),dc=adObitDesc.value.trim();
  if(!n){msg("adminMsg","दिवंगत का नाम भरें।","err");return}
@@ -1105,7 +1188,7 @@ async function resetUserMpin(){
  }catch(e){msg("forgotMsg",e.message,"err")}
 }
 
-// 🔐 AUTH & COMMON
+// 🔐 AUTH & COMMON (ब्लॉक्ड यूजर चेक के साथ)
 async function adminLogin(){
  const email=(adminEmail.value||"").trim().toLowerCase(),password=adminPassword.value||"";
  if(!email||!password){msg("adminLoginMsg","Email और Password भरें।","err");return}
@@ -1126,7 +1209,14 @@ async function login(){
   if(!s.exists){msg("loginMsg","User Not Registered","err");return}
   const u=s.data();
   if(u.mpinHash!==await sha256(p)){msg("loginMsg","गलत MPIN","err");return}
+  
+  // 🚫 BLOCK STATUS CHECK
+  if(u.status === "blocked"){
+    msg("loginMsg","⚠️ आपका खाता समिति द्वारा ब्लॉक कर दिया गया है। संपर्क करें।","err");
+    return;
+  }
   if(u.status!=="approved"){msg("loginMsg","खाता Admin Approval Pending है।","err");return}
+  
   currentUser=u;localStorage.setItem("bhuiharPortalUser",JSON.stringify(u));go("dashboard");
  }catch(e){msg("loginMsg",e.message,"err")}
 }
@@ -1135,7 +1225,15 @@ function logout(){localStorage.removeItem("bhuiharPortalUser");currentUser=null;
 async function loadDashboard(){
  if(!currentUser)return;
  const s=await db.collection("users").doc(currentUser.mobileNumber).get();
- if(s.exists){currentUser=s.data();localStorage.setItem("bhuiharPortalUser",JSON.stringify(currentUser))}
+ if(s.exists){
+   currentUser=s.data();
+   if(currentUser.status === "blocked"){
+     logout();
+     alert("⚠️ आपकी आईडी ब्लॉक कर दी गई है। अब आप केवल सामान्य विज़िटर के रूप में देख सकते हैं।");
+     return;
+   }
+   localStorage.setItem("bhuiharPortalUser",JSON.stringify(currentUser));
+ }
  dashName.textContent=currentUser.fullName;dashMobile.textContent="+91 "+currentUser.mobileNumber;
  statusPill.textContent=currentUser.status==="approved"?"Approved":"Pending";statusPill.className="pill "+(currentUser.status==="approved"?"approved":"pending");
  pendingBanner.classList.toggle("hide",currentUser.status==="approved");
@@ -1218,7 +1316,6 @@ async function addFamily(){
   btn.disabled=true;
   btn.textContent="जांच हो रही है...";
 
-  // 1. डुप्लीकेट नाम की जांच
   const existingCheck = await db.collection("families")
     .where("ownerMobile", "==", currentUser.mobileNumber)
     .where("familyMemberName", "==", n)
@@ -1370,7 +1467,7 @@ async function searchMembers(){
  }catch(e){b.innerHTML="Error"}
 }
 
-// ⚙️ ADMIN LOGIC
+// ⚙️ ADMIN LOGIC & LOOKUP & PDF & BLOCKING
 async function loadAdmin(){
  if(!currentAdmin)return;
  try{
@@ -1382,6 +1479,140 @@ async function loadAdmin(){
  }catch(e){}
 }
 async function setStatus(m,st){await db.collection("users").doc(m).update({status:st});loadAdmin()}
+
+// 🔍 ADMIN USER LOOKUP IMPLEMENTATION
+async function adminLookupUser(){
+  const mob = (adminSearchMobile.value||"").trim();
+  if(!mobileOK(mob)){
+    alert("कृपया सही 10 अंकों का मोबाइल नंबर डालें।");
+    return;
+  }
+
+  const loader = document.getElementById("adminLookupLoader");
+  const resultBox = document.getElementById("adminLookupResult");
+  loader.classList.add("show");
+  resultBox.classList.add("hide");
+
+  try{
+    const uDoc = await db.collection("users").doc(mob).get();
+    if(!uDoc.exists){
+      alert("इस मोबाइल नंबर से कोई सदस्य पंजीकृत नहीं है।");
+      return;
+    }
+
+    lookedUpUser = { id: uDoc.id, ...uDoc.data() };
+
+    const fSnap = await db.collection("families").where("ownerMobile","==",mob).get();
+    lookedUpFamily = fSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    renderLookupCard();
+    renderFamilyPrintSlip();
+    resultBox.classList.remove("hide");
+  }catch(e){
+    alert("खोजने में त्रुटि: " + e.message);
+  }finally{
+    loader.classList.remove("show");
+  }
+}
+
+function renderLookupCard(){
+  const u = lookedUpUser;
+  document.getElementById("lkName").textContent = u.fullName;
+  const pill = document.getElementById("lkStatusPill");
+  pill.textContent = u.status ? u.status.toUpperCase() : "PENDING";
+  pill.className = "pill " + (u.status==="approved" ? "approved" : (u.status==="blocked" ? "blocked" : "pending"));
+
+  document.getElementById("lkBasicInfo").innerHTML = `
+    📞 +91 ${esc(u.mobileNumber)} • उम्र: ${esc(u.age||"-")} वर्ष<br>
+    📍 ${esc(u.village||"-")}, ${esc(u.panchayat||"-")}, ${esc(u.district||"-")}<br>
+    💼 कार्य: ${esc(u.occupation||"-")} • 🩸 Blood: ${esc(u.bloodGroup||"-")}<br>
+    👨‍👩‍👧 परिवार के कुल सदस्य: <b>${lookedUpFamily.length}</b>
+  `;
+
+  const bBtn = document.getElementById("lkBlockBtn");
+  if(u.status === "blocked"){
+    bBtn.textContent = "✅ Unblock User";
+    bBtn.className = "btn small green";
+    bBtn.onclick = () => toggleBlockStatus(u.mobileNumber, "approved");
+  } else {
+    bBtn.textContent = "🚫 Block User";
+    bBtn.className = "btn small red";
+    bBtn.onclick = () => toggleBlockStatus(u.mobileNumber, "blocked");
+  }
+}
+
+async function toggleBlockStatus(mobile, newStatus){
+  const confirmMsg = newStatus === "blocked" 
+    ? "क्या आप इस सदस्य को ब्लॉक करना चाहते हैं? ब्लॉक होने के बाद यह लॉगिन नहीं कर सकेगा।" 
+    : "क्या आप इस सदस्य को अनब्लॉक करना चाहते हैं?";
+  if(!confirm(confirmMsg)) return;
+
+  try{
+    await db.collection("users").doc(mobile).update({ status: newStatus });
+    lookedUpUser.status = newStatus;
+    renderLookupCard();
+    loadAdmin();
+    alert(`सदस्य को सफलतापूर्वक ${newStatus === 'blocked' ? 'ब्लॉक' : 'अनब्लॉक'} कर दिया गया।`);
+  }catch(e){
+    alert("स्थिति बदलने में त्रुटि: " + e.message);
+  }
+}
+
+function renderFamilyPrintSlip(){
+  const u = lookedUpUser;
+  document.getElementById("docPrintDate").textContent = new Date().toLocaleDateString('hi-IN');
+  document.getElementById("docHeadName").textContent = u.fullName;
+  document.getElementById("docHeadMobile").textContent = u.mobileNumber;
+  document.getElementById("docHeadId").textContent = "BHU-" + u.mobileNumber.slice(-4);
+  document.getElementById("docHeadAddress").textContent = `${u.village||"-"}, ${u.panchayat||"-"}, जिला- ${u.district||"-"}`;
+  document.getElementById("docHeadOccupation").textContent = u.occupation || "-";
+  document.getElementById("docHeadBlood").textContent = u.bloodGroup || "-";
+
+  const photoArea = document.getElementById("docUserPhotoArea");
+  if(u.photoUrl){
+    photoArea.innerHTML = `<img src="${esc(u.photoUrl)}" crossorigin="anonymous">`;
+  } else {
+    photoArea.innerHTML = `<div style="width:80px;height:80px;border-radius:10px;background:#e2e8f0;display:grid;place-items:center;font-size:32px">👤</div>`;
+  }
+
+  const tbody = document.getElementById("docFamilyTbody");
+  if(!lookedUpFamily.length){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#64748b">कोई परिवार सदस्य दर्ज नहीं है।</td></tr>`;
+  } else {
+    tbody.innerHTML = lookedUpFamily.map((f, i) => `
+      <tr>
+        <td style="text-align:center">${i+1}</td>
+        <td><b>${esc(f.familyMemberName)}</b></td>
+        <td>${esc(f.relation)}</td>
+        <td>${esc(f.age||"-")} वर्ष</td>
+        <td>${esc(f.occupation||"-")}</td>
+      </tr>
+    `).join("");
+  }
+}
+
+function downloadFamilySlipPDF(){
+  const elem = document.getElementById("familyPrintArea");
+  const wrapper = document.getElementById("familyPrintWrapper");
+  wrapper.classList.remove("hide");
+
+  const opt = {
+    margin: [10, 10, 10, 10],
+    filename: `Bhuihar_Parivar_${lookedUpUser.fullName}_${lookedUpUser.mobileNumber}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(elem).save().then(() => {
+    wrapper.classList.add("hide");
+  }).catch(err => {
+    console.error(err);
+    wrapper.classList.add("hide");
+    alert("PDF जनरेट करने में समस्या आई।");
+  });
+}
+
 async function saveOfficer(){
  const n=adOffName.value.trim(),r=adOffRole.value,m=adOffMobile.value.trim(),p=adOffPhoto.value.trim();
  if(!n||!m)return;

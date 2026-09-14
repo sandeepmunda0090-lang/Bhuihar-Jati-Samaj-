@@ -53,6 +53,7 @@ body.dark-mode{background:#0a0f1d}
 .btn-call{background:#2563eb;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
 .btn-emergency{background:#dc2626;color:#fff;text-decoration:none;border-radius:8px;padding:7px 14px;font-size:13px;display:inline-flex;align-items:center;gap:5px;font-weight:800}
 .btn-wa{background:#16a34a;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.btn-web{background:#0d7bd3;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
 
 /* Digital ID Card */
 .id-card-wrapper{background:#0b5cab;padding:12px;border-radius:24px;box-shadow:0 12px 30px rgba(7,87,163,.25);margin-bottom:14px}
@@ -302,7 +303,7 @@ body.dark-mode{background:#0a0f1d}
         <b style="color:#166534">🌟 छात्र सम्मान हेतु नाम भेजें</b>
         <p style="margin:2px 0 0;font-size:11px;color:#15803d">अपने बच्चे का परीक्षा परिणाम एडमिन को WhatsApp करें</p>
       </div>
-      <a href="https://wa.me/919999999999?text=प्रतिभा%20सम्मान%20हेतु%20छात्र%20का%20विवरण" target="_blank" class="btn small green">WhatsApp</a>
+      <a href="https://api.whatsapp.com/send?phone=919999999999&text=प्रतिभा%20सम्मान%20हेतु%20छात्र%20का%20विवरण" class="btn small green">WhatsApp</a>
     </div>
     <div class="section-title"><h2>सम्मानित छात्र-छात्राएं</h2></div>
     <div id="talentList">Loading...</div>
@@ -318,7 +319,7 @@ body.dark-mode{background:#0a0f1d}
         <b style="color:#991b1b">🕊️ शोक संदेश प्रेषित करवाएं</b>
         <p style="margin:2px 0 0;font-size:11px;color:#b91c1c">तेरहवीं/शोक सभा प्रसारण हेतु एडमिन को भेजें</p>
       </div>
-      <a href="https://wa.me/919999999999?text=शोक%20संदेश%20प्रसारण%20हेतु%20जानकारी" target="_blank" class="btn small red">WhatsApp</a>
+      <a href="https://api.whatsapp.com/send?phone=919999999999&text=शोक%20संदेश%20प्रसारण%20हेतु%20जानकारी" class="btn small red">WhatsApp</a>
     </div>
     <div class="section-title"><h2>शोक संदेश सूची</h2></div>
     <div id="obituaryList">Loading...</div>
@@ -341,24 +342,44 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🏛️ SCHEMES & GUIDES -->
+<!-- 🏛️ SCHEMES & GUIDES (विस्तारित सरकारी योजनाएं) -->
 <section id="schemes" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सरकारी योजनाएं व सहायता</h1><p>कल्याणकारी योजनाओं की जानकारी</p></div></div>
   <div class="container">
     <div class="item">
       <h3>🎓 राष्ट्रीय छात्रवृत्ति पोर्टल (NSP)</h3>
-      <p>कक्षा 9वीं से परास्नातक तक के छात्रों के लिए छात्रवृत्ति।</p>
-      <a href="https://scholarships.gov.in" target="_blank" class="btn small green">पोर्टल खोलें ↗</a>
+      <p>कक्षा 9वीं से उच्च शिक्षा तक के छात्रों हेतु छात्रवृत्ति एवं वित्तीय प्रोत्साहन।</p>
+      <a href="https://scholarships.gov.in" class="btn small green">पोर्टल खोलें ↗</a>
     </div>
     <div class="item">
       <h3>🌾 प्रधानमंत्री किसान सम्मान निधि</h3>
-      <p>प्रतिवर्ष ₹6,000 की वित्तीय सहायता DBT के माध्यम से।</p>
-      <a href="https://pmkisan.gov.in" target="_blank" class="btn small green">जांचें ↗</a>
+      <p>पात्र किसान परिवारों को प्रतिवर्ष ₹6,000 की वित्तीय सहायता (3 किश्तों में)।</p>
+      <a href="https://pmkisan.gov.in" class="btn small green">जांचें ↗</a>
     </div>
     <div class="item">
       <h3>🏠 प्रधानमंत्री आवास योजना (ग्रामीण)</h3>
-      <p>पक्के मकान निर्माण हेतु आर्थिक सहायता।</p>
-      <a href="https://pmayg.nic.in" target="_blank" class="btn small green">विवरण देखें ↗</a>
+      <p>बेघर एवं कच्चे मकानों में रहने वाले परिवारों को पक्का मकान निर्माण सहायता।</p>
+      <a href="https://pmayg.nic.in" class="btn small green">विवरण देखें ↗</a>
+    </div>
+    <div class="item">
+      <h3>🏥 आयुष्मान भारत (PM-JAY कार्ड)</h3>
+      <p>प्रति परिवार प्रति वर्ष ₹5 लाख तक का निःशुल्क कैशलेस उपचार एवं अस्पताल भर्ती सुविधा।</p>
+      <a href="https://beneficiary.nha.gov.in" class="btn small green">कार्ड बनाएं ↗</a>
+    </div>
+    <div class="item">
+      <h3>👷 ई-श्रम कार्ड (E-Shram)</h3>
+      <p>असंगठित क्षेत्र के कामगारों, मजदूरों हेतु ₹2 लाख दुर्घटना बीमा एवं सरकारी लाभ।</p>
+      <a href="https://eshram.gov.in" class="btn small green">पंजीयन करें ↗</a>
+    </div>
+    <div class="item">
+      <h3>👧 सुकन्या समृद्धि योजना</h3>
+      <p>बेटियों के उज्ज्वल भविष्य, उच्च शिक्षा व विवाह हेतु उच्चतम ब्याज दर बचत खाता।</p>
+      <a href="https://www.indiapost.gov.in" class="btn small green">डाकघर विवरण ↗</a>
+    </div>
+    <div class="item">
+      <h3>🔨 प्रधानमंत्री विश्वकर्मा योजना</h3>
+      <p>पारंपरिक कारीगरों व शिल्पकारों को ₹15,000 टूलकिट ग्रांट व न्यूनतम ब्याज ऋण।</p>
+      <a href="https://pmvishwakarma.gov.in" class="btn small green">आवेदन करें ↗</a>
     </div>
   </div>
 </section>
@@ -401,10 +422,17 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 🪙 DONATION & DIGITAL RECEIPT -->
+<!-- 🪙 DONATION & DIGITAL RECEIPT (ऑटो-टोटल फंड सहित) -->
 <section id="donation" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>दान एवं समाज कोष</h1><p>पारदर्शी सहयोग व रसीद</p></div></div>
   <div class="container">
+    <!-- ऑटो कुल संकलित राशि कार्ड -->
+    <div class="card" style="background:linear-gradient(135deg,#168c50,#21aa62);color:#fff;text-align:center">
+      <span style="font-size:12px;opacity:0.9">🌾 समाज कोष कुल संकलित सहयोग 🌾</span>
+      <h2 id="totalDonationFund" style="font-size:28px;margin:6px 0 2px">₹0 /-</h2>
+      <p style="margin:0;font-size:11px;opacity:0.85">समस्त सामाजिक विकास एवं भवन निर्माण हेतु सुरक्षित</p>
+    </div>
+
     <div class="card" style="text-align:center">
       <h3>🌾 भुईहर समाज कल्याण कोष</h3>
       <p class="admin-note">समाज भवन, धर्मशाला निर्माण व आकस्मिक सहायता हेतु सहयोग करें।</p>
@@ -423,7 +451,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 💼 JOBS & CAREER (View Only) -->
+<!-- 💼 JOBS & CAREER (ऑनलाइन लिंक सपोर्ट के साथ) -->
 <section id="jobs" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1><p>समाज रोजगार मंच</p></div></div>
   <div class="container">
@@ -432,7 +460,7 @@ body.dark-mode{background:#0a0f1d}
         <b style="color:#1e40af">📢 अपनी नौकरी की सूचना दें</b>
         <p style="margin:2px 0 0;font-size:11px;color:#1d4ed8">काम/वैकेंसी पोस्ट करवाने हेतु एडमिन को विवरण भेजें</p>
       </div>
-      <a href="https://wa.me/919999999999?text=नौकरी%20पोस्टिंग%20हेतु%20विवरण" target="_blank" class="btn small">WhatsApp</a>
+      <a href="https://api.whatsapp.com/send?phone=919999999999&text=नौकरी%20पोस्टिंग%20हेतु%20विवरण" class="btn small">WhatsApp</a>
     </div>
     <div class="section-title"><h2>उपलब्ध नौकरियां व काम</h2></div>
     <div id="jobsList">Loading...</div>
@@ -448,7 +476,7 @@ body.dark-mode{background:#0a0f1d}
         <b style="color:#854d0e">🏪 अपनी दुकान / फर्म जोड़ें</b>
         <p style="margin:2px 0 0;font-size:11px;color:#a16207">डायरेक्टरी में दुकान जुड़वाने हेतु एडमिन से संपर्क करें</p>
       </div>
-      <a href="https://wa.me/919999999999?text=दुकान%20जोड़ने%20हेतु%20जानकारी" target="_blank" class="btn small gold">WhatsApp</a>
+      <a href="https://api.whatsapp.com/send?phone=919999999999&text=दुकान%20जोड़ने%20हेतु%20जानकारी" class="btn small gold">WhatsApp</a>
     </div>
     <div class="section-title"><h2>समाज की दुकानें एवं व्यवसाय</h2></div>
     <div id="businessList">Loading...</div>
@@ -542,7 +570,7 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 📅 EVENTS & SOCIAL CALENDAR -->
+<!-- 📅 EVENTS & SOCIAL CALENDAR (Google Map सपोर्ट सहित) -->
 <section id="events" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>कार्यक्रम व समाज कैलेंडर</h1><p>समाज के पर्व एवं वार्षिक आयोजन</p></div></div>
   <div class="container">
@@ -560,7 +588,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- ⚙️ ADMIN DASHBOARD -->
 <section id="admin" class="page">
-  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • यूज़र लुकअप • PDF • ब्लॉक</p></div></div>
+  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • लुकअप • PDF • डिलीट</p></div></div>
   <div class="container">
     <div id="adminMsg" class="msg"></div>
     <div class="stats"><div class="stat"><b id="adTotal">0</b><span>Members</span></div><div class="stat"><b id="adPending">0</b><span>Pending</span></div><div class="stat"><b id="adApproved">0</b><span>Approved</span></div></div>
@@ -591,7 +619,7 @@ body.dark-mode{background:#0a0f1d}
           </div>
         </div>
 
-        <!-- Hidden Printable Element -->
+        <!-- Printable Element -->
         <div id="familyPrintWrapper" class="hide">
           <div id="familyPrintArea">
             <div class="doc-header">
@@ -649,7 +677,7 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2 style="color:var(--red)">🚫 ब्लॉक किए गए सदस्य (Blocked Members)</h2></div>
     <div id="blockedMembersList"><div class="card"><span class="admin-note">कोई ब्लॉक सदस्य नहीं है।</span></div></div>
 
-    <!-- 📢 ADMIN: JOBS POSTING -->
+    <!-- 📢 ADMIN: JOBS POSTING (ऑनलाइन लिंक फ़ील्ड सहित) -->
     <div class="section-title"><h2>जॉब / रोजगार पोस्ट करें</h2></div>
     <div class="card">
       <div class="field"><label>काम / पद का नाम *</label><input id="adJobTitle" placeholder="उदा. ड्राइवर, कम्प्यूटर ऑपरेटर"></div>
@@ -658,6 +686,7 @@ body.dark-mode{background:#0a0f1d}
         <div class="field"><label>स्थान</label><input id="adJobLocation" placeholder="उदा. महाराजगंज"></div>
       </div>
       <div class="field"><label>सम्पर्क मोबाइल *</label><input id="adJobContact" inputmode="numeric" maxlength="10"></div>
+      <div class="field"><label>ऑफिशियल / अप्लाई लिंक (URL Optional)</label><input id="adJobLink" placeholder="https://example.com/apply"></div>
       <div class="field"><label>विवरण</label><textarea id="adJobDesc" placeholder="शर्तें व योग्यता..."></textarea></div>
       <button class="btn gold" onclick="saveAdminJob()">📢 जॉब प्रकाशित करें</button>
     </div>
@@ -740,19 +769,34 @@ body.dark-mode{background:#0a0f1d}
     <div class="section-title"><h2>सदस्यों की अर्जियां (Helpdesk)</h2></div>
     <div id="adminSupportList">Loading...</div>
 
+    <!-- 🖼️ ADMIN: BANNER MANAGER (ड्रॉपडाउन डिलीट के साथ) -->
     <div class="section-title"><h2>Slider Banners प्रबंधन</h2></div>
     <div class="card">
-      <div class="field"><label>बैनर URL</label><input id="adBannerImg" placeholder="https://example.com/banner.jpg"></div>
+      <div class="field"><label>नया बैनर URL</label><input id="adBannerImg" placeholder="https://example.com/banner.jpg"></div>
       <div class="field"><label>शीर्षक</label><input id="adBannerTitle" placeholder="शीर्षक"></div>
-      <button class="btn gold" onclick="addBanner()">🖼️ बैनर जोड़ें</button>
-      <div id="adminBannerList" style="margin-top:8px">Loading...</div>
+      <button class="btn gold" onclick="addBanner()">🖼️ नया बैनर जोड़ें</button>
+      
+      <div style="margin-top:16px;border-top:1px dashed var(--line);padding-top:12px">
+        <label style="font-size:13px;font-weight:700">🗑️ मौजूदा बैनर हटाएं (Dropdown):</label>
+        <select id="deleteBannerSelect" style="margin:6px 0"><option value="">बैनर चुनें</option></select>
+        <button class="btn red small" style="margin-top:4px" onclick="deleteSelectedBanner()">🗑️ चुना हुआ बैनर डिलीट करें</button>
+      </div>
     </div>
 
     <div class="section-title"><h2>Post Notice</h2></div>
     <div class="card"><div class="field"><label>Title</label><input id="noticeTitle"></div><div class="field"><label>Hindi Message</label><textarea id="noticeText"></textarea></div><button class="btn" onclick="postNotice()">Publish Notice</button></div>
     
+    <!-- 📅 ADD EVENT (Google Map लिंक सपोर्ट) -->
     <div class="section-title"><h2>Add Event</h2></div>
-    <div class="card"><div class="field"><label>Event Name</label><input id="eventName"></div><div class="field"><label>Date</label><input id="eventDate" type="date"></div><div class="field"><label>Location</label><input id="eventLocation"></div><button class="btn" onclick="addEvent()">Save Event</button></div>
+    <div class="card">
+      <div class="field"><label>Event Name *</label><input id="eventName"></div>
+      <div class="grid2">
+        <div class="field"><label>Date *</label><input id="eventDate" type="date"></div>
+        <div class="field"><label>Location *</label><input id="eventLocation"></div>
+      </div>
+      <div class="field"><label>Google Map Link (Optional)</label><input id="eventMapLink" placeholder="https://maps.app.goo.gl/..."></div>
+      <button class="btn" onclick="addEvent()">Save Event</button>
+    </div>
   </div>
 </section>
 
@@ -812,7 +856,7 @@ async function sendAdminPushAlert(userName, userDistrict) {
   } catch(e) {}
 }
 
-// 🧭 STEP-BY-STEP BACK & NAVIGATION SYSTEM
+// 🧭 STEP-BY-STEP BACK & NAVIGATION
 function go(id, isBackNav = false){
   if(["dashboard","profile","family","support"].includes(id) && !currentUser){ id = "login"; }
   if(id === "admin" && !currentAdmin){ id = "adminLogin"; return; }
@@ -865,7 +909,6 @@ window.addEventListener("popstate", function(event){
   }
 });
 
-// Initial History State
 history.replaceState({ pageId: "home" }, "", "#home");
 
 function msg(id,text,type="info"){let e=document.getElementById(id);e.textContent=text;e.className="msg show "+type}
@@ -926,7 +969,7 @@ async function renderOfficersSlider(){
     <h3 style="margin:2px 0 4px;font-size:16px">${esc(o.name)}</h3>
     <p style="margin:0;font-size:12px;color:var(--muted)">📞 +91 ${currentUser ? esc(o.mobile) : maskMob(o.mobile)}</p>
     <div class="contact-actions">
-     ${currentUser ? `<a href="tel:${esc(o.mobile)}" class="btn-call">📞 Call</a><a href="https://wa.me/91${esc(o.mobile)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button>`}
+     ${currentUser ? `<a href="tel:${esc(o.mobile)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(o.mobile)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button>`}
     </div>
    </div>
   </div>`).join("");
@@ -938,7 +981,7 @@ async function renderOfficersSlider(){
 function updateOfficerPosition(){document.querySelectorAll(".officer-track").forEach(tr=>{tr.style.transform=`translateX(-${curOfficerIdx*100}%)`})}
 function initOfficerAutoPlay(){if(officerInterval)clearInterval(officerInterval);if(officersList.length<=1)return;officerInterval=setInterval(()=>{curOfficerIdx=(curOfficerIdx+1)%officersList.length;updateOfficerPosition()},4500)}
 
-// 🖼️ BANNER SLIDER
+// 🖼️ BANNER SLIDER & MANAGER
 async function fetchBanners(){try{const s=await db.collection("banners").orderBy("createdAt","desc").get();bannersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
 async function renderSliders(){
  await fetchBanners();
@@ -946,6 +989,7 @@ async function renderSliders(){
  ["homeBannerSlider","dashBannerSlider"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html});
  attachSwipeListeners("slider-container","slider-track",bannersList.length,(n)=>{curBannerIdx=n;updateBannerPosition()});
  initSliderAutoPlay();
+ populateBannerDeleteDropdown();
 }
 function buildSliderHtml(){
  if(!bannersList.length)return "";
@@ -958,6 +1002,33 @@ function updateBannerPosition(){
  document.querySelectorAll(".slider-dots").forEach(b=>{b.querySelectorAll(".s-dot").forEach((d,i)=>d.classList.toggle("active",i===curBannerIdx))});
 }
 function initSliderAutoPlay(){if(sliderInterval)clearInterval(sliderInterval);if(bannersList.length<=1)return;sliderInterval=setInterval(()=>{curBannerIdx=(curBannerIdx+1)%bannersList.length;updateBannerPosition()},3800)}
+
+function populateBannerDeleteDropdown(){
+  const s = document.getElementById("deleteBannerSelect");
+  if(!s) return;
+  s.innerHTML = `<option value="">बैनर चुनें</option>`;
+  bannersList.forEach((b, i) => {
+    s.innerHTML += `<option value="${esc(b.id)}">${i+1}. ${esc(b.title || 'शीर्षक रहित')} (${esc(b.imageUrl.slice(0,25))}...)</option>`;
+  });
+}
+
+async function addBanner(){
+ const u=adBannerImg.value.trim(),t=adBannerTitle.value.trim();if(!u)return;
+ await db.collection("banners").add({imageUrl:u,title:t,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+ adBannerImg.value=adBannerTitle.value="";renderSliders();
+ msg("adminMsg","बैनर सफलता से जुड़ गया।","ok");
+}
+
+async function deleteSelectedBanner(){
+  const sel = document.getElementById("deleteBannerSelect");
+  const bId = sel.value;
+  if(!bId){ msg("adminMsg", "कृपया हटाने के लिए कोई बैनर चुनें।", "err"); return; }
+  try{
+    await db.collection("banners").doc(bId).delete();
+    msg("adminMsg", "बैनर हटा दिया गया।", "ok");
+    renderSliders();
+  }catch(e){ msg("adminMsg", e.message, "err"); }
+}
 
 function attachSwipeListeners(cClass,tClass,total,onIdx){
  if(total<=1)return;
@@ -1051,7 +1122,7 @@ async function loadMatrimonial(){
      <p>${esc(x.about||"")}</p>
      <div class="contact-actions" style="margin-top:8px">
       ${isApp 
-        ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call (${esc(x.mobileNumber)})</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` 
+        ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call (${esc(x.mobileNumber)})</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobileNumber)}" class="btn-wa">💬 WhatsApp</a>` 
         : `<span class="admin-note" style="color:var(--muted)">📞 +91 ${maskMob(x.mobileNumber)} • <button class="btn small" style="display:inline-block;width:auto;padding:4px 8px;margin-left:6px" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button></span>`
       }
      </div>
@@ -1063,7 +1134,7 @@ async function loadMatrimonial(){
  }
 }
 
-// 🪙 DONATION & DIGITAL RECEIPT
+// 🪙 DONATION & DIGITAL RECEIPT (ऑटो कुल संकलित सहयोग)
 function generateDonationReceiptPrompt(){
  const n=prompt("दानदाता का नाम दर्ज करें:", currentUser?currentUser.fullName:"");
  const amt=prompt("सहयोग राशि (₹) दर्ज करें:","501");
@@ -1096,9 +1167,14 @@ async function loadDonations(){
  const b=document.getElementById("donationList");
  try{
   const s=await db.collection("donations").orderBy("createdAt","desc").get();
+  let totalFund = 0;
   b.innerHTML=s.empty?"<div class='item'><h3>रामप्रसाद भुईहर • ₹5,000</h3><p>स्थान: पनियरा</p></div>":s.docs.map(d=>{
-   const x=d.data();return `<div class="item"><h3>${esc(x.name)} • ₹${esc(x.amount)}</h3><p>📍 स्थान: ${esc(x.location||"-")}</p></div>`;
+   const x=d.data();
+   const a = Number(x.amount)||0;
+   totalFund += a;
+   return `<div class="item"><h3>${esc(x.name)} • ₹${esc(a.toLocaleString('en-IN'))}</h3><p>📍 स्थान: ${esc(x.location||"-")}</p></div>`;
   }).join("");
+  document.getElementById("totalDonationFund").textContent = `₹${totalFund.toLocaleString('en-IN')} /-`;
  }catch(e){b.innerHTML="लोड नहीं हो सका"}
 }
 
@@ -1225,7 +1301,7 @@ async function resetUserMpin(){
  }catch(e){msg("forgotMsg",e.message,"err")}
 }
 
-// 🔐 AUTH & COMMON (ब्लॉक्ड यूजर चेक)
+// 🔐 AUTH & COMMON
 async function adminLogin(){
  const email=(adminEmail.value||"").trim().toLowerCase(),password=adminPassword.value||"";
  if(!email||!password){msg("adminLoginMsg","Email और Password भरें।","err");return}
@@ -1284,24 +1360,40 @@ async function loadBlood(){
  bloodList.innerHTML="<div class='card'>Loading…</div>";const f=bloodFilter.value;
  try{
   let s=await db.collection("blood").get();let a=s.docs.map(d=>d.data()).filter(x=>!f||x.bloodGroup===f);
-  bloodList.innerHTML=a.length?a.map(x=>`<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-emergency">🚨 Emergency Call</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर देखने हेतु लॉगिन करें</button>`}</div></div>`).join(""):"<div class='card'>कोई Blood Profile नहीं मिला।</div>";
+  bloodList.innerHTML=a.length?a.map(x=>`<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-emergency">🚨 Emergency Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobileNumber)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर देखने हेतु लॉगिन करें</button>`}</div></div>`).join(""):"<div class='card'>कोई Blood Profile नहीं मिला।</div>";
  }catch(e){bloodList.innerHTML="Error"}
 }
 
-// 💼 JOBS
+// 💼 JOBS (अप्लाई/ऑफिशियल लिंक सपोर्ट सहित)
 async function saveAdminJob(){
- const t=adJobTitle.value.trim(),s=adJobSalary.value.trim(),l=adJobLocation.value.trim(),c=adJobContact.value.trim(),d=adJobDesc.value.trim();
+ const t=adJobTitle.value.trim(),s=adJobSalary.value.trim(),l=adJobLocation.value.trim(),c=adJobContact.value.trim(),k=adJobLink.value.trim(),d=adJobDesc.value.trim();
  if(!t||!c){msg("adminMsg","काम का नाम और संपर्क आवश्यक है।","err");return}
  try{
-  await db.collection("jobs").add({title:t,salary:s||"निगोशिएबल",location:l||"महाराजगंज",contact:c,desc:d,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-  adJobTitle.value=adJobSalary.value=adJobLocation.value=adJobContact.value=adJobDesc.value="";
+  await db.collection("jobs").add({title:t,salary:s||"निगोशिएबल",location:l||"महाराजगंज",contact:c,applyLink:k||null,desc:d,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+  adJobTitle.value=adJobSalary.value=adJobLocation.value=adJobContact.value=adJobLink.value=adJobDesc.value="";
   msg("adminMsg","जॉब पोस्ट प्रकाशित हुआ!","ok");
   loadJobs();
  }catch(e){msg("adminMsg",e.message,"err")}
 }
 async function loadJobs(){
  const b=document.getElementById("jobsList");
- try{const s=await db.collection("jobs").orderBy("createdAt","desc").get();b.innerHTML=s.empty?"<div class='card'>कोई नौकरी उपलब्ध नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>💼 ${esc(x.title)}</h3><p>वेतन: ${esc(x.salary)} • स्थान: ${esc(x.location)}</p><p>${esc(x.desc||"")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.contact)}" class="btn-call">📞 Call</a><a href="https://wa.me/91${esc(x.contact)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}</div></div>`}).join("")}catch(e){b.innerHTML="Error"}
+ try{
+  const s=await db.collection("jobs").orderBy("createdAt","desc").get();
+  b.innerHTML=s.empty?"<div class='card'>कोई नौकरी उपलब्ध नहीं है।</div>":s.docs.map(d=>{
+    const x=d.data();
+    return `
+      <div class="item">
+        <h3>💼 ${esc(x.title)}</h3>
+        <p>वेतन: ${esc(x.salary)} • स्थान: ${esc(x.location)}</p>
+        <p>${esc(x.desc||"")}</p>
+        <div class="contact-actions">
+          ${currentUser ? `<a href="tel:${esc(x.contact)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.contact)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}
+          ${x.applyLink ? `<a href="${esc(x.applyLink)}" class="btn-web">🌐 ऑनलाइन लिंक खोलें ↗</a>` : ''}
+        </div>
+      </div>
+    `;
+  }).join("");
+ }catch(e){b.innerHTML="Error"}
 }
 
 // 🏪 BUSINESS
@@ -1317,7 +1409,7 @@ async function saveAdminBusiness(){
 }
 async function loadBusiness(){
  const b=document.getElementById("businessList");
- try{const s=await db.collection("businesses").orderBy("createdAt","desc").get();b.innerHTML=s.empty?"<div class='card'>कोई दुकान नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>🏪 ${esc(x.name)} (${esc(x.category)})</h3><p>📍 ${esc(x.address)}</p><p>${esc(x.desc||"")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobile)}" class="btn-call">📞 Call</a><a href="https://wa.me/91${esc(x.mobile)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}</div></div>`}).join("")}catch(e){b.innerHTML="Error"}
+ try{const s=await db.collection("businesses").orderBy("createdAt","desc").get();b.innerHTML=s.empty?"<div class='card'>कोई दुकान नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>🏪 ${esc(x.name)} (${esc(x.category)})</h3><p>📍 ${esc(x.address)}</p><p>${esc(x.desc||"")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobile)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobile)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}</div></div>`}).join("")}catch(e){b.innerHTML="Error"}
 }
 
 // 🤝 HELPDESK
@@ -1499,7 +1591,7 @@ async function searchMembers(){
  try{
   const s=await db.collection("users").where("status","==","approved").get();
   const a=s.docs.map(d=>d.data()).filter(x=>[x.fullName,x.district,x.panchayat,x.village].join(" ").toLowerCase().includes(q));
-  b.innerHTML=a.length?a.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}<br>कार्य: ${esc(x.occupation||"-")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}</div></div>`).join(""):"<div class='card'>कोई सदस्य नहीं मिला।</div>";
+  b.innerHTML=a.length?a.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}<br>कार्य: ${esc(x.occupation||"-")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobileNumber)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}</div></div>`).join(""):"<div class='card'>कोई सदस्य नहीं मिला।</div>";
  }catch(e){b.innerHTML="Error"}
 }
 
@@ -1540,6 +1632,7 @@ async function loadAdmin(){
 
     loadAdminOfficers();
     loadAdminSupport();
+    populateBannerDeleteDropdown();
   }catch(e){
     console.error("Admin Load Error:", e);
   }
@@ -1716,15 +1809,40 @@ async function exportMembersToCSV(){
  snap.docs.forEach(d=>{const x=d.data();csv+=`"${x.fullName||""}","${x.mobileNumber||""}","${x.district||""}","${x.panchayat||""}","${x.village||""}","${x.occupation||""}","${x.bloodGroup||""}"\n`});
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="Bhuihar_Members.csv";a.click();
 }
-async function addBanner(){
- const u=adBannerImg.value.trim(),t=adBannerTitle.value.trim();if(!u)return;
- await db.collection("banners").add({imageUrl:u,title:t,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
- adBannerImg.value=adBannerTitle.value="";renderSliders();
-}
 async function postNotice(){if(!noticeTitle.value.trim())return;await db.collection("notices").add({title:noticeTitle.value.trim(),text:noticeText.value.trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});noticeTitle.value=noticeText.value="";loadNotices()}
-async function addEvent(){if(!eventName.value.trim())return;await db.collection("events").add({name:eventName.value.trim(),date:eventDate.value,location:eventLocation.value.trim()});eventName.value="";loadEvents()}
+
+// 📅 SAVE EVENT (Google Map लिंक के साथ)
+async function addEvent(){
+  const n=eventName.value.trim(), dt=eventDate.value, loc=eventLocation.value.trim(), mLink=eventMapLink.value.trim();
+  if(!n || !dt || !loc) return;
+  await db.collection("events").add({
+    name:n,
+    date:dt,
+    location:loc,
+    mapLink:mLink||null,
+    createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  });
+  eventName.value=eventLocation.value=eventMapLink.value="";
+  loadEvents();
+  msg("adminMsg","कार्यक्रम सफलता से जुड़ गया।","ok");
+}
+
 async function loadNotices(){const s=await db.collection("notices").get();noticeList.innerHTML=s.empty?"<div class='card'>कोई सूचना नहीं है।</div>":s.docs.map(d=>`<div class="card"><h3>📢 ${esc(d.data().title)}</h3><p class="admin-note">${esc(d.data().text)}</p></div>`).join("")}
-async function loadEvents(){const s=await db.collection("events").get();eventList.innerHTML=s.empty?"<div class='card'>कोई आयोजन नहीं है।</div>":s.docs.map(d=>`<div class="item"><h3>📅 ${esc(d.data().name)}</h3><p>${esc(d.data().date)} • ${esc(d.data().location)}</p></div>`).join("")}
+
+async function loadEvents(){
+  const s=await db.collection("events").get();
+  eventList.innerHTML=s.empty?"<div class='card'>कोई आयोजन नहीं है।</div>":s.docs.map(d=>{
+    const x=d.data();
+    return `
+      <div class="item">
+        <h3>📅 ${esc(x.name)}</h3>
+        <p>${esc(x.date)} • 📍 ${esc(x.location)}</p>
+        ${x.mapLink ? `<a href="${esc(x.mapLink)}" class="btn-web" style="margin-top:6px">📍 लोकेशन Google Map पर देखें ↗</a>` : ''}
+      </div>
+    `;
+  }).join("");
+}
+
 async function loadStats(){const [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);stMembers.textContent=u.size;stFamilies.textContent=f.size;stApproved.textContent=u.docs.filter(d=>d.data().status==="approved").length}
 
 loadStats();loadNotices();renderSliders();renderOfficersSlider();fetchDistricts();

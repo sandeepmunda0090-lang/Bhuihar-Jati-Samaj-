@@ -357,24 +357,35 @@ body.dark-mode{background:#0a0f1d}
   </div>
 </section>
 
-<!-- 💍 MATRIMONIAL & BIODATA GENERATOR -->
+<!-- 💍 MATRIMONIAL & BIODATA GENERATOR (Privacy Protected) -->
 <section id="matrimonial" class="page">
   <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1><p>रिश्ते एवं 1-क्लिक बायोडेटा कार्ड</p></div></div>
   <div class="container">
     <div id="matMsg" class="msg"></div>
-    <div class="card" id="matForm">
+
+    <!-- बिना लॉगिन वाले विज़िटर हेतु लॉगिन प्रॉम्प्ट -->
+    <div id="matLoginNotice" class="card hide" style="background:#fefce8;border-color:#fef08a;text-align:center">
+      <h3 style="color:#854d0e">💍 अपना वैवाहिक बायोडेटा जोड़ें</h3>
+      <p class="admin-note">बायोडेटा बनाने और अपलोड करने के लिए समाज पोर्टल पर सदस्य रजिस्ट्रेशन / लॉगिन अनिवार्य है।</p>
+      <button class="btn gold small" style="margin-top:8px" onclick="go('login')">🔐 Member Login / Register करें</button>
+    </div>
+
+    <!-- केवल पंजीकृत / लॉगिन सदस्यों हेतु फॉर्म -->
+    <div class="card hide" id="matForm">
       <h3>💍 शादी बायोडेटा कार्ड बनाएं</h3>
       <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech / B.A."></div></div>
       <div class="grid2"><div class="field"><label>Occupation</label><input id="matOccupation" placeholder="उदा. शिक्षक / व्यवसाय"></div><div class="field"><label>ऊंचाई (Height)</label><input id="matHeight" placeholder="उदा. 5' 8&quot;"></div></div>
       <div class="field"><label>पारिवारिक विवरण / About</label><textarea id="matAbout" placeholder="पिता का नाम, कुल सदस्य, पसंद आदि..."></textarea></div>
       <button class="btn" onclick="saveMatrimonial()">Save Profile & Generate Biodata</button>
     </div>
+
     <div id="biodataExportWrapper" class="hide">
       <div id="biodataCard" class="biodata-card"></div>
       <button class="btn green" onclick="downloadBiodataImage()">📥 विवाह बायोडेटा कार्ड डाउनलोड करें</button>
     </div>
+
     <div class="section-title"><h2>समाज के वैवाहिक रिश्ते</h2></div>
-    <div id="matList"></div>
+    <div id="matList">Loading...</div>
   </div>
 </section>
 
@@ -885,7 +896,7 @@ function renderBiodataCardPreview(d){
    </div>
   </div>
   <div class="info-row"><span>व्यवसाय / कार्य</span><span>${esc(d.occupation||"-")}</span></div>
-  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")}, ${esc(d.district||"-")}</span></div>
+  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")} , ${esc(d.district||"-")}</span></div>
   <div class="info-row"><span>संपर्क मोबाइल</span><span>+91 ${esc(d.mobileNumber)}</span></div>
   <p style="margin-top:10px;font-size:12px"><b>पारिवारिक विवरण:</b> ${esc(d.about||"-")}</p>
  `;
@@ -893,20 +904,43 @@ function renderBiodataCardPreview(d){
 function downloadBiodataImage(){downloadImage("biodataCard","Bhuihar_Biodata_"+(currentUser?currentUser.fullName:"card"))}
 
 async function loadMatrimonial(){
- const b=document.getElementById("matList");b.innerHTML="Loading...";
+ const b = document.getElementById("matList");
+ const formBox = document.getElementById("matForm");
+ const loginNotice = document.getElementById("matLoginNotice");
+
+ // केवल लॉगिन सदस्य को फॉर्म दिखेगा
+ if(currentUser){
+  formBox.classList.remove("hide");
+  loginNotice.classList.add("hide");
+ } else {
+  formBox.classList.add("hide");
+  loginNotice.classList.remove("hide");
+ }
+
+ b.innerHTML = "लोड हो रहा है...";
  try{
-  const s=await db.collection("matrimonial").where("status","==","active").get();
-  const isApp=currentUser&&currentUser.status==="approved";
-  b.innerHTML=s.empty?"<div class='card'>कोई प्रोफाइल उपलब्ध नहीं है।</div>":s.docs.map(d=>{
-   const x=d.data();
-   return `<div class="item">
-    <h3>💍 ${esc(x.name)} (${esc(x.gender)})</h3>
-    <p>ऊंचाई: ${esc(x.height||"-")} • शिक्षा: ${esc(x.education||"-")}<br>कार्य: ${esc(x.occupation||"-")} • 📍 ${esc(x.district||"-")}</p>
-    <p>${esc(x.about||"")}</p>
-    ${isApp?`<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call करें</a>`:`<span class="admin-note">🔒 संपर्क नंबर देखने हेतु अप्रूव्ड लॉगिन आवश्यक है।</span>`}
-   </div>`;
+  const s = await db.collection("matrimonial").where("status","==","active").get();
+  const isApp = currentUser && currentUser.status === "approved";
+
+  b.innerHTML = s.empty ? "<div class='card'>कोई प्रोफाइल उपलब्ध नहीं है।</div>" : s.docs.map(d => {
+   const x = d.data();
+   return `
+    <div class="item">
+     <h3>💍 ${esc(x.name)} (${esc(x.gender)})</h3>
+     <p>ऊंचाई: ${esc(x.height||"-")} • शिक्षा: ${esc(x.education||"-")}<br>कार्य: ${esc(x.occupation||"-")} • 📍 ${esc(x.district||"-")}</p>
+     <p>${esc(x.about||"")}</p>
+     <div class="contact-actions" style="margin-top:8px">
+      ${isApp 
+        ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call (${esc(x.mobileNumber)})</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a>` 
+        : `<span class="admin-note" style="color:var(--muted)">📞 +91 ${maskMob(x.mobileNumber)} • <button class="btn small" style="display:inline-block;width:auto;padding:4px 8px;margin-left:6px" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button></span>`
+      }
+     </div>
+    </div>
+   `;
   }).join("");
- }catch(e){b.innerHTML="Error"}
+ }catch(e){
+  b.innerHTML = "लोड नहीं हो सका";
+ }
 }
 
 // 🪙 DONATION & DIGITAL RECEIPT

@@ -94,9 +94,12 @@ textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-colum
 .action b{display:block;font-size:14px;font-weight:800}
 .action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
 
+/* Stats Counter Cards */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:var(--shadow-sm)}
-.stat b{display:block;font-size:24px;font-weight:800;color:var(--p);letter-spacing:-0.5px}.stat span{font-size:11px;color:var(--muted)}
+.stats.grid4{grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--p);letter-spacing:-0.5px;transition:all 0.3s}
+.stat span{font-size:10.5px;color:var(--muted);font-weight:600}
 
 .profile-head{background:linear-gradient(145deg,var(--card),#f8fafc);border-radius:22px;padding:18px;display:flex;gap:14px;align-items:center}
 .avatar{width:68px;height:68px;border-radius:22px;background:var(--p-gradient);display:grid;place-items:center;font-size:32px;overflow:hidden;flex:none;box-shadow:0 8px 20px rgba(37,99,235,0.25)}
@@ -205,14 +208,15 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
     <div class="section-title"><h2>🌾 समाज के प्रमुख पदाधिकारी</h2></div>
     <div id="homeOfficerSlider"></div>
 
+    <!-- 📊 ANIMATED STATS COUNTER CARDS -->
     <div class="stats">
       <div class="stat"><b id="stMembers">0</b><span>कुल सदस्य</span></div>
       <div class="stat"><b id="stFamilies">0</b><span>परिवार सदस्य</span></div>
-      <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
+      <div class="stat"><b id="stApproved" style="color:var(--green)">0</b><span>स्वीकृत</span></div>
     </div>
     
     <!-- WhatsApp Share Invite Banner -->
-    <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px">
       <div>
         <b style="color:#065f46;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
         <p style="margin:2px 0 0;font-size:11px;color:#047857">यह पोर्टल अपने परिवार व WhatsApp ग्रुपों में भेजें</p>
@@ -673,7 +677,14 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • लुकअप • PDF • डिलीट</p></div></div>
   <div class="container">
     <div id="adminMsg" class="msg"></div>
-    <div class="stats"><div class="stat"><b id="adTotal">0</b><span>Members</span></div><div class="stat"><b id="adPending">0</b><span>Pending</span></div><div class="stat"><b id="adApproved">0</b><span>Approved</span></div></div>
+
+    <!-- 📊 ADMIN ANIMATED COUNTERS (Total, Pending, Approved, Blocked) -->
+    <div class="stats grid4">
+      <div class="stat"><b id="adTotal">0</b><span>Total</span></div>
+      <div class="stat"><b id="adPending" style="color:var(--gold)">0</b><span>Pending</span></div>
+      <div class="stat"><b id="adApproved" style="color:var(--green)">0</b><span>Approved</span></div>
+      <div class="stat"><b id="adBlocked" style="color:var(--red)">0</b><span>Blocked</span></div>
+    </div>
 
     <!-- 🔍 ADMIN USER LOOKUP & FAMILY PDF GENERATOR -->
     <div class="section-title"><h2>🔍 सदस्य लुकअप & सपरिवार PDF</h2></div>
@@ -865,6 +876,31 @@ let sliderInterval=null,officerInterval=null,curBannerIdx=0,curOfficerIdx=0;
 let familyCache = [];
 let lookedUpUser = null, lookedUpFamily = [];
 let currentPage = "home";
+
+// 🔢 ANIMATED COUNT-UP ENGINE (0 से तेज़ गिनती)
+function animateCounter(elementId, targetValue, duration = 1200, prefix = "", suffix = "") {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const start = 0;
+  const end = parseInt(targetValue, 10) || 0;
+  if (end === 0) { el.textContent = prefix + "0" + suffix; return; }
+  const startTime = performance.now();
+
+  function updateCount(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Smooth easeOutQuad animation
+    const easeProgress = progress * (2 - progress);
+    const currentCount = Math.floor(easeProgress * (end - start) + start);
+    el.textContent = prefix + currentCount.toLocaleString('en-IN') + suffix;
+    if (progress < 1) {
+      requestAnimationFrame(updateCount);
+    } else {
+      el.textContent = prefix + end.toLocaleString('en-IN') + suffix;
+    }
+  }
+  requestAnimationFrame(updateCount);
+}
 
 // 🌓 DARK MODE
 function toggleTheme(){
@@ -1098,7 +1134,7 @@ function attachSwipeListeners(cClass,tClass,total,onIdx){
  });
 }
 
-// 🪪 DIGITAL ID CARD (रॉयल स्मार्ट कार्ड ग्राफ़िक्स)
+// 🪪 DIGITAL ID CARD
 function renderDigitalIdCard(u){
  const b=document.getElementById("digitalIdArea");
  if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर <b>डिजिटल पहचान पत्र</b> यहाँ उपलब्ध होगा।</div>`;return}
@@ -1240,7 +1276,7 @@ async function loadDonations(){
    totalFund += a;
    return `<div class="item"><h3>${esc(x.name)} • ₹${esc(a.toLocaleString('en-IN'))}</h3><p>📍 स्थान: ${esc(x.location||"-")}</p></div>`;
   }).join("");
-  document.getElementById("totalDonationFund").textContent = `₹${totalFund.toLocaleString('en-IN')} /-`;
+  animateCounter("totalDonationFund", totalFund, 1400, "₹", " /-");
  }catch(e){b.innerHTML="लोड नहीं हो सका"}
 }
 
@@ -1260,8 +1296,8 @@ async function loadPollStats(){
   const snap=await db.collection("polls").doc("annual_convention").get();
   if(snap.exists){
    const d=snap.data();
-   document.getElementById("voteYesCount").textContent=d.yes||0;
-   document.getElementById("voteNoCount").textContent=d.no||0;
+   animateCounter("voteYesCount", d.yes||0, 1000);
+   animateCounter("voteNoCount", d.no||0, 1000);
   }
  }catch(e){}
 }
@@ -1706,9 +1742,16 @@ async function loadAdmin(){
     const s = await db.collection("users").get();
     const a = s.docs.map(d => ({ id: d.id, ...d.data() }));
 
-    adTotal.textContent = a.length;
-    adPending.textContent = a.filter(x => x.status === "pending").length;
-    adApproved.textContent = a.filter(x => x.status === "approved").length;
+    const totalCount = a.length;
+    const pendingCount = a.filter(x => x.status === "pending").length;
+    const approvedCount = a.filter(x => x.status === "approved").length;
+    const blockedCount = a.filter(x => x.status === "blocked").length;
+
+    // 🔢 Trigger Animated Counters on Admin
+    animateCounter("adTotal", totalCount, 1000);
+    animateCounter("adPending", pendingCount, 1000);
+    animateCounter("adApproved", approvedCount, 1000);
+    animateCounter("adBlocked", blockedCount, 1000);
 
     const p = a.filter(x => x.status === "pending");
     pendingList.innerHTML = p.length ? p.map(x => `
@@ -2056,7 +2099,21 @@ async function loadEvents(){
   }).join("");
 }
 
-async function loadStats(){const [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);stMembers.textContent=u.size;stFamilies.textContent=f.size;stApproved.textContent=u.docs.filter(d=>d.data().status==="approved").length}
+// 🔢 LOAD STATS WITH ANIMATED COUNT-UP
+async function loadStats(){
+  try {
+    const [u, f] = await Promise.all([db.collection("users").get(), db.collection("families").get()]);
+    const totalMembers = u.size;
+    const totalFamilies = f.size;
+    const totalApproved = u.docs.filter(d => d.data().status === "approved").length;
+
+    animateCounter("stMembers", totalMembers, 1200);
+    animateCounter("stFamilies", totalFamilies, 1400);
+    animateCounter("stApproved", totalApproved, 1200);
+  } catch(e) {
+    console.error("Stats error:", e);
+  }
+}
 
 loadStats();loadNotices();renderSliders();renderOfficersSlider();fetchDistricts();
 </script>

@@ -499,7 +499,20 @@ body.dark-mode{background:#0a0f1d}
         <div class="field"><label>उम्र (वर्ष)</label><input id="famAge" readonly placeholder="Auto"></div>
         <div class="field"><label>मोबाइल (Optional)</label><input id="famMobile" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div>
       </div>
-      <div class="field"><label>व्यवसाय</label><input id="famOccupation" placeholder="नौकरी / छात्र / कृषि"></div>
+      <div class="field">
+        <label>व्यवसाय (Occupation)</label>
+        <select id="famOccupation">
+          <option value="">व्यवसाय चुनें</option>
+          <option value="Government Job">Government Job (सरकारी नौकरी)</option>
+          <option value="Private Job">Private Job (निजी नौकरी)</option>
+          <option value="Business">Business (व्यापार / दुकान)</option>
+          <option value="Agriculture">Agriculture (कृषि / खेती)</option>
+          <option value="Labor">Labor (मजदूर / श्रमिक)</option>
+          <option value="Student">Student (विद्यार्थी / छात्र)</option>
+          <option value="Housewife">Housewife (गृहिणी)</option>
+          <option value="Other">Other (अन्य)</option>
+        </select>
+      </div>
       <div class="field"><label>सदस्य का हाफ फोटो (Passport Size)</label><input id="famPhoto" type="file" accept="image/*"></div>
       <button id="saveFamBtn" class="btn" onclick="addFamily()">+ Save Family Member</button>
       <button id="cancelEditFamBtn" class="btn secondary hide" onclick="cancelFamilyEdit()">रद्द करें (Cancel Edit)</button>
@@ -840,7 +853,7 @@ function renderBiodataCardPreview(d){
    </div>
   </div>
   <div class="info-row"><span>व्यवसाय / कार्य</span><span>${esc(d.occupation||"-")}</span></div>
-  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")}, ${esc(d.district||"-")}</span></div>
+  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")} , ${esc(d.district||"-")}</span></div>
   <div class="info-row"><span>संपर्क मोबाइल</span><span>+91 ${esc(d.mobileNumber)}</span></div>
   <p style="margin-top:10px;font-size:12px"><b>पारिवारिक विवरण:</b> ${esc(d.about||"-")}</p>
  `;
@@ -1106,14 +1119,14 @@ async function loadUserTickets(){
  try{const s=await db.collection("support_tickets").where("mobile","==",currentUser.mobileNumber).get();b.innerHTML=s.empty?"<div class='card'>कोई अर्जी नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>📌 ${esc(x.subject)}</h3><p>${esc(x.details)}</p>${x.adminReply?`<p style="color:#0757a3"><b>उत्तर:</b> ${esc(x.adminReply)}</p>`:`<span class="admin-note">प्रक्रियाधीन...</span>`}</div>`}).join("")}catch(e){b.innerHTML="Error"}
 }
 
-// 👨‍👩‍👧 FAMILY (एडिट, डिलीट, ड्रॉपडाउन, ऑटो-एज व डुप्लीकेट प्रोटेक्शन)
+// 👨‍👩‍👧 FAMILY (एडिट, सीधा डिलीट, रिश्ता व व्यवसाय ड्रॉपडाउन, ऑटो-एज व डुप्लीकेट प्रोटेक्शन)
 async function addFamily(){
  if(!currentUser)return;
  const n=famName.value.trim(),r=famRelation.value.trim(),d=famDob.value;
  const editDocId=document.getElementById("editFamilyDocId").value;
 
- if(!n){alert("कृपया सदस्य का पूरा नाम दर्ज करें।");famName.focus();return}
- if(!r){alert("कृपया सदस्य से रिश्ता चुनें।");famRelation.focus();return}
+ if(!n){msg("familyMsg","कृपया सदस्य का पूरा नाम दर्ज करें।","err");famName.focus();return}
+ if(!r){msg("familyMsg","कृपया सदस्य से रिश्ता चुनें।","err");famRelation.focus();return}
 
  const btn=document.getElementById("saveFamBtn");
  try{
@@ -1128,8 +1141,7 @@ async function addFamily(){
 
   const isDuplicate = existingCheck.docs.some(doc => doc.id !== editDocId);
   if(isDuplicate){
-    alert("⚠️ इस नाम का सदस्य आपके परिवार में पहले से जुड़ा हुआ है!");
-    msg("familyMsg", "इस नाम का सदस्य पहले से मौजूद है। कृपया सही नाम दें।", "err");
+    msg("familyMsg", "⚠️ इस नाम का सदस्य आपके परिवार में पहले से जुड़ा हुआ है!", "err");
     btn.disabled=false;
     btn.textContent=editDocId ? "Update Member" : "+ Save Family Member";
     return;
@@ -1155,23 +1167,18 @@ async function addFamily(){
   if(pUrl) memberPayload.photoUrl = pUrl;
 
   if(editDocId){
-    // अपडेट मोड
     await db.collection("families").doc(editDocId).update(memberPayload);
-    alert("✓ सदस्य विवरण सफलतापूर्वक अपडेट हो गया!");
-    msg("familyMsg","सदस्य विवरण अपडेट हो गया।","ok");
+    msg("familyMsg","सदस्य विवरण सफलतापूर्वक अपडेट हो गया।","ok");
   } else {
-    // नया सदस्य जोड़ना
     memberPayload.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     await db.collection("families").add(memberPayload);
-    alert("✓ नया परिवार सदस्य सफलतापूर्वक जुड़ गया!");
-    msg("familyMsg","परिवार सदस्य सुरक्षित हुआ।","ok");
+    msg("familyMsg","नया परिवार सदस्य सफलतापूर्वक जुड़ गया।","ok");
   }
 
   cancelFamilyEdit();
   loadFamily();
  }catch(e){
-  alert("त्रुटि: " + e.message);
-  msg("familyMsg",e.message,"err");
+  msg("familyMsg","त्रुटि: " + e.message,"err");
  }finally{
   btn.disabled=false;
   btn.textContent=document.getElementById("editFamilyDocId").value ? "Update Member" : "+ Save Family Member";
@@ -1205,17 +1212,28 @@ function cancelFamilyEdit(){
  document.getElementById("cancelEditFamBtn").classList.add("hide");
 }
 
-async function deleteFamily(docId, memberName){
- if(!confirm(`क्या आप सच में "${memberName}" को परिवार सूची से हटाना चाहते हैं?`)) return;
-
+async function deleteFamily(docId, btnElement){
  try{
+  if(btnElement){
+    btnElement.disabled = true;
+    btnElement.textContent = "⏳...";
+  }
+
   await db.collection("families").doc(docId).delete();
-  alert("सदस्य को सूची से हटा दिया गया है।");
-  msg("familyMsg", `"${memberName}" को हटा दिया गया।`, "info");
-  if(document.getElementById("editFamilyDocId").value === docId) cancelFamilyEdit();
+  msg("familyMsg", "सदस्य को सफलतापूर्वक हटा दिया गया।", "ok");
+
+  if(document.getElementById("editFamilyDocId").value === docId){
+    cancelFamilyEdit();
+  }
+
   loadFamily();
  }catch(e){
-  alert("हटाने में समस्या आई: " + e.message);
+  console.error("Delete Error:", e);
+  msg("familyMsg", "हटाने में समस्या आई: " + e.message, "err");
+  if(btnElement){
+    btnElement.disabled = false;
+    btnElement.textContent = "🗑️";
+  }
  }
 }
 
@@ -1237,8 +1255,8 @@ async function loadFamily(){
         </div>
       </div>
       <div style="display:flex;gap:6px">
-        <button class="btn small" style="background:#eaf3ff;color:var(--p)" onclick="startEditFamily('${esc(x.id)}')">✏️</button>
-        <button class="btn small red" onclick="deleteFamily('${esc(x.id)}', '${esc(x.familyMemberName)}')">🗑️</button>
+        <button type="button" class="btn small" style="background:#eaf3ff;color:var(--p)" onclick="startEditFamily('${esc(x.id)}')">✏️</button>
+        <button type="button" class="btn small red" onclick="deleteFamily('${esc(x.id)}', this)">🗑️</button>
       </div>
     </div>
   `).join("") : "<div class='card'>कोई सदस्य नहीं है।</div>";

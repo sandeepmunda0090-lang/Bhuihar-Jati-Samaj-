@@ -678,7 +678,7 @@ function setAge(){age.value=ageCalc(dob.value)||""}
 async function sha256(text){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
-// 📸 छवि कंप्रेस एवं Base64 कनवर्टर (सुधारित)
+// 📸 छवि कंप्रेस एवं Base64 कनवर्टर
 function fileToBase64(file, maxDimension = 240, quality = 0.65) {
   return new Promise((resolve) => {
     if (!file) { resolve(null); return; }
@@ -1085,19 +1085,36 @@ async function loadUserTickets(){
  try{const s=await db.collection("support_tickets").where("mobile","==",currentUser.mobileNumber).get();b.innerHTML=s.empty?"<div class='card'>कोई अर्जी नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>📌 ${esc(x.subject)}</h3><p>${esc(x.details)}</p>${x.adminReply?`<p style="color:#0757a3"><b>उत्तर:</b> ${esc(x.adminReply)}</p>`:`<span class="admin-note">प्रक्रियाधीन...</span>`}</div>`}).join("")}catch(e){b.innerHTML="Error"}
 }
 
-// 👨‍👩‍👧 FAMILY (सुधारित)
+// 👨‍👩‍👧 FAMILY (Duplicate Data Check + Safe Image Handling)
 async function addFamily(){
  if(!currentUser)return;
  const n=famName.value.trim(),r=famRelation.value.trim(),d=famDob.value;
  if(!n||!r){msg("familyMsg","नाम और रिश्ता आवश्यक है।","err");return}
+
  const btn=document.getElementById("saveFamBtn");
  try{
   btn.disabled=true;
+  btn.textContent="जांच हो रही है...";
+
+  // 1. डुप्लीकेट नाम की जांच (एक ही परिवार में समान नाम दोबारा सेव न हो)
+  const existingCheck = await db.collection("families")
+    .where("ownerMobile", "==", currentUser.mobileNumber)
+    .where("familyMemberName", "==", n)
+    .get();
+
+  if(!existingCheck.empty){
+    msg("familyMsg", "इस नाम का सदस्य परिवार में पहले से जुड़ा हुआ है!", "err");
+    btn.disabled=false;
+    btn.textContent="+ Save Family Member";
+    return;
+  }
+
   btn.textContent="सेव हो रहा है...";
   let pUrl=null;
   if(famPhoto.files && famPhoto.files[0]){
     pUrl=await fileToBase64(famPhoto.files[0],180,0.65);
   }
+
   await db.collection("families").add({
     ownerMobile:currentUser.mobileNumber,
     familyMemberName:n,
@@ -1109,6 +1126,7 @@ async function addFamily(){
     photoUrl:pUrl,
     createdAt:firebase.firestore.FieldValue.serverTimestamp()
   });
+
   msg("familyMsg","परिवार सदस्य सफलतापूर्वक सुरक्षित हुआ।","ok");
   famName.value=famRelation.value=famDob.value=famMobile.value=famOccupation.value=famPhoto.value="";
   loadFamily();
@@ -1119,6 +1137,7 @@ async function addFamily(){
   btn.textContent="+ Save Family Member";
  }
 }
+
 async function loadFamily(){
  const b=document.getElementById("familyList");if(!currentUser)return;
  try{const s=await db.collection("families").where("ownerMobile","==",currentUser.mobileNumber).get();b.innerHTML=s.empty?"<div class='card'>कोई सदस्य नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item" style="display:flex;gap:12px;align-items:center"><div class="avatar" style="width:45px;height:45px;font-size:22px">${x.photoUrl?`<img src="${esc(x.photoUrl)}">`:`👤`}</div><div><b>${esc(x.familyMemberName)}</b> (${esc(x.relation)})<br><span class="admin-note">उम्र: ${esc(x.age||"-")} वर्ष</span></div></div>`}).join("")}catch(e){b.innerHTML="Error"}

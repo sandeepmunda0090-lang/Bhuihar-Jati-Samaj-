@@ -31,14 +31,19 @@ body.dark-mode{background:#0a0f1d}
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:28px 20px 38px;border-radius:0 0 32px 32px;position:relative}
 .brand{display:flex;align-items:center;gap:13px}.logo{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:31px;box-shadow:0 8px 20px rgba(0,0,0,.18)}.brand h1{margin:0;font-size:23px}.brand p{margin:4px 0 0;font-size:12px;opacity:.82}
 .hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800}.hero-sub{font-size:13px;line-height:1.6;opacity:.88}.container{padding:16px}
-.theme-toggle{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);border:0;color:#fff;font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+
+/* टॉप-राइट कॉर्नर क्विक प्रोफाइल / अवतार शॉर्टकट (विकल्प 5) */
+.top-right-bar{position:absolute;top:20px;right:20px;display:flex;gap:8px;align-items:center;z-index:10}
+.theme-toggle{background:rgba(255,255,255,0.2);border:0;color:#fff;font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.top-profile-btn{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 12px;border-radius:20px;font:700 12px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2,.card h3{margin:0 0 10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.section-title h2{font-size:18px;margin:0}
 .btn{border:0;border-radius:14px;padding:14px 16px;width:100%;font:700 15px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:9px;box-shadow:0 7px 15px rgba(7,87,163,.18)}.btn.secondary{background:#eaf3ff;color:var(--p);box-shadow:none}.btn.green{background:linear-gradient(135deg,#128047,#21aa62)}.btn.red{background:#e53935}.btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}.btn.small{width:auto;padding:8px 12px;font-size:12px;margin:0}.btn.link{background:none;box-shadow:none;color:var(--p);padding:8px 0;margin:6px 0 0;font-size:13px}
 .field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 6px}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:13px;padding:13px;font:inherit;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,87,163,.11)}textarea{min-height:85px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .notice{background:#eef6ff;color:#164b80;border:1px solid #d6e9ff;border-radius:14px;padding:12px;font-size:13px;line-height:1.5}.msg{display:none;padding:11px 12px;border-radius:12px;font-size:13px;margin:10px 0}.msg.show{display:block}.msg.ok{background:#ddf7e8;color:#116338}.msg.err{background:#ffe5e3;color:#a5231d}.msg.info{background:#eaf3ff;color:#164b80}
 .topbar{padding:17px 16px;background:linear-gradient(135deg,var(--navy),var(--p));color:#fff;display:flex;align-items:center;gap:12px}.back{border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}.topbar h1{font-size:19px;margin:0}.topbar p{font-size:11px;opacity:.82;margin:2px 0 0}
 
-/* 🎯 मुख्य सेवाएं आइकॉन सेंटर अलाइनमेंट और बड़े 3D बाउंसिंग आइकॉन */
+/* 🎯 मुख्य सेवाएं आइकॉन सेंटर अलाइनमेंट और 3D बाउंसिंग */
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .action{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 12px;cursor:pointer;text-align:center;box-shadow:var(--shadow);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .action:active{transform:scale(0.97)}
@@ -142,12 +147,16 @@ body.dark-mode{background:#0a0f1d}
 <!-- 🏠 HOME PAGE -->
 <section id="home" class="page active">
   <div class="hero">
-    <button class="theme-toggle" onclick="toggleTheme()" title="डार्क/लाइट मोड">🌓</button>
+    <!-- टॉप-राइट कॉर्नर क्विक प्रोफाइल / अवतार शॉर्टकट (विकल्प 5) -->
+    <div class="top-right-bar">
+      <button class="theme-toggle" onclick="toggleTheme()" title="डार्क/लाइट मोड">🌓</button>
+      <a href="javascript:void(0)" id="topAuthBtn" class="top-profile-btn" onclick="handleTopAuthClick()">👤 लॉगिन</a>
+    </div>
+
     <div class="brand"><div class="logo">🌾</div><div><h1>भुईहर जाति समाज</h1><p>महाराजगंज • समाजिक संपर्क एवं सेवा पोर्टल</p></div></div>
     <div class="hero-title">समाज को जोड़ें,<br>परिवार को डिजिटल बनाएं।</div>
     <div class="hero-sub">सदस्य पंजीकरण, डिजिटल आईडी कार्ड, आपातकालीन रक्त, बायोडेटा, रोजगार व समाज कोष।</div>
     <button class="btn" onclick="go('register')">✨ नया सदस्य बनें</button>
-    <button class="btn secondary" onclick="go('login')">🔐 Member Login</button>
   </div>
   <div class="container">
     
@@ -177,7 +186,7 @@ body.dark-mode{background:#0a0f1d}
       <button class="btn small green" onclick="sharePortalWhatsApp()">शेयर करें</button>
     </div>
 
-    <!-- 🎯 मुख्य सेवाएं (बड़े आइकॉन और सेंटर अलाइनमेंट) -->
+    <!-- 🎯 मुख्य सेवाएं (बड़े आइकॉन और सेंटर अलाइन) -->
     <div class="section-title"><h2>मुख्य सेवाएं</h2></div>
     <div class="action-grid">
       <button class="action" onclick="go('search')"><div class="ic">🔎</div><b>सदस्य खोज</b><span>नाम, जिला, गांव</span></button>
@@ -204,7 +213,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 📝 REGISTRATION PAGE -->
 <section id="register" class="page">
-  <div class="topbar"><button class="back" onclick="go('home')">←</button><div><h1>सदस्य Registration</h1><p>विवरण भरें और 6 Digit MPIN सुरक्षित करें</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य Registration</h1><p>विवरण भरें और 6 Digit MPIN सुरक्षित करें</p></div></div>
   <div class="container">
     <div class="notice">📋 अपनी सही जानकारी दर्ज करें। एडमिन द्वारा सत्यापन के बाद आपका डिजिटल पहचान पत्र सक्रिय कर दिया जाएगा।</div>
     <div id="regMsg" class="msg"></div>
@@ -235,7 +244,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🔐 LOGIN PAGE -->
 <section id="login" class="page">
-  <div class="topbar"><button class="back" onclick="go('home')">←</button><div><h1>Member Login</h1><p>Mobile Number + MPIN</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Member Login</h1><p>Mobile Number + MPIN</p></div></div>
   <div class="container">
     <div id="loginMsg" class="msg"></div>
     <div class="card">
@@ -250,7 +259,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🔑 FORGOT MPIN PAGE -->
 <section id="forgot" class="page">
-  <div class="topbar"><button class="back" onclick="go('login')">←</button><div><h1>Reset MPIN</h1><p>विवरण सत्यापित कर नया पिन बनाएं</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Reset MPIN</h1><p>विवरण सत्यापित कर नया पिन बनाएं</p></div></div>
   <div class="container">
     <div class="notice">सुरक्षा सत्यापन के लिए अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि भरें।</div>
     <div id="forgotMsg" class="msg"></div>
@@ -268,7 +277,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🛡️ ADMIN LOGIN PAGE -->
 <section id="adminLogin" class="page">
-  <div class="topbar"><button class="back" onclick="go('home')">←</button><div><h1>🛡️ Admin Login</h1><p>Authorized Admin Only</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>🛡️ Admin Login</h1><p>Authorized Admin Only</p></div></div>
   <div class="container">
     <div id="adminLoginMsg" class="msg"></div>
     <div class="card">
@@ -307,7 +316,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🪪 PROFILE & DIGITAL ID CARD -->
 <section id="profile" class="page">
-  <div class="topbar"><button class="back" onclick="go('dashboard')">←</button><div><h1>My Profile & ID Card</h1><p>सदस्य पहचान पत्र</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>My Profile & ID Card</h1><p>सदस्य पहचान पत्र</p></div></div>
   <div class="container">
     <div id="digitalIdArea"></div>
     <div id="profileCard" class="card">Loading…</div>
@@ -316,7 +325,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 📜 HISTORY & GOTRA DIRECTORY -->
 <section id="history" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>इतिहास, गोत्र व कुलदेवी</h1><p>समाज की गौरवशाली विरासत</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>इतिहास, गोत्र व कुलदेवी</h1><p>समाज की गौरवशाली विरासत</p></div></div>
   <div class="container">
     <div class="card">
       <h3>🌾 भुईहर समाज का परिचय एवं इतिहास</h3>
@@ -334,7 +343,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🎓 TALENT & SCHOLAR RECOGNITION -->
 <section id="talent" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>मेधावी छात्र एवं प्रतिभा सम्मान</h1><p>समाज के होनहार सितारे</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>मेधावी छात्र एवं प्रतिभा सम्मान</h1><p>समाज के होनहार सितारे</p></div></div>
   <div class="container">
     <div id="talentMsg" class="msg"></div>
     <div class="card">
@@ -354,7 +363,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🕊️ OBITUARY -->
 <section id="obituary" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>शोक संदेश एवं श्रद्धांजलि</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>शोक संदेश एवं श्रद्धांजलि</h1></div></div>
   <div class="container">
     <div id="obitMsg" class="msg"></div>
     <div class="card">
@@ -374,7 +383,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🗳️ COMMUNITY POLLS -->
 <section id="polls" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>सामुदायिक रायशुमारी (Polls)</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामुदायिक रायशुमारी (Polls)</h1></div></div>
   <div class="container">
     <div id="pollBox" class="card">
       <h3>📊 सक्रिय प्रश्न: क्या वार्षिक महाधिवेशन दिसंबर माह में आयोजित हो?</h3>
@@ -405,7 +414,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🏛️ SCHEMES -->
 <section id="schemes" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>सरकारी योजनाएं व सहायता</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सरकारी योजनाएं व सहायता</h1></div></div>
   <div class="container">
     <div class="item"><h3>🎓 राष्ट्रीय छात्रवृत्ति पोर्टल (NSP)</h3><a href="https://scholarships.gov.in" target="_blank" class="btn small green">पोर्टल खोलें ↗</a></div>
     <div class="item"><h3>🌾 प्रधानमंत्री किसान सम्मान निधि</h3><a href="https://pmkisan.gov.in" target="_blank" class="btn small green">जांचें ↗</a></div>
@@ -414,13 +423,13 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🖼️ GALLERY -->
 <section id="gallery" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>सामाजिक फोटो गैलरी</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामाजिक फोटो गैलरी</h1></div></div>
   <div class="container"><div id="galleryList" class="gallery-grid">Loading...</div></div>
 </section>
 
-<!-- 💍 MATRIMONIAL -->
+<!-- 💍 MATRIMONIAL (लॉगिन सुरक्षा और फॉर्म ऑटो-क्लियर के साथ) -->
 <section id="matrimonial" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1></div></div>
   <div class="container">
     <div id="matMsg" class="msg"></div>
     
@@ -432,13 +441,21 @@ body.dark-mode{background:#0a0f1d}
       </div>
     </div>
 
-    <div class="card" id="matForm">
+    <!-- केवल रजिस्टर्ड यूजर के लिए फॉर्म -->
+    <div class="card" id="matFormCard">
       <h3>💍 शादी बायोडेटा कार्ड बनाएं</h3>
-      <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech"></div></div>
-      <div class="grid2"><div class="field"><label>Occupation</label><input id="matOccupation" placeholder="उदा. शिक्षक"></div><div class="field"><label>ऊंचाई (Height)</label><input id="matHeight" placeholder="उदा. 5' 8&quot;"></div></div>
-      <div class="field"><label>पारिवारिक विवरण / About</label><textarea id="matAbout" placeholder="पिता का नाम, कुल सदस्य..."></textarea></div>
-      <button class="btn" onclick="saveMatrimonial()">Save Profile & Generate Biodata</button>
+      <div id="matFormContainer">
+        <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech"></div></div>
+        <div class="grid2"><div class="field"><label>Occupation</label><input id="matOccupation" placeholder="उदा. शिक्षक"></div><div class="field"><label>ऊंचाई (Height)</label><input id="matHeight" placeholder="उदा. 5' 8&quot;"></div></div>
+        <div class="field"><label>पारिवारिक विवरण / About</label><textarea id="matAbout" placeholder="पिता का नाम, कुल सदस्य..."></textarea></div>
+        <button class="btn" onclick="saveMatrimonial()">Save Profile & Generate Biodata</button>
+      </div>
+      <div id="matLoginNotice" class="notice hide" style="text-align:center">
+        🔒 बायोडेटा जोड़ने या फॉर्म भरने के लिए कृपया पहले <b>Member Login</b> करें।<br>
+        <button class="btn small" style="margin-top:8px" onclick="go('login')">🔐 Login करें</button>
+      </div>
     </div>
+
     <div id="biodataExportWrapper" class="hide">
       <div id="biodataCard" class="biodata-card"></div>
       <button class="btn green" onclick="downloadBiodataImage()">📥 बायोडेटा कार्ड डाउनलोड करें</button>
@@ -450,7 +467,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🪙 DONATION -->
 <section id="donation" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>दान एवं समाज कोष</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>दान एवं समाज कोष</h1></div></div>
   <div class="container">
     <div class="card" style="text-align:center">
       <h3>🌾 भुईहर समाज कल्याण कोष</h3>
@@ -470,25 +487,31 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 💼 JOBS & CAREER -->
 <section id="jobs" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>रोज़गार एवं करियर</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1></div></div>
   <div class="container"><div id="jobsList">Loading...</div></div>
 </section>
 
 <!-- 🚜 VEHICLE RENTAL & BOOKING SERVICE -->
 <section id="vehicles" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>वाहन बुकिंग एवं रेंटल सेवा</h1><p>कार, ट्रैक्टर, पिकअप बुकिंग</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>वाहन बुकिंग एवं रेंटल सेवा</h1><p>कार, ट्रैक्टर, पिकअप बुकिंग</p></div></div>
   <div class="container">
     <div id="vehMsg" class="msg"></div>
-    <div class="card">
+    <div class="card" id="vehFormCard">
       <h3>🚜 अपनी गाड़ी बुकिंग पर दें (List Vehicle)</h3>
-      <div class="field"><label>वाहन का नाम व प्रकार *</label><input id="vehTitle" placeholder="उदा. महिंद्रा ट्रैक्टर / बोलेरो पिकअप / कार"></div>
-      <div class="grid2">
-        <div class="field"><label>किराया (प्रति घंटा/दिन)</label><input id="vehRate" placeholder="उदा. ₹500 / घंटा"></div>
-        <div class="field"><label>स्थान / जिला *</label><input id="vehLocation" placeholder="उदा. महाराजगंज"></div>
+      <div id="vehFormContainer">
+        <div class="field"><label>वाहन का नाम व प्रकार *</label><input id="vehTitle" placeholder="उदा. महिंद्रा ट्रैक्टर / बोलेरो पिकअप / कार"></div>
+        <div class="grid2">
+          <div class="field"><label>किराया (प्रति घंटा/दिन)</label><input id="vehRate" placeholder="उदा. ₹500 / घंटा"></div>
+          <div class="field"><label>स्थान / जिला *</label><input id="vehLocation" placeholder="उदा. महाराजगंज"></div>
+        </div>
+        <div class="field"><label>सम्पर्क मोबाइल नंबर *</label><input id="vehContact" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div>
+        <div class="field"><label>वाहन विवरण / शर्तें</label><textarea id="vehDesc" placeholder="गाड़ी की क्षमता, ड्राइवर सहित या बिना ड्राइवर आदि..."></textarea></div>
+        <button class="btn gold" onclick="postVehicle()">+ वाहन लिस्ट करें (Post)</button>
       </div>
-      <div class="field"><label>सम्पर्क मोबाइल नंबर *</label><input id="vehContact" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div>
-      <div class="field"><label>वाहन विवरण / शर्तें</label><textarea id="vehDesc" placeholder="गाड़ी की क्षमता, ड्राइवर सहित या बिना ड्राइवर आदि..."></textarea></div>
-      <button class="btn gold" onclick="postVehicle()">+ वाहन लिस्ट करें (Post)</button>
+      <div id="vehLoginNotice" class="notice hide" style="text-align:center">
+        🔒 वाहन लिस्ट करने के लिए कृपया पहले <b>Member Login</b> करें।<br>
+        <button class="btn small" style="margin-top:8px" onclick="go('login')">🔐 Login करें</button>
+      </div>
     </div>
     <div class="section-title"><h2>बुकिंग हेतु उपलब्ध वाहन</h2></div>
     <div id="vehiclesList">Loading...</div>
@@ -497,7 +520,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🏪 BUSINESS DIRECTORY -->
 <section id="business" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>बिजनेस डायरेक्टरी</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>बिजनेस डायरेक्टरी</h1></div></div>
   <div class="container">
     <div id="bizMsg" class="msg"></div>
     <div class="card">
@@ -513,7 +536,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🤝 HELPDESK -->
 <section id="support" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>सहायता केंद्र व शिकायत</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सहायता केंद्र व शिकायत</h1></div></div>
   <div class="container">
     <div id="suppMsg" class="msg"></div>
     <div class="card">
@@ -529,7 +552,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 👨‍👩‍👧 FAMILY MANAGEMENT -->
 <section id="family" class="page">
-  <div class="topbar"><button class="back" onclick="go('dashboard')">←</button><div><h1>Family Management</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Family Management</h1></div></div>
   <div class="container">
     <div id="familyMsg" class="msg"></div>
     <div class="card">
@@ -548,7 +571,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🔎 SEARCH -->
 <section id="search" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>सदस्य खोज</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य खोज</h1></div></div>
   <div class="container">
     <div class="searchbar"><input id="memberSearch" placeholder="नाम / जिला / गांव लिखें" oninput="searchMembers()"></div>
     <div id="searchNotice" class="notice hide" style="margin-bottom:12px;background:#fef2f2;color:#991b1b;border-color:#fecaca"></div>
@@ -558,7 +581,7 @@ body.dark-mode{background:#0a0f1d}
 
 <!-- 🩸 BLOOD -->
 <section id="blood" class="page">
-  <div class="topbar"><button class="back" onclick="go(currentUser?'dashboard':'home')">←</button><div><h1>Blood Directory</h1></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Blood Directory</h1></div></div>
   <div class="container"><div id="bloodList"></div></div>
 </section>
 
@@ -706,17 +729,42 @@ let currentPage="home";
 window.addEventListener("online", () => { document.getElementById("offline-banner").style.display = "none"; });
 window.addEventListener("offline", () => { document.getElementById("offline-banner").style.display = "block"; });
 
-// 🔄 पुल टू रिफ्रेश
+// 🔄 पुल टू रिफ्रेश (सेम-पेज रिफ्रेश फिक्स और ऑटो-हाइड इंडिकेटर के साथ)
 let touchStartY = 0;
 window.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; }, {passive: true});
 window.addEventListener("touchend", e => {
   if(window.scrollY === 0 && e.changedTouches[0].clientY - touchStartY > 90){
-    document.getElementById("pull-refresh-indicator").style.display = "block";
-    setTimeout(() => { location.reload(); }, 800);
+    const indicator = document.getElementById("pull-refresh-indicator");
+    indicator.style.display = "block";
+    setTimeout(() => {
+      indicator.style.display = "none";
+      // वर्तमान खुले हुए पेज का डेटा रीलोड करें
+      reloadCurrentPageData();
+    }, 800);
   }
 }, {passive: true});
 
-// 🚪 स्टेप-बाय-स्टेप बैक और एग्जिट कन्फर्मेशन पॉपअप लॉजिक
+function reloadCurrentPageData(){
+  if(currentPage==="home"){loadStats();loadNotices();renderSliders();renderOfficersSlider();}
+  else if(currentPage==="dashboard"){loadDashboard();renderSliders();renderOfficersSlider();}
+  else if(currentPage==="profile"){loadProfile();}
+  else if(currentPage==="talent"){loadTalents();}
+  else if(currentPage==="obituary"){loadObituaries();}
+  else if(currentPage==="gallery"){loadGallery();}
+  else if(currentPage==="donation"){loadDonations();}
+  else if(currentPage==="polls"){loadPollStats();}
+  else if(currentPage==="jobs"){loadJobs();}
+  else if(currentPage==="vehicles"){loadVehicles();}
+  else if(currentPage==="business"){loadBusiness();}
+  else if(currentPage==="support"){loadUserTickets();}
+  else if(currentPage==="family"){loadFamily();}
+  else if(currentPage==="blood"){loadBlood();}
+  else if(currentPage==="matrimonial"){loadMatrimonial();}
+  else if(currentPage==="events"){loadEvents();}
+  else if(currentPage==="admin"){loadAdmin();}
+}
+
+// 🚪 स्मार्ट स्टेप-बाय-स्टेप बैक नेविगेशन और एग्जिट कन्फर्मेशन पॉपअप
 window.addEventListener("popstate", function(event){
   if(currentPage !== "home"){
     go("home", true);
@@ -739,6 +787,10 @@ function confirmExitApp(){
   }
 }
 
+function goBack(){
+  window.history.back();
+}
+
 // 🌓 DARK MODE
 function toggleTheme(){
   document.body.classList.toggle("dark-mode");
@@ -751,6 +803,19 @@ if(localStorage.getItem("bhuiharPortalTheme")==="dark"){document.body.classList.
 function sharePortalWhatsApp(){
   const text = encodeURIComponent("🌾 भुईहर जाति समाज के आधिकारिक डिजिटल पोर्टल से जुड़ें!\nसदस्यता पंजीकरण, डिजिटल पहचान पत्र, आपातकालीन ब्लड सहायता और वैवाहिक मंच:\n" + window.location.href);
   window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+}
+
+// 👤 टॉप-राइट ऑथ बटन रेंडर (विकल्प 5)
+function updateTopAuthButton(){
+  const btn = document.getElementById("topAuthBtn");
+  if(!btn) return;
+  if(currentUser){
+    btn.innerHTML = `👤 ${esc(currentUser.fullName.split(" ")[0])}`;
+    btn.onclick = () => go('dashboard');
+  } else {
+    btn.innerHTML = `👤 लॉगिन`;
+    btn.onclick = () => go('login');
+  }
 }
 
 // 🔔 OneSignal Push Trigger
@@ -786,6 +851,7 @@ function go(id, isBackNav = false){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
  targetEl.classList.add("active");
  window.scrollTo(0,0);
+ updateTopAuthButton();
 
  if(id==="home"){loadStats();loadNotices();renderSliders();renderOfficersSlider()}
  if(id==="register"){loadDistrictsToForm()}
@@ -808,10 +874,9 @@ function go(id, isBackNav = false){
  if(id==="admin")loadAdmin();
 }
 
-function goBack(){ window.history.back(); }
 history.replaceState({ pageId: "home" }, "", "#home");
 
-function msg(id,text,type="info"){let e=document.getElementById(id);e.textContent=text;e.className="msg show "+type}
+function msg(id,text,type="info"){let e=document.getElementById(id);if(e){e.textContent=text;e.className="msg show "+type}}
 function mobileOK(x){return /^[6-9]\d{9}$/.test(x)}
 function ageCalc(v){if(!v)return null;let b=new Date(v),t=new Date(),a=t.getFullYear()-b.getFullYear();let m=t.getMonth()-b.getMonth();if(m<0||(m===0&&t.getDate()<b.getDate()))a--;return a}
 function setAge(){age.value=ageCalc(dob.value)||""}
@@ -901,6 +966,7 @@ function attachSwipeListeners(cClass,tClass,total,onIdx){
 // 🪪 DIGITAL ID CARD
 function renderDigitalIdCard(u){
  const b=document.getElementById("digitalIdArea");
+ if(!b) return;
  if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर <b>डिजिटल पहचान पत्र</b> यहाँ उपलब्ध होगा।</div>`;return}
  b.innerHTML=`
   <div class="id-card-wrapper" id="idCardExportArea">
@@ -921,7 +987,7 @@ function renderDigitalIdCard(u){
  `;
 }
 
-// 💍 MATRIMONIAL & BIODATA MAKER
+// 💍 MATRIMONIAL & BIODATA MAKER (लॉगिन सुरक्षा और फॉर्म ऑटो-क्लियर फिक्स)
 async function saveMatrimonial(){
  if(!currentUser){go("login");return}
  const h=matHeight.value.trim(),e=matEducation.value.trim(),o=matOccupation.value.trim(),a=matAbout.value.trim(),g=matGender.value;
@@ -932,30 +998,50 @@ async function saveMatrimonial(){
   },{merge:true});
   msg("matMsg","बायोडेटा प्रोफाइल सुरक्षित हो गया!","ok");
   renderBiodataCardPreview({fullName:currentUser.fullName,age:currentUser.age,gender:g,height:h,education:e,occupation:o,district:currentUser.district,village:currentUser.village,mobileNumber:currentUser.mobileNumber,about:a});
+  
+  // फॉर्म इनपुट साफ करें और छुपाएं (फॉर्म ऑटो-क्लियर)
+  matHeight.value=matEducation.value=matOccupation.value=matAbout.value="";
+  document.getElementById("matFormContainer").classList.add("hide");
   loadMatrimonial();
  }catch(err){msg("matMsg",err.message,"err")}
 }
 
 function renderBiodataCardPreview(d){
- const w=document.getElementById("biodataExportWrapper");w.classList.remove("hide");
- document.getElementById("biodataCard").innerHTML=`
-  <h2>🌾 भुईहर समाज - वैवाहिक बायोडेटा 🌾</h2>
-  <div style="display:flex;gap:15px;align-items:center;margin-bottom:12px">
-   <div style="flex:1">
-    <p><b>नाम:</b> ${esc(d.fullName)}</p><p><b>लिंग / आयु:</b> ${esc(d.gender)} • ${esc(d.age||"-")} वर्ष</p>
-    <p><b>ऊंचाई:</b> ${esc(d.height||"-")}</p><p><b>शिक्षा:</b> ${esc(d.education||"-")}</p>
+ const w=document.getElementById("biodataExportWrapper");if(w)w.classList.remove("hide");
+ const card=document.getElementById("biodataCard");
+ if(card){
+  card.innerHTML=`
+   <h2>🌾 भुईहर समाज - वैवाहिक बायोडेटा 🌾</h2>
+   <div style="display:flex;gap:15px;align-items:center;margin-bottom:12px">
+    <div style="flex:1">
+     <p><b>नाम:</b> ${esc(d.fullName)}</p><p><b>लिंग / आयु:</b> ${esc(d.gender)} • ${esc(d.age||"-")} वर्ष</p>
+     <p><b>ऊंचाई:</b> ${esc(d.height||"-")}</p><p><b>शिक्षा:</b> ${esc(d.education||"-")}</p>
+    </div>
    </div>
-  </div>
-  <div class="info-row"><span>व्यवसाय / कार्य</span><span>${esc(d.occupation||"-")}</span></div>
-  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")}, ${esc(d.district||"-")}</span></div>
-  <div class="info-row"><span>संपर्क मोबाइल</span><span>+91 ${esc(d.mobileNumber)}</span></div>
-  <p style="margin-top:10px;font-size:12px"><b>पारिवारिक विवरण:</b> ${esc(d.about||"-")}</p>
- `;
+   <div class="info-row"><span>व्यवसाय / कार्य</span><span>${esc(d.occupation||"-")}</span></div>
+   <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")}, ${esc(d.district||"-")}</span></div>
+   <div class="info-row"><span>संपर्क मोबाइल</span><span>+91 ${esc(d.mobileNumber)}</span></div>
+   <p style="margin-top:10px;font-size:12px"><b>पारिवारिक विवरण:</b> ${esc(d.about||"-")}</p>
+  `;
+ }
 }
 function downloadBiodataImage(){downloadImage("biodataCard","Bhuihar_Biodata_"+(currentUser?currentUser.fullName:"card"))}
 
 async function loadMatrimonial(){
- const b=document.getElementById("matList");b.innerHTML="Loading...";
+ const b=document.getElementById("matList");if(!b)return;
+ b.innerHTML="Loading...";
+ 
+ // लॉगिन के आधार पर फॉर्म दिखाना या छुपाना (केवल रजिस्टर्ड यूजर फॉर्म भर सकें)
+ const formContainer = document.getElementById("matFormContainer");
+ const loginNotice = document.getElementById("matLoginNotice");
+ if(currentUser){
+   if(formContainer) formContainer.classList.remove("hide");
+   if(loginNotice) loginNotice.classList.add("hide");
+ } else {
+   if(formContainer) formContainer.classList.add("hide");
+   if(loginNotice) loginNotice.classList.remove("hide");
+ }
+
  const fGen=document.getElementById("matFilterGender").value;
  const fDist=(document.getElementById("matFilterDist").value||"").trim().toLowerCase();
  try{
@@ -980,19 +1066,22 @@ function generateDonationReceiptPrompt(){
  const n=prompt("दानदाता का नाम दर्ज करें:", currentUser?currentUser.fullName:"");
  const amt=prompt("सहयोग राशि (₹) दर्ज करें:","501");
  if(!n||!amt)return;
- const wrapper=document.getElementById("receiptDownloadWrapper");wrapper.classList.remove("hide");
+ const wrapper=document.getElementById("receiptDownloadWrapper");if(wrapper)wrapper.classList.remove("hide");
  const rNum="REC-"+Date.now().toString().slice(-6);
- document.getElementById("donationReceiptArea").innerHTML=`
-  <div class="receipt-header">
-   <b style="font-size:16px;color:#168c50">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
-   <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
-  </div>
-  <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>
-  <div class="info-row"><span>दानदाता का नाम:</span><span>${esc(n)}</span></div>
-  <div class="info-row"><span>सहयोग राशि:</span><span>₹${esc(amt)} /-</span></div>
-  <div class="info-row"><span>उद्देश्य:</span><span>समाज कल्याण एवं भवन निर्माण</span></div>
-  <div style="text-align:right"><span class="receipt-stamp">✓ सत्यापित डिजिटल मुहर</span></div>
- `;
+ const area=document.getElementById("donationReceiptArea");
+ if(area){
+  area.innerHTML=`
+   <div class="receipt-header">
+    <b style="font-size:16px;color:#168c50">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
+    <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
+   </div>
+   <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>
+   <div class="info-row"><span>दानदाता का नाम:</span><span>${esc(n)}</span></div>
+   <div class="info-row"><span>सहयोग राशि:</span><span>₹${esc(amt)} /-</span></div>
+   <div class="info-row"><span>उद्देश्य:</span><span>समाज कल्याण एवं भवन निर्माण</span></div>
+   <div style="text-align:right"><span class="receipt-stamp">✓ सत्यापित डिजिटल मुहर</span></div>
+  `;
+ }
 }
 function downloadReceiptImage(){downloadImage("donationReceiptArea","Bhuihar_Donation_Receipt")}
 
@@ -1005,7 +1094,7 @@ async function saveAdminDonation(){
  }catch(e){msg("adminMsg",e.message,"err")}
 }
 async function loadDonations(){
- const b=document.getElementById("donationList");
+ const b=document.getElementById("donationList");if(!b)return;
  try{
   const s=await db.collection("donations").orderBy("createdAt","desc").get();
   b.innerHTML=s.empty?"<div class='item'><h3>रामप्रसाद भुईहर • ₹5,000</h3><p>स्थान: पनियरा</p></div>":s.docs.map(d=>{
@@ -1034,12 +1123,12 @@ async function loadPollStats(){
    const yesP=total>0?Math.round((yes/total)*100):0;
    const noP=total>0?Math.round((no/total)*100):0;
 
-   document.getElementById("voteYesCount").textContent=yes;
-   document.getElementById("voteNoCount").textContent=no;
-   document.getElementById("voteYesPercent").textContent=yesP+"%";
-   document.getElementById("voteNoPercent").textContent=noP+"%";
-   document.getElementById("voteYesFill").style.width=yesP+"%";
-   document.getElementById("voteNoFill").style.width=noP+"%";
+   const yC=document.getElementById("voteYesCount");if(yC)yC.textContent=yes;
+   const nC=document.getElementById("voteNoCount");if(nC)nC.textContent=no;
+   const yP=document.getElementById("voteYesPercent");if(yP)yP.textContent=yesP+"%";
+   const nP=document.getElementById("voteNoPercent");if(nP)nP.textContent=noP+"%";
+   const yF=document.getElementById("voteYesFill");if(yF)yF.style.width=yesP+"%";
+   const nF=document.getElementById("voteNoFill");if(nF)nF.style.width=noP+"%";
   }
  }catch(e){}
 }
@@ -1054,7 +1143,7 @@ async function saveTalent(){
  }catch(e){msg("talentMsg",e.message,"err")}
 }
 async function loadTalents(){
- const b=document.getElementById("talentList");
+ const b=document.getElementById("talentList");if(!b)return;
  try{
   const s=await db.collection("talents").orderBy("createdAt","desc").get();
   b.innerHTML=s.empty?"<div class='card'>अभी कोई प्रविष्टि नहीं है।</div>":s.docs.map(d=>{
@@ -1073,7 +1162,7 @@ async function saveObituary(){
  }catch(e){msg("obitMsg",e.message,"err")}
 }
 async function loadObituaries(){
- const b=document.getElementById("obituaryList");
+ const b=document.getElementById("obituaryList");if(!b)return;
  try{
   const s=await db.collection("obituaries").orderBy("createdAt","desc").get();
   b.innerHTML=s.empty?"<div class='card'>कोई शोक संदेश नहीं है।</div>":s.docs.map(d=>{
@@ -1084,7 +1173,7 @@ async function loadObituaries(){
 
 // 🖼️ GALLERY
 async function loadGallery(){
- const b=document.getElementById("galleryList");
+ const b=document.getElementById("galleryList");if(!b)return;
  try{
   const s=await db.collection("gallery").orderBy("createdAt","desc").get();
   b.innerHTML=s.empty?"<div class='card'>गैलरी में जल्द फोटो जोड़े जाएंगे।</div>":s.docs.map(d=>{
@@ -1110,18 +1199,19 @@ async function completeRegistration(){
 
  const btn=document.getElementById("completeRegBtn");
  try{
-  btn.disabled=true;regLoader.classList.add("show");
+  if(btn)btn.disabled=true;
+  const loader=document.getElementById("regLoader");if(loader)loader.classList.add("show");
   const ref=db.collection("users").doc(data.mobileNumber),old=await ref.get();
   if(old.exists){msg("regMsg","यह मोबाइल पहले से Registered है।","err");return}
   data.mpinHash=await sha256(p);data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-  const rawFile=photo.files[0];
+  const rawFile=document.getElementById("photo").files[0];
   if(rawFile){data.photoUrl=await fileToBase64(rawFile,150,0.65)}
   await ref.set(data);
   if(data.bloodGroup)await db.collection("blood").doc(data.mobileNumber).set({name:data.fullName,mobileNumber:data.mobileNumber,bloodGroup:data.bloodGroup,district:data.district,village:data.village,status:"available",updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
   sendAdminPushAlert(data.fullName,data.district);
   msg("regMsg","Registration सफल! समिति सत्यापन बाद लॉगिन करें।","ok");setTimeout(()=>go('login'),2000);
  }catch(e){msg("regMsg","Registration Error: "+e.message,"err")}
- finally{btn.disabled=false;regLoader.classList.remove("show")}
+ finally{if(btn)btn.disabled=false;const loader=document.getElementById("regLoader");if(loader)loader.classList.remove("show")}
 }
 
 async function resetUserMpin(){
@@ -1159,31 +1249,57 @@ async function login(){
   const u=s.data();
   if(u.mpinHash!==await sha256(p)){msg("loginMsg","गलत MPIN","err");return}
   if(u.status!=="approved"){msg("loginMsg","खाता Admin Approval Pending है।","err");return}
-  currentUser=u;localStorage.setItem("bhuiharPortalUser",JSON.stringify(u));go("dashboard");
+  currentUser=u;localStorage.setItem("bhuiharPortalUser",JSON.stringify(u));
+  updateTopAuthButton();
+  go("dashboard");
  }catch(e){msg("loginMsg",e.message,"err")}
 }
-function logout(){localStorage.removeItem("bhuiharPortalUser");currentUser=null;go("home")}
+
+function logout(){
+  localStorage.removeItem("bhuiharPortalUser");
+  currentUser=null;
+  updateTopAuthButton();
+  go("home");
+}
+
+function handleTopAuthClick(){
+  if(currentUser){
+    go('dashboard');
+  } else {
+    go('login');
+  }
+}
 
 async function loadDashboard(){
  if(!currentUser)return;
  const s=await db.collection("users").doc(currentUser.mobileNumber).get();
  if(s.exists){currentUser=s.data();localStorage.setItem("bhuiharPortalUser",JSON.stringify(currentUser))}
- dashName.textContent=currentUser.fullName;dashMobile.textContent="+91 "+currentUser.mobileNumber;
- statusPill.textContent=currentUser.status==="approved"?"Approved":"Pending";statusPill.className="pill "+(currentUser.status==="approved"?"approved":"pending");
- pendingBanner.classList.toggle("hide",currentUser.status==="approved");
- if(currentUser.photoUrl)avatar.innerHTML="<img src='"+esc(currentUser.photoUrl)+"'>";
- adminShortcut.classList.toggle("hide",currentUser.role!=="admin");
+ const dn=document.getElementById("dashName");if(dn)dn.textContent=currentUser.fullName;
+ const dm=document.getElementById("dashMobile");if(dm)dm.textContent="+91 "+currentUser.mobileNumber;
+ const sp=document.getElementById("statusPill");
+ if(sp){
+  sp.textContent=currentUser.status==="approved"?"Approved":"Pending";
+  sp.className="pill "+(currentUser.status==="approved"?"approved":"pending");
+ }
+ const pb=document.getElementById("pendingBanner");
+ if(pb)pb.classList.toggle("hide",currentUser.status==="approved");
+ const av=document.getElementById("avatar");
+ if(av&&currentUser.photoUrl)av.innerHTML="<img src='"+esc(currentUser.photoUrl)+"'>";
+ const as=document.getElementById("adminShortcut");
+ if(as)as.classList.toggle("hide",currentUser.role!=="admin");
+ updateTopAuthButton();
 }
 
-async function loadProfile(){if(!currentUser)return;renderDigitalIdCard(currentUser);profileCard.innerHTML=`<div class="info-row"><span>मोबाइल</span><span>${esc(currentUser.mobileNumber)}</span></div><div class="info-row"><span>उम्र</span><span>${esc(currentUser.age)} वर्ष</span></div><div class="info-row"><span>स्थान</span><span>${esc(currentUser.village||"-")}, ${esc(currentUser.district||"-")}</span></div><div class="info-row"><span>व्यवसाय</span><span>${esc(currentUser.occupation||"-")}</span></div><div class="info-row"><span>रक्त समूह</span><span>${esc(currentUser.bloodGroup||"-")}</span></div>`}
+async function loadProfile(){if(!currentUser)return;renderDigitalIdCard(currentUser);const pc=document.getElementById("profileCard");if(pc)pc.innerHTML=`<div class="info-row"><span>मोबाइल</span><span>${esc(currentUser.mobileNumber)}</span></div><div class="info-row"><span>उम्र</span><span>${esc(currentUser.age)} वर्ष</span></div><div class="info-row"><span>स्थान</span><span>${esc(currentUser.village||"-")}, ${esc(currentUser.district||"-")}</span></div><div class="info-row"><span>व्यवसाय</span><span>${esc(currentUser.occupation||"-")}</span></div><div class="info-row"><span>रक्त समूह</span><span>${esc(currentUser.bloodGroup||"-")}</span></div>`}
 
 // 🩸 BLOOD
 async function loadBlood(){
- bloodList.innerHTML="<div class='card'>Loading…</div>";
+ const bl=document.getElementById("bloodList");if(!bl)return;
+ bl.innerHTML="<div class='card'>Loading…</div>";
  try{
   let s=await db.collection("blood").get();let a=s.docs.map(d=>d.data());
-  bloodList.innerHTML=a.length?a.map(x=>`<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}</p><div class="contact-actions"><a href="tel:${esc(x.mobileNumber)}" class="btn-emergency">🚨 Emergency Call</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a></div></div>`).join(""):"<div class='card'>कोई Blood Profile नहीं मिला।</div>";
- }catch(e){bloodList.innerHTML="Error"}
+  bl.innerHTML=a.length?a.map(x=>`<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}</p><div class="contact-actions"><a href="tel:${esc(x.mobileNumber)}" class="btn-emergency">🚨 Emergency Call</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a></div></div>`).join(""):"<div class='card'>कोई Blood Profile नहीं मिला।</div>";
+ }catch(e){bl.innerHTML="Error"}
 }
 
 // 💼 JOBS & BUSINESS & VEHICLES
@@ -1220,8 +1336,9 @@ async function loadJobs(){
  }catch(e){b.innerHTML="Error"}
 }
 
-// 🚜 वाहन बुकिंग सेवा फंक्शन्स
+// 🚜 वाहन बुकिंग सेवा फंक्शन्स (लॉगिन सुरक्षा और फॉर्म ऑटो-क्लियर)
 async function postVehicle(){
+ if(!currentUser){go("login");return}
  const t=vehTitle.value.trim(), r=vehRate.value.trim(), l=vehLocation.value.trim(), c=vehContact.value.trim(), d=vehDesc.value.trim();
  if(!t||!l||!c){msg("vehMsg","वाहन का नाम, स्थान और संपर्क नंबर आवश्यक है।","err");return}
  try{
@@ -1230,6 +1347,7 @@ async function postVehicle(){
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
   vehTitle.value=vehRate.value=vehLocation.value=vehContact.value=vehDesc.value="";
+  document.getElementById("vehFormContainer").classList.add("hide");
   msg("vehMsg","वाहन सफलता से लिस्ट हो गया!","ok");
   loadVehicles();
  }catch(e){msg("vehMsg",e.message,"err")}
@@ -1238,6 +1356,18 @@ async function postVehicle(){
 async function loadVehicles(){
  const b=document.getElementById("vehiclesList");
  if(!b) return;
+ 
+ // वाहन फॉर्म के लिए लॉगिन जांच
+ const vForm = document.getElementById("vehFormContainer");
+ const vNotice = document.getElementById("vehLoginNotice");
+ if(currentUser){
+   if(vForm) vForm.classList.remove("hide");
+   if(vNotice) vNotice.classList.add("hide");
+ } else {
+   if(vForm) vForm.classList.add("hide");
+   if(vNotice) vNotice.classList.remove("hide");
+ }
+
  try{
   const s=await db.collection("vehicles").orderBy("createdAt","desc").get();
   b.innerHTML=s.empty?"<div class='card'>अभी कोई वाहन बुकिंग पर उपलब्ध नहीं है।</div>":s.docs.map(d=>{
@@ -1273,7 +1403,7 @@ async function submitSupportTicket(){
  try{await db.collection("support_tickets").add({mobile:currentUser.mobileNumber,name:currentUser.fullName,subject:s,details:d,status:"open",createdAt:firebase.firestore.FieldValue.serverTimestamp()});suppSubject.value=suppDetails.value="";msg("suppMsg","अर्जी भेजी गई।","ok");loadUserTickets()}catch(e){msg("suppMsg",e.message,"err")}
 }
 async function loadUserTickets(){
- const b=document.getElementById("supportTicketsList");if(!currentUser)return;
+ const b=document.getElementById("supportTicketsList");if(!currentUser||!b)return;
  try{const s=await db.collection("support_tickets").where("mobile","==",currentUser.mobileNumber).get();b.innerHTML=s.empty?"<div class='card'>कोई अर्जी नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>📌 ${esc(x.subject)}</h3><p>${esc(x.details)}</p>${x.adminReply?`<p style="color:#0757a3"><b>उत्तर:</b> ${esc(x.adminReply)}</p>`:`<span class="admin-note">प्रक्रियाधीन...</span>`}</div>`}).join("")}catch(e){b.innerHTML="Error"}
 }
 
@@ -1288,7 +1418,7 @@ async function addFamily(){
  }catch(e){msg("familyMsg",e.message,"err")}
 }
 async function loadFamily(){
- const b=document.getElementById("familyList");if(!currentUser)return;
+ const b=document.getElementById("familyList");if(!currentUser||!b)return;
  try{const s=await db.collection("families").where("ownerMobile","==",currentUser.mobileNumber).get();b.innerHTML=s.empty?"<div class='card'>कोई सदस्य नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><b>${esc(x.familyMemberName)}</b> (${esc(x.relation)}) - उम्र: ${esc(x.age||"-")} वर्ष</div>`}).join("")}catch(e){b.innerHTML="Error"}
 }
 
@@ -1298,26 +1428,31 @@ async function fetchDistricts(){
  if(!Object.keys(districtsData).length){districtsData={"महाराजगंज":["पनियरा","घुघली","परतावल","सिसवा","नौतनवा","सदर"]}}
 }
 async function loadDistrictsToForm(){
- await fetchDistricts();const s=document.getElementById("district");s.innerHTML=`<option value="">जिला चुनें</option>`;
+ await fetchDistricts();const s=document.getElementById("district");if(!s)return;
+ s.innerHTML=`<option value="">जिला चुनें</option>`;
  Object.keys(districtsData).forEach(d=>{s.innerHTML+=`<option value="${esc(d)}">${esc(d)}</option>`});
 }
 function onDistrictChange(){
- const d=district.value,p=panchayatSelect;p.innerHTML=`<option value="">पंचायत चुनें</option>`;
+ const d=district.value,p=panchayatSelect;if(!p)return;
+ p.innerHTML=`<option value="">पंचायत चुनें</option>`;
  if(d&&districtsData[d])districtsData[d].forEach(x=>{p.innerHTML+=`<option value="${esc(x)}">${esc(x)}</option>`});
 }
 async function searchMembers(){
  const b=memberResults, noticeBox=document.getElementById("searchNotice"), q=(memberSearch?.value||"").trim().toLowerCase();
- if(!q){b.innerHTML="";noticeBox.classList.add("hide");return;}
+ if(!b) return;
+ if(!q){b.innerHTML="";if(noticeBox)noticeBox.classList.add("hide");return;}
  try{
   const s=await db.collection("users").where("status","==","approved").get();
   const a=s.docs.map(d=>d.data()).filter(x=>[x.fullName,x.district,x.panchayat,x.village].join(" ").toLowerCase().includes(q));
   
   if(a.length === 0){
     b.innerHTML="";
-    noticeBox.textContent="इस विवरण से कोई स्वीकृत सदस्य नहीं मिला। कृपया सही नाम/जिला दर्ज करें या एडमिन अप्रूवल की स्थिति जांचें।";
-    noticeBox.classList.remove("hide");
+    if(noticeBox){
+      noticeBox.textContent="इस विवरण से कोई स्वीकृत सदस्य नहीं मिला। कृपया सही नाम/जिला दर्ज करें या एडमिन अप्रूवल की स्थिति जांचें।";
+      noticeBox.classList.remove("hide");
+    }
   } else {
-    noticeBox.classList.add("hide");
+    if(noticeBox)noticeBox.classList.add("hide");
     b.innerHTML=a.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}<br>कार्य: ${esc(x.occupation||"-")}</p><div class="contact-actions"><a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call</a><a href="https://wa.me/91${esc(x.mobileNumber)}" target="_blank" class="btn-wa">💬 WhatsApp</a></div></div>`).join("");
   }
  }catch(e){b.innerHTML="Error"}
@@ -1328,9 +1463,13 @@ async function loadAdmin(){
  if(!currentAdmin)return;
  try{
   const s=await db.collection("users").get(),a=s.docs.map(d=>d.data());
-  adTotal.textContent=a.length;adPending.textContent=a.filter(x=>x.status==="pending").length;adApproved.textContent=a.filter(x=>x.status==="approved").length;
+  const tEl=document.getElementById("adTotal");if(tEl)tEl.textContent=a.length;
+  const pEl=document.getElementById("adPending");if(pEl)pEl.textContent=a.filter(x=>x.status==="pending").length;
+  const aEl=document.getElementById("adApproved");if(aEl)aEl.textContent=a.filter(x=>x.status==="approved").length;
+  
   const p=a.filter(x=>x.status==="pending");
-  pendingList.innerHTML=p.length?p.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📞 ${esc(x.mobileNumber)} • 📍 ${esc(x.district||"-")}</p><button class="btn small green" onclick="setStatus('${esc(x.mobileNumber)}','approved')">Approve</button> <button class="btn small red" onclick="setStatus('${esc(x.mobileNumber)}','rejected')">Reject</button></div>`).join(""):"<div class='card'>कोई पेंडिंग सदस्य नहीं है।</div>";
+  const pList=document.getElementById("pendingList");
+  if(pList) pList.innerHTML=p.length?p.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📞 ${esc(x.mobileNumber)} • 📍 ${esc(x.district||"-")}</p><button class="btn small green" onclick="setStatus('${esc(x.mobileNumber)}','approved')">Approve</button> <button class="btn small red" onclick="setStatus('${esc(x.mobileNumber)}','rejected')">Reject</button></div>`).join(""):"<div class='card'>कोई पेंडिंग सदस्य नहीं है।</div>";
   loadAdminOfficers();
  }catch(e){}
 }
@@ -1341,7 +1480,7 @@ async function adminLookupUser(){
   if(!mobileOK(mob)) return;
   const loader=document.getElementById("adminLookupLoader");
   const resultBox=document.getElementById("adminLookupResult");
-  loader.classList.add("show"); resultBox.classList.add("hide");
+  if(loader)loader.classList.add("show"); if(resultBox)resultBox.classList.add("hide");
   try{
     const uDoc=await db.collection("users").doc(mob).get();
     if(!uDoc.exists){alert("नंबर पंजीकृत नहीं है।");return;}
@@ -1350,9 +1489,9 @@ async function adminLookupUser(){
     lookedUpFamily=fSnap.docs.map(d=>d.data());
     document.getElementById("lkName").textContent=lookedUpUser.fullName;
     document.getElementById("lkBasicInfo").textContent=`📞 ${lookedUpUser.mobileNumber} | परिवार सदस्य: ${lookedUpFamily.length}`;
-    resultBox.classList.remove("hide");
+    if(resultBox)resultBox.classList.remove("hide");
   }catch(e){alert(e.message)}
-  finally{loader.classList.remove("show")}
+  finally{if(loader)loader.classList.remove("show")}
 }
 
 function downloadFamilySlipPDF(){
@@ -1366,12 +1505,13 @@ function downloadFamilySlipPDF(){
 
 async function loadAdminOfficers(){
  await fetchOfficers();
- adminOfficerList.innerHTML=officersList.map(o=>`<div class="item" style="display:flex;justify-content:space-between;align-items:center"><div><b>${esc(o.name)}</b> (${esc(o.role)})</div><button class="btn small red" onclick="db.collection('officers').doc('${esc(o.id)}').delete().then(loadAdminOfficers)">हटाएं</button></div>`).join("");
+ const aOffList=document.getElementById("adminOfficerList");
+ if(aOffList) aOffList.innerHTML=officersList.map(o=>`<div class="item" style="display:flex;justify-content:space-between;align-items:center"><div><b>${esc(o.name)}</b> (${esc(o.role)})</div><button class="btn small red" onclick="db.collection('officers').doc('${esc(o.id)}').delete().then(loadAdminOfficers)">हटाएं</button></div>`).join("");
 }
 
 async function exportMembersToCSV(){
  const snap=await db.collection("users").where("status","==","approved").get();
- if(snap.empty){alert("कोई स्वीकृत सदस्य नहीं मिला। मैदान खाली है।");return}
+ if(snap.empty){alert("कोई स्वीकृत सदस्य नहीं मिला।");return}
  let csv="\uFEFFनाम,मोबाइल,जिला,पंचायत,गांव,व्यवसाय,ब्लड\n";
  snap.docs.forEach(d=>{const x=d.data();csv+=`"${x.fullName||""}","${x.mobileNumber||""}","${x.district||""}","${x.panchayat||""}","${x.village||""}","${x.occupation||""}","${x.bloodGroup||""}"\n`});
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="Bhuihar_Members.csv";a.click();
@@ -1383,11 +1523,11 @@ async function addBanner(){
 }
 async function postNotice(){if(!noticeTitle.value.trim())return;await db.collection("notices").add({title:noticeTitle.value.trim(),text:noticeText.value.trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});noticeTitle.value=noticeText.value="";loadNotices();alert("नोटिस पब्लिश हुआ!");}
 async function addEvent(){if(!eventName.value.trim())return;await db.collection("events").add({name:eventName.value.trim(),date:eventDate.value,location:eventLocation.value.trim()});eventName.value="";loadEvents();alert("इवेंट जुड़ गया!");}
-async function loadNotices(){const s=await db.collection("notices").get();noticeList.innerHTML=s.empty?"<div class='card'>कोई सूचना नहीं है।</div>":s.docs.map(d=>`<div class="card"><h3>📢 ${esc(d.data().title)}</h3><p class="admin-note">${esc(d.data().text)}</p></div>`).join("")}
-async function loadEvents(){const s=await db.collection("events").get();eventList.innerHTML=s.empty?"<div class='card'>कोई आयोजन नहीं है।</div>":s.docs.map(d=>`<div class="item"><h3>📅 ${esc(d.data().name)}</h3><p>${esc(d.data().date)} • ${esc(d.data().location)}</p></div>`).join("")}
-async function loadStats(){const [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);stMembers.textContent=u.size;stFamilies.textContent=f.size;stApproved.textContent=u.docs.filter(d=>d.data().status==="approved").length}
+async function loadNotices(){const s=await db.collection("notices").get();const nl=document.getElementById("noticeList");if(nl)nl.innerHTML=s.empty?"<div class='card'>कोई सूचना नहीं है।</div>":s.docs.map(d=>`<div class="card"><h3>📢 ${esc(d.data().title)}</h3><p class="admin-note">${esc(d.data().text)}</p></div>`).join("")}
+async function loadEvents(){const s=await db.collection("events").get();const el=document.getElementById("eventList");if(el)el.innerHTML=s.empty?"<div class='card'>कोई आयोजन नहीं है।</div>":s.docs.map(d=>`<div class="item"><h3>📅 ${esc(d.data().name)}</h3><p>${esc(d.data().date)} • ${esc(d.data().location)}</p></div>`).join("")}
+async function loadStats(){const [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);const stM=document.getElementById("stMembers");if(stM)stM.textContent=u.size;const stF=document.getElementById("stFamilies");if(stF)stF.textContent=f.size;const stA=document.getElementById("stApproved");if(stA)stA.textContent=u.docs.filter(d=>d.data().status==="approved").length}
 
-loadStats();loadNotices();renderSliders();renderOfficersSlider();fetchDistricts();loadJobs();loadVehicles();
+loadStats();loadNotices();renderSliders();renderOfficersSlider();fetchDistricts();loadJobs();loadVehicles();updateTopAuthButton();
 </script>
 </body>
 </html>

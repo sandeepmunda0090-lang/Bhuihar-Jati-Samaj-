@@ -25,10 +25,9 @@
   --line:#e2e8f0;
   --green:#10b981;
   --red:#ef4444;
-  --shadow-sm:0 2px 8px rgba(10,25,47,0.06);
-  --shadow-md:0 10px 30px rgba(10,25,47,0.08);
-  --shadow-lg:0 20px 40px rgba(10,25,47,0.12);
-  --radius:20px;
+  --shadow-sm:0 4px 12px rgba(10,25,47,0.08);
+  --shadow-md:0 10px 30px rgba(10,25,47,0.1);
+  --radius:22px;
 }
 body.dark-mode{
   --bg:#070d18;
@@ -36,8 +35,6 @@ body.dark-mode{
   --text:#f8fafc;
   --muted:#94a3b8;
   --line:#1e293b;
-  --shadow-sm:0 2px 8px rgba(0,0,0,0.4);
-  --shadow-md:0 10px 30px rgba(0,0,0,0.5);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#cbd5e1;font-family:'Plus Jakarta Sans',system-ui,"Noto Sans Devanagari",sans-serif;color:var(--text);transition:background 0.3s}
@@ -57,28 +54,25 @@ body.dark-mode{background:#030712}
 
 /* ऑफलाइन अलर्ट बैनर */
 #offline-banner{position:fixed;top:0;left:0;right:0;background:var(--red);color:#fff;text-align:center;font-size:12px;font-weight:700;padding:6px;z-index:999;display:none}
-
-/* पुल-टू-रिफ्रेश इंडिकेटर */
 #pull-refresh-indicator{text-align:center;padding:10px;font-size:12px;color:var(--muted);display:none}
 
 /* Royal Hero Section */
-.hero{background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);color:#fff;padding:32px 20px 40px;border-radius:0 0 32px 32px;position:relative;box-shadow:var(--shadow-lg)}
-.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(245,158,11,0.15),transparent 50%);pointer-events:none}
+.hero{background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);color:#fff;padding:32px 20px 40px;border-radius:0 0 32px 32px;position:relative;box-shadow:var(--shadow-md)}
 .brand{display:flex;align-items:center;gap:14px;position:relative;z-index:2}
 .logo{width:60px;height:60px;border-radius:18px;background:var(--gold-gradient);display:grid;place-items:center;font-size:32px;box-shadow:0 8px 24px var(--gold-glow)}
 .brand h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-0.5px}
 .brand p{margin:3px 0 0;font-size:12px;opacity:0.85}
-.hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800;letter-spacing:-0.5px}
+.hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800}
 .hero-sub{font-size:13px;line-height:1.6;opacity:0.85}
 .container{padding:18px}
-.theme-toggle{position:absolute;top:22px;right:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);z-index:10}
+.theme-toggle{position:absolute;top:22px;right:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:grid;place-items:center;z-index:10}
 
 /* Cards & Components */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:all 0.2s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}
-.section-title h2{font-size:18px;font-weight:800;margin:0;letter-spacing:-0.3px}
+.section-title h2{font-size:18px;font-weight:800;margin:0}
 
-.btn{border:0;border-radius:14px;padding:14px 18px;width:100%;font:700 15px inherit;cursor:pointer;background:var(--p-gradient);color:#fff;margin-top:10px;box-shadow:0 8px 20px rgba(37,99,235,0.25);transition:transform 0.1s,filter 0.2s;display:inline-flex;justify-content:center;align-items:center;gap:8px}
+.btn{border:0;border-radius:14px;padding:14px 18px;width:100%;font:700 15px inherit;cursor:pointer;background:var(--p-gradient);color:#fff;margin-top:10px;box-shadow:0 8px 20px rgba(37,99,235,0.25);display:inline-flex;justify-content:center;align-items:center;gap:8px}
 .btn:active{transform:scale(0.97)}
 .btn.secondary{background:rgba(37,99,235,0.08);color:var(--p);box-shadow:none;border:1px solid rgba(37,99,235,0.15)}
 .btn.green{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 8px 20px rgba(16,185,129,0.25)}
@@ -88,7 +82,7 @@ body.dark-mode{background:#030712}
 .btn.link{background:none;box-shadow:none;color:var(--p);padding:8px 0;margin:6px 0 0;font-size:13px}
 
 .field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
-input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:13px;font:inherit;color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:13px;font:inherit;color:var(--text);outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(37,99,235,0.12)}
 textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
@@ -97,22 +91,57 @@ textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-colum
 .msg.show{display:block}.msg.ok{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}.msg.err{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.msg.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
 
 .topbar{padding:18px 16px;background:linear-gradient(135deg,#0a192f,#1e3a8a);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-md)}
-.back{border:0;background:rgba(255,255,255,0.15);color:#fff;border-radius:12px;padding:9px 14px;font:inherit;cursor:pointer;backdrop-filter:blur(6px)}
+.back{border:0;background:rgba(255,255,255,0.15);color:#fff;border-radius:12px;padding:9px 14px;font:inherit;cursor:pointer}
 .topbar h1{font-size:19px;margin:0;font-weight:800}.topbar p{font-size:11px;opacity:0.85;margin:2px 0 0}
 
-/* Action Grid */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.action{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;cursor:pointer;text-align:left;box-shadow:var(--shadow-sm);color:var(--text);transition:transform 0.15s,box-shadow 0.15s;position:relative;overflow:hidden}
-.action:active{transform:scale(0.97)}
-.action .ic{width:46px;height:46px;border-radius:14px;background:rgba(37,99,235,0.08);display:grid;place-items:center;font-size:24px;margin-bottom:12px}
-.action b{display:block;font-size:14px;font-weight:800}
-.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+/* 🌟 3D बॉउंसिंग आइकॉन और सेंटर एलाइनमेंट वाले सर्विस कार्ड्स */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.action{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:20px 14px;
+  cursor:pointer;
+  text-align:center; /* सब कुछ बिल्कुल सेंटर में */
+  box-shadow:var(--shadow-sm);
+  color:var(--text);
+  transition:all 0.2s ease;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.action:active{transform:scale(0.96)}
+
+/* बड़ा 3D आइकॉन और बॉल की तरह उछलने वाला (Bouncing) एनिमेशन */
+.action .ic{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(37,99,235,0.1),rgba(37,99,235,0.2));
+  display:grid;
+  place-items:center;
+  font-size:28px; /* आइकॉन बड़ा किया गया है */
+  margin-bottom:12px;
+  box-shadow:0 6px 16px rgba(37,99,235,0.15);
+  animation:ballBounce 2s infinite ease-in-out; /* जमीन पर बॉल उछलने जैसा इफ़ेक्ट */
+}
+
+@keyframes ballBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); } /* ऊपर नीचे हल्का उछलना */
+}
+
+.action b{display:block;font-size:14.5px;font-weight:800;text-align:center}
+.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px;text-align:center}
 
 /* Stats Counter Cards */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stats.grid4{grid-template-columns:repeat(4,1fr);gap:8px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
-.stat b{display:block;font-size:22px;font-weight:800;color:var(--p);letter-spacing:-0.5px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 6px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat b{display:block;font-size:22px;font-weight:800;color:var(--p)}
 .stat span{font-size:10.5px;color:var(--muted);font-weight:600}
 
 .profile-head{background:linear-gradient(145deg,var(--card),#f8fafc);border-radius:22px;padding:18px;display:flex;gap:14px;align-items:center}
@@ -129,7 +158,7 @@ textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-colum
 .item h3{font-size:15px;margin:0 0 6px;font-weight:800}.item p{font-size:12px;color:var(--muted);margin:4px 0;line-height:1.5}
 
 /* Floating Capsule Bottom Navigation */
-.nav{position:fixed;z-index:60;bottom:14px;left:50%;transform:translateX(-50%);width:min(460px,calc(100% - 24px));background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.6);border-radius:26px;display:flex;padding:6px;box-shadow:0 12px 36px rgba(10,25,47,0.18)}
+.nav{position:fixed;z-index:60;bottom:14px;left:50%;transform:translateX(-50%);width:min(460px,calc(100% - 24px));background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.6);border-radius:26px;display:flex;padding:6px;box-shadow:0 12px 36px rgba(10,25,47,0.18)}
 body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255,0.08)}
 .nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:8px 4px;cursor:pointer;border-radius:18px;transition:all 0.2s}
 .nav b{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:var(--p);font-weight:800;background:rgba(37,99,235,0.08)}
@@ -203,14 +232,12 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 </head>
 <body>
 
-<!-- 🌟 कस्टम स्प्लैश स्क्रीन (ऐप खुलते ही दिखेगी) -->
 <div id="splash-screen">
   <div class="splash-logo">🌾</div>
   <h2 style="margin:16px 0 4px;font-size:22px;font-weight:800">भुईहर जाति समाज</h2>
   <p style="margin:0;font-size:13px;opacity:0.8">महाराजगंज • डिजिटल कम्युनिटी पोर्टल</p>
 </div>
 
-<!-- 🔴 ऑफलाइन / ऑनलाइन अलर्ट बैनर -->
 <div id="offline-banner">⚠️ इंटरनेट कनेक्शन नहीं है! कृपया नेटवर्क जांचें।</div>
 
 <div id="app">
@@ -237,21 +264,18 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="container">
     <div id="homeBannerSlider"></div>
 
-    <!-- 📢 दैनिक सूचना पटल (48 घंटे 'NEW' टैग के साथ) -->
     <div class="section-title"><h2>📢 दैनिक सूचना पटल</h2></div>
     <div id="noticeList"><div class="card"><span class="admin-note">सूचनाएं लोड हो रही हैं…</span></div></div>
 
     <div class="section-title"><h2>🌾 समाज के प्रमुख पदाधिकारी</h2></div>
     <div id="homeOfficerSlider"></div>
 
-    <!-- 📊 ANIMATED STATS COUNTER -->
     <div class="stats">
       <div class="stat"><b id="stMembers">0</b><span>कुल सदस्य</span></div>
       <div class="stat"><b id="stFamilies">0</b><span>परिवार सदस्य</span></div>
       <div class="stat"><b id="stApproved" style="color:var(--green)">0</b><span>स्वीकृत</span></div>
     </div>
     
-    <!-- WhatsApp Share Invite -->
     <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px">
       <div>
         <b style="color:#065f46;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
@@ -260,7 +284,7 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
       <button class="btn small green" onclick="sharePortalWhatsApp()">शेयर करें</button>
     </div>
 
-    <!-- 🌐 'ALL SERVICES' & CLEAN DASHBOARD -->
+    <!-- 🌐 मुख्य सेवाएं (सेंटर एलाइनमेंट और 3D बाउंसिंग आइकॉन के साथ) -->
     <div class="section-title"><h2>मुख्य सेवाएं</h2></div>
     <div class="action-grid">
       <button class="action" onclick="go('search')"><div class="ic">🔎</div><b>सदस्य खोज</b><span>नाम, जिला, गांव</span></button>
@@ -417,7 +441,7 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="container">
     <div class="card">
       <h3>🌾 भुईहर समाज का परिचय एवं इतिहास</h3>
-      <p class="admin-note" style="line-height:1.7">भुईहर जाति का इतिहास धरती, स्वाभिमान और प्रकृति से जुड़ा है। 'भुईहर' शब्द भूमि से उत्पन्न और धरती का संरक्षण करने वाले कर्मठ समाज को दर्शाता है। समाज की संस्कृति प्रकृति पूजा, कर्मठता और पारस्परिक सहयोग पर आधारित है।</p>
+      <p class="admin-note" style="line-height:1.7">भुईहर जाति का इतिहास धरती, स्वाभिमान और प्रकृति से जुड़ा है। 'भुईहर' शब्द भूमि से उत्पन्न और धरती का संरक्षण करने वाले कर्मठ समाज को दर्शाता है।</p>
     </div>
     <div class="card">
       <h3>🧬 समाज के प्रमुख गोत्र</h3>
@@ -426,10 +450,6 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
       <div class="info-row"><span>भारद्वाज गोत्र</span><span>ऋषि भारद्वाज परंपरा</span></div>
       <div class="info-row"><span>नागेश / नागवंशी</span><span>प्राचीन कुल परंपरा</span></div>
     </div>
-    <div class="card">
-      <h3>🌺 कुलदेवता एवं कुलदेवी परंपरा</h3>
-      <p class="admin-note" style="line-height:1.6">समाज में कुलदेवता बाबा भुईहर, ग्राम देवता एवं माता भगवती (कुलदेवी) की पूजा पारंपरिक विधि-विधान से की जाती है। हर मांगलिक कार्य में कुलदेवता को पहला स्मरण किया जाता है।</p>
-    </div>
   </div>
 </section>
 
@@ -437,13 +457,6 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 <section id="talent" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>मेधावी छात्र एवं प्रतिभा सम्मान</h1><p>समाज के होनहार सितारे</p></div></div>
   <div class="container">
-    <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <b style="color:#166534">🌟 छात्र सम्मान हेतु नाम भेजें</b>
-        <p style="margin:2px 0 0;font-size:11px;color:#15803d">अपने बच्चे का परीक्षा परिणाम एडमिन को WhatsApp करें</p>
-      </div>
-      <a href="https://api.whatsapp.com/send?phone=919999999999&text=प्रतिभा%20सम्मान%20हेतु%20छात्र%20का%20विवरण" class="btn small green">WhatsApp</a>
-    </div>
     <div class="section-title"><h2>सम्मानित छात्र-छात्राएं</h2></div>
     <div id="talentList">Loading...</div>
   </div>
@@ -451,30 +464,19 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 
 <!-- 🕊️ OBITUARY & CONDOLENCE -->
 <section id="obituary" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>शोक संदेश एवं श्रद्धांजलि</h1><p>दिवंगतों को नमन व शोक सभा सूचना</p></div></div>
-  <div class="container">
-    <div class="card" style="background:#fef2f2;border-color:#fecaca;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <b style="color:#991b1b">🕊️ शोक संदेश प्रेषित करवाएं</b>
-        <p style="margin:2px 0 0;font-size:11px;color:#b91c1c">तेरहवीं/शोक सभा प्रसारण हेतु एडमिन को भेजें</p>
-      </div>
-      <a href="https://api.whatsapp.com/send?phone=919999999999&text=शोक%20संदेश%20प्रसारण%20हेतु%20जानकारी" class="btn small red">WhatsApp</a>
-    </div>
-    <div class="section-title"><h2>शोक संदेश सूची</h2></div>
-    <div id="obituaryList">Loading...</div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>शोक संदेश एवं श्रद्धांजलि</h1><p>दिवंगतों को नमन</p></div></div>
+  <div class="container"><div id="obituaryList">Loading...</div></div>
 </section>
 
 <!-- 🗳️ COMMUNITY POLLS -->
 <section id="polls" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामुदायिक रायशुमारी (Polls)</h1><p>समाज के निर्णयों में अपनी राय दें</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामुदायिक रायशुमारी (Polls)</h1><p>अपनी राय दें</p></div></div>
   <div class="container">
     <div id="pollBox" class="card">
       <h3>📊 सक्रिय प्रश्न: क्या वार्षिक महाधिवेशन दिसंबर माह में आयोजित हो?</h3>
-      <p class="admin-note">महाराजगंज जिला सम्मेलन हेतु सदस्यों की राय अपेक्षित है।</p>
       <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
-        <button class="btn secondary" onclick="votePoll('yes')">👍 हाँ, दिसंबर माह सर्वोत्तम है (<span id="voteYesCount">0</span>)</button>
-        <button class="btn secondary" onclick="votePoll('no')">👎 नहीं, अन्य माह उपयुक्त रहेगा (<span id="voteNoCount">0</span>)</button>
+        <button class="btn secondary" onclick="votePoll('yes')">👍 हाँ (<span id="voteYesCount">0</span>)</button>
+        <button class="btn secondary" onclick="votePoll('no')">👎 नहीं (<span id="voteNoCount">0</span>)</button>
       </div>
       <div id="pollMsg" class="msg"></div>
     </div>
@@ -483,69 +485,33 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 
 <!-- 🏛️ SCHEMES & GUIDES -->
 <section id="schemes" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सरकारी योजनाएं व सहायता</h1><p>कल्याणकारी योजनाओं की जानकारी</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सरकारी योजनाएं व सहायता</h1><p>कल्याणकारी योजनाएं</p></div></div>
   <div class="container">
-    <div class="item">
-      <h3>🎓 राष्ट्रीय छात्रवृत्ति पोर्टल (NSP)</h3>
-      <p>कक्षा 9वीं से उच्च शिक्षा तक के छात्रों हेतु छात्रवृत्ति एवं वित्तीय प्रोत्साहन।</p>
-      <a href="https://scholarships.gov.in" class="btn small green">पोर्टल खोलें ↗</a>
-    </div>
-    <div class="item">
-      <h3>🌾 प्रधानमंत्री किसान सम्मान निधि</h3>
-      <p>पात्र किसान परिवारों को प्रतिवर्ष ₹6,000 की वित्तीय सहायता (3 किश्तों में)।</p>
-      <a href="https://pmkisan.gov.in" class="btn small green">जांचें ↗</a>
-    </div>
-    <div class="item">
-      <h3>🏠 प्रधानमंत्री आवास योजना (ग्रामीण)</h3>
-      <p>बेघर एवं कच्चे मकानों में रहने वाले परिवारों को पक्का मकान निर्माण सहायता।</p>
-      <a href="https://pmayg.nic.in" class="btn small green">विवरण देखें ↗</a>
-    </div>
-    <div class="item">
-      <h3>🏥 आयुष्मान भारत (PM-JAY कार्ड)</h3>
-      <p>प्रति परिवार प्रति वर्ष ₹5 लाख तक का निःशुल्क कैशलेस उपचार एवं अस्पताल भर्ती सुविधा।</p>
-      <a href="https://beneficiary.nha.gov.in" class="btn small green">कार्ड बनाएं ↗</a>
-    </div>
-    <div class="item">
-      <h3>👷 ई-श्रम कार्ड (E-Shram)</h3>
-      <p>असंगठित क्षेत्र के कामगारों, मजदूरों हेतु ₹2 लाख दुर्घटना बीमा एवं सरकारी लाभ।</p>
-      <a href="https://eshram.gov.in" class="btn small green">पंजीयन करें ↗</a>
-    </div>
+    <div class="item"><h3>🎓 राष्ट्रीय छात्रवृत्ति पोर्टल</h3><p>छात्रवृत्ति हेतु विवरण।</p><a href="https://scholarships.gov.in" class="btn small green">पोर्टल खोलें ↗</a></div>
+    <div class="item"><h3>🌾 प्रधानमंत्री किसान सम्मान निधि</h3><p>आर्थिक सहायता।</p><a href="https://pmkisan.gov.in" class="btn small green">जांचें ↗</a></div>
   </div>
 </section>
 
 <!-- 🖼️ PHOTO GALLERY -->
 <section id="gallery" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामाजिक फोटो गैलरी</h1><p>कार्यक्रमों एवं सम्मेलनों की यादें</p></div></div>
-  <div class="container">
-    <div id="galleryList" class="gallery-grid">Loading...</div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सामाजिक फोटो गैलरी</h1><p>कार्यक्रमों की यादें</p></div></div>
+  <div class="container"><div id="galleryList" class="gallery-grid">Loading...</div></div>
 </section>
 
 <!-- 💍 MATRIMONIAL & BIODATA GENERATOR -->
 <section id="matrimonial" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1><p>रिश्ते एवं 1-क्लिक बायोडेटा कार्ड</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>वैवाहिक परिचय एवं बायोडेटा</h1><p>रिश्ते व कार्ड</p></div></div>
   <div class="container">
     <div id="matMsg" class="msg"></div>
-
-    <div id="matLoginNotice" class="card hide" style="background:#fefce8;border-color:#fef08a;text-align:center">
-      <h3 style="color:#854d0e">💍 अपना वैवाहिक बायोडेटा जोड़ें</h3>
-      <p class="admin-note">बायोडेटा बनाने और अपलोड करने के लिए समाज पोर्टल पर सदस्य रजिस्ट्रेशन / लॉगिन अनिवार्य है।</p>
-      <button class="btn gold small" style="margin-top:8px" onclick="go('login')">🔐 Member Login / Register करें</button>
-    </div>
-
+    <div id="matLoginNotice" class="card hide" style="text-align:center"><button class="btn gold small" onclick="go('login')">🔐 Login करें</button></div>
     <div class="card hide" id="matForm">
       <h3>💍 शादी बायोडेटा कार्ड बनाएं</h3>
-      <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech / B.A."></div></div>
-      <div class="grid2"><div class="field"><label>Occupation</label><input id="matOccupation" placeholder="उदा. शिक्षक / व्यवसाय"></div><div class="field"><label>ऊंचाई (Height)</label><input id="matHeight" placeholder="उदा. 5' 8&quot;"></div></div>
-      <div class="field"><label>पारिवारिक विवरण / About</label><textarea id="matAbout" placeholder="पिता का नाम, कुल सदस्य, पसंद आदि..."></textarea></div>
-      <button class="btn" onclick="saveMatrimonial()">Save Profile & Generate Biodata</button>
+      <div class="grid2"><div class="field"><label>Gender</label><select id="matGender"><option>Male</option><option>Female</option></select></div><div class="field"><label>Education</label><input id="matEducation" placeholder="उदा. B.Tech"></div></div>
+      <div class="grid2"><div class="field"><label>Occupation</label><input id="matOccupation" placeholder="उदा. शिक्षक"></div><div class="field"><label>ऊंचाई</label><input id="matHeight" placeholder="5' 8&quot;"></div></div>
+      <div class="field"><label>विवरण</label><textarea id="matAbout" placeholder="पिता का नाम..."></textarea></div>
+      <button class="btn" onclick="saveMatrimonial()">Save & Generate</button>
     </div>
-
-    <div id="biodataExportWrapper" class="hide">
-      <div id="biodataCard" class="biodata-card"></div>
-      <button class="btn green" onclick="downloadBiodataImage()">📥 विवाह बायोडेटा कार्ड डाउनलोड करें</button>
-    </div>
-
+    <div id="biodataExportWrapper" class="hide"><div id="biodataCard" class="biodata-card"></div><button class="btn green" onclick="downloadBiodataImage()">📥 डाउनलोड करें</button></div>
     <div class="section-title"><h2>समाज के वैवाहिक रिश्ते</h2></div>
     <div id="matList">Loading...</div>
   </div>
@@ -553,340 +519,111 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 
 <!-- 🪙 DONATION & DIGITAL RECEIPT -->
 <section id="donation" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>दान एवं समाज कोष</h1><p>पारदर्शी सहयोग व रसीद</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>दान एवं समाज कोष</h1><p>पारदर्शी सहयोग</p></div></div>
   <div class="container">
-    <div class="card" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;text-align:center;box-shadow:0 10px 25px rgba(16,185,129,0.25)">
-      <span style="font-size:12px;opacity:0.9">🌾 समाज कोष कुल संकलित सहयोग 🌾</span>
-      <h2 id="totalDonationFund" style="font-size:30px;margin:6px 0 2px;font-weight:800">₹0 /-</h2>
-      <p style="margin:0;font-size:11px;opacity:0.85">समस्त सामाजिक विकास एवं भवन निर्माण हेतु सुरक्षित</p>
+    <div class="card" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;text-align:center">
+      <span>🌾 कुल संकलित सहयोग 🌾</span>
+      <h2 id="totalDonationFund" style="font-size:30px;margin:6px 0">₹0 /-</h2>
     </div>
-
     <div class="card" style="text-align:center">
-      <h3>🌾 भुईहर समाज कल्याण कोष</h3>
-      <p class="admin-note">समाज भवन, धर्मशाला निर्माण व आकस्मिक सहायता हेतु सहयोग करें।</p>
-      <div style="background:#eff6ff;border:2px dashed var(--p);border-radius:18px;padding:16px;margin:14px 0">
-        <p style="margin:0;font-size:14px;font-weight:800">UPI ID: <span style="color:var(--p)">bhuiharsamaj@upi</span></p>
-        <p style="margin:4px 0 0;font-size:11px;color:var(--muted)">Google Pay / PhonePe / Paytm से सहयोग भेजें</p>
-      </div>
-      <button class="btn green" onclick="generateDonationReceiptPrompt()">🧾 सहयोग उपरांत दान रसीद प्राप्त करें</button>
+      <h3>UPI ID: <span style="color:var(--p)">bhuiharsamaj@upi</span></h3>
+      <button class="btn green" onclick="generateDonationReceiptPrompt()">🧾 दान रसीद प्राप्त करें</button>
     </div>
-    <div id="receiptDownloadWrapper" class="hide">
-      <div id="donationReceiptArea" class="receipt-box"></div>
-      <button class="btn green" onclick="downloadReceiptImage()">📥 दान रसीद इमेज डाउनलोड करें</button>
-    </div>
-    <div class="section-title"><h2>सहयोग सूची (पारदर्शिता)</h2></div>
+    <div id="receiptDownloadWrapper" class="hide"><div id="donationReceiptArea" class="receipt-box"></div><button class="btn green" onclick="downloadReceiptImage()">📥 रसीद डाउनलोड करें</button></div>
+    <div class="section-title"><h2>सहयोग सूची</h2></div>
     <div id="donationList">Loading...</div>
   </div>
 </section>
 
-<!-- 💼 JOBS & CAREER -->
+<!-- 💼 JOBS -->
 <section id="jobs" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1><p>समाज रोजगार मंच</p></div></div>
-  <div class="container">
-    <div class="card" style="background:#eff6ff;border-color:#bfdbfe;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <b style="color:#1e40af">📢 अपनी नौकरी की सूचना दें</b>
-        <p style="margin:2px 0 0;font-size:11px;color:#1d4ed8">काम/वैकेंसी पोस्ट करवाने हेतु एडमिन को विवरण भेजें</p>
-      </div>
-      <a href="https://api.whatsapp.com/send?phone=919999999999&text=नौकरी%20पोस्टिंग%20हेतु%20विवरण" class="btn small">WhatsApp</a>
-    </div>
-    <div class="section-title"><h2>उपलब्ध नौकरियां व काम</h2></div>
-    <div id="jobsList">Loading...</div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1><p>नौकरियां व काम</p></div></div>
+  <div class="container"><div id="jobsList">Loading...</div></div>
 </section>
 
-<!-- 🏪 BUSINESS DIRECTORY -->
+<!-- 🏪 BUSINESS -->
 <section id="business" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>बिजनेस डायरेक्टरी</h1><p>समाज के व्यापार व सेवाएं</p></div></div>
-  <div class="container">
-    <div class="card" style="background:#fefce8;border-color:#fef08a;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <b style="color:#854d0e">🏪 अपनी दुकान / फर्म जोड़ें</b>
-        <p style="margin:2px 0 0;font-size:11px;color:#a16207">डायरेक्टरी में दुकान जुड़वाने हेतु एडमिन से संपर्क करें</p>
-      </div>
-      <a href="https://api.whatsapp.com/send?phone=919999999999&text=दुकान%20जोड़ने%20हेतु%20जानकारी" class="btn small gold">WhatsApp</a>
-    </div>
-    <div class="section-title"><h2>समाज की दुकानें एवं व्यवसाय</h2></div>
-    <div id="businessList">Loading...</div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>बिजनेस डायरेक्टरी</h1><p>व्यापार</p></div></div>
+  <div class="container"><div id="businessList">Loading...</div></div>
 </section>
 
-<!-- 🤝 HELPDESK & SUPPORT -->
+<!-- 🤝 SUPPORT -->
 <section id="support" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सहायता केंद्र व शिकायत</h1><p>एडमिन से सीधी मदद</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सहायता केंद्र</h1><p>मदद</p></div></div>
   <div class="container">
     <div id="suppMsg" class="msg"></div>
     <div class="card">
-      <h3>📝 अपनी समस्या या अर्जी दर्ज करें</h3>
-      <div class="field"><label>विषय / समस्या का प्रकार *</label><input id="suppSubject" placeholder="उदा. राशन कार्ड समस्या / कानूनी सलाह"></div>
-      <div class="field"><label>समस्या का पूरा विवरण *</label><textarea id="suppDetails" placeholder="अपनी समस्या विस्तार से लिखें..."></textarea></div>
+      <div class="field"><label>विषय *</label><input id="suppSubject" placeholder="विषय"></div>
+      <div class="field"><label>विवरण *</label><textarea id="suppDetails" placeholder="विवरण..."></textarea></div>
       <button class="btn" onclick="submitSupportTicket()">📤 अर्जी भेजें</button>
     </div>
-    <div class="section-title"><h2>मेरी दर्ज अर्जियां</h2></div>
+    <div class="section-title"><h2>मेरी अर्जियां</h2></div>
     <div id="supportTicketsList">Loading...</div>
   </div>
 </section>
 
 <!-- 👨‍👩‍👧 FAMILY MANAGEMENT -->
 <section id="family" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Family Management</h1><p>परिवार के सदस्य जोड़ें</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Family Management</h1><p>परिवार प्रबंधन</p></div></div>
   <div class="container">
     <div id="familyMsg" class="msg"></div>
     <div class="card">
       <h3 id="famFormTitle">नया परिवार सदस्य</h3>
       <input type="hidden" id="editFamilyDocId" value="">
-      <div class="field"><label>नाम *</label><input id="famName" placeholder="सदस्य का पूरा नाम"></div>
+      <div class="field"><label>नाम *</label><input id="famName" placeholder="नाम"></div>
       <div class="grid2">
-        <div class="field">
-          <label>रिश्ता *</label>
-          <select id="famRelation">
-            <option value="">रिश्ता चुनें</option>
-            <option value="पिता">पिता (Father)</option>
-            <option value="माता">माता (Mother)</option>
-            <option value="बेटा">बेटा (Son)</option>
-            <option value="बेटी">बेटी (Daughter)</option>
-            <option value="पत्नी">पत्नी (Wife)</option>
-            <option value="पति">पति (Husband)</option>
-            <option value="भाई">भाई (Brother)</option>
-            <option value="बहन">बहन (Sister)</option>
-            <option value="दादा">दादा (Grandfather)</option>
-            <option value="दादी">दादी (Grandmother)</option>
-            <option value="अन्य">अन्य (Other)</option>
-          </select>
-        </div>
+        <div class="field"><label>रिश्ता *</label><select id="famRelation"><option value="">चुनें</option><option value="पिता">पिता</option><option value="माता">माता</option><option value="बेटा">बेटा</option><option value="बेटी">बेटी</option><option value="पत्नी">पत्नी</option><option value="पति">पति</option></select></div>
         <div class="field"><label>जन्म तिथि</label><input id="famDob" type="date" onchange="setFamilyAge()"></div>
       </div>
-      <div class="grid2">
-        <div class="field"><label>उम्र (वर्ष)</label><input id="famAge" readonly placeholder="Auto"></div>
-        <div class="field"><label>मोबाइल (Optional)</label><input id="famMobile" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div>
-      </div>
-      <div class="field">
-        <label>व्यवसाय (Occupation)</label>
-        <select id="famOccupation">
-          <option value="">व्यवसाय चुनें</option>
-          <option value="Government Job">Government Job (सरकारी नौकरी)</option>
-          <option value="Private Job">Private Job (निजी नौकरी)</option>
-          <option value="Business">Business (व्यापार / दुकान)</option>
-          <option value="Agriculture">Agriculture (कृषि / खेती)</option>
-          <option value="Labor">Labor (मजदूर / श्रमिक)</option>
-          <option value="Student">Student (विद्यार्थी / छात्र)</option>
-          <option value="Housewife">Housewife (गृहिणी)</option>
-          <option value="Other">Other (अन्य)</option>
-        </select>
-      </div>
-      <div class="field"><label>सदस्य का हाफ फोटो (Passport Size)</label><input id="famPhoto" type="file" accept="image/*"></div>
-      <button id="saveFamBtn" class="btn" onclick="addFamily()">+ Save Family Member</button>
-      <button id="cancelEditFamBtn" class="btn secondary hide" onclick="cancelFamilyEdit()">रद्द करें (Cancel Edit)</button>
+      <div class="field"><label>उम्र</label><input id="famAge" readonly placeholder="Auto"></div>
+      <button id="saveFamBtn" class="btn" onclick="addFamily()">+ Save Member</button>
     </div>
-    <div class="section-title"><h2>मेरे परिवार के सदस्य</h2></div>
+    <div class="section-title"><h2>परिवार के सदस्य</h2></div>
     <div id="familyList"></div>
   </div>
 </section>
 
-<!-- 🔎 SEARCH PAGE -->
+<!-- 🔎 SEARCH -->
 <section id="search" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य खोज</h1><p>नाम, जिला या गांव</p></div></div>
-  <div class="container"><div class="searchbar"><input id="memberSearch" placeholder="नाम / जिला / गांव लिखें" oninput="searchMembers()"></div><div id="memberResults"></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य खोज</h1><p>खोजें</p></div></div>
+  <div class="container"><div class="searchbar"><input id="memberSearch" placeholder="नाम लिखें" oninput="searchMembers()"></div><div id="memberResults"></div></div>
 </section>
 
-<!-- 🩸 BLOOD DIRECTORY -->
+<!-- 🩸 BLOOD -->
 <section id="blood" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>आपातकालीन Blood Directory</h1><p>त्वरित जीवन रक्षक रक्त सेवा</p></div></div>
-  <div class="container">
-    <div class="card"><div class="grid2"><select id="bloodFilter" onchange="loadBlood()"><option value="">सभी Blood Group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select><button class="btn small" onclick="loadBlood()">Search</button></div></div>
-    <div id="bloodList"></div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Blood Directory</h1><p>रक्त सहायता</p></div></div>
+  <div class="container"><div id="bloodList"></div></div>
 </section>
 
-<!-- 📅 EVENTS & SOCIAL CALENDAR -->
+<!-- 📅 EVENTS -->
 <section id="events" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>कार्यक्रम व समाज कैलेंडर</h1><p>समाज के पर्व एवं वार्षिक आयोजन</p></div></div>
-  <div class="container">
-    <div class="card" style="background:#fefce8;border-color:#fef08a">
-      <h3 style="color:#854d0e">🌾 समाज वार्षिक कैलेंडर (प्रमुख पर्व)</h3>
-      <div class="info-row"><span>सरहुल पूजा (प्रकृति पर्व)</span><span>चैत्र शुक्ल तृतीया</span></div>
-      <div class="info-row"><span>करमा महोत्सव (भाई-बहन पर्व)</span><span>भाद्रपद एकादशी</span></div>
-      <div class="info-row"><span>वार्षिक समाज महाधिवेशन</span><span>25 दिसंबर (महाराजगंज)</span></div>
-      <div class="info-row"><span>बाबा भुईहर देव पूजन</span><span>कार्तिक पूर्णिमा</span></div>
-    </div>
-    <div class="section-title"><h2>आगामी विशेष कार्यक्रम</h2></div>
-    <div id="eventList"></div>
-  </div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>कार्यक्रम कैलेंडर</h1><p>पर्व</p></div></div>
+  <div class="container"><div id="eventList"></div></div>
 </section>
 
-<!-- ⚙️ ADMIN DASHBOARD -->
+<!-- ⚙️ ADMIN -->
 <section id="admin" class="page">
-  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>समीक्षा • लुकअप • PDF • डिलीट</p></div></div>
+  <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1><p>कंट्रोल</p></div></div>
   <div class="container">
     <div id="adminMsg" class="msg"></div>
-
     <div class="stats grid4">
       <div class="stat"><b id="adTotal">0</b><span>Total</span></div>
       <div class="stat"><b id="adPending" style="color:var(--gold)">0</b><span>Pending</span></div>
       <div class="stat"><b id="adApproved" style="color:var(--green)">0</b><span>Approved</span></div>
       <div class="stat"><b id="adBlocked" style="color:var(--red)">0</b><span>Blocked</span></div>
     </div>
-
-    <div class="section-title"><h2>🔍 सदस्य लुकअप & सपरिवार PDF</h2></div>
-    <div class="card" style="background:#f8fafc;border-color:#cbd5e1">
-      <div class="field">
-        <label>सदस्य का 10 अंकों का मोबाइल नंबर डालें *</label>
-        <div style="display:flex;gap:8px">
-          <input id="adminSearchMobile" inputmode="numeric" maxlength="10" placeholder="10 Digit Mobile Number">
-          <button class="btn small" style="width:auto;padding:12px 18px" onclick="adminLookupUser()">खोजें</button>
-        </div>
-      </div>
-      <div id="adminLookupLoader" class="loader">सदस्य व परिवार का डेटा खोजा जा रहा है...</div>
-      
-      <div id="adminLookupResult" class="hide" style="margin-top:12px">
-        <div class="item" style="border:1.5px solid var(--p)">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3 id="lkName" style="margin:0"></h3>
-            <span id="lkStatusPill" class="pill"></span>
-          </div>
-          <p id="lkBasicInfo" style="margin:6px 0"></p>
-          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-            <button id="lkBlockBtn" class="btn small red"></button>
-            <button id="lkPdfBtn" class="btn small green" onclick="downloadFamilySlipPDF()">📥 सपरिवार PDF डाउनलोड करें</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="card" style="margin-top:14px;background:#f0fdf4;border-color:#bbf7d0">
-      <h3 style="color:#166534">📊 सदस्य डेटा डाउनलोड</h3>
-      <p class="admin-note">स्वीकृत सदस्यों का पूरा विवरण एक्सेल/CSV में डाउनलोड करें।</p>
-      <button id="exportCsvBtn" class="btn green" onclick="exportMembersToCSV()">📥 Download All Members (CSV/Excel)</button>
-    </div>
-
     <div class="section-title"><h2>Pending Approval</h2></div>
     <div id="pendingList"></div>
-
-    <div class="section-title"><h2 style="color:var(--red)">🚫 ब्लॉक किए गए सदस्य (Blocked Members)</h2></div>
-    <div id="blockedMembersList"><div class="card"><span class="admin-note">कोई ब्लॉक सदस्य नहीं है।</span></div></div>
-
-    <div class="section-title"><h2>जॉब / रोजगार पोस्ट करें</h2></div>
-    <div class="card">
-      <div class="field"><label>काम / पद का नाम *</label><input id="adJobTitle" placeholder="उदा. ड्राइवर, कम्प्यूटर ऑपरेटर"></div>
-      <div class="grid2">
-        <div class="field"><label>वेतन</label><input id="adJobSalary" placeholder="उदा. 15,000 / माह"></div>
-        <div class="field"><label>स्थान</label><input id="adJobLocation" placeholder="उदा. महाराजगंज"></div>
-      </div>
-      <div class="field"><label>सम्पर्क मोबाइल *</label><input id="adJobContact" inputmode="numeric" maxlength="10"></div>
-      <div class="field"><label>ऑफिशियल / अप्लाई लिंक (URL Optional)</label><input id="adJobLink" placeholder="https://example.com/apply"></div>
-      <div class="field"><label>विवरण</label><textarea id="adJobDesc" placeholder="शर्तें व योग्यता..."></textarea></div>
-      <button id="saveJobBtn" class="btn gold" onclick="saveAdminJob()">📢 जॉब प्रकाशित करें</button>
-    </div>
-
-    <div class="section-title"><h2>दुकान / बिजनेस जोड़ें</h2></div>
-    <div class="card">
-      <div class="field"><label>दुकान / व्यापार का नाम *</label><input id="adBizName" placeholder="उदा. भुईहर ट्रेडर्स"></div>
-      <div class="grid2">
-        <div class="field"><label>श्रेणी</label><input id="adBizCategory" placeholder="उदा. किराना, टेंट"></div>
-        <div class="field"><label>स्थान / पता</label><input id="adBizAddress" placeholder="उदा. सिसवा बाजार"></div>
-      </div>
-      <div class="field"><label>मोबाइल नंबर *</label><input id="adBizMobile" inputmode="numeric" maxlength="10"></div>
-      <div class="field"><label>विवरण</label><textarea id="adBizDesc" placeholder="दुकान के काम व सुविधाएं..."></textarea></div>
-      <button id="saveBizBtn" class="btn gold" onclick="saveAdminBusiness()">🏪 बिजनेस जोड़ें</button>
-    </div>
-
-    <div class="section-title"><h2>मेधावी छात्र जोड़ें</h2></div>
-    <div class="card">
-      <div class="field"><label>विद्यार्थी का नाम *</label><input id="adTalName" placeholder="पूरा नाम"></div>
-      <div class="grid2">
-        <div class="field"><label>कक्षा / परीक्षा</label><input id="adTalExam" placeholder="उदा. 10th / NEET"></div>
-        <div class="field"><label>अंक / रैंक</label><input id="adTalScore" placeholder="उदा. 94%"></div>
-      </div>
-      <div class="field"><label>स्थान / गांव</label><input id="adTalLoc" placeholder="उदा. पनियरा"></div>
-      <button id="saveTalBtn" class="btn gold" onclick="saveAdminTalent()">🎓 छात्र का नाम जोड़ें</button>
-    </div>
-
-    <div class="section-title"><h2>शोक संदेश प्रकाशित करें</h2></div>
-    <div class="card">
-      <div class="field"><label>दिवंगत का नाम *</label><input id="adObitName" placeholder="नाम"></div>
-      <div class="grid2">
-        <div class="field"><label>तिथि</label><input id="adObitDate" type="date"></div>
-        <div class="field"><label>स्थान / गांव</label><input id="adObitLoc" placeholder="स्थान"></div>
-      </div>
-      <div class="field"><label>शोक सभा व तेरहवीं विवरण</label><textarea id="adObitDesc" placeholder="कार्यक्रम विवरण..."></textarea></div>
-      <button id="saveObitBtn" class="btn red" onclick="saveAdminObituary()">🕊️ शोक संदेश प्रसारित करें</button>
-    </div>
-    
-    <div class="section-title"><h2>फोटो गैलरी प्रबंधन</h2></div>
-    <div class="card">
-      <div class="field"><label>इमेज URL (Direct Link)</label><input id="adGalUrl" placeholder="https://example.com/photo.jpg"></div>
-      <div class="field"><label>विवरण / शीर्षक</label><input id="adGalTitle" placeholder="उदा. वार्षिक सम्मेलन 2026"></div>
-      <button class="btn gold" onclick="saveGalleryPhoto()">🖼️ गैलरी में फोटो जोड़ें</button>
-    </div>
-
-    <div class="section-title"><h2>दान एंट्री दर्ज करें (पारदर्शिता)</h2></div>
-    <div class="card">
-      <div class="field"><label>दानदाता का नाम</label><input id="adDonName" placeholder="नाम"></div>
-      <div class="grid2">
-        <div class="field"><label>राशि (₹)</label><input id="adDonAmt" inputmode="numeric" placeholder="उदा. 2100"></div>
-        <div class="field"><label>स्थान</label><input id="adDonLoc" placeholder="उदा. पनियरा"></div>
-      </div>
-      <button class="btn green" onclick="saveAdminDonation()">🪙 दान सूची में जोड़ें</button>
-    </div>
-
-    <div class="section-title"><h2>पदाधिकारी प्रबंधन</h2></div>
-    <div class="card">
-      <div class="field"><label>पदाधिकारी का नाम *</label><input id="adOffName" placeholder="नाम"></div>
-      <div class="grid2">
-        <div class="field">
-          <label>पद *</label>
-          <select id="adOffRole">
-            <option value="महतो">महतो (Male)</option><option value="कहतो">कहतो (Male)</option>
-            <option value="अध्यक्ष (पुरुष)">अध्यक्ष (पुरुष)</option><option value="अध्यक्ष (महिला)">अध्यक्ष (महिला)</option>
-            <option value="उपाध्यक्ष (पुरुष)">उपाध्यक्ष (पुरुष)</option><option value="उपाध्यक्ष (महिला)">उपाध्यक्ष (महिला)</option>
-            <option value="सचिव (पुरुष)">सचिव (पुरुष)</option><option value="सचिव (महिला)">सचिव (महिला)</option>
-            <option value="कोषाध्यक्ष (पुरुष)">कोषाध्यक्ष (पुरुष)</option><option value="कोषाध्यक्ष (महिला)">कोषाध्यक्ष (महिला)</option>
-          </select>
-        </div>
-        <div class="field"><label>मोबाइल *</label><input id="adOffMobile" inputmode="numeric" maxlength="10"></div>
-      </div>
-      <div class="field"><label>फोटो URL</label><input id="adOffPhoto" placeholder="URL"></div>
-      <button class="btn gold" onclick="saveOfficer()">👑 पदाधिकारी जोड़ें</button>
-      <div id="adminOfficerList" style="margin-top:8px">Loading...</div>
-    </div>
-
-    <div class="section-title"><h2>सदस्यों की अर्जियां (Helpdesk)</h2></div>
-    <div id="adminSupportList">Loading...</div>
-
-    <div class="section-title"><h2>Slider Banners प्रबंधन</h2></div>
-    <div class="card">
-      <div class="field"><label>नया बैनर URL</label><input id="adBannerImg" placeholder="https://example.com/banner.jpg"></div>
-      <div class="field"><label>शीर्षक</label><input id="adBannerTitle" placeholder="शीर्षक"></div>
-      <button class="btn gold" onclick="addBanner()">🖼️ नया बैनर जोड़ें</button>
-      
-      <div style="margin-top:16px;border-top:1px dashed var(--line);padding-top:12px">
-        <label style="font-size:13px;font-weight:700">🗑️ मौजूदा बैनर हटाएं (Dropdown):</label>
-        <select id="deleteBannerSelect" style="margin:6px 0"><option value="">बैनर चुनें</option></select>
-        <button class="btn red small" style="margin-top:4px" onclick="deleteSelectedBanner()">🗑️ चुना हुआ बैनर डिलीट करें</button>
-      </div>
-    </div>
-
     <div class="section-title"><h2>Post Notice</h2></div>
     <div class="card">
       <div class="field"><label>Title</label><input id="noticeTitle"></div>
-      <div class="field"><label>Hindi Message</label><textarea id="noticeText"></textarea></div>
-      <button id="postNoticeBtn" class="btn" onclick="postNotice()">Publish Notice</button>
-    </div>
-    
-    <div class="section-title"><h2>Add Event</h2></div>
-    <div class="card">
-      <div class="field"><label>Event Name *</label><input id="eventName"></div>
-      <div class="grid2">
-        <div class="field"><label>Date *</label><input id="eventDate" type="date"></div>
-        <div class="field"><label>Location *</label><input id="eventLocation"></div>
-      </div>
-      <div class="field"><label>Google Map Link (Optional)</label><input id="eventMapLink" placeholder="https://maps.app.goo.gl/..."></div>
-      <button id="saveEventBtn" class="btn" onclick="addEvent()">Save Event</button>
+      <div class="field"><label>Message</label><textarea id="noticeText"></textarea></div>
+      <button class="btn" onclick="postNotice()">Publish Notice</button>
     </div>
   </div>
 </section>
 
-<!-- 📱 BOTTOM NAVIGATION BAR -->
+<!-- 📱 BOTTOM NAVIGATION -->
 <nav class="nav">
   <button onclick="go('home')" id="navHome"><b>⌂</b>Home</button>
   <button onclick="go('search')"><b>⌕</b>Search</button>
@@ -905,35 +642,24 @@ firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth(),db=firebase.firestore();
 let currentUser=JSON.parse(localStorage.getItem("bhuiharPortalUser")||"null"),currentAdmin=JSON.parse(sessionStorage.getItem("bhuiharPortalAdmin")||"null");
 let districtsData={},bannersList=[],officersList=[];
-let sliderInterval=null,officerInterval=null,curBannerIdx=0,curOfficerIdx=0;
-let familyCache = [];
-let lookedUpUser = null, lookedUpFamily = [];
 let currentPage = "home";
 
-// 🌟 स्प्लैश स्क्रीन छिपाना
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splash-screen");
-    if(splash){ splash.classList.add("fade-out"); setTimeout(()=>splash.remove(), 400); }
-  }, 1000);
+  setTimeout(() => { const s = document.getElementById("splash-screen"); if(s){ s.classList.add("fade-out"); setTimeout(()=>s.remove(), 400); } }, 1000);
 });
 
-// 🔴 ऑनलाइन / ऑफलाइन नेटवर्क डिटेक्शन
 window.addEventListener("online", () => { document.getElementById("offline-banner").style.display = "none"; });
 window.addEventListener("offline", () => { document.getElementById("offline-banner").style.display = "block"; });
 
-// 🔄 पुल-टू-रिफ्रेश लॉजिक
 let touchStartY = 0;
 window.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; }, {passive: true});
 window.addEventListener("touchend", e => {
   if(window.scrollY === 0 && e.changedTouches[0].clientY - touchStartY > 90){
-    const ind = document.getElementById("pull-refresh-indicator");
-    ind.style.display = "block";
+    document.getElementById("pull-refresh-indicator").style.display = "block";
     setTimeout(() => { location.reload(); }, 800);
   }
 }, {passive: true});
 
-// 🚪 डबल-टैप टू एग्जिट (डबल बैक प्रेस पर बाहर निकलें)
 let lastBackPress = 0;
 window.addEventListener("popstate", function(event){
   if(currentPage !== "home"){
@@ -941,62 +667,37 @@ window.addEventListener("popstate", function(event){
     history.pushState({ pageId: "home" }, "", "#home");
   } else {
     const now = new Date().getTime();
-    if(now - lastBackPress < 2000){
-      navigator.app?.exitApp?.();
-    } else {
-      lastBackPress = now;
-      alert("बाहਰ निकलने के लिए एक बार फिर बैक बटन दबाएं");
-      history.pushState({ pageId: "home" }, "", "#home");
-    }
+    if(now - lastBackPress < 2000){ navigator.app?.exitApp?.(); }
+    else { lastBackPress = now; alert("बाहर निकलने के लिए एक बार फिर बैक बटन दबाएं"); history.pushState({ pageId: "home" }, "", "#home"); }
   }
 });
 
-// 💬 कम्युनिटी लाइव चैट (Firebase Firestore)
 async function sendCommunityChat(){
   if(!currentUser){ go("login"); return; }
-  const input = document.getElementById("chatInputMsg");
-  const text = input.value.trim();
+  const input = document.getElementById("chatInputMsg"), text = input.value.trim();
   if(!text) return;
-  try{
-    await db.collection("community_chat").add({
-      name: currentUser.fullName,
-      mobile: currentUser.mobileNumber,
-      message: text,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    input.value = "";
-    loadCommunityChat();
-  }catch(e){ console.error("Chat error:", e); }
+  await db.collection("community_chat").add({ name: currentUser.fullName, mobile: currentUser.mobileNumber, message: text, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+  input.value = ""; loadCommunityChat();
 }
 
 async function loadCommunityChat(){
-  const box = document.getElementById("chatMessages");
-  if(!box) return;
-  try{
-    db.collection("community_chat").orderBy("createdAt", "asc").limit(50).onSnapshot(snap => {
-      box.innerHTML = snap.empty ? '<div class="chat-msg incoming"><b>समाज:</b> अभी कोई संदेश नहीं है। चर्चा शुरू करें!</div>' : snap.docs.map(doc => {
-        const d = doc.data();
-        const isMe = currentUser && d.mobile === currentUser.mobileNumber;
-        return `<div class="chat-msg ${isMe ? 'outgoing' : 'incoming'}"><b>${esc(d.name)}:</b> ${esc(d.message)}</div>`;
-      }).join("");
-      box.scrollTop = box.scrollHeight;
-    });
-  }catch(e){}
+  const box = document.getElementById("chatMessages"); if(!box) return;
+  db.collection("community_chat").orderBy("createdAt", "asc").limit(50).onSnapshot(snap => {
+    box.innerHTML = snap.empty ? '<div class="chat-msg incoming"><b>समाज:</b> अभी कोई संदेश नहीं है।</div>' : snap.docs.map(doc => {
+      const d = doc.data(), isMe = currentUser && d.mobile === currentUser.mobileNumber;
+      return `<div class="chat-msg ${isMe ? 'outgoing' : 'incoming'}"><b>${esc(d.name)}:</b> ${esc(d.message)}</div>`;
+    }).join("");
+    box.scrollTop = box.scrollHeight;
+  });
 }
 
-// 🔢 ANIMATED COUNT-UP ENGINE
 function animateCounter(elementId, targetValue, duration = 1200, prefix = "", suffix = "") {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  const start = 0;
-  const end = parseInt(targetValue, 10) || 0;
-  if (end === 0) { el.textContent = prefix + "0" + suffix; return; }
+  const el = document.getElementById(elementId); if (!el) return;
+  const start = 0, end = parseInt(targetValue, 10) || 0; if (end === 0) { el.textContent = prefix + "0" + suffix; return; }
   const startTime = performance.now();
   function updateCount(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easeProgress = progress * (2 - progress);
-    const currentCount = Math.floor(easeProgress * (end - start) + start);
+    const elapsed = currentTime - startTime, progress = Math.min(elapsed / duration, 1);
+    const currentCount = Math.floor((progress * (2 - progress)) * (end - start) + start);
     el.textContent = prefix + currentCount.toLocaleString('en-IN') + suffix;
     if (progress < 1) requestAnimationFrame(updateCount);
     else el.textContent = prefix + end.toLocaleString('en-IN') + suffix;
@@ -1004,70 +705,26 @@ function animateCounter(elementId, targetValue, duration = 1200, prefix = "", su
   requestAnimationFrame(updateCount);
 }
 
-// 🌓 DARK MODE
 function toggleTheme(){
   document.body.classList.toggle("dark-mode");
-  const isDark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("bhuiharPortalTheme", isDark ? "dark" : "light");
+  localStorage.setItem("bhuiharPortalTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
 }
 if(localStorage.getItem("bhuiharPortalTheme")==="dark"){document.body.classList.add("dark-mode")}
 
 function sharePortalWhatsApp(){
-  const text = encodeURIComponent("🌾 भुईहर जाति समाज के आधिकारिक डिजिटल पोर्टल से जुड़ें!\nसदस्यता पंजीकरण, डिजिटल पहचान पत्र, आपातकालीन ब्लड सहायता और वैवाहिक मंच:\n" + window.location.href);
-  window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
+  window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent("🌾 भुईहर जाति समाज डिजिटल पोर्टल:\n" + window.location.href), "_blank");
 }
 
-const OS_AUTH_KEY = "Basic os_v2_app_iwhhftgoafelxnnhkyknrgxgsftfnykgbodufgmtuoznlewqpx7smiths3i7b5fbpenelasqx7yansmrahprorseou6upj637k2aoua";
-
-async function triggerPushToAllUsers(titleText, bodyText) {
-  try {
-    fetch("https://onesignal.com/api/v1/notifications", {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": OS_AUTH_KEY },
-      body: JSON.stringify({
-        app_id: "458e72cc-ce01-48bb-b5a7-5614d8ae691",
-        included_segments: ["Total Subscriptions"],
-        headings: {"en": titleText},
-        contents: {"en": bodyText}
-      })
-    });
-  } catch(e) {}
-}
-
-async function triggerPushToAdminOnly(userName, userDistrict) {
-  try {
-    fetch("https://onesignal.com/api/v1/notifications", {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8", "Authorization": OS_AUTH_KEY },
-      body: JSON.stringify({
-        app_id: "458e72cc-ce01-48bb-b5a7-5614d8ae691",
-        filters: [{"field": "tag", "key": "role", "relation": "=", "value": "admin"}],
-        headings: {"en": "🌾 नया सदस्य रजिस्ट्रेशन!"},
-        contents: {"en": `${userName} (${userDistrict}) ने नया रजिस्ट्रेशन किया है। समीक्षा करें।`}
-      })
-    });
-  } catch(e) {}
-}
-
-// 🧭 NAVIGATION
 function go(id, isBackNav = false){
   if(["dashboard","profile","family","support"].includes(id) && !currentUser){ id = "login"; }
   if(id === "admin" && !currentAdmin){ id = "adminLogin"; return; }
-
-  const targetEl = document.getElementById(id);
-  if(!targetEl) return;
-
-  if(!isBackNav && id !== currentPage){
-    history.pushState({ pageId: id }, "", "#" + id);
-  }
+  const targetEl = document.getElementById(id); if(!targetEl) return;
+  if(!isBackNav && id !== currentPage){ history.pushState({ pageId: id }, "", "#" + id); }
   currentPage = id;
-
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  targetEl.classList.add("active");
-  window.scrollTo(0, 0);
+  targetEl.classList.add("active"); window.scrollTo(0, 0);
 
   if(id==="home"){loadStats();loadNotices();renderSliders();renderOfficersSlider()}
-  if(id==="register"){loadDistrictsToForm()}
   if(id==="dashboard"){loadDashboard();renderSliders();renderOfficersSlider()}
   if(id==="profile"){loadProfile()}
   if(id==="chat"){loadCommunityChat()}
@@ -1083,12 +740,10 @@ function go(id, isBackNav = false){
   if(id==="search")searchMembers();
   if(id==="blood")loadBlood();
   if(id==="matrimonial")loadMatrimonial();
-  if(id==="events")loadEvents();
   if(id==="admin")loadAdmin();
 }
 
 function goBack(){ window.history.back(); }
-
 history.replaceState({ pageId: "home" }, "", "#home");
 
 function msg(id,text,type="info"){let e=document.getElementById(id);e.textContent=text;e.className="msg show "+type}
@@ -1098,438 +753,155 @@ function setAge(){age.value=ageCalc(dob.value)||""}
 function setFamilyAge(){famAge.value=ageCalc(famDob.value)||""}
 async function sha256(text){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function maskMob(m){return m ? m.slice(0,4)+"*****"+m.slice(-1) : "-"}
 
-function fileToBase64(file, maxDimension = 200, quality = 0.65) {
-  return new Promise((resolve) => {
-    if (!file) { resolve(null); return; }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let w = img.width, h = img.height;
-        if (w > h) { if (w > maxDimension) { h = Math.round((h * maxDimension) / w); w = maxDimension; } }
-        else { if (h > maxDimension) { w = Math.round((w * maxDimension) / h); h = maxDimension; } }
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', quality));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-// 👑 PADADHIKARI SLIDER
 async function fetchOfficers(){try{const s=await db.collection("officers").orderBy("createdAt","asc").get();officersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
 async function renderOfficersSlider(){
- await fetchOfficers();
- const hBox=document.getElementById("homeOfficerSlider"),dBox=document.getElementById("dashOfficerSlider");
- if(!officersList.length){const m=`<div class="card"><span class="admin-note">शीघ्र ही पदाधिकारियों की सूची प्रदर्शित होगी।</span></div>`;if(hBox)hBox.innerHTML=m;if(dBox)dBox.innerHTML=m;return}
- const slides=officersList.map(o=>`
-  <div class="officer-slide">
-   <img src="${esc(o.photo)}" class="officer-img" alt="${esc(o.name)}">
-   <div class="officer-info">
-    <span class="officer-role">${esc(o.role)}</span>
-    <h3 style="margin:2px 0 4px;font-size:16px;font-weight:800">${esc(o.name)}</h3>
-    <p style="margin:0;font-size:12px;color:var(--muted)">📞 +91 ${currentUser ? esc(o.mobile) : maskMob(o.mobile)}</p>
-    <div class="contact-actions">
-     ${currentUser ? `<a href="tel:${esc(o.mobile)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(o.mobile)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button>`}
-    </div>
-   </div>
-  </div>`).join("");
+ await fetchOfficers(); const hBox=document.getElementById("homeOfficerSlider"),dBox=document.getElementById("dashOfficerSlider");
+ if(!officersList.length){const m=`<div class="card"><span class="admin-note">शीघ्र ही पदाधिकारी जुड़ेंगे।</span></div>`;if(hBox)hBox.innerHTML=m;if(dBox)dBox.innerHTML=m;return}
+ const slides=officersList.map(o=>`<div class="officer-slide"><img src="${esc(o.photo)}" class="officer-img"><div class="officer-info"><span class="officer-role">${esc(o.role)}</span><h3 style="margin:2px 0 4px;font-size:16px">${esc(o.name)}</h3><p style="margin:0;font-size:12px;color:var(--muted)">📞 +91 ${currentUser?esc(o.mobile):"**********"}</p></div></div>`).join("");
  const html=`<div class="officer-slider-container"><div class="officer-track">${slides}</div></div>`;
- if(hBox)hBox.innerHTML=html;if(dBox)dBox.innerHTML=html;
+ if(hBox)hBox.innerHTML=html; if(dBox)dBox.innerHTML=html;
 }
 
-// 🖼️ BANNER SLIDER
 async function fetchBanners(){try{const s=await db.collection("banners").orderBy("createdAt","desc").get();bannersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
 async function renderSliders(){
- await fetchBanners();
- const html=buildSliderHtml();
- ["homeBannerSlider","dashBannerSlider"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html});
- populateBannerDeleteDropdown();
-}
-function buildSliderHtml(){
- if(!bannersList.length)return "";
- const slides=bannersList.map(b=>`<div class="slide" style="background-image:url('${esc(b.imageUrl)}')"><div class="slide-overlay"></div><div class="slide-content">${b.title?`<h4>${esc(b.title)}</h4>`:""}</div></div>`).join("");
- const dots=bannersList.map((_,i)=>`<div class="s-dot ${i===0?'active':''}"></div>`).join("");
- return `<div class="slider-container"><div class="slider-track">${slides}</div><div class="slider-dots">${dots}</div></div>`;
+ await fetchBanners(); const html=bannersList.length?bannersList.map(b=>`<div class="slide" style="background-image:url('${esc(b.imageUrl)}')"><div class="slide-overlay"></div><div class="slide-content"><h4>${esc(b.title||"")}</h4></div></div>`).join(""):"";
+ ["homeBannerSlider","dashBannerSlider"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html?`<div class="slider-container"><div class="slider-track">${html}</div></div>`:""});
 }
 
-function populateBannerDeleteDropdown(){
-  const s = document.getElementById("deleteBannerSelect");
-  if(!s) return;
-  s.innerHTML = `<option value="">बैनर चुनें</option>`;
-  bannersList.forEach((b, i) => { s.innerHTML += `<option value="${esc(b.id)}">${i+1}. ${esc(b.title || 'शीर्षक')}</option>`; });
-}
-
-async function addBanner(){
- const u=adBannerImg.value.trim(),t=adBannerTitle.value.trim();if(!u)return;
- await db.collection("banners").add({imageUrl:u,title:t,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
- adBannerImg.value=adBannerTitle.value="";renderSliders();
- msg("adminMsg","बैनर सफलता से जुड़ गया।","ok");
-}
-
-async function deleteSelectedBanner(){
-  const sel = document.getElementById("deleteBannerSelect");
-  const bId = sel.value;
-  if(!bId) return;
-  await db.collection("banners").doc(bId).delete();
-  msg("adminMsg", "बैनर हटा दिया गया।", "ok");
-  renderSliders();
-}
-
-// 🪪 DIGITAL ID CARD
 function renderDigitalIdCard(u){
  const b=document.getElementById("digitalIdArea");
- if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर <b>डिजिटल पहचान पत्र</b> यहाँ उपलब्ध होगा।</div>`;return}
- b.innerHTML=`
-  <div class="id-card-wrapper" id="idCardExportArea">
-   <div class="id-card">
-    <div class="id-header">
-      <div>
-        <b style="font-size:15px;letter-spacing:-0.3px">🌾 भुईहर जाति समाज</b><br>
-        <small style="color:var(--gold);font-weight:700">डिजिटल सदस्यता पहचान पत्र</small>
-      </div>
-      <span class="pill approved">Verified</span>
-    </div>
-    <div class="chip-graphic"></div>
-    <div class="id-body">
-     <img src="${esc(u.photoUrl||'https://via.placeholder.com/100')}" class="id-photo" alt="Photo" crossorigin="anonymous">
-     <div class="id-details">
-      <h3>${esc(u.fullName)}</h3>
-      <p>🆔 BHU-${esc(u.mobileNumber.slice(-4))} • 📞 ${esc(u.mobileNumber)}</p>
-      <p>📍 ${esc(u.village||"-")}, ${esc(u.district||"-")}</p>
-      <p>🩸 Blood: <b style="color:var(--gold)">${esc(u.bloodGroup||"-")}</b></p>
-     </div>
-    </div>
-   </div>
-  </div>
-  <button class="btn green" onclick="downloadImage('idCardExportArea','Bhuihar_ID_${esc(u.fullName)}')">📥 ID Card फोटो डाउनलोड करें</button>
- `;
+ if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर डिजिटल आईडी उपलब्ध होगी।</div>`;return}
+ b.innerHTML=`<div class="id-card-wrapper" id="idCardExportArea"><div class="id-card"><div class="id-header"><b>🌾 भुईहर जाति समाज</b><span class="pill approved">Verified</span></div><div class="chip-graphic"></div><div class="id-body"><img src="${esc(u.photoUrl||'https://via.placeholder.com/100')}" class="id-photo"><div class="id-details"><h3>${esc(u.fullName)}</h3><p>📞 ${esc(u.mobileNumber)}</p><p>📍 ${esc(u.district||"-")}</p></div></div></div></div><button class="btn green" onclick="downloadImage('idCardExportArea','ID_${esc(u.fullName)}')">📥 डाउनलोड करें</button>`;
 }
 
 async function saveMatrimonial(){
  if(!currentUser){go("login");return}
- const h=matHeight.value.trim(),e=matEducation.value.trim(),o=matOccupation.value.trim(),a=matAbout.value.trim(),g=matGender.value;
- try{
-  await db.collection("matrimonial").doc(currentUser.mobileNumber).set({
-   name:currentUser.fullName,mobileNumber:currentUser.mobileNumber,district:currentUser.district||"",village:currentUser.village||"",
-   gender:g,education:e,occupation:o,height:h,about:a,photoUrl:currentUser.photoUrl||null,status:"active",updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-  },{merge:true});
-  msg("matMsg","बायोडेटा प्रोफाइल सुरक्षित हो गया!","ok");
-  renderBiodataCardPreview({fullName:currentUser.fullName,age:currentUser.age,gender:g,height:h,education:e,occupation:o,district:currentUser.district,village:currentUser.village,mobileNumber:currentUser.mobileNumber,about:a});
-  loadMatrimonial();
- }catch(err){msg("matMsg",err.message,"err")}
+ await db.collection("matrimonial").doc(currentUser.mobileNumber).set({name:currentUser.fullName,mobileNumber:currentUser.mobileNumber,gender:matGender.value,education:matEducation.value,occupation:matOccupation.value,height:matHeight.value,about:matAbout.value,status:"active"},{merge:true});
+ msg("matMsg","बायोडेटा सुरक्षित हुआ!","ok"); loadMatrimonial();
 }
-
-function renderBiodataCardPreview(d){
- const w=document.getElementById("biodataExportWrapper");w.classList.remove("hide");
- document.getElementById("biodataCard").innerHTML=`
-  <h2>🌾 भुईहर समाज - वैवाहिक बायोडेटा 🌾</h2>
-  <div style="display:flex;gap:15px;align-items:center;margin-bottom:12px">
-   <div style="flex:1">
-    <p><b>नाम:</b> ${esc(d.fullName)}</p><p><b>लिंग / आयु:</b> ${esc(d.gender)} • ${esc(d.age||"-")} वर्ष</p>
-    <p><b>ऊंचाई:</b> ${esc(d.height||"-")}</p><p><b>शिक्षा:</b> ${esc(d.education||"-")}</p>
-   </div>
-  </div>
-  <div class="info-row"><span>व्यवसाय / कार्य</span><span>${esc(d.occupation||"-")}</span></div>
-  <div class="info-row"><span>गांव / जिला</span><span>${esc(d.village||"-")} , ${esc(d.district||"-")}</span></div>
-  <div class="info-row"><span>संपर्क मोबाइल</span><span>+91 ${esc(d.mobileNumber)}</span></div>
-  <p style="margin-top:10px;font-size:12px"><b>पारिवारिक विवरण:</b> ${esc(d.about||"-")}</p>
- `;
-}
-function downloadBiodataImage(){downloadImage("biodataCard","Bhuihar_Biodata_"+(currentUser?currentUser.fullName:"card"))}
 
 async function loadMatrimonial(){
- const b = document.getElementById("matList"), formBox = document.getElementById("matForm"), loginNotice = document.getElementById("matLoginNotice");
- if(currentUser){ formBox.classList.remove("hide"); loginNotice.classList.add("hide"); }
- else { formBox.classList.add("hide"); loginNotice.classList.remove("hide"); }
- try{
-  const s = await db.collection("matrimonial").where("status","==","active").get();
-  const isApp = currentUser && currentUser.status === "approved";
-  b.innerHTML = s.empty ? "<div class='card'>कोई प्रोफाइल उपलब्ध नहीं है।</div>" : s.docs.map(d => {
-   const x = d.data();
-   return `
-    <div class="item">
-     <h3>💍 ${esc(x.name)} (${esc(x.gender)})</h3>
-     <p>ऊंचाई: ${esc(x.height||"-")} • शिक्षा: ${esc(x.education||"-")}<br>कार्य: ${esc(x.occupation||"-")} • 📍 ${esc(x.district||"-")}</p>
-     <p>${esc(x.about||"")}</p>
-     <div class="contact-actions" style="margin-top:8px">
-      ${isApp ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-call">📞 Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobileNumber)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर हेतु लॉगिन करें</button>`}
-     </div>
-    </div>`;
-  }).join("");
- }catch(e){b.innerHTML="Error"}
+ const b=document.getElementById("matList");
+ if(currentUser){document.getElementById("matForm").classList.remove("hide");document.getElementById("matLoginNotice").classList.add("hide")}
+ else{document.getElementById("matForm").classList.add("hide");document.getElementById("matLoginNotice").classList.remove("hide")}
+ const s=await db.collection("matrimonial").where("status","==","active").get();
+ b.innerHTML=s.empty?"<div class='card'>कोई प्रोफाइल नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>💍 ${esc(x.name)} (${esc(x.gender)})</h3><p>शिक्षा: ${esc(x.education)} • कार्य: ${esc(x.occupation)}</p><p>${esc(x.about)}</p></div>`}).join("");
 }
 
 function generateDonationReceiptPrompt(){
- const n=prompt("दानदाता का नाम दर्ज करें:", currentUser?currentUser.fullName:"");
- const amt=prompt("सहयोग राशि (₹) दर्ज करें:","501");
+ const n=prompt("नाम:", currentUser?currentUser.fullName:""); const amt=prompt("राशि (₹):","501");
  if(!n||!amt)return;
- const wrapper=document.getElementById("receiptDownloadWrapper");wrapper.classList.remove("hide");
- const rNum="REC-"+Date.now().toString().slice(-6);
- document.getElementById("donationReceiptArea").innerHTML=`
-  <div class="receipt-header">
-   <b style="font-size:16px;color:var(--green)">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
-   <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
-  </div>
-  <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>
-  <div class="info-row"><span>दानदाता का नाम:</span><span>${esc(n)}</span></div>
-  <div class="info-row"><span>सहयोग राशि:</span><span>₹${esc(amt)} /-</span></div>
-  <div style="text-align:right"><span class="receipt-stamp">✓ सत्यापित डिजिटल मुहर</span></div>
- `;
+ document.getElementById("receiptDownloadWrapper").classList.remove("hide");
+ document.getElementById("donationReceiptArea").innerHTML=`<div class="receipt-header"><b>🌾 भुईहर समाज कल्याण कोष</b></div><p>नाम: ${esc(n)} • राशि: ₹${esc(amt)}</p><span class="receipt-stamp">✓ सत्यापित</span>`;
 }
-function downloadReceiptImage(){downloadImage("donationReceiptArea","Bhuihar_Donation_Receipt")}
+function downloadReceiptImage(){downloadImage("donationReceiptArea","Receipt")}
 
 async function loadDonations(){
- const b=document.getElementById("donationList");
- try{
-  const s=await db.collection("donations").orderBy("createdAt","desc").get();
-  let totalFund = 0;
-  b.innerHTML=s.empty?"<div class='item'><h3>रामप्रसाद भुईहर • ₹5,000</h3><p>स्थान: पनियरा</p></div>":s.docs.map(d=>{
-   const x=d.data(); const a = Number(x.amount)||0; totalFund += a;
-   return `<div class="item"><h3>${esc(x.name)} • ₹${esc(a.toLocaleString('en-IN'))}</h3><p>📍 स्थान: ${esc(x.location||"-")}</p></div>`;
-  }).join("");
-  animateCounter("totalDonationFund", totalFund, 1400, "₹", " /-");
- }catch(e){}
+ const b=document.getElementById("donationList"); const s=await db.collection("donations").orderBy("createdAt","desc").get();
+ let total=0; b.innerHTML=s.empty?"<div class='item'><h3>रामप्रसाद • ₹5,000</h3></div>":s.docs.map(d=>{const x=d.data(); total+=Number(x.amount)||0; return `<div class="item"><h3>${esc(x.name)} • ₹${(Number(x.amount)||0).toLocaleString('en-IN')}</h3></div>`}).join("");
+ animateCounter("totalDonationFund", total, 1400, "₹", " /-");
 }
 
 async function votePoll(opt){
- const hasVoted=localStorage.getItem("bhuiharPollVoted");
- if(hasVoted){msg("pollMsg","आप इस विषय पर पहले ही अपना मत दे चुके हैं।","info");return}
+ if(localStorage.getItem("bhuiharPollVoted")){msg("pollMsg","मतदान कर चुके हैं।","info");return}
  await db.collection("polls").doc("annual_convention").set({[opt]:firebase.firestore.FieldValue.increment(1)},{merge:true});
- localStorage.setItem("bhuiharPollVoted","true");
- msg("pollMsg","आपका बहुमूल्य मत दर्ज कर लिया गया है!","ok");
- loadPollStats();
+ localStorage.setItem("bhuiharPollVoted","true"); msg("pollMsg","मत दर्ज हुआ!","ok"); loadPollStats();
 }
 async function loadPollStats(){
  const snap=await db.collection("polls").doc("annual_convention").get();
- if(snap.exists){
-  const d=snap.data();
-  animateCounter("voteYesCount", d.yes||0, 1000);
-  animateCounter("voteNoCount", d.no||0, 1000);
- }
-}
-
-async function loadTalents(){
- const b=document.getElementById("talentList");
- const s=await db.collection("talents").orderBy("createdAt","desc").get();
- b.innerHTML=s.empty?"<div class='card'>अभी कोई प्रविष्टि नहीं है।</div>":s.docs.map(d=>{
-  const x=d.data();return `<div class="item"><h3>🎓 ${esc(x.name)} <span class="pill approved">${esc(x.score)}</span></h3><p>परीक्षा: <b>${esc(x.exam)}</b> • स्थान: ${esc(x.location)}</p></div>`;
- }).join("");
-}
-
-async function loadObituaries(){
- const b=document.getElementById("obituaryList");
- const s=await db.collection("obituaries").orderBy("createdAt","desc").get();
- b.innerHTML=s.empty?"<div class='card'>कोई शोक संदेश नहीं है।</div>":s.docs.map(d=>{
-  const x=d.data();return `<div class="item"><h3>🕊️ स्व. ${esc(x.name)}</h3><p>दिनांक: ${esc(x.date)} • 📍 स्थान: ${esc(x.location)}</p><p style="margin-top:4px">${esc(x.desc)}</p></div>`;
- }).join("");
-}
-
-async function loadGallery(){
- const b=document.getElementById("galleryList");
- const s=await db.collection("gallery").orderBy("createdAt","desc").get();
- b.innerHTML=s.empty?"<div class='card'>गैलरी में जल्द फोटो जोड़े जाएंगे।</div>":s.docs.map(d=>{
-  const x=d.data();return `<div><img src="${esc(x.imageUrl)}" class="gallery-img"><p style="font-size:11px;margin:3px 0">${esc(x.title)}</p></div>`;
- }).join("");
-}
-
-function downloadImage(elemId,filename){
- const el=document.getElementById(elemId);if(!el)return;
- html2canvas(el,{scale:2,useCORS:true}).then(cv=>{
-  const a=document.createElement("a");a.download=filename+".png";a.href=cv.toDataURL("image/png");a.click();
- });
+ if(snap.exists){ const d=snap.data(); animateCounter("voteYesCount", d.yes||0, 1000); animateCounter("voteNoCount", d.no||0, 1000); }
 }
 
 async function completeRegistration(){
- const mob=regMobile.value.trim();if(!mobileOK(mob)){msg("regMsg","सही 10 अंकों का मोबाइल नंबर डालें।","err");return}
- const data={fullName:fullName.value.trim(),mobileNumber:mob,dateOfBirth:dob.value,age:Number(age.value),district:district.value,panchayat:panchayatSelect.value,village:village.value.trim(),occupation:occupation.value,bloodGroup:bloodGroup.value,caste:"Bhuihar",status:"pending",role:"member"};
- const p=mpin.value.trim(),cp=confirmMpin.value.trim();
- if(!data.fullName||!data.dateOfBirth||!data.district||!data.panchayat||!data.occupation||!/^\d{6}$/.test(p)||p!==cp){msg("regMsg","सभी जरूरी फ़ील्ड्स और 6 digit MPIN भरें।","err");return}
- const btn=document.getElementById("completeRegBtn");
- try{
-  btn.disabled=true;regLoader.classList.add("show");
-  const ref=db.collection("users").doc(data.mobileNumber),old=await ref.get();
-  if(old.exists){msg("regMsg","यह मोबाइल पहले से Registered है।","err");return}
-  data.mpinHash=await sha256(p);data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-  const rawFile=photo.files[0];
-  if(rawFile){data.photoUrl=await fileToBase64(rawFile,180,0.65)}
-  await ref.set(data);
-  if(data.bloodGroup)await db.collection("blood").doc(data.mobileNumber).set({name:data.fullName,mobileNumber:data.mobileNumber,bloodGroup:data.bloodGroup,district:data.district,village:data.village,status:"available",updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-  triggerPushToAdminOnly(data.fullName, data.district);
-  msg("regMsg","Registration सफल! समिति सत्यापन बाद लॉगिन करें।","ok");setTimeout(()=>go('login'),2000);
- }catch(e){msg("regMsg",e.message,"err")}
- finally{btn.disabled=false;regLoader.classList.remove("show")}
-}
-
-async function resetUserMpin(){
- const mob=forgotMobile.value.trim(),bDate=forgotDob.value,p=newMpin.value.trim(),cp=confirmNewMpin.value.trim();
- if(!mobileOK(mob)||!bDate){msg("forgotMsg","मोबाइल नंबर और जन्म तिथि भरें।","err");return}
- if(!/^\d{6}$/.test(p)||p!==cp){msg("forgotMsg","सही समान 6 अंकों का नया पिन भरें।","err");return}
- const ref=db.collection("users").doc(mob),snap=await ref.get();
- if(!snap.exists){msg("forgotMsg","नंबर पंजीकृत नहीं है।","err");return}
- if(snap.data().dateOfBirth!==bDate){msg("forgotMsg","जन्म तिथि मेल नहीं खाती।","err");return}
- await ref.update({mpinHash:await sha256(p)});
- msg("forgotMsg","पिन रीसेट हो गया! लॉगिन करें।","ok");setTimeout(()=>go('login'),2000);
-}
-
-async function adminLogin(){
- const email=(adminEmail.value||"").trim().toLowerCase(),password=adminPassword.value||"";
- if(!email||!password){msg("adminLoginMsg","Email और Password भरें।","err");return}
- try{
-  const cred=await auth.signInWithEmailAndPassword(email,password);
-  currentAdmin={uid:cred.user.uid,email:cred.user.email,role:"admin"};
-  sessionStorage.setItem("bhuiharPortalAdmin",JSON.stringify(currentAdmin));
-  go("admin");
- }catch(e){msg("adminLoginMsg",e.message,"err")}
-}
-
-async function adminLogout(){
- currentAdmin=null; sessionStorage.removeItem("bhuiharPortalAdmin");
- await auth.signOut(); go("home");
+ const mob=regMobile.value.trim(); if(!mobileOK(mob)){msg("regMsg","सही मोबाइल नंबर भरें।","err");return}
+ const data={fullName:fullName.value.trim(),mobileNumber:mob,dateOfBirth:dob.value,age:Number(age.value),district:district.value,panchayat:panchayatSelect.value,village:village.value.trim(),occupation:occupation.value,status:"pending"};
+ const p=mpin.value.trim(), cp=confirmMpin.value.trim();
+ if(!data.fullName||!/^\d{6}$/.test(p)||p!==cp){msg("regMsg","सभी फ़ील्ड और 6 digit MPIN भरें।","err");return}
+ data.mpinHash=await sha256(p); data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+ if(photo.files[0]) data.photoUrl = await fileToBase64(photo.files[0], 180, 0.65);
+ await db.collection("users").doc(mob).set(data);
+ msg("regMsg","Registration सफल!","ok"); setTimeout(()=>go('login'),2000);
 }
 
 async function login(){
- const m=loginMobile.value.trim(),p=loginMpin.value.trim();
- if(!mobileOK(m)||!/^\d{6}$/.test(p)){msg("loginMsg","सही Mobile और 6 digit MPIN डालें।","err");return}
+ const m=loginMobile.value.trim(), p=loginMpin.value.trim();
  const s=await db.collection("users").doc(m).get();
- if(!s.exists){msg("loginMsg","User Not Registered","err");return}
+ if(!s.exists){msg("loginMsg","यूजर पंजीकृत नहीं है।","err");return}
  const u=s.data();
  if(u.mpinHash!==await sha256(p)){msg("loginMsg","गलत MPIN","err");return}
- if(u.status==="blocked"){msg("loginMsg","खाता ब्लॉक कर दिया गया है।","err");return}
- if(u.status!=="approved"){msg("loginMsg","खाता Admin Approval Pending है।","err");return}
- currentUser=u;localStorage.setItem("bhuiharPortalUser",JSON.stringify(u));go("dashboard");
+ if(u.status!=="approved"){msg("loginMsg","खाता पेंडिंग है।","err");return}
+ currentUser=u; localStorage.setItem("bhuiharPortalUser",JSON.stringify(u)); go("dashboard");
 }
 function logout(){localStorage.removeItem("bhuiharPortalUser");currentUser=null;go("home")}
 
 async function loadDashboard(){
  if(!currentUser)return;
- const s=await db.collection("users").doc(currentUser.mobileNumber).get();
- if(s.exists){currentUser=s.data();localStorage.setItem("bhuiharPortalUser",JSON.stringify(currentUser))}
- dashName.textContent=currentUser.fullName;dashMobile.textContent="+91 "+currentUser.mobileNumber;
- statusPill.textContent=currentUser.status==="approved"?"Approved":"Pending";
- statusPill.className="pill "+(currentUser.status==="approved"?"approved":"pending");
- pendingBanner.classList.toggle("hide",currentUser.status==="approved");
+ dashName.textContent=currentUser.fullName; dashMobile.textContent="+91 "+currentUser.mobileNumber;
+ statusPill.textContent=currentUser.status.toUpperCase(); statusPill.className="pill approved";
+ pendingBanner.classList.add("hide");
  if(currentUser.photoUrl)avatar.innerHTML="<img src='"+esc(currentUser.photoUrl)+"'>";
  adminShortcut.classList.toggle("hide",currentUser.role!=="admin");
 }
 
-async function loadProfile(){if(!currentUser)return;renderDigitalIdCard(currentUser);profileCard.innerHTML=`<div class="info-row"><span>मोबाइल</span><span>${esc(currentUser.mobileNumber)}</span></div><div class="info-row"><span>उम्र</span><span>${esc(currentUser.age)} वर्ष</span></div><div class="info-row"><span>स्थान</span><span>${esc(currentUser.village||"-")}, ${esc(currentUser.district||"-")}</span></div><div class="info-row"><span>व्यवसाय</span><span>${esc(currentUser.occupation||"-")}</span></div><div class="info-row"><span>रक्त समूह</span><span>${esc(currentUser.bloodGroup||"-")}</span></div>`}
+async function loadProfile(){if(!currentUser)return;renderDigitalIdCard(currentUser);profileCard.innerHTML=`<div class="info-row"><span>मोबाइल</span><span>${esc(currentUser.mobileNumber)}</span></div><div class="info-row"><span>उम्र</span><span>${esc(currentUser.age)} वर्ष</span></div>`}
 
 async function loadBlood(){
- bloodList.innerHTML="<div class='card'>Loading…</div>";const f=bloodFilter.value;
- const s=await db.collection("blood").get();let a=s.docs.map(d=>d.data()).filter(x=>!f||x.bloodGroup===f);
- bloodList.innerHTML=a.length?a.map(x=>`<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.mobileNumber)}" class="btn-emergency">🚨 Emergency Call</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.mobileNumber)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 नंबर देखने हेतु लॉगिन करें</button>`}</div></div>`).join(""):"<div class='card'>कोई Blood Profile नहीं मिला।</div>";
+ const s=await db.collection("blood").get();
+ bloodList.innerHTML=s.empty?"<div class='card'>कोई डेटा नहीं</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>🩸 ${esc(x.bloodGroup)} • ${esc(x.name)}</h3><p>📍 ${esc(x.district)}</p></div>`}).join("");
 }
 
 async function loadJobs(){
- const b=document.getElementById("jobsList");
  const s=await db.collection("jobs").orderBy("createdAt","desc").get();
- b.innerHTML=s.empty?"<div class='card'>कोई नौकरी उपलब्ध नहीं है।</div>":s.docs.map(d=>{
-  const x=d.data();
-  return `<div class="item"><h3>💼 ${esc(x.title)}</h3><p>वेतन: ${esc(x.salary)} • स्थान: ${esc(x.location)}</p><p>${esc(x.desc||"")}</p><div class="contact-actions">${currentUser ? `<a href="tel:${esc(x.contact)}" class="btn-call">📞 Call</a>` : `<button class="btn small" onclick="go('login')">🔒 लॉगिन करें</button>`}</div></div>`;
- }).join("");
+ jobsList.innerHTML=s.empty?"<div class='card'>कोई नौकरी नहीं</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>💼 ${esc(x.title)}</h3><p>वेतन: ${esc(x.salary)}</p></div>`}).join("");
 }
 
 async function loadBusiness(){
- const b=document.getElementById("businessList");
  const s=await db.collection("businesses").orderBy("createdAt","desc").get();
- b.innerHTML=s.empty?"<div class='card'>कोई दुकान नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>🏪 ${esc(x.name)} (${esc(x.category)})</h3><p>📍 ${esc(x.address)}</p><p>${esc(x.desc||"")}</p></div>`}).join("");
+ businessList.innerHTML=s.empty?"<div class='card'>कोई दुकान नहीं</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>🏪 ${esc(x.name)}</h3><p>${esc(x.category)}</p></div>`}).join("");
 }
 
 async function submitSupportTicket(){
- const s=suppSubject.value.trim(),d=suppDetails.value.trim();
- if(!s||!d){msg("suppMsg","विषय व विवरण भरें।","err");return}
+ const s=suppSubject.value.trim(),d=suppDetails.value.trim(); if(!s||!d)return;
  await db.collection("support_tickets").add({mobile:currentUser.mobileNumber,name:currentUser.fullName,subject:s,details:d,status:"open",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
- suppSubject.value=suppDetails.value="";msg("suppMsg","अर्जी भेजी गई।","ok");loadUserTickets();
+ suppSubject.value=suppDetails.value=""; msg("suppMsg","अर्जी भेजी गई।","ok"); loadUserTickets();
 }
 
 async function loadUserTickets(){
- const b=document.getElementById("supportTicketsList");if(!currentUser)return;
+ const b=document.getElementById("supportTicketsList"); if(!currentUser)return;
  const s=await db.collection("support_tickets").where("mobile","==",currentUser.mobileNumber).get();
- b.innerHTML=s.empty?"<div class='card'>कोई अर्जी दर्ज नहीं है।</div>":s.docs.map(d=>{
-  const x=d.data(); const isRes = x.status === "resolved";
-  return `<div class="item"><div style="display:flex;justify-content:space-between;align-items:center"><h3>📌 ${esc(x.subject)}</h3><span class="pill ${isRes?'approved':'pending'}">${isRes?'Resolved':'Pending'}</span></div><p>${esc(x.details)}</p></div>`
- }).join("");
-}
-
-async function fetchDistricts(){
- try{const s=await db.collection("locations").get();s.docs.forEach(d=>{districtsData[d.id]=d.data().panchayats||[]})}catch(e){}
- if(!Object.keys(districtsData).length){districtsData={"महाराजगंज":["पनियरा","घुघली","परतावल","सिसवा","नौतनवा","सदर"]}}
-}
-async function loadDistrictsToForm(){
- await fetchDistricts();const s=document.getElementById("district");s.innerHTML=`<option value="">जिला चुनें</option>`;
- Object.keys(districtsData).forEach(d=>{s.innerHTML+=`<option value="${esc(d)}">${esc(d)}</option>`});
-}
-function onDistrictChange(){
- const d=district.value,p=panchayatSelect;p.innerHTML=`<option value="">पंचायत चुनें</option>`;
- if(d&&districtsData[d])districtsData[d].forEach(x=>{p.innerHTML+=`<option value="${esc(x)}">${esc(x)}</option>`});
+ b.innerHTML=s.empty?"<div class='card'>कोई अर्जी नहीं</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><h3>📌 ${esc(x.subject)}</h3><p>${esc(x.details)}</p></div>`}).join("");
 }
 
 async function searchMembers(){
- const b=memberResults,q=(memberSearch?.value||"").trim().toLowerCase();
+ const q=(memberSearch?.value||"").trim().toLowerCase();
  const s=await db.collection("users").where("status","==","approved").get();
- const a=s.docs.map(d=>d.data()).filter(x=>[x.fullName,x.district,x.panchayat,x.village].join(" ").toLowerCase().includes(q));
- b.innerHTML=a.length?a.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📍 ${esc(x.district||"-")} • ${esc(x.village||"-")}<br>कार्य: ${esc(x.occupation||"-")}</p></div>`).join(""):"<div class='card'>कोई सदस्य नहीं मिला।</div>";
+ const a=s.docs.map(d=>d.data()).filter(x=>[x.fullName,x.district].join(" ").toLowerCase().includes(q));
+ memberResults.innerHTML=a.length?a.map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><p>📍 ${esc(x.district)}</p></div>`).join(""):"<div class='card'>कोई नहीं मिला।</div>";
 }
 
 async function loadAdmin(){
-  if(!currentAdmin) return;
-  const s = await db.collection("users").get();
-  const a = s.docs.map(d => ({ id: d.id, ...d.data() }));
-  animateCounter("adTotal", a.length, 1000);
-  animateCounter("adPending", a.filter(x => x.status === "pending").length, 1000);
-  animateCounter("adApproved", a.filter(x => x.status === "approved").length, 1000);
-  animateCounter("adBlocked", a.filter(x => x.status === "blocked").length, 1000);
-
-  const p = a.filter(x => x.status === "pending");
-  pendingList.innerHTML = p.length ? p.map(x => `
-    <div class="item"><h3>${esc(x.fullName)}</h3><p>📞 ${esc(x.mobileNumber)}</p>
-    <button class="btn small green" onclick="setStatus('${esc(x.mobileNumber)}','approved')">Approve</button></div>
-  `).join("") : "<div class='card'>कोई पेंडिंग सदस्य नहीं है।</div>";
+ if(!currentAdmin)return;
+ const s=await db.collection("users").get(); const a=s.docs.map(d=>({id:d.id,...d.data()}));
+ animateCounter("adTotal", a.length, 1000); animateCounter("adPending", a.filter(x=>x.status==="pending").length, 1000);
+ pendingList.innerHTML=a.filter(x=>x.status==="pending").map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><button class="btn small green" onclick="db.collection('users').doc('${x.mobileNumber}').update({status:'approved'}).then(loadAdmin)">Approve</button></div>`).join("")||"<div class='card'>पेंडिंग नहीं है।</div>";
 }
 
-async function setStatus(m,st){await db.collection("users").doc(m).update({status:st});loadAdmin()}
-
-async function postNotice(){
-  if(!noticeTitle.value.trim()) return;
-  const t = noticeTitle.value.trim(), tx = noticeText.value.trim();
-  await db.collection("notices").add({ title: t, text: tx, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-  triggerPushToAllUsers("📢 भुईहर समाज महत्वपूर्ण सूचना", t);
-  noticeTitle.value = noticeText.value = ""; loadNotices();
-  msg("adminMsg", "सूचना प्रकाशित हुई!", "ok");
-}
-
-// 📢 48 घंटे 'NEW' टैग लॉजिक के साथ नोटिस लोड करना
 async function loadNotices(){
-  const s = await db.collection("notices").orderBy("createdAt", "desc").get();
-  const now = new Date().getTime();
-  noticeList.innerHTML = s.empty ? "<div class='card'>कोई सूचना नहीं है।</div>" : s.docs.map(d => {
-    const x = d.data();
-    const postTime = x.createdAt ? x.createdAt.toDate().getTime() : now;
-    const isNew = (now - postTime) <= (48 * 60 * 60 * 1000);
-    return `
-      <div class="card" style="position:relative">
-        ${isNew ? '<span class="pill" style="background:#ef4444;color:#fff;position:absolute;top:14px;right:14px">NEW</span>' : ''}
-        <h3 style="margin-right:50px">📢 ${esc(x.title)}</h3>
-        <p class="admin-note">${esc(x.text)}</p>
-      </div>`;
-  }).join("");
+ const s=await db.collection("notices").orderBy("createdAt","desc").get(); const now=new Date().getTime();
+ noticeList.innerHTML=s.empty?"<div class='card'>सूचना नहीं है।</div>":s.docs.map(d=>{
+  const x=d.data(); const isNew=(now - (x.createdAt?x.createdAt.toDate().getTime():now)) <= (48*60*60*1000);
+  return `<div class="card" style="position:relative">${isNew?'<span class="pill" style="background:#ef4444;color:#fff;position:absolute;top:14px;right:14px">NEW</span>':''}<h3 style="margin-right:50px">📢 ${esc(x.title)}</h3><p class="admin-note">${esc(x.text)}</p></div>`;
+ }).join("");
 }
 
 async function loadStats(){
-  const [u, f] = await Promise.all([db.collection("users").get(), db.collection("families").get()]);
-  animateCounter("stMembers", u.size, 1200);
-  animateCounter("stFamilies", f.size, 1400);
-  animateCounter("stApproved", u.docs.filter(d => d.data().status === "approved").length, 1200);
+ const [u, f]=await Promise.all([db.collection("users").get(), db.collection("families").get()]);
+ animateCounter("stMembers", u.size, 1200); animateCounter("stFamilies", f.size, 1400);
+ animateCounter("stApproved", u.docs.filter(d=>d.data().status==="approved").length, 1200);
 }
 
-loadStats(); loadNotices(); renderSliders(); renderOfficersSlider(); fetchDistricts();
+loadStats(); loadNotices(); renderSliders(); renderOfficersSlider();
 </script>
 </body>
 </html>

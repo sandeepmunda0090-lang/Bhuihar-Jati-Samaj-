@@ -7,10 +7,8 @@
 <title>भुईहर जाति समाज | महाराजगंज</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--red:#d93025;--shadow:0 10px 28px rgba(20,42,72,.09)}
-body.dark-mode{--p:#2d8deb;--p2:#106ebd;--navy:#06182e;--gold:#f6c95b;--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#94a3b8;--line:#334155;--shadow:0 10px 28px rgba(0,0,0,.4)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text);transition:background 0.3s}
-body.dark-mode{background:#0a0f1d}
+body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15)}
 
 /* 3D पॉप-अप और पेज-टर्न एनिमेशन */
@@ -28,19 +26,19 @@ body.dark-mode{background:#0a0f1d}
 .exit-card{background:var(--card);width:100%;max-width:340px;border-radius:24px;padding:24px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.3);border:1px solid var(--line);animation:modalPop 0.3s ease}
 @keyframes modalPop{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
 
-.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:28px 20px 38px;border-radius:0 0 32px 32px;position:relative}
-.brand{display:flex;align-items:center;gap:13px}.logo{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:31px;box-shadow:0 8px 20px rgba(0,0,0,.18)}.brand h1{margin:0;font-size:23px}.brand p{margin:4px 0 0;font-size:12px;opacity:.82}
-.hero-title{font-size:26px;line-height:1.25;margin:24px 0 8px;font-weight:800}.hero-sub{font-size:13px;line-height:1.6;opacity:.88}.container{padding:16px}
+/* नीली पट्टी को छोटा और कॉम्पैक्ट किया गया है ताकि डैशबोर्ड के लिए जगह ज्यादा मिले */
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px 24px;border-radius:0 0 24px 24px;position:relative}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 6px 15px rgba(0,0,0,.15)}.brand h1{margin:0;font-size:20px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.hero-title{font-size:20px;line-height:1.2;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:12px;line-height:1.4;opacity:.88}.container{padding:14px}
 
 /* टॉप-राइट कॉर्नर क्विक प्रोफाइल / अवतार शॉर्टकट */
-.top-right-bar{position:absolute;top:20px;right:20px;display:flex;gap:8px;align-items:center;z-index:10}
-.theme-toggle{background:rgba(255,255,255,0.2);border:0;color:#fff;font-size:18px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
-.top-profile-btn{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 12px;border-radius:20px;font:700 12px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+.top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:8px;align-items:center;z-index:10}
+.top-profile-btn{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:5px 10px;border-radius:20px;font:700 12px inherit;cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-decoration:none}
 
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2,.card h3{margin:0 0 10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.section-title h2{font-size:18px;margin:0}
-.btn{border:0;border-radius:14px;padding:14px 16px;width:100%;font:700 15px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:9px;box-shadow:0 7px 15px rgba(7,87,163,.18)}.btn.secondary{background:#eaf3ff;color:var(--p);box-shadow:none}.btn.green{background:linear-gradient(135deg,#128047,#21aa62)}.btn.red{background:#e53935}.btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}.btn.small{width:auto;padding:8px 12px;font-size:12px;margin:0}.btn.link{background:none;box-shadow:none;color:var(--p);padding:8px 0;margin:6px 0 0;font-size:13px}
-.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 6px}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:13px;padding:13px;font:inherit;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,87,163,.11)}textarea{min-height:85px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.notice{background:#eef6ff;color:#164b80;border:1px solid #d6e9ff;border-radius:14px;padding:12px;font-size:13px;line-height:1.5}.msg{display:none;padding:11px 12px;border-radius:12px;font-size:13px;margin:10px 0}.msg.show{display:block}.msg.ok{background:#ddf7e8;color:#116338}.msg.err{background:#ffe5e3;color:#a5231d}.msg.info{background:#eaf3ff;color:#164b80}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.card h2,.card h3{margin:0 0 10px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 8px}.section-title h2{font-size:17px;margin:0}
+.btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 15px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:8px;box-shadow:0 6px 14px rgba(7,87,163,.18)}.btn.secondary{background:#eaf3ff;color:var(--p);box-shadow:none}.btn.green{background:linear-gradient(135deg,#128047,#21aa62)}.btn.red{background:#e53935}.btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}.btn.small{width:auto;padding:8px 12px;font-size:12px;margin:0}.btn.link{background:none;box-shadow:none;color:var(--p);padding:6px 0;margin:4px 0 0;font-size:13px}
+.field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 5px}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:11px;font:inherit;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,87,163,.11)}textarea{min-height:80px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.notice{background:#eef6ff;color:#164b80;border:1px solid #d6e9ff;border-radius:14px;padding:12px;font-size:13px;line-height:1.5}.msg{display:none;padding:10px 12px;border-radius:12px;font-size:13px;margin:8px 0}.msg.show{display:block}.msg.ok{background:#ddf7e8;color:#116338}.msg.err{background:#ffe5e3;color:#a5231d}.msg.info{background:#eaf3ff;color:#164b80}
 
 /* पैक्ड और सेंटर एलाइन कैटेगरी हेडर (बैक बटन हटाया गया) */
 .topbar{padding:12px 16px;background:linear-gradient(135deg,var(--navy),var(--p));color:#fff;display:flex;align-items:center;justify-content:center;text-align:center}
@@ -48,76 +46,76 @@ body.dark-mode{background:#0a0f1d}
 .topbar p{display:none}
 
 /* 🎯 मुख्य सेवाएं आइकॉन सेंटर अलाइनमेंट और 3D बाउंसिंग */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.action{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 12px;cursor:pointer;text-align:center;box-shadow:var(--shadow);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;cursor:pointer;text-align:center;box-shadow:var(--shadow);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .action:active{transform:scale(0.97)}
-.action .ic{width:64px;height:64px;border-radius:18px;background:rgba(7,87,163,0.08);display:grid;place-items:center;font-size:32px;margin-bottom:10px;animation:ballBounce 2s infinite ease-in-out}
-@keyframes ballBounce {0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.08); }}
-.action b{display:block;font-size:13.5px;font-weight:800}
-.action span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
+.action .ic{width:56px;height:56px;border-radius:16px;background:rgba(7,87,163,0.08);display:grid;place-items:center;font-size:28px;margin-bottom:8px;animation:ballBounce 2s infinite ease-in-out}
+@keyframes ballBounce {0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.06); }}
+.action b{display:block;font-size:13px;font-weight:800}
+.action span{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stats.grid4{grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 6px;text-align:center}.stat b{display:block;font-size:22px;color:var(--p)}.stat span{font-size:11px;color:var(--muted)}
-.profile-head{background:linear-gradient(145deg,var(--card),#edf6ff);border-radius:22px;padding:17px;display:flex;gap:13px;align-items:center}.avatar{width:64px;height:64px;border-radius:22px;background:#dbeeff;display:grid;place-items:center;font-size:31px;overflow:hidden;flex:none}.avatar img{width:100%;height:100%;object-fit:cover}.profile-head h2{font-size:20px;margin:0 0 5px}.profile-head p{font-size:12px;color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats.grid4{grid-template-columns:repeat(4,1fr);gap:6px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}.stat b{display:block;font-size:20px;color:var(--p)}.stat span{font-size:11px;color:var(--muted)}
+.profile-head{background:linear-gradient(145deg,var(--card),#edf6ff);border-radius:20px;padding:15px;display:flex;gap:12px;align-items:center}.avatar{width:58px;height:58px;border-radius:18px;background:#dbeeff;display:grid;place-items:center;font-size:28px;overflow:hidden;flex:none}.avatar img{width:100%;height:100%;object-fit:cover}.profile-head h2{font-size:18px;margin:0 0 4px}.profile-head p{font-size:12px;color:var(--muted);margin:0}
 .pill{display:inline-block;padding:4px 9px;border-radius:99px;font-size:11px;font-weight:800}.approved{background:#dcfce7;color:#166534}.pending{background:#fef3c7;color:#92400e}.rejected,.blocked{background:#fee2e2;color:#991b1b}
-.info-row{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}.info-row:last-child{border-bottom:0}.info-row span:first-child{color:var(--muted)}.info-row span:last-child{font-weight:700;text-align:right}
-.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}.item h3{font-size:15px;margin:0 0 5px}.item p{font-size:12px;color:var(--muted);margin:4px 0;line-height:1.5}
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:7px 3px}.nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:6px 2px;cursor:pointer}.nav b{display:block;font-size:19px}.nav button.active{color:var(--p);font-weight:800}
-.banner{border-radius:20px;padding:18px;background:linear-gradient(135deg,#f9d982,#eaa42a);color:#4b3200;margin-bottom:14px}.banner h3{margin:0 0 6px}.banner p{font-size:12px;margin:0;line-height:1.5}
-.hide{display:none!important}.loader{display:none;text-align:center;padding:13px;font-size:13px;color:var(--p);font-weight:700}.loader.show{display:block}.searchbar{position:sticky;top:0;background:var(--bg);padding-bottom:8px;z-index:2}.admin-note{font-size:11px;color:var(--muted);line-height:1.5}
+.info-row{display:flex;justify-content:space-between;gap:15px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.info-row:last-child{border-bottom:0}.info-row span:first-child{color:var(--muted)}.info-row span:last-child{font-weight:700;text-align:right}
+.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}.item h3{font-size:14.5px;margin:0 0 4px}.item p{font-size:12px;color:var(--muted);margin:3px 0;line-height:1.4}
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}.nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:5px 2px;cursor:pointer}.nav b{display:block;font-size:18px}.nav button.active{color:var(--p);font-weight:800}
+.banner{border-radius:18px;padding:14px;background:linear-gradient(135deg,#f9d982,#eaa42a);color:#4b3200;margin-bottom:12px}.banner h3{margin:0 0 4px;font-size:15px}.banner p{font-size:12px;margin:0;line-height:1.4}
+.hide{display:none!important}.loader{display:none;text-align:center;padding:12px;font-size:13px;color:var(--p);font-weight:700}.loader.show{display:block}.searchbar{position:sticky;top:0;background:var(--bg);padding-bottom:6px;z-index:2}.admin-note{font-size:11px;color:var(--muted);line-height:1.4}
 
 /* Sliders */
-.slider-container{position:relative;width:100%;height:170px;overflow:hidden;border-radius:18px;margin-bottom:15px;background:#1e293b;box-shadow:var(--shadow);touch-action:pan-y}
+.slider-container{position:relative;width:100%;height:150px;overflow:hidden;border-radius:16px;margin-bottom:12px;background:#1e293b;box-shadow:var(--shadow);touch-action:pan-y}
 .slider-track{display:flex;transition:transform 0.4s ease-out;height:100%}
-.slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:15px;user-select:none}
+.slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;user-select:none}
 .slide-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.1) 60%)}
 .slide-content{position:relative;z-index:2;color:#fff}
-.slide-content h4{margin:0 0 4px;font-size:16px}
-.slide-content p{margin:0;font-size:12px;opacity:0.9}
-.slider-dots{position:absolute;bottom:8px;right:12px;display:flex;gap:5px;z-index:3}
-.s-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer}
-.s-dot.active{background:#fff;width:16px;border-radius:4px}
+.slide-content h4{margin:0 0 3px;font-size:15px}
+.slide-content p{margin:0;font-size:11.5px;opacity:0.9}
+.slider-dots{position:absolute;bottom:6px;right:10px;display:flex;gap:4px;z-index:3}
+.s-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer}
+.s-dot.active{background:#fff;width:14px;border-radius:3px}
 
-.officer-slider-container{position:relative;width:100%;overflow:hidden;border-radius:18px;background:var(--card);border:1px solid var(--line);padding:14px;margin-bottom:15px;box-shadow:var(--shadow);touch-action:pan-y}
+.officer-slider-container{position:relative;width:100%;overflow:hidden;border-radius:16px;background:var(--card);border:1px solid var(--line);padding:12px;margin-bottom:12px;box-shadow:var(--shadow);touch-action:pan-y}
 .officer-track{display:flex;transition:transform 0.4s ease-out}
-.officer-slide{min-width:100%;display:flex;gap:14px;align-items:center;user-select:none}
-.officer-img{width:75px;height:75px;border-radius:50%;object-fit:cover;border:3px solid var(--p);flex:none;background:#eef6ff}
+.officer-slide{min-width:100%;display:flex;gap:12px;align-items:center;user-select:none}
+.officer-img{width:68px;height:68px;border-radius:50%;object-fit:cover;border:2.5px solid var(--p);flex:none;background:#eef6ff}
 .officer-info{flex:1}
-.officer-role{background:#fef3c7;color:#92400e;font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:4px}
+.officer-role{background:#fef3c7;color:#92400e;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;display:inline-block;margin-bottom:3px}
 
 /* Contact Actions */
-.contact-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.btn-call{background:#2563eb;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
-.btn-emergency{background:#dc2626;color:#fff;text-decoration:none;border-radius:8px;padding:7px 14px;font-size:13px;display:inline-flex;align-items:center;gap:5px;font-weight:800}
-.btn-wa{background:#16a34a;color:#fff;text-decoration:none;border-radius:8px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.contact-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.btn-call{background:#2563eb;color:#fff;text-decoration:none;border-radius:7px;padding:5px 10px;font-size:11.5px;display:inline-flex;align-items:center;gap:3px;font-weight:700}
+.btn-emergency{background:#dc2626;color:#fff;text-decoration:none;border-radius:7px;padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:4px;font-weight:800}
+.btn-wa{background:#16a34a;color:#fff;text-decoration:none;border-radius:7px;padding:5px 10px;font-size:11.5px;display:inline-flex;align-items:center;gap:3px;font-weight:700}
 
 /* Digital ID Card */
-.id-card-wrapper{background:#0b5cab;padding:12px;border-radius:24px;box-shadow:0 12px 30px rgba(7,87,163,.25);margin-bottom:14px}
-.id-card{background:linear-gradient(135deg,#0757a3,#0d7bd3);color:#fff;border-radius:18px;padding:18px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.2)}
-.id-card::after{content:'🌾 भुईहर';position:absolute;right:-15px;bottom:-10px;font-size:60px;opacity:0.12;font-weight:900;pointer-events:none}
-.id-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:10px;margin-bottom:12px}
-.id-body{display:flex;gap:15px;align-items:center}
-.id-photo{width:75px;height:75px;border-radius:14px;background:#fff;object-fit:cover;border:2px solid #fff}
-.id-details h3{margin:0 0 4px;font-size:17px}
-.id-details p{margin:2px 0;font-size:12px;opacity:0.95}
+.id-card-wrapper{background:#0b5cab;padding:10px;border-radius:20px;box-shadow:0 10px 25px rgba(7,87,163,.2);margin-bottom:12px}
+.id-card{background:linear-gradient(135deg,#0757a3,#0d7bd3);color:#fff;border-radius:16px;padding:15px;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.2)}
+.id-card::after{content:'🌾 भुईहर';position:absolute;right:-12px;bottom:-8px;font-size:55px;opacity:0.12;font-weight:900;pointer-events:none}
+.id-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:8px;margin-bottom:10px}
+.id-body{display:flex;gap:12px;align-items:center}
+.id-photo{width:68px;height:68px;border-radius:12px;background:#fff;object-fit:cover;border:2px solid #fff}
+.id-details h3{margin:0 0 3px;font-size:16px}
+.id-details p{margin:2px 0;font-size:11.5px;opacity:0.95}
 
 /* Biodata Card Styling */
-.biodata-card{background:#fff;color:#152238;border:2px solid #0757a3;border-radius:16px;padding:18px;margin-bottom:14px;position:relative}
-.biodata-card h2{text-align:center;color:#0757a3;border-bottom:2px dashed #0757a3;padding-bottom:8px;margin:0 0 12px;font-size:18px}
+.biodata-card{background:#fff;color:#152238;border:2px solid #0757a3;border-radius:16px;padding:16px;margin-bottom:12px;position:relative}
+.biodata-card h2{text-align:center;color:#0757a3;border-bottom:2px dashed #0757a3;padding-bottom:7px;margin:0 0 10px;font-size:17px}
 
 /* Donation Receipt Styling */
-.receipt-box{background:#fff;color:#111;border:2px solid #168c50;border-radius:16px;padding:18px;margin-bottom:14px;position:relative}
-.receipt-header{text-align:center;border-bottom:2px solid #168c50;padding-bottom:10px;margin-bottom:12px}
-.receipt-stamp{border:2px solid #168c50;color:#168c50;padding:4px 8px;display:inline-block;border-radius:6px;font-weight:800;font-size:11px;transform:rotate(-5deg);margin-top:8px}
+.receipt-box{background:#fff;color:#111;border:2px solid #168c50;border-radius:16px;padding:16px;margin-bottom:12px;position:relative}
+.receipt-header{text-align:center;border-bottom:2px solid #168c50;padding-bottom:8px;margin-bottom:10px}
+.receipt-stamp{border:2px solid #168c50;color:#168c50;padding:3px 7px;display:inline-block;border-radius:5px;font-weight:800;font-size:11px;transform:rotate(-5deg);margin-top:6px}
 
 /* Gallery Grid */
-.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.gallery-img{width:100%;height:130px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.gallery-img{width:100%;height:120px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
 
 /* Poll Progress Bars */
-.poll-result-bar{background:var(--line);border-radius:8px;overflow:hidden;height:12px;margin:6px 0 12px}
+.poll-result-bar{background:var(--line);border-radius:6px;overflow:hidden;height:10px;margin:5px 0 10px}
 .poll-fill{background:var(--p);height:100%;width:0%;transition:width 0.5s ease}
 
-@media(max-width:360px){.grid2{grid-template-columns:1fr}.brand h1{font-size:20px}}
+@media(max-width:360px){.grid2{grid-template-columns:1fr}.brand h1{font-size:18px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -133,10 +131,10 @@ body.dark-mode{background:#0a0f1d}
 <!-- 🚪 एग्जिट कन्फर्मेशन पॉपअप मोडल -->
 <div id="exit-modal">
   <div class="exit-card">
-    <div style="font-size:36px;margin-bottom:8px">🚪</div>
-    <h3 style="margin:0 0 6px;font-size:18px;font-weight:800">क्या आप ऐप से बाहर निकलना चाहते हैं?</h3>
-    <p style="font-size:13px;color:var(--muted);margin:0 0 16px">प्रेस 'हाँ' to exit application.</p>
-    <div style="display:flex;gap:10px">
+    <div style="font-size:32px;margin-bottom:6px">🚪</div>
+    <h3 style="margin:0 0 5px;font-size:17px;font-weight:800">क्या आप ऐप से बाहर निकलना चाहते हैं?</h3>
+    <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px">प्रेस 'हाँ' to exit application.</p>
+    <div style="display:flex;gap:8px">
       <button class="btn secondary" style="margin:0" onclick="closeExitModal()">नहीं (Cancel)</button>
       <button class="btn red" style="margin:0" onclick="confirmExitApp()">हाँ, बाहर निकलें</button>
     </div>
@@ -153,21 +151,20 @@ body.dark-mode{background:#0a0f1d}
   <div class="hero">
     <!-- टॉप-राइट कॉर्नर क्विक प्रोफाइल / अवतार शॉर्टकट -->
     <div class="top-right-bar">
-      <button class="theme-toggle" onclick="toggleTheme()" title="डार्क/लाइट मोड">🌓</button>
       <a href="javascript:void(0)" id="topAuthBtn" class="top-profile-btn" onclick="handleTopAuthClick()">👤 लॉगिन</a>
     </div>
 
     <div class="brand"><div class="logo">🌾</div><div><h1>भुईहर जाति समाज</h1><p>महाराजगंज • समाजिक संपर्क एवं सेवा पोर्टल</p></div></div>
-    <div class="hero-title">समाज को जोड़ें,<br>परिवार को डिजिटल बनाएं।</div>
+    <div class="hero-title">समाज को जोड़ें, परिवार को डिजिटल बनाएं।</div>
     <div class="hero-sub">सदस्य पंजीकरण, डिजिटल आईडी कार्ड, आपातकालीन रक्त, बायोडेटा, रोजगार व समाज कोष।</div>
-    <button class="btn" onclick="go('register')">✨ नया सदस्य बनें</button>
+    <button class="btn" style="margin-top:10px" onclick="go('register')">✨ नया सदस्य बनें</button>
   </div>
   <div class="container">
     
     <!-- 📜 दैनिक सुविचार या समाज का इतिहास -->
     <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#bfdbfe;color:#1e40af">
-      <h3 style="margin:0 0 4px;font-size:14px">📜 समाज विरासत सुविचार</h3>
-      <p style="margin:0;font-size:12px;line-height:1.5">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
+      <h3 style="margin:0 0 4px;font-size:13.5px">📜 समाज विरासत सुविचार</h3>
+      <p style="margin:0;font-size:11.5px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
     </div>
 
     <div id="homeBannerSlider"></div>
@@ -184,7 +181,7 @@ body.dark-mode{background:#0a0f1d}
     <!-- WhatsApp Share Invite Banner -->
     <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;display:flex;align-items:center;justify-content:space-between;gap:10px">
       <div>
-        <b style="color:#166534;font-size:14px">📲 समाज से जुड़ें और जोड़ें</b>
+        <b style="color:#166534;font-size:13.5px">📲 समाज से जुड़ें और जोड़ें</b>
         <p style="margin:2px 0 0;font-size:11px;color:#15803d">यह पोर्टल अपने परिवार व WhatsApp ग्रुपों में भेजें</p>
       </div>
       <button class="btn small green" onclick="sharePortalWhatsApp()">शेयर करें</button>
@@ -775,7 +772,7 @@ window.addEventListener("popstate", function(event){
     let prevPage = pageHistory[pageHistory.length - 1]; // पिछला पेज प्राप्त करें
     go(prevPage, true);
   } else {
-    // अगर होमपेज पर हैं और फिर से बैक दबाया, तो एग्जिट पॉपअप दिखाएं
+    // यदि होमपेज पर हैं और बैक दबाया, तो एग्जिट पॉपअप दिखाएं
     document.getElementById("exit-modal").classList.add("show");
     history.pushState({ pageId: "home" }, "", "#home");
   }
@@ -792,14 +789,6 @@ function confirmExitApp(){
     window.close();
   }
 }
-
-// 🌓 DARK MODE
-function toggleTheme(){
-  document.body.classList.toggle("dark-mode");
-  const isDark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("bhuiharPortalTheme", isDark ? "dark" : "light");
-}
-if(localStorage.getItem("bhuiharPortalTheme")==="dark"){document.body.classList.add("dark-mode")}
 
 // 📲 WHATSAPP INVITE SHARE
 function sharePortalWhatsApp(){
@@ -900,7 +889,7 @@ function fileToBase64(file, maxDimension = 150, quality = 0.65) {
         const canvas = document.createElement('canvas');
         let w = img.width, h = img.height;
         if (w > h) { if (w > maxDimension) { h = Math.round((h * maxDimension) / w); w = maxDimension; } }
-        else { if (h > maxDimension) { w = Math.round((h * maxDimension) / h); h = maxDimension; } }
+        else { if (h > maxDimension) { w = Math.round((w * maxDimension) / h); h = maxDimension; } }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         resolve(canvas.toDataURL('image/jpeg', quality));
@@ -924,8 +913,8 @@ async function renderOfficersSlider(){
    <img src="${esc(o.photo)}" class="officer-img" alt="${esc(o.name)}">
    <div class="officer-info">
     <span class="officer-role">${esc(o.role)}</span>
-    <h3 style="margin:2px 0 4px;font-size:16px">${esc(o.name)}</h3>
-    <p style="margin:0;font-size:12px;color:var(--muted)">📞 +91 ${esc(o.mobile)}</p>
+    <h3 style="margin:2px 0 4px;font-size:15px">${esc(o.name)}</h3>
+    <p style="margin:0;font-size:11.5px;color:var(--muted)">📞 +91 ${esc(o.mobile)}</p>
     <div class="contact-actions">
      <a href="tel:${esc(o.mobile)}" class="btn-call">📞 Call</a>
      <a href="https://wa.me/91${esc(o.mobile)}" target="_blank" class="btn-wa">💬 WhatsApp</a>
@@ -1077,7 +1066,7 @@ function generateDonationReceiptPrompt(){
  if(area){
   area.innerHTML=`
    <div class="receipt-header">
-    <b style="font-size:16px;color:#168c50">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
+    <b style="font-size:16px;color:#168c50">🌾 भुईहर समाज कल्याण कोष 🌾</b>
     <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
    </div>
    <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>

@@ -26,7 +26,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .exit-card{background:var(--card);width:100%;max-width:340px;border-radius:24px;padding:24px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.3);border:1px solid var(--line);animation:modalPop 0.3s ease}
 @keyframes modalPop{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
 
-/* नीली पट्टी को छोटा और कॉम्पैक्ट किया गया है ताकि डैशबोर्ड के लिए जगह ज्यादा मिले */
+/* कॉम्पैक्ट नीली पट्टी */
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px 24px;border-radius:0 0 24px 24px;position:relative}
 .brand{display:flex;align-items:center;gap:10px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 6px 15px rgba(0,0,0,.15)}.brand h1{margin:0;font-size:20px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
 .hero-title{font-size:20px;line-height:1.2;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:12px;line-height:1.4;opacity:.88}.container{padding:14px}
@@ -40,12 +40,12 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .field{margin:10px 0}.field label{display:block;font-size:13px;font-weight:750;margin:0 0 5px}input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:11px;font:inherit;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(7,87,163,.11)}textarea{min-height:80px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .notice{background:#eef6ff;color:#164b80;border:1px solid #d6e9ff;border-radius:14px;padding:12px;font-size:13px;line-height:1.5}.msg{display:none;padding:10px 12px;border-radius:12px;font-size:13px;margin:8px 0}.msg.show{display:block}.msg.ok{background:#ddf7e8;color:#116338}.msg.err{background:#ffe5e3;color:#a5231d}.msg.info{background:#eaf3ff;color:#164b80}
 
-/* पैक्ड और सेंटर एलाइन कैटेगरी हेडर (बैक बटन हटाया गया) */
+/* पैक्ड और सेंटर एलाइन कैटेगरी हेडर */
 .topbar{padding:12px 16px;background:linear-gradient(135deg,var(--navy),var(--p));color:#fff;display:flex;align-items:center;justify-content:center;text-align:center}
 .topbar h1{font-size:17px;margin:0}
 .topbar p{display:none}
 
-/* 🎯 मुख्य सेवाएं आइकॉन सेंटर अलाइनमेंट और 3D बाउंसिंग */
+/* मुख्य सेवाएं आइकॉन सेंटर अलाइनमेंट */
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .action{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;cursor:pointer;text-align:center;box-shadow:var(--shadow);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .action:active{transform:scale(0.97)}
@@ -724,14 +724,14 @@ let currentUser=JSON.parse(localStorage.getItem("bhuiharPortalUser")||"null"),cu
 let districtsData={},bannersList=[],officersList=[];
 let sliderInterval=null,officerInterval=null,curBannerIdx=0,curOfficerIdx=0;
 let lookedUpUser=null, lookedUpFamily=[];
-let pageHistory = ["home"];
+let pageStack = ["home"];
 let currentPage="home";
 
 // 🔴 ऑनलाइन/ऑफलाइन अलर्ट
 window.addEventListener("online", () => { document.getElementById("offline-banner").style.display = "none"; });
 window.addEventListener("offline", () => { document.getElementById("offline-banner").style.display = "block"; });
 
-// 🔄 पुल टू रिफ्रेश (सेम-पेज रिफ्रेश फिक्स और ऑटो-हाइड इंडिकेटर के साथ)
+// 🔄 पुल टू रिफ्रेश
 let touchStartY = 0;
 window.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; }, {passive: true});
 window.addEventListener("touchend", e => {
@@ -765,14 +765,14 @@ function reloadCurrentPageData(){
   else if(currentPage==="admin"){loadAdmin();}
 }
 
-// 🚪 स्टेप-बाय-स्टेप बैक और एग्जिट कन्फर्मेशन पॉपअप फिक्स
+// 🚪 कस्टम स्टैक आधारित स्टेप-बाय-स्टेप बैक और एग्जिट कन्फर्मेशन पॉपअप
 window.addEventListener("popstate", function(event){
-  if(pageHistory.length > 1){
-    pageHistory.pop(); // वर्तमान पेज हटाएं
-    let prevPage = pageHistory[pageHistory.length - 1]; // पिछला पेज प्राप्त करें
-    go(prevPage, true);
+  event.preventDefault();
+  if(pageStack.length > 1){
+    pageStack.pop(); // वर्तमान पेज हटाएं
+    let prevPage = pageStack[pageStack.length - 1]; // पिछला पेज प्राप्त करें
+    setActivePage(prevPage, true);
   } else {
-    // यदि होमपेज पर हैं और बैक दबाया, तो एग्जिट पॉपअप दिखाएं
     document.getElementById("exit-modal").classList.add("show");
     history.pushState({ pageId: "home" }, "", "#home");
   }
@@ -780,6 +780,7 @@ window.addEventListener("popstate", function(event){
 
 function closeExitModal(){
   document.getElementById("exit-modal").classList.remove("show");
+  history.pushState({ pageId: "home" }, "", "#home");
 }
 
 function confirmExitApp(){
@@ -836,16 +837,21 @@ function go(id, isBackNav = false){
 
  if(!isBackNav){
    if(id === "home"){
-     pageHistory = ["home"];
-   } else if(pageHistory[pageHistory.length - 1] !== id){
-     pageHistory.push(id);
+     pageStack = ["home"];
+   } else if(pageStack[pageStack.length - 1] !== id){
+     pageStack.push(id);
    }
    history.pushState({ pageId: id }, "", "#" + id);
  }
- currentPage = id;
 
+ setActivePage(id, isBackNav);
+}
+
+function setActivePage(id, isBackNav){
+ currentPage = id;
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- targetEl.classList.add("active");
+ const targetEl = document.getElementById(id);
+ if(targetEl) targetEl.classList.add("active");
  window.scrollTo(0,0);
  updateTopAuthButton();
 
@@ -902,7 +908,7 @@ function fileToBase64(file, maxDimension = 150, quality = 0.65) {
   });
 }
 
-// 👑 PADADHIKARI SLIDER
+// 👑 पदाधिकारी स्लाइडर
 async function fetchOfficers(){try{const s=await db.collection("officers").orderBy("createdAt","asc").get();officersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e}{}}
 async function renderOfficersSlider(){
  await fetchOfficers();
@@ -929,8 +935,15 @@ async function renderOfficersSlider(){
 function updateOfficerPosition(){document.querySelectorAll(".officer-track").forEach(tr=>{tr.style.transform=`translateX(-${curOfficerIdx*100}%)`})}
 function initOfficerAutoPlay(){if(officerInterval)clearInterval(officerInterval);if(officersList.length<=1)return;officerInterval=setInterval(()=>{curOfficerIdx=(curOfficerIdx+1)%officersList.length;updateOfficerPosition()},4500)}
 
-// 🖼️ BANNER SLIDER
-async function fetchBanners(){try{const s=await db.collection("banners").orderBy("createdAt","desc").get();bannersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e}{}}
+// 🖼️ बैनर स्लाइडर (फिक्स्ड)
+async function fetchBanners(){
+  try{
+    const s=await db.collection("banners").orderBy("createdAt","desc").get();
+    bannersList=s.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(e){
+    bannersList=[];
+  }
+}
 async function renderSliders(){
  await fetchBanners();
  const html=buildSliderHtml();
@@ -939,7 +952,7 @@ async function renderSliders(){
  initSliderAutoPlay();
 }
 function buildSliderHtml(){
- if(!bannersList.length)return "";
+ if(!bannersList.length) return `<div class="card" style="background:#1e293b;color:#fff;text-align:center;padding:25px"><h3>🌾 भुईहर समाज डिजिटल पोर्टल</h3><p style="margin:0;font-size:12px;opacity:0.8">स्वागत है! समाज को जोड़ने का डिजिटल माध्यम।</p></div>`;
  const slides=bannersList.map(b=>`<div class="slide" style="background-image:url('${esc(b.imageUrl)}')"><div class="slide-overlay"></div><div class="slide-content">${b.title?`<h4>${esc(b.title)}</h4>`:""}</div></div>`).join("");
  const dots=bannersList.map((_,i)=>`<div class="s-dot ${i===0?'active':''}"></div>`).join("");
  return `<div class="slider-container"><div class="slider-track">${slides}</div><div class="slider-dots">${dots}</div></div>`;
@@ -1066,7 +1079,7 @@ function generateDonationReceiptPrompt(){
  if(area){
   area.innerHTML=`
    <div class="receipt-header">
-    <b style="font-size:16px;color:#168c50">🌾 भुईहर समाज कल्याण कोष 🌾</b>
+    <b style="font-size:16px;color:#168c50">🌾 भुईहर जाति समाज कल्याण कोष 🌾</b>
     <p style="margin:2px 0 0;font-size:11px;color:#555">महाराजगंज, उत्तर प्रदेश • सामाजिक सहयोग पावती</p>
    </div>
    <p><b>रसीद संख्या:</b> ${rNum} • <b>दिनांक:</b> ${new Date().toLocaleDateString('hi-IN')}</p>

@@ -768,13 +768,14 @@ function reloadCurrentPageData(){
   else if(currentPage==="admin"){loadAdmin();}
 }
 
-// 🚪 स्मार्ट स्टेप-बाय-स्टेप बैक और एग्जिट कन्फर्मेशन पॉपअप
+// 🚪 स्टेप-बाय-स्टेप बैक और एग्जिट कन्फर्मेशन पॉपअप फिक्स
 window.addEventListener("popstate", function(event){
   if(pageHistory.length > 1){
     pageHistory.pop(); // वर्तमान पेज हटाएं
     let prevPage = pageHistory[pageHistory.length - 1]; // पिछला पेज प्राप्त करें
     go(prevPage, true);
   } else {
+    // अगर होमपेज पर हैं और फिर से बैक दबाया, तो एग्जिट पॉपअप दिखाएं
     document.getElementById("exit-modal").classList.add("show");
     history.pushState({ pageId: "home" }, "", "#home");
   }
@@ -899,7 +900,7 @@ function fileToBase64(file, maxDimension = 150, quality = 0.65) {
         const canvas = document.createElement('canvas');
         let w = img.width, h = img.height;
         if (w > h) { if (w > maxDimension) { h = Math.round((h * maxDimension) / w); w = maxDimension; } }
-        else { if (h > maxDimension) { w = Math.round((w * maxDimension) / h); h = maxDimension; } }
+        else { if (h > maxDimension) { w = Math.round((h * maxDimension) / h); h = maxDimension; } }
         canvas.width = w; canvas.height = h;
         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
         resolve(canvas.toDataURL('image/jpeg', quality));
@@ -913,7 +914,7 @@ function fileToBase64(file, maxDimension = 150, quality = 0.65) {
 }
 
 // 👑 PADADHIKARI SLIDER
-async function fetchOfficers(){try{const s=await db.collection("officers").orderBy("createdAt","asc").get();officersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
+async function fetchOfficers(){try{const s=await db.collection("officers").orderBy("createdAt","asc").get();officersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e}{}}
 async function renderOfficersSlider(){
  await fetchOfficers();
  const hBox=document.getElementById("homeOfficerSlider"),dBox=document.getElementById("dashOfficerSlider");
@@ -940,7 +941,7 @@ function updateOfficerPosition(){document.querySelectorAll(".officer-track").for
 function initOfficerAutoPlay(){if(officerInterval)clearInterval(officerInterval);if(officersList.length<=1)return;officerInterval=setInterval(()=>{curOfficerIdx=(curOfficerIdx+1)%officersList.length;updateOfficerPosition()},4500)}
 
 // 🖼️ BANNER SLIDER
-async function fetchBanners(){try{const s=await db.collection("banners").orderBy("createdAt","desc").get();bannersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}
+async function fetchBanners(){try{const s=await db.collection("banners").orderBy("createdAt","desc").get();bannersList=s.docs.map(d=>({id:d.id,...d.data()}))}catch(e}{}}
 async function renderSliders(){
  await fetchBanners();
  const html=buildSliderHtml();

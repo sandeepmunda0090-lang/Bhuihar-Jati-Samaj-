@@ -205,6 +205,10 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="container">
     <div id="homeBannerSlider"></div>
 
+    <!-- 📢 दैनिक सूचना पटल (NOTICE BOARD) - अब सर्विसेज के ऊपर सेंटर में -->
+    <div class="section-title"><h2>📢 दैनिक सूचना पटल</h2></div>
+    <div id="noticeList"><div class="card"><span class="admin-note">सूचनाएं लोड हो रही हैं…</span></div></div>
+
     <div class="section-title"><h2>🌾 समाज के प्रमुख पदाधिकारी</h2></div>
     <div id="homeOfficerSlider"></div>
 
@@ -224,6 +228,7 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
       <button class="btn small green" onclick="sharePortalWhatsApp()">शेयर करें</button>
     </div>
 
+    <!-- 🌐 'ALL SERVICES' & CLEAN DASHBOARD GRID -->
     <div class="section-title"><h2>मुख्य सेवाएं</h2></div>
     <div class="action-grid">
       <button class="action" onclick="go('search')"><div class="ic">🔎</div><b>सदस्य खोज</b><span>नाम, जिला, गांव</span></button>
@@ -241,13 +246,10 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
       <button class="action" onclick="go('events')"><div class="ic">📅</div><b>कार्यक्रम कैलेंडर</b><span>पर्व एवं आयोजन</span></button>
       <button class="action" onclick="go('support')"><div class="ic">🤝</div><b>सहायता केंद्र</b><span>शिकायत व अर्जी</span></button>
     </div>
-    
-    <div class="section-title"><h2>समाज सूचना</h2></div>
-    <div id="noticeList"><div class="card"><span class="admin-note">सूचनाएं लोड हो रही हैं…</span></div></div>
   </div>
 </section>
 
-<!-- 📝 REGISTRATION PAGE -->
+<!-- 📝 REGISTRATION PAGE (नया फ्रेश लुक) -->
 <section id="register" class="page">
   <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य Registration</h1><p>विवरण भरें और 6 Digit MPIN सुरक्षित करें</p></div></div>
   <div class="container">
@@ -889,7 +891,6 @@ function animateCounter(elementId, targetValue, duration = 1200, prefix = "", su
   function updateCount(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    // Smooth easeOutQuad animation
     const easeProgress = progress * (2 - progress);
     const currentCount = Math.floor(easeProgress * (end - start) + start);
     el.textContent = prefix + currentCount.toLocaleString('en-IN') + suffix;
@@ -1747,7 +1748,6 @@ async function loadAdmin(){
     const approvedCount = a.filter(x => x.status === "approved").length;
     const blockedCount = a.filter(x => x.status === "blocked").length;
 
-    // 🔢 Trigger Animated Counters on Admin
     animateCounter("adTotal", totalCount, 1000);
     animateCounter("adPending", pendingCount, 1000);
     animateCounter("adApproved", approvedCount, 1000);
@@ -1846,7 +1846,6 @@ function renderLookupCard(){
   }
 }
 
-// 🚫 BLOCK / UNBLOCK TOGGLE
 async function toggleBlockStatus(mobile, newStatus){
   const btn = event?.target;
   try{
@@ -1875,7 +1874,6 @@ async function toggleBlockStatus(mobile, newStatus){
   }
 }
 
-// 📄 सपरिवार PDF डाउनलोड (Native Print/PDF Window)
 function downloadFamilySlipPDF(){
   if(!lookedUpUser) return;
   const btn = document.getElementById("lkPdfBtn");
@@ -2034,7 +2032,7 @@ async function exportMembersToCSV(){
   }
 }
 
-// 📢 NOTICE POST
+// 📢 NOTICE POST (48 घंटे 'NEW' टैग लॉजिक के साथ)
 async function postNotice(){
   if(!noticeTitle.value.trim()) return;
   const t = noticeTitle.value.trim();
@@ -2056,6 +2054,26 @@ async function postNotice(){
   }finally {
     setTimeout(() => { if(btn) btn.disabled = false; }, 3500);
   }
+}
+
+async function loadNotices(){
+  const s = await db.collection("notices").orderBy("createdAt", "desc").get();
+  const now = new Date().getTime();
+  
+  noticeList.innerHTML = s.empty ? "<div class='card'>कोई सूचना नहीं है।</div>" : s.docs.map(d => {
+    const x = d.data();
+    const postTime = x.createdAt ? x.createdAt.toDate().getTime() : now;
+    const diffHours = (now - postTime) / (1000 * 60 * 60);
+    const isNew = diffHours <= 48;
+
+    return `
+      <div class="card" style="position:relative">
+        ${isNew ? '<span class="pill" style="background:#ef4444;color:#fff;position:absolute;top:14px;right:14px;animation:pulse 1.5s infinite">NEW</span>' : ''}
+        <h3 style="margin-right:50px">📢 ${esc(x.title)}</h3>
+        <p class="admin-note">${esc(x.text)}</p>
+      </div>
+    `;
+  }).join("");
 }
 
 // 📅 SAVE EVENT
@@ -2082,8 +2100,6 @@ async function addEvent(){
     setTimeout(() => { if(btn) btn.disabled = false; }, 3500);
   }
 }
-
-async function loadNotices(){const s=await db.collection("notices").get();noticeList.innerHTML=s.empty?"<div class='card'>कोई सूचना नहीं है।</div>":s.docs.map(d=>`<div class="card"><h3>📢 ${esc(d.data().title)}</h3><p class="admin-note">${esc(d.data().text)}</p></div>`).join("")}
 
 async function loadEvents(){
   const s=await db.collection("events").get();

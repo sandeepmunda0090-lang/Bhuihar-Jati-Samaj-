@@ -25,9 +25,10 @@
   --line:#e2e8f0;
   --green:#10b981;
   --red:#ef4444;
-  --shadow-sm:0 4px 12px rgba(10,25,47,0.08);
-  --shadow-md:0 10px 30px rgba(10,25,47,0.1);
-  --radius:22px;
+  --shadow-sm:0 2px 8px rgba(10,25,47,0.06);
+  --shadow-md:0 10px 30px rgba(10,25,47,0.08);
+  --shadow-lg:0 20px 40px rgba(10,25,47,0.12);
+  --radius:20px;
 }
 body.dark-mode{
   --bg:#070d18;
@@ -46,16 +47,18 @@ body.dark-mode{background:#030712}
 .page.active{display:block;animation:pagePopTurn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;transform-origin:bottom center}
 @keyframes pagePopTurn{0%{opacity:0;transform:translateY(40px) scale(0.95) rotateX(-6deg)}100%{opacity:1;transform:translateY(0) scale(1) rotateX(0deg)}}
 
-/* स्प्लैश स्क्रीन */
-#splash-screen{position:fixed;inset:0;background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;transition:opacity 0.4s ease}
-#splash-screen.fade-out{opacity:0;pointer-events:none}
-.splash-logo{width:80px;height:80px;border-radius:24px;background:var(--gold-gradient);display:grid;place-items:center;font-size:42px;box-shadow:0 10px 30px var(--gold-glow);animation:pulseLogo 1.5s infinite}
-@keyframes pulseLogo{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-
+/* ऑफलाइन अलर्ट और पुल-टू-रिफ्रेश */
 #offline-banner{position:fixed;top:0;left:0;right:0;background:var(--red);color:#fff;text-align:center;font-size:12px;font-weight:700;padding:6px;z-index:999;display:none}
 #pull-refresh-indicator{text-align:center;padding:10px;font-size:12px;color:var(--muted);display:none}
 
-.hero{background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);color:#fff;padding:32px 20px 40px;border-radius:0 0 32px 32px;position:relative;box-shadow:var(--shadow-md)}
+/* 🚪 एग्जिट कन्फर्मेशन पॉपअप मोडल */
+#exit-modal{position:fixed;inset:0;background:rgba(10,25,47,0.7);backdrop-filter:blur(6px);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px}
+#exit-modal.show{display:flex}
+.exit-card{background:var(--card);width:100%;max-width:340px;border-radius:24px;padding:24px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.3);border:1px solid var(--line);animation:modalPop 0.3s ease}
+@keyframes modalPop{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* Royal Hero Section */
+.hero{background:linear-gradient(160deg,#0a192f 0%,#0f2e5a 60%,#1e3a8a 100%);color:#fff;padding:32px 20px 40px;border-radius:0 0 32px 32px;position:relative;box-shadow:var(--shadow-lg)}
 .brand{display:flex;align-items:center;gap:14px;position:relative;z-index:2}
 .logo{width:60px;height:60px;border-radius:18px;background:var(--gold-gradient);display:grid;place-items:center;font-size:32px;box-shadow:0 8px 24px var(--gold-glow)}
 .brand h1{margin:0;font-size:24px;font-weight:800;letter-spacing:-0.5px}
@@ -65,6 +68,7 @@ body.dark-mode{background:#030712}
 .container{padding:18px}
 .theme-toggle{position:absolute;top:22px;right:20px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:18px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:grid;place-items:center;z-index:10}
 
+/* Cards & Components */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}
 .section-title h2{font-size:18px;font-weight:800;margin:0}
@@ -81,7 +85,7 @@ body.dark-mode{background:#030712}
 .field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}
 input,select,textarea{width:100%;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:13px;font:inherit;color:var(--text);outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(37,99,235,0.12)}
-textarea{min-height:90px;resize:vertical}.grid2{grid-template-columns:1fr 1fr;display:grid;gap:10px}
+textarea{min-height:90px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 .notice{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;border-radius:16px;padding:14px;font-size:13px;line-height:1.5}
 .msg{display:none;padding:12px 14px;border-radius:14px;font-size:13px;margin:12px 0;font-weight:600}
@@ -124,76 +128,99 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 .nav button{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:8px 4px;cursor:pointer;border-radius:18px}
 .nav b{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:var(--p);font-weight:800;background:rgba(37,99,235,0.08)}
 
-.chat-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);height:360px;display:flex;flex-direction:column;overflow:hidden;margin-bottom:14px}
-.chat-messages{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:rgba(0,0,0,0.02)}
-.chat-msg{max-width:80%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.4}
-.chat-msg.incoming{background:var(--line);color:var(--text);align-self:flex-start}
-.chat-msg.outgoing{background:var(--p);color:#fff;align-self:flex-end}
-.chat-input-area{display:flex;padding:10px;background:var(--card);border-top:1px solid var(--line);gap:8px}
+.slider-container{position:relative;width:100%;height:180px;overflow:hidden;border-radius:22px;margin-bottom:16px;background:#0a192f}
+.slider-track{display:flex;transition:transform 0.4s ease-out;height:100%}
+.slide{min-width:100%;height:100%;position:relative;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,25,47,0.85) 0%,rgba(10,25,47,0.1) 60%)}
+.slide-content{position:relative;z-index:2;color:#fff}
 
+.id-card-wrapper{background:linear-gradient(135deg,#0a192f,#1e3a8a);padding:14px;border-radius:26px;box-shadow:var(--shadow-lg);margin-bottom:16px}
+.id-card{background:linear-gradient(135deg,#112240,#1e3a8a);color:#fff;border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.chip-graphic{width:36px;height:26px;border-radius:6px;background:linear-gradient(135deg,#f59e0b,#fbbf24);margin-bottom:12px}
+.id-body{display:flex;gap:16px;align-items:center}
+.id-photo{width:80px;height:80px;border-radius:16px;background:#fff;object-fit:cover;border:2px solid var(--gold)}
+
+.biodata-card{background:#fff;color:#0f172a;border:2px solid var(--p);border-radius:20px;padding:20px;margin-bottom:14px}
+.receipt-box{background:#fff;color:#111;border:2px solid var(--green);border-radius:20px;padding:20px;margin-bottom:14px}
+.receipt-header{text-align:center;border-bottom:2px solid var(--green);padding-bottom:10px;margin-bottom:12px}
+.receipt-stamp{border:2px solid var(--green);color:var(--green);padding:5px 10px;display:inline-block;border-radius:8px;font-weight:800;font-size:11px}
+
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gallery-img{width:100%;height:135px;object-fit:cover;border-radius:16px}
 .hide{display:none!important}
 .loader{display:none;text-align:center;padding:14px;font-size:13px;color:var(--p);font-weight:700}
 .loader.show{display:block}
+.searchbar{position:sticky;top:0;background:var(--bg);padding-bottom:10px;z-index:5}
 .admin-note{font-size:11.5px;color:var(--muted);line-height:1.5}
 </style>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
-<div id="splash-screen">
-  <div class="splash-logo" style="width:80px;height:80px;border-radius:24px;background:var(--gold-gradient);display:grid;place-items:center;font-size:42px;margin:auto">🌾</div>
-  <h2 style="text-align:center;margin:16px 0 4px;font-size:22px;font-weight:800">भुईहर जाति समाज</h2>
+<!-- 🚪 एग्जिट कन्फर्मेशन पॉपअप मोडल -->
+<div id="exit-modal">
+  <div class="exit-card">
+    <div style="font-size:36px;margin-bottom:8px">🚪</div>
+    <h3 style="margin:0 0 6px;font-size:18px;font-weight:800">क्या आप ऐप से बाहर निकलना चाहते हैं?</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 16px">प्रेस 'हाँ' to exit application.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn secondary" style="margin:0" onclick="closeExitModal()">नहीं (Cancel)</button>
+      <button class="btn red" style="margin:0" onclick="confirmExitApp()">हाँ, बाहर निकलें</button>
+    </div>
+  </div>
 </div>
+
+<div id="offline-banner">⚠️ इंटरनेट कनेक्शन नहीं है! कृपया नेटवर्क जांचें।</div>
+<div id="pull-refresh-indicator">🔄 रीफ्रेश हो रहा है...</div>
 
 <div id="app">
 
 <!-- 🏠 HOME PAGE -->
 <section id="home" class="page active">
   <div class="hero">
-    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="डार्क/लाइट मोड">🌓</button>
     <div class="brand">
       <div class="logo">🌾</div>
       <div>
         <h1>भुईहर जाति समाज</h1>
-        <p>महाराजगंज • डिजिटल कम्युनिटी पोर्टल</p>
+        <p>महाराजगंज • सामाजिक संपर्क एवं डिजिटल सेवा</p>
       </div>
     </div>
     <div class="hero-title">समाज को जोड़ें,<br>परिवार को डिजिटल बनाएं।</div>
+    <div class="hero-sub">सदस्य पंजीकरण, स्मार्ट आईडी कार्ड, आपातकालीन ब्लड सहायता, वैवाहिक बायोडेटा एवं समाज कोष।</div>
     <button class="btn gold" onclick="go('register')">✨ नया सदस्य बनें</button>
     <button class="btn secondary" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2)" onclick="go('login')">🔐 Member Login</button>
   </div>
 
   <div class="container">
+    <div id="homeBannerSlider"></div>
+
     <div class="section-title"><h2>📢 दैनिक सूचना पटल</h2></div>
     <div id="noticeList"><div class="card"><span class="admin-note">सूचनाएं लोड हो रही हैं…</span></div></div>
 
     <div class="stats">
       <div class="stat"><b id="stMembers">0</b><span>कुल सदस्य</span></div>
+      <div class="stat"><b id="stFamilies">0</b><span>परिवार सदस्य</span></div>
       <div class="stat"><b id="stApproved" style="color:var(--green)">0</b><span>स्वीकृत</span></div>
     </div>
 
     <div class="section-title"><h2>मुख्य सेवाएं</h2></div>
     <div class="action-grid">
       <button class="action" onclick="go('search')"><div class="ic">🔎</div><b>सदस्य खोज</b><span>नाम, जिला, गांव</span></button>
-      <button class="action" onclick="go('chat')"><div class="ic" style="background:rgba(16,185,129,0.1)">💬</div><b>कम्युनिटी चैट</b><span>समाज लाइव बातचीत</span></button>
-    </div>
-  </div>
-</section>
-
-<!-- 💬 IN-APP COMMUNITY CHAT PAGE -->
-<section id="chat" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>कम्युनिटी लाइव चैट</h1><p>सीधी चर्चा</p></div></div>
-  <div class="container">
-    <div class="chat-box">
-      <div id="chatMessages" class="chat-messages">
-        <div class="chat-msg incoming"><b>समाज एडमिन:</b> स्वागत है!</div>
-      </div>
-      <div class="chat-input-area">
-        <input id="chatInputMsg" placeholder="संदेश लिखें..." onkeydown="if(event.key==='Enter')sendCommunityChat()">
-        <button class="btn small gold" style="width:auto;margin:0" onclick="sendCommunityChat()">भेजें</button>
-      </div>
+      <button class="action" onclick="go('blood')"><div class="ic" style="background:rgba(239,68,68,0.1)">🩸</div><b>Blood Directory</b><span>आपातकालीन रक्त</span></button>
+      <button class="action" onclick="go('matrimonial')"><div class="ic" style="background:rgba(245,158,11,0.1)">💍</div><b>वैवाहिक बायोडेटा</b><span>रिश्ते व कार्ड</span></button>
+      <button class="action" onclick="go('family')"><div class="ic" style="background:rgba(16,185,129,0.1)">👨‍👩‍👧</div><b>Family Management</b><span>परिवार प्रबंधन</span></button>
+      <button class="action" onclick="go('jobs')"><div class="ic">💼</div><b>रोज़गार एवं करियर</b><span>नौकरियां व काम</span></button>
+      <button class="action" onclick="go('business')"><div class="ic">🏪</div><b>बिजनेस डायरेक्टरी</b><span>समाज व्यापार</span></button>
+      <button class="action" onclick="go('donation')"><div class="ic" style="background:rgba(16,185,129,0.1)">🪙</div><b>दान एवं कोष</b><span>रसीद सहित सहयोग</span></button>
+      <button class="action" onclick="go('history')"><div class="ic">📜</div><b>इतिहास व गोत्र</b><span>कुलदेवी व परंपरा</span></button>
+      <button class="action" onclick="go('talent')"><div class="ic">🎓</div><b>प्रतिभा सम्मान</b><span>होनहार छात्र</span></button>
+      <button class="action" onclick="go('obituary')"><div class="ic">🕊️</div><b>शोक संदेश</b><span>श्रद्धांजलि कॉर्नर</span></button>
+      <button class="action" onclick="go('polls')"><div class="ic">🗳️</div><b>रायशुमारी पोल</b><span>सामुदायिक मत</span></button>
+      <button class="action" onclick="go('schemes')"><div class="ic">🏛️</div><b>सरकारी योजनाएं</b><span>मार्गदर्शन व लाभ</span></button>
+      <button class="action" onclick="go('gallery')"><div class="ic">🖼️</div><b>फोटो गैलरी</b><span>आयोजन यादें</span></button>
+      <button class="action" onclick="go('events')"><div class="ic">📅</div><b>कार्यक्रम कैलेंडर</b><span>पर्व एवं आयोजन</span></button>
+      <button class="action" onclick="go('support')"><div class="ic">🤝</div><b>सहायता केंद्र</b><span>शिकायत व अर्जी</span></button>
     </div>
   </div>
 </section>
@@ -204,18 +231,18 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="container">
     <div id="regMsg" class="msg"></div>
     <div class="card">
-      <div class="field"><label>मोबाइल नंबर *</label><input id="regMobile" inputmode="numeric" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div>
-      <div class="field"><label>पूरा नाम *</label><input id="fullName" placeholder="अपना पूरा नाम"></div>
+      <div class="field"><label>मोबाइल नंबर *</label><input id="regMobile" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>
+      <div class="field"><label>पूरा नाम *</label><input id="fullName" placeholder="पूरा नाम"></div>
       <div class="grid2">
         <div class="field"><label>जन्म तिथि *</label><input id="dob" type="date" onchange="setAge()"></div>
         <div class="field"><label>उम्र</label><input id="age" readonly placeholder="Auto"></div>
       </div>
       <div class="grid2">
-        <div class="field"><label>जिला *</label><select id="district"><option value="">जिला चुनें</option><option value="महाराजगंज">महाराजगंज</option><option value="बालरामपुर">बालरामपुर</option></select></div>
-        <div class="field"><label>पंचायत *</label><select id="panchayatSelect"><option value="">पंचायत चुनें</option><option value="पनियरा">पनियरा</option><option value="सिसवा">सिसवा</option><option value="महाराजगंज">महाराजगंज</option></select></div>
+        <div class="field"><label>जिला *</label><select id="district" onchange="onDistrictChange()"><option value="">जिला चुनें</option><option value="महाराजगंज">महाराजगंज</option></select></div>
+        <div class="field"><label>पंचायत *</label><select id="panchayatSelect"><option value="">जिला चुनें</option><option value="पनियरा">पनियरा</option><option value="सिसवा">सिसवा</option></select></div>
       </div>
-      <div class="field"><label>गांव</label><input id="village" placeholder="गांव का नाम"></div>
-      <div class="field"><label>कार्य / व्यवसाय *</label><select id="occupation"><option value="">चुनें</option><option value="Government Job">Government Job</option><option value="Private Job">Private Job</option><option value="Agriculture">Agriculture</option><option value="Business">Business</option><option value="Student">Student</option></select></div>
+      <div class="field"><label>गांव</label><input id="village" placeholder="गांव"></div>
+      <div class="field"><label>व्यवसाय *</label><select id="occupation"><option value="">चुनें</option><option value="Government Job">Government Job</option><option value="Private Job">Private Job</option><option value="Agriculture">Agriculture</option><option value="Business">Business</option><option value="Student">Student</option></select></div>
       <div class="field"><label>Blood Group</label><select id="bloodGroup"><option value="">चुनें</option><option value="A+">A+</option><option value="B+">B+</option><option value="O+">O+</option></select></div>
       <div class="grid2">
         <div class="field"><label>6 Digit MPIN *</label><input id="mpin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
@@ -223,17 +250,16 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
       </div>
       <button id="completeRegBtn" class="btn gold" onclick="completeRegistration()">🌾 Registration Complete करें</button>
     </div>
-    <div id="regLoader" class="loader">कृपया प्रतीक्षा करें...</div>
   </div>
 </section>
 
 <!-- 🔐 LOGIN PAGE -->
 <section id="login" class="page">
-  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Member Login</h1><p>Mobile Number + MPIN</p></div></div>
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Member Login</h1><p>Mobile + MPIN</p></div></div>
   <div class="container">
     <div id="loginMsg" class="msg"></div>
     <div class="card">
-      <div class="field"><label>Registered Mobile Number</label><input id="loginMobile" inputmode="numeric" maxlength="10" placeholder="10 digit mobile"></div>
+      <div class="field"><label>Mobile Number</label><input id="loginMobile" inputmode="numeric" maxlength="10" placeholder="10 digit mobile"></div>
       <div class="field"><label>6 Digit MPIN</label><input id="loginMpin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
       <button class="btn" onclick="login()">🔐 Login करें</button>
       <button class="btn gold" onclick="go('adminLogin')" style="margin-top:10px">🛡️ Admin Login</button>
@@ -247,9 +273,9 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="container">
     <div id="adminLoginMsg" class="msg"></div>
     <div class="card">
-      <div class="field"><label>Admin Email</label><input id="adminEmail" type="email" placeholder="Admin Email"></div>
+      <div class="field"><label>Admin Email</label><input id="adminEmail" type="email" placeholder="Email"></div>
       <div class="field"><label>Password</label><input id="adminPassword" type="password" placeholder="Password"></div>
-      <button class="btn gold" onclick="adminLogin()">🛡️ Admin Login करें</button>
+      <button class="btn gold" onclick="adminLogin()">🛡️ Login करें</button>
     </div>
   </div>
 </section>
@@ -259,8 +285,59 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="topbar"><div><h1>मेरा Dashboard</h1></div><button class="back" onclick="logout()">Logout</button></div>
   <div class="container">
     <div class="card"><div class="profile-head"><div id="avatar" class="avatar">👤</div><div><h2 id="dashName">सदस्य</h2><p id="dashMobile" style="margin:2px 0 6px"></p><span id="statusPill" class="pill pending">Pending</span></div></div></div>
+    
+    <div class="section-title"><h2>मेरी सुविधाएं</h2></div>
+    <div class="action-grid">
+      <button class="action" onclick="go('profile')"><div class="ic">🪪</div><b>Digital ID Card</b><span>पहचान पत्र</span></button>
+      <button class="action" onclick="go('family')"><div class="ic">👨‍👩‍👧</div><b>My Family</b><span>परिवार प्रबंधन</span></button>
+    </div>
+
     <div id="adminShortcut" class="hide"><div class="section-title"><h2>Admin Control</h2></div><button class="btn gold" onclick="go('admin')">⚙️ Admin Panel खोलें</button></div>
   </div>
+</section>
+
+<!-- 🪪 PROFILE & ID CARD -->
+<section id="profile" class="page">
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Digital ID Card</h1></div></div>
+  <div class="container"><div id="digitalIdArea"></div><div id="profileCard" class="card">Loading…</div></div>
+</section>
+
+<!-- 👨‍👩‍👧 FAMILY MANAGEMENT -->
+<section id="family" class="page">
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Family Management</h1></div></div>
+  <div class="container">
+    <div id="familyMsg" class="msg"></div>
+    <div class="card">
+      <h3 id="famFormTitle">नया परिवार सदस्य</h3>
+      <input type="hidden" id="editFamilyDocId" value="">
+      <div class="field"><label>नाम *</label><input id="famName" placeholder="नाम"></div>
+      <div class="grid2">
+        <div class="field"><label>रिश्ता *</label><select id="famRelation"><option value="">चुनें</option><option value="पिता">पिता</option><option value="माता">माता</option><option value="बेटा">बेटा</option><option value="बेटी">बेटी</option><option value="पत्नी">पत्नी</option><option value="पति">पति</option></select></div>
+        <div class="field"><label>जन्म तिथि</label><input id="famDob" type="date" onchange="setFamilyAge()"></div>
+      </div>
+      <button id="saveFamBtn" class="btn" onclick="addFamily()">+ Save Member</button>
+    </div>
+    <div class="section-title"><h2>परिवार के सदस्य</h2></div>
+    <div id="familyList"></div>
+  </div>
+</section>
+
+<!-- 🔎 SEARCH -->
+<section id="search" class="page">
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>सदस्य खोज</h1></div></div>
+  <div class="container"><div class="searchbar"><input id="memberSearch" placeholder="नाम लिखें" oninput="searchMembers()"></div><div id="memberResults"></div></div>
+</section>
+
+<!-- 🩸 BLOOD -->
+<section id="blood" class="page">
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>Blood Directory</h1></div></div>
+  <div class="container"><div id="bloodList"></div></div>
+</section>
+
+<!-- 💼 JOBS -->
+<section id="jobs" class="page">
+  <div class="topbar"><button class="back" onclick="goBack()">←</button><div><h1>रोज़गार एवं करियर</h1></div></div>
+  <div class="container"><div id="jobsList">Loading...</div></div>
 </section>
 
 <!-- ⚙️ ADMIN DASHBOARD -->
@@ -268,7 +345,51 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
   <div class="topbar"><button class="back" onclick="adminLogout()">←</button><div><h1>Admin Dashboard</h1></div></div>
   <div class="container">
     <div id="adminMsg" class="msg"></div>
-    <div class="stats grid4">
+    
+    <!-- 🔍 सदस्य लुकअप & सपरिवार PDF -->
+    <div class="section-title"><h2>🔍 सदस्य लुकअप & सपरिवार PDF</h2></div>
+    <div class="card" style="background:#f8fafc">
+      <div class="field">
+        <label>10 अंकों का मोबाइल नंबर डालें *</label>
+        <div style="display:flex;gap:8px">
+          <input id="adminSearchMobile" inputmode="numeric" maxlength="10" placeholder="Mobile Number">
+          <button class="btn small" style="width:auto;padding:12px 18px" onclick="adminLookupUser()">खोजें</button>
+        </div>
+      </div>
+      <div id="adminLookupLoader" class="loader">डेटा खोजा जा रहा है...</div>
+      <div id="adminLookupResult" class="hide" style="margin-top:12px">
+        <div class="item" style="border:1.5px solid var(--p)">
+          <h3 id="lkName" style="margin:0"></h3>
+          <p id="lkBasicInfo" style="margin:6px 0"></p>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <button id="lkPdfBtn" class="btn small green" onclick="downloadFamilySlipPDF()">📥 सपरिवार PDF डाउनलोड</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📢 एडमिन: जॉब / रोजगार पोस्ट करें (पूर्ण और विस्तारित कॉलम के साथ) -->
+    <div class="section-title"><h2>💼 जॉब / रोजगार पोस्ट करें (विस्तृत विवरण)</h2></div>
+    <div class="card">
+      <div class="field"><label>काम / पद का नाम *</label><input id="adJobTitle" placeholder="उदा. डेटा एंट्री ऑपरेटर / ड्राइवर"></div>
+      <div class="grid2">
+        <div class="field"><label>वेतन / मानदेय</label><input id="adJobSalary" placeholder="उदा. ₹15,000 / माह"></div>
+        <div class="field"><label>कार्य स्थान (Location)</label><input id="adJobLocation" placeholder="उदा. महाराजगंज / गोरखपुर"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>शैक्षणिक योग्यता (Qualification)</label><input id="adJobQual" placeholder="उदा. 12वीं पास / Graduate"></div>
+        <div class="field"><label>अनुभव (Experience)</label><input id="adJobExp" placeholder="उदा. फ्रेशर / 1-2 वर्ष"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>अंतिम तिथि (Last Date)</label><input id="adJobDate" type="date"></div>
+        <div class="field"><label>सम्पर्क मोबाइल नंबर *</label><input id="adJobContact" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>
+      </div>
+      <div class="field"><label>ऑनलाइन अप्लाई या आधिकारिक वेबसाइट लिंक (URL)</label><input id="adJobLink" placeholder="https://example.com/apply"></div>
+      <div class="field"><label>नौकरी का संपूर्ण विवरण व शर्तें</label><textarea id="adJobDesc" placeholder="नौकरी के कार्य, समय, और अन्य शर्तें विस्तार से लिखें..."></textarea></div>
+      <button class="btn gold" onclick="saveAdminJob()">📢 जॉब प्रकाशित करें</button>
+    </div>
+
+    <div class="stats grid4" style="margin-top:14px">
       <div class="stat"><b id="adTotal">0</b><span>Total</span></div>
       <div class="stat"><b id="adPending" style="color:var(--gold)">0</b><span>Pending</span></div>
       <div class="stat"><b id="adApproved" style="color:var(--green)">0</b><span>Approved</span></div>
@@ -281,25 +402,64 @@ body.dark-mode .nav{background:rgba(15,23,42,0.92);border-color:rgba(255,255,255
 <!-- 📱 BOTTOM NAVIGATION -->
 <nav class="nav">
   <button onclick="go('home')" id="navHome"><b>⌂</b>Home</button>
+  <button onclick="go('search')"><b>⌕</b>Search</button>
   <button onclick="go(currentUser?'dashboard':'login')"><b>👤</b>Profile</button>
-  <button onclick="go('chat')"><b>💬</b>Chat</button>
+  <button onclick="go('blood')"><b>🩸</b>Blood</button>
   <button onclick="go('adminLogin')"><b>🛡️</b>Admin</button>
 </nav>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth(),db=firebase.firestore();
 let currentUser=JSON.parse(localStorage.getItem("bhuiharPortalUser")||"null"),currentAdmin=JSON.parse(sessionStorage.getItem("bhuiharPortalAdmin")||"null");
+let lookedUpUser = null, lookedUpFamily = [];
 let currentPage = "home";
 
-window.addEventListener("load", () => {
-  setTimeout(() => { const s = document.getElementById("splash-screen"); if(s){ s.style.opacity="0"; setTimeout(()=>s.remove(), 400); } }, 800);
+// 🔴 ऑनलाइन/ऑफलाइन अलर्ट
+window.addEventListener("online", () => { document.getElementById("offline-banner").style.display = "none"; });
+window.addEventListener("offline", () => { document.getElementById("offline-banner").style.display = "block"; });
+
+// 🔄 पुल टू रिफ्रेश
+let touchStartY = 0;
+window.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; }, {passive: true});
+window.addEventListener("touchend", e => {
+  if(window.scrollY === 0 && e.changedTouches[0].clientY - touchStartY > 90){
+    document.getElementById("pull-refresh-indicator").style.display = "block";
+    setTimeout(() => { location.reload(); }, 800);
+  }
+}, {passive: true});
+
+// 🚪 बैक बटन / जेस्चर पर Step-by-Step Back और Exit Popup लॉजिक
+window.addEventListener("popstate", function(event){
+  if(currentPage !== "home"){
+    go("home", true);
+    history.pushState({ pageId: "home" }, "", "#home");
+  } else {
+    document.getElementById("exit-modal").classList.add("show");
+    history.pushState({ pageId: "home" }, "", "#home");
+  }
 });
 
+function closeExitModal(){
+  document.getElementById("exit-modal").classList.remove("show");
+}
+
+function confirmExitApp(){
+  try {
+    navigator.app?.exitApp?.();
+  } catch(e) {
+    window.close();
+  }
+}
+
+// 🧭 नेविगेशन फंक्शन (3D पॉप-अप एफेकट के साथ)
 function go(id, isBackNav = false){
-  if(["dashboard","profile"].includes(id) && !currentUser){ id = "login"; }
+  if(["dashboard","profile","family","support"].includes(id) && !currentUser){ id = "login"; }
   if(id === "admin" && !currentAdmin){ id = "adminLogin"; return; }
   const targetEl = document.getElementById(id); if(!targetEl) return;
   if(!isBackNav && id !== currentPage){ history.pushState({ pageId: id }, "", "#" + id); }
@@ -307,9 +467,13 @@ function go(id, isBackNav = false){
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   targetEl.classList.add("active"); window.scrollTo(0, 0);
 
-  if(id==="home"){loadStats();loadNotices();}
+  if(id==="home"){loadStats();}
   if(id==="dashboard"){loadDashboard();}
-  if(id==="chat"){loadCommunityChat();}
+  if(id==="profile"){loadProfile();}
+  if(id==="family"){loadFamily();}
+  if(id==="search"){searchMembers();}
+  if(id==="blood"){loadBlood();}
+  if(id==="jobs"){loadJobs();}
   if(id==="admin"){loadAdmin();}
 }
 
@@ -323,71 +487,157 @@ function setAge(){age.value=ageCalc(dob.value)||""}
 async function sha256(text){const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
+// 🪪 डिजिटल आईडी कार्ड
+function renderDigitalIdCard(u){
+ const b=document.getElementById("digitalIdArea");
+ if(u.status!=="approved"){b.innerHTML=`<div class="notice">⚠️ खाता अप्रूव होने पर डिजिटल आईडी उपलब्ध होगी।</div>`;return}
+ b.innerHTML=`<div class="id-card-wrapper" id="idCardExportArea"><div class="id-card"><div class="id-header"><b>🌾 भुईहर जाति समाज</b><span class="pill approved">Verified</span></div><div class="chip-graphic"></div><div class="id-body"><img src="${esc(u.photoUrl||'https://via.placeholder.com/100')}" class="id-photo"><div class="id-details"><h3>${esc(u.fullName)}</h3><p>📞 ${esc(u.mobileNumber)}</p><p>📍 ${esc(u.district||"-")}</p></div></div></div></div><button class="btn green" onclick="downloadImage('idCardExportArea','ID_${esc(u.fullName)}')">📥 डाउनलोड करें</button>`;
+}
+
+// 👨‍👩‍👧 परिवार प्रबंधन
+async function addFamily(){
+ if(!currentUser)return;
+ const n=famName.value.trim(),r=famRelation.value.trim(),d=famDob.value;
+ if(!n||!r){msg("familyMsg","नाम और रिश्ता भरें।","err");return}
+ await db.collection("families").add({ownerMobile:currentUser.mobileNumber,familyMemberName:n,relation:r,dateOfBirth:d,age:d?ageCalc(d):null,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+ famName.value=famRelation.value=famDob.value=""; msg("familyMsg","सदस्य जुड़ गया।","ok"); loadFamily();
+}
+
+async function loadFamily(){
+ const b=document.getElementById("familyList"); if(!currentUser)return;
+ const s=await db.collection("families").where("ownerMobile","==",currentUser.mobileNumber).get();
+ b.innerHTML=s.empty?"<div class='card'>कोई सदस्य नहीं है।</div>":s.docs.map(d=>{const x=d.data();return `<div class="item"><b>${esc(x.familyMemberName)}</b> (${esc(x.relation)}) - उम्र: ${esc(x.age||"-")} वर्ष</div>`}).join("");
+}
+
+// 💼 एडमिन विस्तृत जॉब पोस्टिंग फंक्शन
+async function saveAdminJob(){
+ const t = adJobTitle.value.trim();
+ const s = adJobSalary.value.trim();
+ const l = adJobLocation.value.trim();
+ const q = adJobQual.value.trim();
+ const ex = adJobExp.value.trim();
+ const dt = adJobDate.value;
+ const c = adJobContact.value.trim();
+ const k = adJobLink.value.trim();
+ const des = adJobDesc.value.trim();
+
+ if(!t || !c){
+   msg("adminMsg", "काम का नाम और संपर्क मोबाइल नंबर आवश्यक है।", "err");
+   return;
+ }
+
+ try {
+   await db.collection("jobs").add({
+     title: t,
+     salary: s || "निगोशिएबल",
+     location: l || "महाराजगंज",
+     qualification: q || "लागू नहीं",
+     experience: ex || "फ्रेशर / अनुभव",
+     lastDate: dt || "जल्द",
+     contact: c,
+     applyLink: k || null,
+     desc: des,
+     createdAt: firebase.firestore.FieldValue.serverTimestamp()
+   });
+   adJobTitle.value = adJobSalary.value = adJobLocation.value = adJobQual.value = adJobExp.value = adJobDate.value = adJobContact.value = adJobLink.value = adJobDesc.value = "";
+   msg("adminMsg", "✓ विस्तृत जॉब पोस्ट सफलता से प्रकाशित हो गई!", "ok");
+   loadJobs();
+ } catch(e) {
+   msg("adminMsg", "त्रुटि: " + e.message, "err");
+ }
+}
+
+async function loadJobs(){
+ const b = document.getElementById("jobsList");
+ try {
+   const s = await db.collection("jobs").orderBy("createdAt", "desc").get();
+   b.innerHTML = s.empty ? "<div class='card'>कोई नौकरी उपलब्ध नहीं है।</div>" : s.docs.map(d => {
+     const x = d.data();
+     return `
+       <div class="item">
+         <h3>💼 ${esc(x.title)}</h3>
+         <p><b>वेतन:</b> ${esc(x.salary)} • 📍 <b>स्थान:</b> ${esc(x.location)}<br>
+         <b>योग्यता:</b> ${esc(x.qualification)} • <b>अनुभव:</b> ${esc(x.experience)}<br>
+         <b>अंतिम तिथि:</b> ${esc(x.lastDate)}</p>
+         <p>${esc(x.desc||"")}</p>
+         <div class="contact-actions">
+           ${currentUser ? `<a href="tel:${esc(x.contact)}" class="btn-call">📞 Call (${esc(x.contact)})</a><a href="https://api.whatsapp.com/send?phone=91${esc(x.contact)}" class="btn-wa">💬 WhatsApp</a>` : `<button class="btn small" onclick="go('login')">🔒 संपर्क हेतु लॉगिन करें</button>`}
+           ${x.applyLink ? `<a href="${esc(x.applyLink)}" class="btn-web" style="margin-left:6px">🌐 ऑनलाइन अप्लाई ↗</a>` : ''}
+         </div>
+       </div>
+     `;
+   }).join("");
+ } catch(e) {
+   b.innerHTML = "लोड नहीं हो सका";
+ }
+}
+
+// 📄 सपरिवार PDF डाउनलोड (Admin Lookup)
+async function adminLookupUser(){
+  const mob=(adminSearchMobile.value||"").trim();
+  if(!mobileOK(mob)) return;
+  const uDoc=await db.collection("users").doc(mob).get();
+  if(!uDoc.exists) return;
+  lookedUpUser={id:uDoc.id,...uDoc.data()};
+  const fSnap=await db.collection("families").where("ownerMobile","==",mob).get();
+  lookedUpFamily=fSnap.docs.map(d=>d.data());
+  document.getElementById("lkName").textContent=lookedUpUser.fullName;
+  document.getElementById("lkBasicInfo").textContent=`📞 ${lookedUpUser.mobileNumber} | परिवार सदस्य: ${lookedUpFamily.length}`;
+  document.getElementById("adminLookupResult").classList.remove("hide");
+}
+
+function downloadFamilySlipPDF(){
+  if(!lookedUpUser)return;
+  const u=lookedUpUser;
+  let rowsHtml=lookedUpFamily.length?lookedUpFamily.map((f,i)=>`<tr><td>${i+1}</td><td>${f.familyMemberName}</td><td>${f.relation}</td></tr>`).join(""):`<tr><td colspan="3">कोई सदस्य नहीं</td></tr>`;
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>PDF</title></head><body style="font-family:sans-serif;padding:20px"><h2>🌾 भुईहर समाज - परिवार स्लिप</h2><h3>${u.fullName} (+91 ${u.mobileNumber})</h3><table border="1" style="width:100%;border-collapse:collapse"><tr><th>क्र.</th><th>नाम</th><th>रिश्ता</th></tr>${rowsHtml}</table><script>window.print();<\/script></body></html>`);
+  w.document.close();
+}
+
 async function completeRegistration(){
- const mob=regMobile.value.trim(); if(!mobileOK(mob)){msg("regMsg","सही 10 अंकों का मोबाइल नंबर डालें।","err");return}
+ const mob=regMobile.value.trim(); if(!mobileOK(mob)){msg("regMsg","सही नंबर भरें।","err");return}
  const data={fullName:fullName.value.trim(),mobileNumber:mob,dateOfBirth:dob.value,age:Number(age.value)||0,district:district.value,panchayat:panchayatSelect.value,village:village.value.trim(),occupation:occupation.value,bloodGroup:bloodGroup.value,status:"pending"};
  const p=mpin.value.trim(), cp=confirmMpin.value.trim();
- if(!data.fullName||!/^\d{6}$/.test(p)||p!==cp){msg("regMsg","सभी फ़ील्ड और 6 digit समान MPIN भरें।","err");return}
- try{
-  data.mpinHash=await sha256(p); data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-  await db.collection("users").doc(mob).set(data);
-  msg("regMsg","Registration सफल! एडमिन अप्रूवल के बाद लॉगिन करें।","ok"); setTimeout(()=>go('login'),2000);
- }catch(e){msg("regMsg","Error: "+e.message,"err")}
+ if(!data.fullName||!/^\d{6}$/.test(p)||p!==cp){msg("regMsg","सभी फ़ील्ड और 6 digit MPIN भरें।","err");return}
+ data.mpinHash=await sha256(p); data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
+ await db.collection("users").doc(mob).set(data);
+ msg("regMsg","Registration सफल!","ok"); setTimeout(()=>go('login'),2000);
 }
 
 async function login(){
  const m=loginMobile.value.trim(), p=loginMpin.value.trim();
- if(!mobileOK(m)||!/^\d{6}$/.test(p)){msg("loginMsg","सही मोबाइल और 6 digit MPIN भरें।","err");return}
- try{
-  const s=await db.collection("users").doc(m).get();
-  if(!s.exists){msg("loginMsg","यूजर पंजीकृत नहीं है।","err");return}
-  const u=s.data();
-  if(u.mpinHash!==await sha256(p)){msg("loginMsg","गलत MPIN पासवर्ड!","err");return}
-  if(u.status!=="approved"){msg("loginMsg","आपका खाता अभी 'Pending' है। एडमिन अप्रूवल का इंतज़ार करें।","err");return}
-  currentUser=u; localStorage.setItem("bhuiharPortalUser",JSON.stringify(u)); go("dashboard");
- }catch(e){msg("loginMsg","Error: "+e.message,"err")}
+ const s=await db.collection("users").doc(m).get();
+ if(!s.exists){msg("loginMsg","यूजर पंजीकृत नहीं है।","err");return}
+ const u=s.data();
+ if(u.mpinHash!==await sha256(p)){msg("loginMsg","गलत MPIN","err");return}
+ currentUser=u; localStorage.setItem("bhuiharPortalUser",JSON.stringify(u)); go("dashboard");
 }
-
 function logout(){localStorage.removeItem("bhuiharPortalUser");currentUser=null;go("home")}
 
 async function loadDashboard(){
  if(!currentUser)return;
  dashName.textContent=currentUser.fullName; dashMobile.textContent="+91 "+currentUser.mobileNumber;
  statusPill.textContent=currentUser.status.toUpperCase();
- adminShortcut.classList.toggle("hide",currentUser.role!=="admin");
 }
+
+async function loadProfile(){if(!currentUser)return;renderDigitalIdCard(currentUser);profileCard.innerHTML=`<div class="info-row"><span>मोबाइल</span><span>${esc(currentUser.mobileNumber)}</span></div>`}
+async function loadBlood(){const s=await db.collection("blood").get();bloodList.innerHTML=s.empty?"<div class='card'>कोई डेटा नहीं</div>":s.docs.map(d=>`<div class="item"><h3>🩸 ${esc(d.data().bloodGroup)} • ${esc(d.data().name)}</h3></div>`).join("");}
 
 async function adminLogin(){
  const email=(adminEmail.value||"").trim().toLowerCase(),password=adminPassword.value||"";
- if(!email||!password){msg("adminLoginMsg","Email और Password भरें।","err");return}
- try{
-  const cred=await auth.signInWithEmailAndPassword(email,password);
-  currentAdmin={uid:cred.user.uid,email:cred.user.email,role:"admin"};
-  sessionStorage.setItem("bhuiharPortalAdmin",JSON.stringify(currentAdmin));
-  go("admin");
- }catch(e){msg("adminLoginMsg",e.message,"err")}
+ const cred=await auth.signInWithEmailAndPassword(email,password);
+ currentAdmin={uid:cred.user.uid,email:cred.user.email,role:"admin"};
+ sessionStorage.setItem("bhuiharPortalAdmin",JSON.stringify(currentAdmin)); go("admin");
 }
-
-async function adminLogout(){
- currentAdmin=null; sessionStorage.removeItem("bhuiharPortalAdmin");
- await auth.signOut(); go("home");
-}
+function adminLogout(){currentAdmin=null;sessionStorage.removeItem("bhuiharPortalAdmin");go("home")}
 
 async function loadAdmin(){
- if(!currentAdmin)return;
- const s=await db.collection("users").get(); const a=s.docs.map(d=>({id:d.id,...d.data()}));
+ const s=await db.collection("users").get(); const a=s.docs.map(d=>d.data());
  document.getElementById("adTotal").textContent = a.length;
  document.getElementById("adPending").textContent = a.filter(x=>x.status==="pending").length;
  document.getElementById("adApproved").textContent = a.filter(x=>x.status==="approved").length;
- pendingList.innerHTML=a.filter(x=>x.status==="pending").map(x=>`<div class="item"><h3>${esc(x.fullName)} (${esc(x.mobileNumber)})</h3><button class="btn small green" onclick="db.collection('users').doc('${x.mobileNumber}').update({status:'approved'}).then(loadAdmin)">Approve</button></div>`).join("")||"<div class='card'>पेंडिंग सदस्य नहीं हैं।</div>";
-}
-
-async function loadNotices(){
- const s=await db.collection("notices").orderBy("createdAt","desc").get();
- noticeList.innerHTML=s.empty?"<div class='card'>सूचना नहीं है।</div>":s.docs.map(d=>{
-  const x=d.data();
-  return `<div class="card"><h3>📢 ${esc(x.title)}</h3><p class="admin-note">${esc(x.text)}</p></div>`;
- }).join("");
+ pendingList.innerHTML=a.filter(x=>x.status==="pending").map(x=>`<div class="item"><h3>${esc(x.fullName)}</h3><button class="btn small green" onclick="db.collection('users').doc('${x.mobileNumber}').update({status:'approved'}).then(loadAdmin)">Approve</button></div>`).join("")||"<div class='card'>पेंडिंग नहीं है।</div>";
 }
 
 async function loadStats(){
@@ -396,7 +646,7 @@ async function loadStats(){
  document.getElementById("stApproved").textContent = u.docs.filter(d=>d.data().status==="approved").length;
 }
 
-loadStats(); loadNotices();
+loadStats(); loadJobs();
 </script>
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0757a3">
+<title>दान कोष | भुईहर जाति समाज</title>
+<style>
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+
+@keyframes zoomInDrop {
+  0% { transform: translateY(-30px) scale(0.96); opacity: 0; }
+  60% { transform: translateY(4px) scale(1.005); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;animation: zoomInDrop 0.7s ease-out forwards;}
+
+.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px;border-radius:0 0 22px 22px}
+.header h1{margin:0;font-size:18px;font-weight:800}
+.header p{margin:2px 0 0;font-size:11px;opacity:.85}
+
+.container{padding:12px}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.don-info h3{margin:0 0 4px;font-size:15px;font-weight:800;color:var(--navy)}
+.don-info p{margin:2px 0;font-size:11.5px;color:var(--muted)}
+
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
+.nav b{display:block;font-size:16px}
+.nav a.active{color:var(--p);font-weight:800}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="header">
+    <h1>🪙 समाज दान कोष</h1>
+    <p>समाज विकास हेतु सहयोग राशि विवरण</p>
+  </div>
+
+  <div class="container" id="donContainer">
+    <div class="card">
+      <div class="don-info">
+        <h3>सामान्य समाज विकास सहयोग</h3>
+        <p><b>सहयोग राशि:</b> स्वेच्छा अनुसार • <b>माध्यम:</b> ऑनलाइन / नगद</p>
+        <p>📍 समाज के उत्थान और आयोजनों में सहयोग दें।</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- बॉटम नेविगेशन (कोई स्क्रीन बैक बटन नहीं) -->
+  <nav class="nav">
+    <a href="index.html"><b>⌂</b>Home</a>
+    <a href="search.html"><b>⌕</b>Search</a>
+    <a href="login.html"><b>👤</b>Profile</a>
+    <a href="blood.html"><b>🩸</b>Blood</a>
+    <a href="admin.html"><b>🛡️</b>Admin</a>
+  </nav>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+async function loadDonations(){
+  try{
+    let snap=await db.collection("donations").get();
+    let container=document.getElementById("donContainer");
+    if(!snap.empty){
+      let html="";
+      snap.forEach(doc=>{
+        let d=doc.data();
+        html+=`<div class="card"><div class="don-info">
+          <h3>${d.donorName}</h3>
+          <p><b>सहयोग राशि:</b> ₹${d.amount||'0'} • <b>विवरण:</b> ${d.purpose||'-'}</p>
+          <p>📍 निवासी: ${d.village||'महाराजगंज'}</p>
+        </div></div>`;
+      });
+      container.innerHTML=html;
+    }
+  }catch(e){}
+}
+loadDonations();
+</script>
+</body>
+</html>

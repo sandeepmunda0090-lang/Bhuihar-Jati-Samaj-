@@ -11,51 +11,50 @@
 body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
 
-/* ऊपर से गिरकर बाउंस होने वाला एनिमेशन */
+/* एनिमेशन: ऊपर से गिरना */
 @keyframes bounceDrop {
-  0% { transform: translateY(-40px); opacity: 0; }
-  60% { transform: translateY(8px); opacity: 1; }
-  80% { transform: translateY(-4px); }
+  0% { transform: translateY(-30px); opacity: 0; }
+  60% { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* आइकॉन का लगातार हल्का उछलना (Bounce/Pulse) */
+/* एनिमेशन: आइकॉन का जोरदार उछलना */
 @keyframes iconBounce {
   0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-5px) scale(1.05); }
+  50% { transform: translateY(-7px) scale(1.1); }
 }
 
-/* कार्ड के बॉर्डर पर घूमती हुई लाइटिंग (Border Glow Rotation) */
-@keyframes borderRotate {
-  0% { border-image: linear-gradient(0deg, var(--p), var(--gold), var(--p2)) 1; }
-  50% { border-image: linear-gradient(180deg, var(--gold), var(--p2), var(--p)) 1; }
-  100% { border-image: linear-gradient(360deg, var(--p), var(--gold), var(--p2)) 1; }
+/* एनिमेशन: बॉर्डर पर चमकती हुई लाइटिंग (Glowing Moving Border) */
+@keyframes glowingBorder {
+  0% { border-color: var(--p); box-shadow: 0 0 5px var(--p); }
+  50% { border-color: var(--gold); box-shadow: 0 0 15px var(--gold), inset 0 0 5px var(--gold); }
+  100% { border-color: var(--p); box-shadow: 0 0 5px var(--p); }
 }
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px 24px;border-radius:0 0 24px 24px;position:relative;animation: bounceDrop 0.8s ease-out;}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 2s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
 .hero-title{font-size:18px;line-height:1.25;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:11.5px;line-height:1.4;opacity:.88}.container{padding:12px}
 
 .top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:10}
 .top-profile-btn{background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:5px 11px;border-radius:18px;font:700 12px inherit;cursor:pointer;text-decoration:none}
 
-.card{background:var(--card);border:2px solid transparent;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);animation: bounceDrop 0.9s ease-out;border-image: linear-gradient(135deg, var(--p), var(--gold)) 1;}
+.card{background:var(--card);border:2px solid var(--p);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);animation: bounceDrop 0.9s ease-out;animation: glowingBorder 3s infinite ease-in-out;}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 8px}.section-title h2{font-size:16px;margin:0;color:var(--navy)}
 
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18);text-decoration:none;display:inline-block;text-align:center}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
-/* होरिजॉन्टल स्लाइडर कैटेगरी लेआउट - बॉर्डर पर लाइटिंग और आइकॉन बाउंस */
-.category-slider{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+/* होरिजॉन्टल स्लाइडर कैटेगरी लेआउट - चमकदार बॉर्डर और उछलते आइकॉन */
+.category-slider{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .category-slider::-webkit-scrollbar{display:none}
 
-.cat-card{min-width:115px;max-width:115px;background:var(--card);border:2px solid var(--p);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 0 12px rgba(7,87,163,0.2);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.2s;position:relative;overflow:hidden}
+.cat-card{min-width:115px;max-width:115px;background:var(--card);border:2.5px solid var(--p);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.15);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.2s;position:relative;animation: glowingBorder 2.5s infinite ease-in-out;}
 .cat-card:active{transform:scale(0.95)}
-.cat-card .ic{width:52px;height:52px;border-radius:14px;background:rgba(7,87,163,0.08);display:grid;place-items:center;font-size:26px;margin-bottom:8px;animation: iconBounce 2.5s infinite ease-in-out}
+.cat-card .ic{width:52px;height:52px;border-radius:14px;background:rgba(7,87,163,0.1);display:grid;place-items:center;font-size:26px;margin-bottom:8px;animation: iconBounce 1.5s infinite ease-in-out}
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:18px;color:var(--p);font-weight:900}.stat span{font-size:10px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow);animation: glowingBorder 3s infinite ease-in-out}.stat b{display:block;font-size:18px;color:var(--p);font-weight:900}.stat span{font-size:10px;color:var(--muted)}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -96,7 +95,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     
     <div class="section-title"><h2>समाज की मुख्य सेवाएं</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     
-    <!-- होरिजॉन्टल स्लाइडर जिसमें आइकॉन उछल रहे हैं और बॉर्डर पर लाइटिंग है -->
+    <!-- होरिजॉन्टल स्लाइडर -->
     <div class="category-slider">
       <a href="search.html" class="cat-card">
         <div class="ic">🔎</div>
@@ -169,7 +168,7 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// नंबर काउंटिंग एनीमेशन फंक्शन (0 से फाइनल नंबर तक घूमते हुए बढ़ेगा)
+// काउंटिंग एनीमेशन
 function animateCount(elementId, targetNumber) {
   let el = document.getElementById(elementId);
   let current = 0;
@@ -187,13 +186,9 @@ function animateCount(elementId, targetNumber) {
 async function loadHomeStats(){
   try{
     let [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);
-    let totalMembers = u.size;
-    let totalFamilies = f.size;
-    let approvedCount = u.docs.filter(d=>d.data().status==="approved").length;
-
-    animateCount("stMembers", totalMembers);
-    animateCount("stFamilies", totalFamilies);
-    animateCount("stApproved", approvedCount);
+    animateCount("stMembers", u.size);
+    animateCount("stFamilies", f.size);
+    animateCount("stApproved", u.docs.filter(d=>d.data().status==="approved").length);
   }catch(e){
     document.getElementById("stMembers").textContent = "0";
     document.getElementById("stFamilies").textContent = "0";

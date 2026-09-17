@@ -4,68 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0757a3">
-<title>सदस्य लॉगिन | भुईहर जाति समाज</title>
+<title>सदस्य डैशबोर्ड | भुईहर जाति समाज</title>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--green:#168c50;--red:#d93025;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--green:#168c50;--red:#d93025;--shadow:0 4px 16px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 
-@keyframes zoomInDrop {
-  0% { transform: translateY(-30px) scale(0.96); opacity: 0; }
-  60% { transform: translateY(4px) scale(1.005); opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:80px;}
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;animation: zoomInDrop 0.7s ease-out forwards;}
-
-@keyframes iconBounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-5px) scale(1.06); }
-}
-
-.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px;border-radius:0 0 22px 22px}
-.header h1{margin:0;font-size:18px;font-weight:800}
+.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 20px 20px;display:flex;justify-content:space-between;align-items:center;}
+.header h1{margin:0;font-size:17px;font-weight:800}
 .header p{margin:2px 0 0;font-size:11px;opacity:.85}
 
 .container{padding:12px}
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-}
-
-.form-group{margin-bottom:10px}
+/* लॉगिन कार्ड */
+.auth-card{background:var(--card);padding:20px;border-radius:16px;box-shadow:var(--shadow);margin-top:30px;text-align:center;}
+.form-group{margin-bottom:12px;text-align:left;}
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-group input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:12px inherit;background:#f9fafb;letter-spacing: 1px;}
+.form-group input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#f9fafb}
 
-.btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18)}
+.btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18)}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff5252);box-shadow:0 4px 12px rgba(217,48,37,.18)}
 
-/* ऑटो और टच होरिजॉन्टल सर्विस स्लाइडर */
-.service-slider{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior: smooth;}
-.service-slider::-webkit-scrollbar{display:none}
+/* डिजिटल आईडी कार्ड */
+.id-card{background:linear-gradient(135deg,#ffffff,#f8fafc);border:2px solid var(--gold);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;}
+.id-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px;}
+.id-title{font-size:13px;font-weight:800;color:var(--navy);}
+.id-badge{background:var(--green);color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.id-body p{margin:5px 0;font-size:12.5px;}
 
-.serv-card{
-  min-width:110px;max-width:110px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:12px 6px;
-  text-align:center;
-  box-shadow: var(--shadow);
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-decoration:none;
-  flex-shrink:0;
-}
-.serv-card .ic{width:46px;height:46px;border-radius:12px;background:#f0f4f9;display:grid;place-items:center;font-size:22px;margin-bottom:6px;animation: iconBounce 1.8s infinite ease-in-out}
-.serv-card b{display:block;font-size:11.5px;font-weight:800;color:var(--navy)}
+/* फंड विजेट बॉक्स */
+.fund-widget{background:linear-gradient(135deg,var(--navy),var(--p));color:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);}
+.fund-grid{display:flex;justify-content:space-between;text-align:center;margin-top:10px;background:rgba(255,255,255,0.1);padding:8px;border-radius:10px;}
+.fund-col{flex:1;}
+.fund-col span{display:block;font-size:10px;opacity:.85;}
+.fund-col b{font-size:13px;}
 
+/* सामुदायिक सूचना पोस्ट कार्ड */
+.post-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:var(--shadow);position:relative;}
+.new-badge{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;padding:2px 6px;border-radius:6px;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+
+.section-title{font-size:14px;font-weight:800;color:var(--navy);margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+
+/* बॉटम नेविगेशन */
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
@@ -76,49 +59,80 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="header">
-    <h1>👤 सदस्य लॉगिन व प्रोफाइल</h1>
-    <p>सुरक्षित 6-डिजिट MPIN लॉगिन</p>
+    <div>
+      <h1>👤 सदस्य पोर्टल</h1>
+      <p>भुईहर जाति समाज • महाराजगंज</p>
+    </div>
+    <button id="logoutBtn" onclick="userLogout()" style="display:none;background:rgba(255,255,255,0.2);border:0;color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;">लॉग आउट</button>
   </div>
 
   <div class="container">
-    <!-- लॉगिन बॉक्स (मोबाइल नंबर और 6-डिजिट MPIN) -->
-    <div class="card" id="loginBox">
-      <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">🔐 सुरक्षित लॉगिन</h3>
+    
+    <!-- 1. लॉगिन स्क्रीन (यदि यूजर लॉगिन नहीं है) -->
+    <div id="loginAuthCard" class="auth-card">
+      <h3 style="margin-top:0;color:var(--navy);">🔐 सदस्य लॉगिन</h3>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">अपने मोबाइल नंबर और 6-डिजिट MPIN से प्रवेश करें</p>
       <div class="form-group">
-        <label>पंजीकृत मोबाइल नंबर</label>
-        <input type="tel" id="loginMobile" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+        <label>मोबाइल नंबर (10 अंक)</label>
+        <input type="tel" id="loginMobile" maxlength="10" placeholder="अपना रजिस्टर्ड नंबर डालें">
       </div>
       <div class="form-group">
-        <label>6-डिजिट MPIN (गुप्त पिन)</label>
-        <input type="password" id="loginMpin" maxlength="6" placeholder="******">
+        <label>गुप्त पिन (6-Digit MPIN)</label>
+        <input type="password" id="loginMpin" maxlength="6" placeholder="6 अंकों का MPIN">
       </div>
-      <button class="btn" onclick="verifyMpinLogin()">लॉगिन करें</button>
+      <button class="btn" onclick="verifyUserLogin()">लॉगिन करें</button>
+      
+      <p style="margin-top:14px;font-size:12px;">नया पंजीकरण नहीं किया है? <a href="register.html" style="color:var(--p);font-weight:700;text-decoration:none;">यहाँ रजिस्टर करें</a></p>
     </div>
 
-    <!-- प्रोफाइल और आईडी कार्ड (सफल लॉगिन के बाद) -->
-    <div id="profileBox" style="display:none;">
-      <div class="card" style="background:linear-gradient(135deg,#f0f7ff,#e0effe);border:1.5px solid var(--p);">
-        <h3 style="margin:0 0 6px;font-size:15px;color:var(--navy);">🪪 डिजिटल पहचान पत्र</h3>
-        <p style="margin:2px 0;font-size:12px;"><b>नाम:</b> <span id="pName">-</span></p>
-        <p style="margin:2px 0;font-size:12px;"><b>गोत्र / गाँव:</b> <span id="pGotra">-</span> • महाराजगंज</p>
-        <p style="margin:2px 0;font-size:12px;"><b>मोबाइल:</b> <span id="pMobile">-</span></p>
-        <div style="margin-top:8px;padding:4px 8px;background:#168c50;color:#fff;border-radius:6px;display:inline-block;font-size:10.5px;font-weight:700;">सत्यापित सदस्य (Verified)</div>
+    <!-- 2. यूजर डैशबोर्ड (लॉगिन के बाद दिखेगा) -->
+    <div id="userDashboard" style="display:none;">
+      
+      <!-- डिजिटल आईडी कार्ड -->
+      <div class="id-card">
+        <div class="id-header">
+          <span class="id-title">🪪 डिजिटल परिचय पत्र</span>
+          <span class="id-badge" id="cardStatus">सक्रिय सदस्य</span>
+        </div>
+        <div class="id-body">
+          <p><b>नाम:</b> <span id="cardName">-</span></p>
+          <p><b>पिता/पति:</b> <span id="cardRelation">-</span></p>
+          <p><b>गोत्र:</b> <span id="cardGotra">-</span> | <b>रक्त समूह:</b> <span id="cardBlood">-</span></p>
+          <p><b>ग्राम पंचायत / जिला:</b> <span id="cardAddress">-</span></p>
+          <p><b>मोबाइल:</b> <span id="cardMobile">-</span></p>
+        </div>
       </div>
 
-      <!-- आईडी कार्ड के नीचे ऑटो और टच होरिजॉन्टल सर्विस स्लाइडर -->
-      <h3 style="font-size:14px;margin:16px 2px 8px;color:var(--navy);">✨ समाज की मुख्य सेवाएं</h3>
-      <div class="service-slider" id="autoSlider">
-        <a href="search.html" class="serv-card"><div class="ic">🔎</div><b>सदस्य खोज</b></a>
-        <a href="blood.html" class="serv-card"><div class="ic">🩸</div><b>रक्तदाता</b></a>
-        <a href="matrimonial.html" class="serv-card"><div class="ic">💍</div><b>वैवाहिक</b></a>
-        <a href="vehicles.html" class="serv-card"><div class="ic">🚜</div><b>वाहन बुकिंग</b></a>
-        <a href="jobs.html" class="serv-card"><div class="ic">💼</div><b>रोज़गार</b></a>
-        <a href="business.html" class="serv-card"><div class="ic">🏪</div><b>बिजनेस</b></a>
-        <a href="donation.html" class="serv-card"><div class="ic">🪙</div><b>दान कोष</b></a>
-        <a href="family.html" class="serv-card"><div class="ic">👨‍👩‍👧</div><b>परिवार वृक्ष</b></a>
-        <a href="history.html" class="serv-card"><div class="ic">📜</div><b>इतिहास</b></a>
+      <!-- लाइव फंड बैलेंस विजेट -->
+      <div class="fund-widget">
+        <div style="font-size:13px;font-weight:800;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:4px;display:flex;justify-content:space-between;">
+          <span>🪙 समाज सहयोग कोष (लाइव बैलेंस)</span>
+          <span id="netBalance" style="color:var(--gold);font-weight:900;">₹0</span>
+        </div>
+        <div class="fund-grid">
+          <div class="fund-col">
+            <span>कुल जमा (Credit)</span>
+            <b id="totalCredit" style="color:#2ecc71;">₹0</b>
+          </div>
+          <div class="fund-col" style="border-left:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.2);">
+            <span>कुल खर्च (Debit)</span>
+            <b id="totalDebit" style="color:#ff6b6b;">₹0</b>
+          </div>
+          <div class="fund-col">
+            <span>शेष राशि (Net)</span>
+            <b id="netBalanceSub" style="color:var(--gold);">₹0</b>
+          </div>
+        </div>
       </div>
+
+      <!-- सामुदायिक सूचनाएँ (सबसे नई सूचना सबसे ऊपर और 48 घंटे तक New टैग) -->
+      <div class="section-title">📢 सामुदायिक सूचनाएँ व बैठकें</div>
+      <div id="userPostsContainer">
+        <p style="font-size:12px;color:var(--muted);text-align:center;">सूचनाएँ लोड हो रही हैं...</p>
+      </div>
+
     </div>
+
   </div>
 
   <!-- बॉटम नेविगेशन -->
@@ -138,53 +152,160 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// होरिजॉन्टल सर्विस स्लाइडर ऑटो-स्क्रॉल
-const slider = document.getElementById('autoSlider');
-let scrollAmount = 0;
-setInterval(() => {
-  if(slider) {
-    scrollAmount += 120;
-    if(scrollAmount >= slider.scrollWidth - slider.clientWidth) {
-      scrollAmount = 0;
-    }
-    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+// पेज लोड होने पर चेक करें कि क्या यूजर पहले से लॉग इन है
+window.onload = function(){
+  let savedMobile = localStorage.getItem("userLoggedInMobile");
+  if(savedMobile){
+    fetchUserData(savedMobile);
   }
-}, 3000);
+}
 
-// मोबाइल नंबर और 6-डिजिट MPIN वेरीफाई करके लॉगिन करना
-async function verifyMpinLogin(){
+// यूजर लॉगिन वेरीफाई करें
+async function verifyUserLogin(){
   let mob = document.getElementById("loginMobile").value.trim();
   let mpin = document.getElementById("loginMpin").value.trim();
 
-  if(!mob || mob.length < 10){
-    alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
-    return;
-  }
-  if(!mpin || mpin.length !== 6){
-    alert("कृपया अपना सही 6-डिजिट MPIN दर्ज करें।");
+  if(mob.length < 10 || mpin.length < 6){
+    alert("कृपया सही 10 अंकों का मोबाइल नंबर और 6 अंकों का MPIN दर्ज करें।");
     return;
   }
 
   try {
-    let snap = await db.collection("users").where("mobile", "==", mob).get();
-    if(!snap.empty){
-      let userData = snap.docs[0].data();
-      // यदि डेटाबेस में MPIN मैच होता है (या टेस्टिंग के लिए बाईपास करना चाहें)
-      if(userData.mpin === mpin || mpin === "123456") {
-        document.getElementById("pName").textContent = userData.fullName || "सदस्य";
-        document.getElementById("pGotra").textContent = userData.gotra || "सामान्य";
-        document.getElementById("pMobile").textContent = userData.mobile;
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("profileBox").style.display = "block";
-      } else {
-        alert("गलत MPIN! कृपया सही 6-डिजिट पिन दर्ज करें।");
-      }
-    } else {
-      alert("यह मोबाइल नंबर पंजीकृत नहीं है। कृपया पहले नया सदस्य पंजीकरण करें।");
+    let snapshot = await db.collection("users").where("mobile", "==", mob).where("mpin", "==", mpin).get();
+    if(snapshot.empty){
+      alert("गलत मोबाइल नंबर या MPIN! या हो सकता है एडमिन द्वारा अभी आपका अप्रूवल बाकी हो।");
+      return;
     }
-  } catch(e) {
-    alert("लॉगिन में तकनीकी त्रुटि: " + e.message);
+
+    snapshot.forEach(doc => {
+      let data = doc.data();
+      if(data.status === "blocked"){
+        alert("आपका खाता एडमिन द्वारा ब्लॉक कर दिया गया है।");
+        return;
+      }
+      
+      localStorage.setItem("userLoggedInMobile", mob);
+      fetchUserData(mob);
+    });
+  } catch(err) {
+    alert("लॉगिन में त्रुटि: " + err.message);
   }
+}
+
+// यूजर डेटा लोड करें और डैशबोर्ड दिखाएं
+async function fetchUserData(mob){
+  try {
+    let snapshot = await db.collection("users").where("mobile", "==", mob).get();
+    snapshot.forEach(doc => {
+      let data = doc.data();
+      
+      // आईडी कार्ड में वैल्यू भरें
+      document.getElementById("cardName").innerText = data.fullName || "-";
+      document.getElementById("cardRelation").innerText = (data.relationType || "पिता") + ": " + (data.relationName || "-");
+      document.getElementById("cardGotra").innerText = data.gotra || "-";
+      document.getElementById("cardBlood").innerText = data.bloodGroup || "उपलब्ध नहीं";
+      document.getElementById("cardAddress").innerText = (data.panchayat || "-") + ", " + (data.district || "-");
+      document.getElementById("cardMobile").innerText = data.mobile;
+      document.getElementById("cardStatus").innerText = data.status === "approved" ? "सक्रिय सदस्य" : data.status;
+
+      // स्क्रीन स्विच करें
+      document.getElementById("loginAuthCard").style.display = "none";
+      document.getElementById("userDashboard").style.display = "block";
+      document.getElementById("logoutBtn").style.display = "block";
+
+      // फंड और पोस्ट लोड करें
+      loadLiveFundBalance();
+      loadUserPosts();
+    });
+  } catch(err) {
+    console.log("डेटा लोड त्रुटि: ", err);
+  }
+}
+
+// लाइव फंड बैलेंस कैलकुलेट करें
+async function loadLiveFundBalance(){
+  try {
+    let snap = await db.collection("funds").get();
+    let totalCredit = 0;
+    let totalDebit = 0;
+
+    snap.forEach(doc => {
+      let f = doc.data();
+      let amt = parseFloat(f.amount) || 0;
+      if(f.type === "credit"){
+        totalCredit += amt;
+      } else if(f.type === "debit"){
+        totalDebit += amt;
+      }
+    });
+
+    let net = totalCredit - totalDebit;
+
+    document.getElementById("totalCredit").innerText = "₹" + totalCredit.toLocaleString('en-IN');
+    document.getElementById("totalDebit").innerText = "₹" + totalDebit.toLocaleString('en-IN');
+    document.getElementById("netBalance").innerText = "₹" + net.toLocaleString('en-IN');
+    document.getElementById("netBalanceSub").innerText = "₹" + net.toLocaleString('en-IN');
+  } catch(err) {
+    console.log("फंड लोड त्रुटि: ", err);
+  }
+}
+
+// सामुदायिक सूचनाएं लोड करें (सबसे नई पोस्ट सबसे ऊपर और 48 घंटे तक NEW टैग)
+async function loadUserPosts(){
+  let container = document.getElementById("userPostsContainer");
+  
+  try {
+    // orderBy('createdAt', 'desc') से सबसे नई पोस्ट सबसे ऊपर आएगी
+    let snap = await db.collection("posts").orderBy("createdAt", "desc").get();
+    
+    if(snap.empty){
+      container.innerHTML = "<p style='font-size:12px;color:var(--muted);text-align:center;'>अभी कोई नई सूचना उपलब्ध नहीं है।</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+    let now = new Date().getTime();
+
+    snap.forEach(doc => {
+      let post = doc.data();
+      let postDiv = document.createElement("div");
+      postDiv.className = "post-card";
+
+      // 48 घंटे (2 दिन) की मिलीसेकंड में गणना
+      let isNew = false;
+      if(post.createdAt && post.createdAt.toDate){
+        let postTime = post.createdAt.toDate().getTime();
+        let hoursDiff = (now - postTime) / (1000 * 60 * 60);
+        if(hoursDiff <= 48){
+          isNew = true;
+        }
+      }
+
+      let newBadgeHTML = isNew ? `<div class="new-badge">NEW ⚡</div>` : "";
+      
+      // दिनांक फॉर्मेट करें
+      let dateStr = "";
+      if(post.createdAt && post.createdAt.toDate){
+        dateStr = post.createdAt.toDate().toLocaleDateString('hi-IN', {day:'numeric', month:'short', year:'numeric'});
+      }
+
+      postDiv.innerHTML = `
+        ${newBadgeHTML}
+        <h4 style="margin:0 0 4px;font-size:13.5px;color:var(--navy);">${post.title || ''}</h4>
+        <p style="margin:0 0 8px;font-size:12px;color:var(--muted);line-height:1.4;">${post.description || ''}</p>
+        <div style="font-size:10.5px;color:var(--muted);text-align:right;border-top:1px dashed var(--line);padding-top:4px;">📅 ${dateStr}</div>
+      `;
+
+      container.appendChild(postDiv);
+    });
+  } catch(err) {
+    container.innerHTML = "<p style='font-size:12px;color:var(--red);text-align:center;'>सूचनाएं लोड करने में त्रुटि। (यदि सूचकांक इंडेक्स की जरूरत हो तो कंसोल देखें)</p>";
+  }
+}
+
+function userLogout(){
+  localStorage.removeItem("userLoggedInMobile");
+  location.reload();
 }
 </script>
 </body>

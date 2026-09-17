@@ -228,6 +228,15 @@ async function loadHomeStats(){
   }
 }
 loadHomeStats();
+  history.pushState(null, null, location.href);
+window.addEventListener('popstate', function (event) {
+  history.pushState(null, null, location.href);
+  
+  let confirmExit = confirm("क्या आप भुईहर समाज पोर्टल से बाहर निकलना चाहते हैं?");
+  if (confirmExit) {
+    window.close();
+  }
+});
 </script>
 </body>
 </html>

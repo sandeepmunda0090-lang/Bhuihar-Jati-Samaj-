@@ -22,24 +22,31 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
 .container{padding:12px}
 
+/* एकदम पतला और खूबसूरत रनिंग बॉर्डर कार्ड */
 .job-card {
   position: relative;
-  border-radius: 18px;
+  border-radius: 16px;
   background: var(--card);
-  padding: 14px;
   margin-bottom: 12px;
   box-shadow: var(--shadow);
   z-index: 1;
+  overflow: hidden;
 }
 .job-card::before {
   content: '';
   position: absolute;
-  top: -2px; left: -2px; right: -2px; bottom: -2px;
-  background: linear-gradient(45deg, #0757a3, #f4b63f, #168c50, #0d7bd3);
-  background-size: 300%;
-  border-radius: 20px;
+  top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;
+  background: linear-gradient(45deg, #0757a3, #f4b63f, #168c50, #0d7bd3, #0757a3);
+  background-size: 400%;
+  border-radius: 17px;
   z-index: -1;
   animation: borderRotate 5s linear infinite;
+}
+
+.job-inner {
+  background: #fff;
+  border-radius: 15px;
+  padding: 14px;
 }
 
 .job-info h3{margin:0 0 4px;font-size:15px;font-weight:800;color:var(--navy)}
@@ -62,7 +69,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
   <div class="container" id="jobContainer">
     <div class="job-card">
-      <div style="background:#fff;border-radius:14px;padding:4px;">
+      <div class="job-inner">
         <div class="job-info">
           <h3>दुकान सहायक / ऑपरेटर आवश्यकता</h3>
           <p><b>कार्यक्षेत्र:</b> महाराजगंज • <b>वेतन:</b> योग्यतानुसार</p>
@@ -98,7 +105,7 @@ async function loadJobs(){
       let html="";
       snap.forEach(doc=>{
         let d=doc.data();
-        html+=`<div class="job-card"><div style="background:#fff;border-radius:14px;padding:4px;"><div class="job-info">
+        html+=`<div class="job-card"><div class="job-inner"><div class="job-info">
           <h3>${d.jobTitle}</h3>
           <p><b>कार्यक्षेत्र:</b> ${d.location||'महाराजगंज'} • <b>वेतन:</b> ${d.salary||'-'}</p>
           <p>📍 ${d.description||''}</p>

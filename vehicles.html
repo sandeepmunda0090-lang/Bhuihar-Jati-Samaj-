@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0757a3">
+<title>वाहन बुकिंग | भुईहर जाति समाज</title>
+<style>
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--shadow:0 10px 28px rgba(20,42,72,.09)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
+
+.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 22px 22px;display:flex;align-items:center;gap:12px}
+.back-btn{background:rgba(255,255,255,0.2);color:#fff;border:0;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:16px;cursor:pointer;text-decoration:none}
+.header h1{margin:0;font-size:17px;font-weight:800}
+.header p{margin:2px 0 0;font-size:11px;opacity:.8}
+
+.container{padding:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--navy)}
+
+/* वाहन कार्ड ग्रिड डिजाइन - सभी आइकॉन एकदम सेंटर और व्यवस्थित */
+.vehicle-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.veh-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.veh-icon{width:54px;height:54px;border-radius:14px;background:rgba(7,87,163,0.08);display:grid;place-items:center;font-size:26px;margin-bottom:8px}
+.veh-card h4{margin:0 0 4px;font-size:14px;font-weight:800}
+.veh-card p{margin:0 0 10px;font-size:11px;color:var(--muted)}
+
+.btn{border:0;border-radius:12px;padding:10px 12px;width:100%;font:700 13px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-decoration:none;display:inline-block;text-align:center}
+.btn.wa{background:linear-gradient(135deg,#128c7e,#25d366);box-shadow:0 4px 12px rgba(37,211,102,.25)}
+
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
+.nav b{display:block;font-size:16px}
+.nav a.active{color:var(--p);font-weight:800}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="header">
+    <a href="index.html" class="back-btn">←</a>
+    <div>
+      <h1>🚜 समाज वाहन बुकिंग सेवा</h1>
+      <p>महाराजगंज एवं आसपास के लिए उपलब्ध</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h3>उपलब्ध वाहन और सेवाएं</h3>
+      <p style="font-size:11.5px;color:var(--muted);line-height:1.4;margin:0">समाज के बंधुओं द्वारा संचालित ट्रैक्टर, पिकअप और अन्य कृषि/यात्री वाहन किराए पर लेने के लिए सीधे संपर्क करें।</p>
+      
+      <div class="vehicle-grid">
+        <div class="veh-card">
+          <div class="veh-icon">🚜</div>
+          <h4>फार्म ट्रैक्टर</h4>
+          <p>जुताई व ढुलाई हेतु</p>
+          <a href="tel:9111111111" class="btn">📞 संपर्क करें</a>
+        </div>
+
+        <div class="veh-card">
+          <div class="veh-icon">🚐</div>
+          <h4>छोटा हाथी / पिकअप</h4>
+          <p>सामग्री ढुलाई हेतु</p>
+          <a href="tel:9111111111" class="btn">📞 संपर्क करें</a>
+        </div>
+
+        <div class="veh-card">
+          <div class="veh-icon">🚗</div>
+          <h4>कार / ट्रैवलर</h4>
+          <p>विवाह व यात्रा हेतु</p>
+          <a href="tel:9111111111" class="btn">📞 संपर्क करें</a>
+        </div>
+
+        <div class="veh-card">
+          <div class="veh-icon">🚚</div>
+          <h4>टिपर / ट्रक</h4>
+          <p>हेवी लोड ढुलाई</p>
+          <a href="tel:9111111111" class="btn">📞 संपर्क करें</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;padding:16px">
+      <h3 style="margin-bottom:6px">क्या आपका भी वाहन है?</h3>
+      <p style="font-size:11.5px;color:var(--muted);margin-bottom:12px">समाज की वाहन सूची में अपना वाहन जोड़ने के लिए व्हाट्सएप पर जानकारी भेजें।</p>
+      <a href="https://wa.me/919111111111?text=नमस्ते,%20मैं%20अपने%20वाहन%20को%20समाज%20पोर्टल%20पर%20पंजीकृत%20कराना%20चाहता%20हूँ।" target="_blank" class="btn wa">💬 व्हाट्सएप पर जोड़ें</a>
+    </div>
+  </div>
+
+  <!-- बॉटम नेविगेशन -->
+  <nav class="nav">
+    <a href="index.html"><b>⌂</b>Home</a>
+    <a href="search.html"><b>⌕</b>Search</a>
+    <a href="login.html"><b>👤</b>Profile</a>
+    <a href="blood.html"><b>🩸</b>Blood</a>
+    <a href="admin.html"><b>🛡️</b>Admin</a>
+  </nav>
+</div>
+
+</body>
+</html>

@@ -23,6 +23,10 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-group input, .form-group select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#f9fafb;color:var(--text)}
 
+.row-group{display:flex;gap:8px;}
+.row-group select{flex:1;}
+.row-group input{flex:2;}
+
 .btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);margin-top:8px;}
 
 /* बॉटम नेविगेशन */
@@ -52,9 +56,16 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <input type="tel" id="regMobile" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
       </div>
 
+      <!-- पिता या पति का चयन और नाम -->
       <div class="form-group">
-        <label>पिता का नाम *</label>
-        <input type="text" id="regFather" placeholder="पिता का नाम">
+        <label>पिता / पति का नाम *</label>
+        <div class="row-group">
+          <select id="relationType">
+            <option value="पिता का नाम">पिता का नाम</option>
+            <option value="पति का नाम">पति का नाम</option>
+          </select>
+          <input type="text" id="regRelationName" placeholder="नाम दर्ज करें">
+        </div>
       </div>
 
       <div class="form-group">
@@ -122,14 +133,12 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// पेज लोड होते ही एडमिन द्वारा जोड़े गए जिले और पंचायत लोड करें
 window.onload = function(){
   loadDropdowns();
 }
 
 async function loadDropdowns(){
   try {
-    // जिले लोड करें
     let distSnap = await db.collection("districts").get();
     let distSelect = document.getElementById("regDistrict");
     distSnap.forEach(doc => {
@@ -140,7 +149,6 @@ async function loadDropdowns(){
       distSelect.appendChild(opt);
     });
 
-    // पंचायत लोड करें
     let panchSnap = await db.collection("panchayats").get();
     let panchSelect = document.getElementById("regPanchayat");
     panchSnap.forEach(doc => {
@@ -158,7 +166,8 @@ async function loadDropdowns(){
 async function submitRegistration(){
   let name = document.getElementById("regName").value.trim();
   let mobile = document.getElementById("regMobile").value.trim();
-  let father = document.getElementById("regFather").value.trim();
+  let relType = document.getElementById("relationType").value;
+  let relName = document.getElementById("regRelationName").value.trim();
   let gotra = document.getElementById("regGotra").value.trim();
   let district = document.getElementById("regDistrict").value;
   let panchayat = document.getElementById("regPanchayat").value;
@@ -166,25 +175,23 @@ async function submitRegistration(){
   let blood = document.getElementById("regBlood").value;
   let mpin = document.getElementById("regMpin").value.trim();
 
-  // वैलिडेट करें
-  if(!name || mobile.length < 10 || !father || !gotra || !district || !panchayat || !village || mpin.length < 6){
+  if(!name || mobile.length < 10 || !relName || !gotra || !district || !panchayat || !village || mpin.length < 6){
     alert("कृपया सभी अनिवार्य (*) फील्ड सही-सही भरें और 6 अंकों का MPIN बनाएं।");
     return;
   }
 
   try {
-    // चेक करें कि क्या यह मोबाइल नंबर पहले से रजिस्टर्ड है
     let checkUser = await db.collection("users").where("mobile", "==", mobile).get();
     if(!checkUser.empty){
       alert("इस मोबाइल नंबर से पहले ही पंजीकरण हो चुका है। कृपया लॉगिन करें।");
       return;
     }
 
-    // नया डेटा सेव करें (status: 'pending' ताकि एडमिन इसे अप्रूव कर सके)
     await db.collection("users").add({
       fullName: name,
       mobile: mobile,
-      fatherName: father,
+      relationType: relType, // 'पिता का नाम' या 'पति का नाम'
+      relationName: relName, // नाम
       gotra: gotra,
       district: district,
       panchayat: panchayat,

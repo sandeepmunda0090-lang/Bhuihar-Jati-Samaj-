@@ -6,76 +6,102 @@
 <meta name="theme-color" content="#0757a3">
 <title>नया सदस्य पंजीकरण | भुईहर जाति समाज</title>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--red:#d93025;--shadow:0 10px 28px rgba(20,42,72,.09)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--green:#168c50;--red:#d93025;--shadow:0 4px 16px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
+body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 
-.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 22px 22px;display:flex;align-items:center;gap:12px}
-.back-btn{background:rgba(255,255,255,0.2);color:#fff;border:0;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:16px;cursor:pointer;text-decoration:none}
-.header h1{margin:0;font-size:17px;font-weight:800}
-.header p{margin:2px 0 0;font-size:11px;opacity:.8}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:80px;}
 
-.container{padding:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 20px 20px;text-align:center;}
+.header h1{margin:0;font-size:18px;font-weight:800}
+.header p{margin:3px 0 0;font-size:11.5px;opacity:.85}
 
-.form-group{margin-bottom:10px}
-.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font-size:13px;background:#fafbfc;color:var(--text);outline:none}
-.form-control:focus{border-color:var(--p);background:#fff}
+.container{padding:14px}
 
-.btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:8px;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center}
+.form-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow);}
+.form-group{margin-bottom:12px;}
+.form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
+.form-group input, .form-group select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#f9fafb;color:var(--text)}
 
+.btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);margin-top:8px;}
+
+/* बॉटम नेविगेशन */
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
-
-#msg{font-size:12px;text-align:center;margin-top:8px;font-weight:700}
 </style>
 </head>
 <body>
 
 <div id="app">
   <div class="header">
-    <a href="index.html" class="back-btn">←</a>
-    <div>
-      <h1>नया सदस्य पंजीकरण</h1>
-      <p>भुईहर जाति समाज • महाराजगंज</p>
-    </div>
+    <h1>📝 नया सदस्य पंजीकरण</h1>
+    <p>भुईहर जाति समाज • डिजिटल पोर्टल</p>
   </div>
 
   <div class="container">
-    <div class="card">
-      <form id="regForm" onsubmit="registerUser(event)">
-        <div class="form-group">
-          <label>पूरा नाम (सदस्य)</label>
-          <input type="text" id="fullName" class="form-control" placeholder="अपना पूरा नाम लिखें" required>
-        </div>
+    <div class="form-card">
+      <div class="form-group">
+        <label>पूरा नाम (Full Name) *</label>
+        <input type="text" id="regName" placeholder="अपना पूरा नाम दर्ज करें">
+      </div>
 
-        <div class="form-group">
-          <label>पिता / पति का नाम</label>
-          <input type="text" id="relativeName" class="form-control" placeholder="पिता या पति का नाम" required>
-        </div>
+      <div class="form-group">
+        <label>मोबाइल नंबर (Login ID) *</label>
+        <input type="tel" id="regMobile" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+      </div>
 
-        <div class="form-group">
-          <label>मोबाईल नंबर (व्हाट्सएप)</label>
-          <input type="tel" id="mobile" class="form-control" placeholder="10 अंक का मोबाइल नंबर" pattern="[0-9]{10}" required>
-        </div>
+      <div class="form-group">
+        <label>पिता का नाम *</label>
+        <input type="text" id="regFather" placeholder="पिता का नाम">
+      </div>
 
-        <div class="form-group">
-          <label>गाँव / क्षेत्र</label>
-          <input type="text" id="village" class="form-control" value="महाराजगंज" required>
-        </div>
+      <div class="form-group">
+        <label>गोत्र (Gotra) *</label>
+        <input type="text" id="regGotra" placeholder="जैसे: कश्यप, वत्स आदि">
+      </div>
 
-        <div class="form-group">
-          <label>गोत्र (यदि ज्ञात हो)</label>
-          <input type="text" id="gotra" class="form-control" placeholder="गोत्र का नाम लिखें">
-        </div>
+      <div class="form-group">
+        <label>जिला (District) *</label>
+        <select id="regDistrict">
+          <option value="">-- जिला चुनें --</option>
+        </select>
+      </div>
 
-        <button type="submit" class="btn" id="submitBtn">पंजीकरण जमा करें</button>
-        <div id="msg"></div>
-      </form>
+      <div class="form-group">
+        <label>ग्राम पंचायत (Panchayat) *</label>
+        <select id="regPanchayat">
+          <option value="">-- ग्राम पंचायत चुनें --</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>गाँव / वार्ड का नाम *</label>
+        <input type="text" id="regVillage" placeholder="गाँव या मोहल्ले का नाम">
+      </div>
+
+      <div class="form-group">
+        <label>रक्त समूह (Blood Group)</label>
+        <select id="regBlood">
+          <option value="">-- चुनें --</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>6 अंकों का गुप्त पिन (MPIN) बनाएँ *</label>
+        <input type="password" id="regMpin" maxlength="6" placeholder="लॉगिन के लिए 6 अंकों का पिन">
+      </div>
+
+      <button class="btn" onclick="submitRegistration()">पंजीकरण सुरक्षित करें</button>
     </div>
   </div>
 
@@ -96,34 +122,84 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-async function registerUser(e){
-  e.preventDefault();
-  let btn=document.getElementById("submitBtn");
-  let msg=document.getElementById("msg");
-  btn.disabled=true;
-  btn.textContent="सहेज रहा है...";
+// पेज लोड होते ही एडमिन द्वारा जोड़े गए जिले और पंचायत लोड करें
+window.onload = function(){
+  loadDropdowns();
+}
 
-  let data={
-    fullName:document.getElementById("fullName").value,
-    relativeName:document.getElementById("relativeName").value,
-    mobile:document.getElementById("mobile").value,
-    village:document.getElementById("village").value,
-    gotra:document.getElementById("gotra").value,
-    status:"pending",
-    createdAt:new Date().toISOString()
-  };
+async function loadDropdowns(){
+  try {
+    // जिले लोड करें
+    let distSnap = await db.collection("districts").get();
+    let distSelect = document.getElementById("regDistrict");
+    distSnap.forEach(doc => {
+      let data = doc.data();
+      let opt = document.createElement("option");
+      opt.value = data.name;
+      opt.innerText = data.name;
+      distSelect.appendChild(opt);
+    });
 
-  try{
-    await db.collection("users").add(data);
-    msg.style.color="var(--green)";
-    msg.textContent="पंजीकरण सफलतापूर्वक हो गया! एडमिन अनुमोदन के बाद यह सूची में दिखेगा।";
-    document.getElementById("regForm").reset();
-    setTimeout(()=>{window.location.href="index.html";},2000);
-  }catch(err){
-    msg.style.color="var(--red)";
-    msg.textContent="त्रुटि: पुनः प्रयास करें।";
-    btn.disabled=false;
-    btn.textContent="पंजीकरण जमा करें";
+    // पंचायत लोड करें
+    let panchSnap = await db.collection("panchayats").get();
+    let panchSelect = document.getElementById("regPanchayat");
+    panchSnap.forEach(doc => {
+      let data = doc.data();
+      let opt = document.createElement("option");
+      opt.value = data.name;
+      opt.innerText = data.name;
+      panchSelect.appendChild(opt);
+    });
+  } catch(err) {
+    console.log("ड्रॉपडाउन लोड करने में त्रुटि: ", err);
+  }
+}
+
+async function submitRegistration(){
+  let name = document.getElementById("regName").value.trim();
+  let mobile = document.getElementById("regMobile").value.trim();
+  let father = document.getElementById("regFather").value.trim();
+  let gotra = document.getElementById("regGotra").value.trim();
+  let district = document.getElementById("regDistrict").value;
+  let panchayat = document.getElementById("regPanchayat").value;
+  let village = document.getElementById("regVillage").value.trim();
+  let blood = document.getElementById("regBlood").value;
+  let mpin = document.getElementById("regMpin").value.trim();
+
+  // वैलिडेट करें
+  if(!name || mobile.length < 10 || !father || !gotra || !district || !panchayat || !village || mpin.length < 6){
+    alert("कृपया सभी अनिवार्य (*) फील्ड सही-सही भरें और 6 अंकों का MPIN बनाएं।");
+    return;
+  }
+
+  try {
+    // चेक करें कि क्या यह मोबाइल नंबर पहले से रजिस्टर्ड है
+    let checkUser = await db.collection("users").where("mobile", "==", mobile).get();
+    if(!checkUser.empty){
+      alert("इस मोबाइल नंबर से पहले ही पंजीकरण हो चुका है। कृपया लॉगिन करें।");
+      return;
+    }
+
+    // नया डेटा सेव करें (status: 'pending' ताकि एडमिन इसे अप्रूव कर सके)
+    await db.collection("users").add({
+      fullName: name,
+      mobile: mobile,
+      fatherName: father,
+      gotra: gotra,
+      district: district,
+      panchayat: panchayat,
+      village: village,
+      bloodGroup: blood,
+      mpin: mpin,
+      status: "pending",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert("पंजीकरण सफलताપूर्वक हो गया है!\nएडमिन द्वारा सत्यापन (Approval) के बाद आप लॉगिन कर सकेंगे।");
+    window.location.href = "login.html";
+
+  } catch(err) {
+    alert("पंजीकरण में त्रुटि: " + err.message);
   }
 }
 </script>

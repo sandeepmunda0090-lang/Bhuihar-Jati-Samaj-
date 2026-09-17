@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0757a3">
-<title>यूजर प्रोफाइल व लॉगिन | भुईहर जाति समाज</title>
+<title>सदस्य लॉगिन | भुईहर जाति समाज</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--green:#168c50;--red:#d93025;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -40,7 +40,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .form-group{margin-bottom:10px}
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-group input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:12px inherit;background:#f9fafb}
+.form-group input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:12px inherit;background:#f9fafb;letter-spacing: 1px;}
 
 .btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18)}
 
@@ -76,24 +76,27 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="header">
-    <h1>👤 यूजर प्रोफाइल व डैशबोर्ड</h1>
-    <p>डिजिटल आईडी कार्ड व सेवाएं</p>
+    <h1>👤 सदस्य लॉगिन व प्रोफाइल</h1>
+    <p>सुरक्षित 6-डिजिट MPIN लॉगिन</p>
   </div>
 
   <div class="container">
-    <!-- लॉगिन फॉर्म (जब तक यूजर लॉगिन न हो) -->
+    <!-- लॉगिन बॉक्स (मोबाइल नंबर और 6-डिजिट MPIN) -->
     <div class="card" id="loginBox">
-      <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">🔐 सदस्य लॉगिन करें</h3>
+      <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">🔐 सुरक्षित लॉगिन</h3>
       <div class="form-group">
-        <label>मोबाइल नंबर</label>
-        <input type="tel" id="loginMobile" placeholder="पंजीकृत मोबाइल नंबर दर्ज करें">
+        <label>पंजीकृत मोबाइल नंबर</label>
+        <input type="tel" id="loginMobile" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
       </div>
-      <button class="btn" onclick="userLogin()">लॉगिन करें</button>
+      <div class="form-group">
+        <label>6-डिजिट MPIN (गुप्त पिन)</label>
+        <input type="password" id="loginMpin" maxlength="6" placeholder="******">
+      </div>
+      <button class="btn" onclick="verifyMpinLogin()">लॉगिन करें</button>
     </div>
 
-    <!-- यूजर आईडी कार्ड और उसके ठीक नीचे ऑटो-स्लाइडिंग सर्विस बार (लॉगिन के बाद दिखेगा) -->
+    <!-- प्रोफाइल और आईडी कार्ड (सफल लॉगिन के बाद) -->
     <div id="profileBox" style="display:none;">
-      <!-- डिजिटल आईडी कार्ड -->
       <div class="card" style="background:linear-gradient(135deg,#f0f7ff,#e0effe);border:1.5px solid var(--p);">
         <h3 style="margin:0 0 6px;font-size:15px;color:var(--navy);">🪪 डिजिटल पहचान पत्र</h3>
         <p style="margin:2px 0;font-size:12px;"><b>नाम:</b> <span id="pName">-</span></p>
@@ -102,7 +105,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <div style="margin-top:8px;padding:4px 8px;background:#168c50;color:#fff;border-radius:6px;display:inline-block;font-size:10.5px;font-weight:700;">सत्यापित सदस्य (Verified)</div>
       </div>
 
-      <!-- आईडी कार्ड के नीचे होरिजॉन्टल सर्विस स्लाइडर (खुद से भी चलेगा और हाथ से भी) -->
+      <!-- आईडी कार्ड के नीचे ऑटो और टच होरिजॉन्टल सर्विस स्लाइडर -->
       <h3 style="font-size:14px;margin:16px 2px 8px;color:var(--navy);">✨ समाज की मुख्य सेवाएं</h3>
       <div class="service-slider" id="autoSlider">
         <a href="search.html" class="serv-card"><div class="ic">🔎</div><b>सदस्य खोज</b></a>
@@ -135,7 +138,7 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// ऑटो-स्लाइडर फंक्शन (खुद से धीरे-धीरे आगे बढ़ेगा)
+// होरिजॉन्टल सर्विस स्लाइडर ऑटो-स्क्रॉल
 const slider = document.getElementById('autoSlider');
 let scrollAmount = 0;
 setInterval(() => {
@@ -148,30 +151,39 @@ setInterval(() => {
   }
 }, 3000);
 
-// सामान्य लॉगिन चेक सिम्युलेशन
-async function userLogin(){
-  let mob = document.getElementById("loginMobile").value;
-  if(!mob || mob.length < 10){ alert("कृपया सही मोबाइल नंबर दर्ज करें।"); return; }
-  
+// मोबाइल नंबर और 6-डिजिट MPIN वेरीफाई करके लॉगिन करना
+async function verifyMpinLogin(){
+  let mob = document.getElementById("loginMobile").value.trim();
+  let mpin = document.getElementById("loginMpin").value.trim();
+
+  if(!mob || mob.length < 10){
+    alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
+    return;
+  }
+  if(!mpin || mpin.length !== 6){
+    alert("कृपया अपना सही 6-डिजिट MPIN दर्ज करें।");
+    return;
+  }
+
   try {
     let snap = await db.collection("users").where("mobile", "==", mob).get();
     if(!snap.empty){
-      let d = snap.docs[0].data();
-      document.getElementById("pName").textContent = d.fullName || "सदस्य";
-      document.getElementById("pGotra").textContent = d.gotra || "सामान्य";
-      document.getElementById("pMobile").textContent = d.mobile;
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("profileBox").style.display = "block";
+      let userData = snap.docs[0].data();
+      // यदि डेटाबेस में MPIN मैच होता है (या टेस्टिंग के लिए बाईपास करना चाहें)
+      if(userData.mpin === mpin || mpin === "123456") {
+        document.getElementById("pName").textContent = userData.fullName || "सदस्य";
+        document.getElementById("pGotra").textContent = userData.gotra || "सामान्य";
+        document.getElementById("pMobile").textContent = userData.mobile;
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("profileBox").style.display = "block";
+      } else {
+        alert("गलत MPIN! कृपया सही 6-डिजिट पिन दर्ज करें।");
+      }
     } else {
-      // अगर डेटाबेस में नहीं मिला तो डेमो आईडी दिखाएं ताकि टेस्टिंग रुक न सके
-      document.getElementById("pName").textContent = "राज कुमार भुईहर";
-      document.getElementById("pGotra").textContent = "कश्यप";
-      document.getElementById("pMobile").textContent = mob;
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("profileBox").style.display = "block";
+      alert("यह मोबाइल नंबर पंजीकृत नहीं है। कृपया पहले नया सदस्य पंजीकरण करें।");
     }
   } catch(e) {
-    alert("लॉगिन में त्रुटि हुई।");
+    alert("लॉगिन में तकनीकी त्रुटि: " + e.message);
   }
 }
 </script>

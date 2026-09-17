@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0757a3">
+<title>कार बुकिंग व यात्रा शेयरिंग | भुईहर जाति समाज</title>
+<style>
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--green:#168c50;--red:#d93025;--shadow:0 4px 16px rgba(20,42,72,0.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:80px;}
+
+.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 20px 20px;text-align:center;}
+.header h1{margin:0;font-size:17px;font-weight:800}
+.header p{margin:2px 0 0;font-size:11px;opacity:.85}
+
+.container{padding:12px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);}
+.card h3{margin:0 0 10px;font-size:13.5px;color:var(--navy);border-bottom:2px solid var(--line);padding-bottom:6px;}
+
+.form-group{margin-bottom:10px;}
+.form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
+.form-group input, .form-group select, .form-group textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:12px inherit;background:#f9fafb}
+
+.btn{border:0;border-radius:12px;padding:11px;width:100%;font:700 12.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);}
+.btn-success{background:linear-gradient(135deg,var(--green),#2ecc71);}
+
+.travel-item{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;font-size:12px;}
+.travel-item p{margin:4px 0;}
+
+/* रेस्ट्रिक्शन वार्निंग बॉक्स (यदि यूजर लॉग इन नहीं है) */
+#lockNotice{background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:16px;text-align:center;margin-top:20px;display:none;}
+#lockNotice h3{margin:0 0 6px;color:var(--navy);font-size:15px;}
+#lockNotice p{margin:0 0 12px;font-size:12px;color:var(--muted);}
+
+/* बॉटम नेविगेशन */
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
+.nav b{display:block;font-size:16px}
+.nav a.active{color:var(--p);font-weight:800}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="header">
+    <h1>🚗 कार बुकिंग व यात्रा शेयरिंग</h1>
+    <p>समाज बंधुओं हेतु आवागमन सहायता</p>
+  </div>
+
+  <div class="container">
+    
+    <!-- यदि यूजर लॉग इन नहीं है तो यह मैसेज दिखेगा -->
+    <div id="lockNotice">
+      <h3>🔒 प्रतिबंधित क्षेत्र</h3>
+      <p>यात्रा पोस्ट करने और संपर्क करने के लिए कृपया पहले पोर्टल पर लॉगिन करें।</p>
+      <a href="login.html" class="btn" style="display:inline-block;text-decoration:none;padding:10px 20px;">लॉगिन करें</a>
+    </div>
+
+    <!-- मुख्य सामग्री (केवल लॉगिन यूजर के लिए) -->
+    <div id="travelMainContent" style="display:none;">
+      
+      <!-- नई यात्रा या कार शेयरिंग जोड़ें -->
+      <div class="card">
+      <h3>➕ अपनी यात्रा / वाहन की जानकारी जोड़ें</h3>
+        <div class="form-group">
+          <label>आपकी आवश्यकता क्या है?</label>
+          <select id="travelType">
+            <option value="गाड़ी उपलब्ध है (Car Available / Carpool)">गाड़ी उपलब्ध है (Car Available)</option>
+            <option value="सवारी के लिए जगह चाहिए (Need Ride / Seat)">सवारी के लिए जगह चाहिए (Need Ride)</option>
+            <option value="वाहन बुकिंग (Vehicle Booking / Hire)">वाहन बुकिंग (Vehicle Booking)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>कहाँ से (From Location)</label>
+          <input type="text" id="travelFrom" placeholder="जैसे: महाराजगंज / बलरामपुर">
+        </div>
+        <div class="form-group">
+          <label>कहाँ तक (To Destination)</label>
+          <input type="text" id="travelTo" placeholder="जैसे: अंबिकापुर / रायपुर">
+        </div>
+        <div class="form-group">
+          <label>यात्रा की तिथि व समय (Date & Time)</label>
+          <input type="text" id="travelDateTime" placeholder="जैसे: कल सुबह 8 बजे">
+        </div>
+        <div class="form-group">
+          <label>संपर्क नाम व फोन नंबर</label>
+          <input type="text" id="travelContact" placeholder="अपना नाम और मोबाइल नंबर">
+        </div>
+        <button class="btn btn-success" onclick="postTravelInfo()">जानकारी पब्लिश करें</button>
+      </div>
+
+      <!-- उपलब्ध यात्राओं की सूची -->
+      <div class="card">
+        <h3>📋 समाज की सक्रिय यात्रा सूचियाँ</h3>
+        <div id="travelListContainer">
+          <p style="font-size:12px;color:var(--muted);text-align:center;">सूचियाँ लोड हो रही हैं...</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- बॉटम नेविगेशन -->
+  <nav class="nav">
+    <a href="index.html"><b>⌂</b>Home</a>
+    <a href="search.html"><b>⌕</b>Search</a>
+    <a href="login.html"><b>👤</b>Profile</a>
+    <a href="blood.html"><b>🩸</b>Blood</a>
+    <a href="admin.html"><b>🛡️</b>Admin</a>
+  </nav>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+window.onload = function(){
+  let savedMob = localStorage.getItem("userLoggedInMobile");
+  if(savedMob){
+    document.getElementById("lockNotice").style.display = "none";
+    document.getElementById("travelMainContent").style.display = "block";
+    loadTravelList();
+  } else {
+    document.getElementById("lockNotice").style.display = "block";
+    document.getElementById("travelMainContent").style.display = "none";
+  }
+}
+
+// यात्रा जानकारी सेव करें
+async function postTravelInfo(){
+  let type = document.getElementById("travelType").value;
+  let fromLoc = document.getElementById("travelFrom").value.trim();
+  let toLoc = document.getElementById("travelTo").value.trim();
+  let dt = document.getElementById("travelDateTime").value.trim();
+  let contact = document.getElementById("travelContact").value.trim();
+
+  if(!fromLoc || !toLoc || !dt || !contact){
+    alert("कृपया सभी अनिवार्य विवरण भरें।");
+    return;
+  }
+
+  try {
+    await db.collection("travels").add({
+      type: type,
+      from: fromLoc,
+      to: toLoc,
+      dateTime: dt,
+      contact: contact,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert("यात्रा की जानकारी सफलताપूर्वक जोड़ दी गई है!");
+    document.getElementById("travelFrom").value = "";
+    document.getElementById("travelTo").value = "";
+    document.getElementById("travelDateTime").value = "";
+    document.getElementById("travelContact").value = "";
+    loadTravelList();
+  } catch(err) {
+    alert("त्रुटि: " + err.message);
+  }
+}
+
+// यात्रा सूचियाँ लोड करें
+async function loadTravelList(){
+  let container = document.getElementById("travelListContainer");
+  try {
+    let snap = await db.collection("travels").orderBy("createdAt", "desc").get();
+    if(snap.empty){
+      container.innerHTML = "<p style='font-size:12px;color:var(--muted);text-align:center;'>अभी कोई यात्रा प्रविष्टि उपलब्ध नहीं है।</p>";
+      return;
+    }
+    container.innerHTML = "";
+    snap.forEach(doc => {
+      let t = doc.data();
+      let div = document.createElement("div");
+      div.className = "travel-item";
+      div.innerHTML = `
+        <span style="background:var(--navy);color:#fff;font-size:9.5px;padding:2px 6px;border-radius:4px;font-weight:700;">${t.type}</span>
+        <p style="margin-top:6px;"><b>रूट:</b> ${t.from} ➔ ${t.to}</p>
+        <p><b>समय:</b> ${t.dateTime}</p>
+        <p><b>संपर्क:</b> ${t.contact} <a href="tel:${t.contact.replace(/[^0-9]/g, '')}" style="background:var(--green);color:#fff;padding:2px 6px;border-radius:4px;text-decoration:none;font-size:10px;margin-left:6px;">📞 कॉल</a></p>
+      `;
+      container.appendChild(div);
+    });
+  } catch(err) {
+    container.innerHTML = "<p style='font-size:12px;color:var(--red);text-align:center;'>डेटा लोड करने में त्रुटि।</p>";
+  }
+}
+</script>
+</body>
+</html>

@@ -407,11 +407,6 @@ async function saveFundEntry(){
   history.pushState(null, null, location.href);
 window.addEventListener('popstate', function (event) {
   history.pushState(null, null, location.href);
-  if (typeof goBackPage === 'function') {
-    goBackPage();
-  } else {
-    window.history.back();
-  }
 });
 </script>
 </body>

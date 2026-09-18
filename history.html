@@ -70,15 +70,10 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
   <script>
+  History.pushState(null, null, location.href);
+window.addEventListener('popstate', function (event) {
   history.pushState(null, null, location.href);
-  window.addEventListener('popstate', function (event) {
-    history.pushState(null, null, location.href);
-    if (typeof goBackPage === 'function') {
-      goBackPage();
-    } else {
-      window.history.back();
-    }
-  });
+});
   </script>
 </body>
 </html>

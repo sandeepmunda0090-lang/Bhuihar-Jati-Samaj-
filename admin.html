@@ -52,13 +52,17 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 <body>
 
 <div id="app">
-  <div class="header">
-    <div>
-      <h1>🛡️ एडमिन कंट्रोल पैनल</h1>
-      <p>भुईहर जाति समाज • महाराजगंज</p>
+  <div class="header" style="display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:10px;">
+        <!-- यह रहा आपका नया कस्टम बैक बटन -->
+        <button onclick="goBackPage()" style="background:rgba(255,255,255,0.2); border:0; color:#fff; width:34px; height:34px; border-radius:50%; font-size:18px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">←</button>
+        <div>
+            <h1>🛡️ एडमिन कंट्रोल पैनल</h1>
+            <p>भुईहर जाति समाज • महाराजगंज</p>
+        </div>
     </div>
-    <button id="logoutBtn" onclick="adminLogout()" style="display:none;background:rgba(255,255,255,0.2);border:0;color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;">लॉग आउट</button>
-  </div>
+    <button id="logoutBtn" onclick="adminLogout()">...</button>
+</div>
 
   <div class="container">
     

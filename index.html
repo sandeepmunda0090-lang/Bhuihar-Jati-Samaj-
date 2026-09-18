@@ -232,6 +232,7 @@ loadHomeStats();
 window.addEventListener('popstate', function (event) {
   history.pushState(null, null, location.href);
   
+  // यदि आप होमपेज पर यस/नो एग्जिट पॉप-अप रखना चाहते हैं:
   let confirmExit = confirm("क्या आप भुईहर समाज पोर्टल से बाहर निकलना चाहते हैं?");
   if (confirmExit) {
     window.close();

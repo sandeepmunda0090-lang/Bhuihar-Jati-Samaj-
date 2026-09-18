@@ -408,10 +408,17 @@ async function saveFundEntry(){
     document.getElementById("fundDesc").value = "";
   } catch(err) { alert("त्रुटि: " + err.message); }
 }
+  <script>
+  // 1. मोबाइल का बैक बटन ब्लॉक करने वाला पुराना कोड
   history.pushState(null, null, location.href);
-window.addEventListener('popstate', function (event) {
-  history.pushState(null, null, location.href);
-});
+  window.addEventListener('popstate', function (event) {
+    history.pushState(null, null, location.href);
+  });
+
+  // 2. इसके ठीक नीचे यह नया फंक्शन जोड़ दें ताकि आपका '←' बटन काम करने लगे
+  function goBackPage() {
+    window.location.href = "index.html";
+  }
 </script>
 </body>
 </html>

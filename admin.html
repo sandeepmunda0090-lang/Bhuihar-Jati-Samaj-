@@ -4,37 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0757a3">
-<title>एडमिन पैनल | भुईहर जाति समाज</title>
+<title>एडमिन नियंत्रण कक्ष | भुईहर समाज पोर्टल</title>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--danger:#dc2626;--success:#16a34a}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
-.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;}
+.back-btn-wrap{padding:4px 0 12px 0;}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+
 .brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
 
-.container{padding:12px}
+.container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
-.section-title{font-size:15px;margin:16px 2px 8px;color:var(--navy);font-weight:800}
 
+/* फॉर्म और बटन */
 .form-group{margin-bottom:10px}
-.form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:13px inherit;background:#fafbfc}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc}
+.btn{border:0;border-radius:12px;padding:10px 14px;width:100%;font:700 13px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
 
-.btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;text-decoration:none;display:inline-block}
-.btn.danger{background:var(--danger)}
-.btn.success{background:var(--success)}
+/* टैब बटन */
+.admin-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none}
+.admin-tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:10px;font-size:11.5px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap}
+.tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
 
-/* एडमिन लॉगिन स्क्रीन */
-#loginScreen{padding:20px 12px;margin-top:20px}
+.admin-section{display:none}
+.admin-section.active{display:block}
 
-/* एडमिन डैशबोर्ड ग्रिड */
-.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.admin-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;box-shadow:var(--shadow);cursor:pointer}
-.admin-card b{display:block;font-size:13px;color:var(--navy);margin-top:6px}
+.item-row{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;font-size:12px}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -46,64 +49,78 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="hero">
+    <div class="back-btn-wrap">
+      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+    </div>
     <div class="brand">
       <div class="logo">🛡️</div>
-      <div><h1>एडमिन नियंत्रण कक्ष</h1><p>भुईहर समाज पोर्टल • महाराजगंज</p></div>
+      <div><h1>एडमिन नियंत्रण कक्ष</h1><p>सुरक्षित पोर्टल प्रबंधन पैनल</p></div>
     </div>
   </div>
 
-  <!-- 1. एडमिन लॉगिन स्क्रीन -->
-  <div id="loginScreen" class="container">
-    <div class="card">
-      <h3 style="margin-top:0;color:var(--navy);font-size:15px;">🔐 एडमिन लॉगिन</h3>
+  <div class="container">
+    <!-- पासवर्ड लॉगिन स्क्रीन -->
+    <div id="loginBox" class="card">
+      <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">🔒 एडमिन सुरक्षा जाँच</h3>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 10px;">कृपया एडमिन पासवर्ड दर्ज करें:</p>
       <div class="form-group">
-        <label>एडमिन ईमेल</label>
-        <input type="email" id="adminEmail" class="form-control" placeholder="admin@bhuihar.com">
-      </div>
-      <div class="form-group">
-        <label>पासवर्ड</label>
         <input type="password" id="adminPass" class="form-control" placeholder="पासवर्ड दर्ज करें">
       </div>
-      <button class="btn" onclick="adminLogin()">सुरक्षित लॉगिन करें</button>
-    </div>
-  </div>
-
-  <!-- 2. मुख्य एडमिन डैशबोर्ड -->
-  <div id="adminDashboard" class="container" style="display:none;">
-    <div class="section-title">📊 मुख्य नियंत्रण विकल्प</div>
-    <div class="admin-grid">
-      <div class="admin-card" onclick="alert('पेंडिंग मेंबर अप्रूवल सेक्शन')">
-        <span style="font-size:24px">👥</span>
-        <b>सदस्य अनुमोदन</b>
-      </div>
-      <div class="admin-card" onclick="alert('पदाधिकारी सूची प्रबंधन')">
-        <span style="font-size:24px">👔</span>
-        <b>पदाधिकारी सेट करें</b>
-      </div>
-      <div class="admin-card" onclick="alert('दान कोष हिसाब किताब')">
-        <span style="font-size:24px">🪙</span>
-        <b>दान कोष ट्रैकिंग</b>
-      </div>
-      <div class="admin-card" onclick="alert('समाज सूचना नोटिस बोर्ड')">
-        <span style="font-size:24px">📢</span>
-        <b>नोटिस पब्लिश करें</b>
-      </div>
+      <button class="btn" onclick="checkAdminLogin()">लॉगिन करें</button>
     </div>
 
-    <div class="section-title">🚀 नए 1-5 फीचर्स प्रबंधन (फ्यूचर टूल्स)</div>
-    <div class="card">
-      <p style="font-size:11.5px;color:var(--muted);margin-top:0;">यहाँ से आप निम्नलिखित नए फीचर्स का डेटा जोड़ और कंट्रोल कर सकते हैं:</p>
-      <ul style="font-size:12px;padding-left:18px;line-height:1.6;color:var(--navy);">
-        <li><b>1. शोक संदेश / श्रद्धांजलि:</b> निधन की सूचना व श्रद्धांजलि अपलोड।</li>
-        <li><b>2. प्रतिभा सम्मान:</b> मेधावी छात्रों और युवाओं की सूची प्रबंधन।</li>
-        <li><b>3. कृषि और खाद-बीज सहायता:</b> किसानों हेतु योजनाओं की जानकारी।</li>
-        <li><b>4. सामुदायिक भवन बुकिंग:</b> धर्मशाला/भवन बुकिंग अनुरोध देखना।</li>
-        <li><b>5. सुझाव पेटी (Feedback Box):</b> समाज सुधार हेतु प्राप्त सुझाव पढ़ना।</li>
-      </ul>
-      <button class="btn gold" style="background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200;margin-top:6px;" onclick="alert('नए फीचर्स मैनेजमेंट पैनल सक्रिय हो रहा है')">➕ नया डेटा जोड़ें / प्रबंधित करें</button>
-    </div>
+    <!-- मुख्य एडमिन डैशबोर्ड (लॉगिन के बाद दिखेगा) -->
+    <div id="dashboardBox" style="display:none;">
+      
+      <!-- एडमिन नेविगेशन टैब्स -->
+      <div class="admin-tabs">
+        <div class="tab-btn active" onclick="switchTab('tabBiz', this)">🏪 व्यापार अप्रूवल</div>
+        <div class="tab-btn" onclick="switchTab('tabDonation', this)">💰 डोनेशन व UPI सेट</div>
+        <div class="tab-btn" onclick="switchTab('tabUsers', this)">👥 सदस्य सूची</div>
+      </div>
 
-    <button class="btn danger" style="margin-top:14px;" onclick="adminLogout()">लॉग आउट करें</button>
+      <!-- 1. व्यापार / बिजनेस अप्रूवल सेक्शन -->
+      <div id="tabBiz" class="admin-section active">
+        <div class="card">
+          <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">⏳ लंबित व्यवसाय (Pending Businesses)</h3>
+          <div id="pendingBizList" style="font-size:12px;color:var(--muted);">पेंडिंग दुकानें लोड हो रही हैं...</div>
+        </div>
+      </div>
+
+      <!-- 2. डोनेशन और UPI सेटिंग्स सेक्शन (नया अपडेटेड) -->
+      <div id="tabDonation" class="admin-section">
+        <div class="card">
+          <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">⚙️ कोषाध्यक्ष UPI व QR कोड सेटिंग</h3>
+          <div class="form-group">
+            <label>कोषाध्यक्ष / खाताधारक का नाम</label>
+            <input type="text" id="cfgAccountName" class="form-control" placeholder="जैसे: श्री रामप्रसाद जी">
+          </div>
+          <div class="form-group">
+            <label>UPI ID (जैसे: paytm@upi)</label>
+            <input type="text" id="cfgUpiId" class="form-control" placeholder="UPI ID दर्ज करें">
+          </div>
+          <div class="form-group">
+            <label>QR कोड इमेज का लिंक (Image URL)</label>
+            <input type="text" id="cfgQrUrl" class="form-control" placeholder="QR कोड का सीधा इमेज लिंक यहाँ डालें">
+          </div>
+          <button class="btn" onclick="saveDonationConfig()">सेटिंग सेव करें</button>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📥 प्राप्त सहयोग (Donor UTR Verification)</h3>
+          <div id="pendingDonorsList" style="font-size:12px;color:var(--muted);">डोनर रिकॉर्ड लोड हो रहे हैं...</div>
+        </div>
+      </div>
+
+      <!-- 3. सदस्य सूची सेक्शन -->
+      <div id="tabUsers" class="admin-section">
+        <div class="card">
+          <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">👥 पंजीकृत समाज सदस्य</h3>
+          <div id="allUsersList" style="font-size:12px;color:var(--muted);">सदस्य सूची लोड हो रही है...</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <!-- बॉटम नेविगेशन -->
@@ -116,36 +133,128 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-// फिक्स एडमिन ईमेल और पासवर्ड
-const FIXED_ADMIN_EMAIL = "admin@bhuihar.com";
-const FIXED_ADMIN_PASS = "bhuihar123";
+const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
 
-window.onload = function() {
-  if(localStorage.getItem("isAdminLoggedIn") === "true") {
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("adminDashboard").style.display = "block";
-  }
-};
-
-function adminLogin() {
-  let email = document.getElementById("adminEmail").value.trim();
-  let pass = document.getElementById("adminPass").value.trim();
-
-  if(email === FIXED_ADMIN_EMAIL && pass === FIXED_ADMIN_PASS) {
-    localStorage.setItem("isAdminLoggedIn", "true");
-    alert("सफलतापूर्वक एडमिन लॉगिन हो गया!");
-    document.getElementById("loginScreen").style.display = "none";
-    document.getElementById("adminDashboard").style.display = "block";
+// एडमिन पासवर्ड जाँच
+function checkAdminLogin() {
+  let pass = document.getElementById("adminPass").value;
+  if(pass === "bhuiharadmin123" || pass === "admin123") { // गुप्त एडमिन पासवर्ड
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("dashboardBox").style.display = "block";
+    loadAdminData();
   } else {
-    alert("गलत ईमेल या पासवर्ड! कृपया सही जानकारी भरें।");
+    alert("गलत पासवर्ड! कृपया सही पासवर्ड दर्ज करें।");
   }
 }
 
-function adminLogout() {
-  localStorage.removeItem("isAdminLoggedIn");
-  alert("आप एडमिन पैनल से लॉग आउट हो गए हैं।");
-  location.reload();
+// टैब स्विच करने का फंक्शन
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// एडमिन डेटा लोड करना
+async function loadAdminData() {
+  loadPendingBusinesses();
+  loadDonationConfigSettings();
+  loadPendingDonors();
+}
+
+// 1. पेंडिंग बिजनेस लोड करें
+async function loadPendingBusinesses() {
+  let container = document.getElementById("pendingBizList");
+  try {
+    let snapshot = await db.collection("businesses").where("status", "==", "pending").get();
+    if(snapshot.empty) {
+      container.innerHTML = `<div style="padding:10px;text-align:center;">कोई नया व्यापार अनुमोदन हेतु लंबित नहीं है।</div>`;
+      return;
+    }
+    let html = "";
+    snapshot.forEach(doc => {
+      let b = doc.data();
+      html += `
+        <div class="item-row">
+          <b>${b.bizName}</b> (संचालक: ${b.owner})<br>
+          श्रेणी: ${b.category} | मोबाइल: ${b.mobile}<br>
+          <button class="btn" style="padding:4px 10px;font-size:11px;margin-top:6px;" onclick="approveBusiness('${doc.id}')">स्वीकृत करें (Approve)</button>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `<div style="padding:10px;">डेटा लोड करने में त्रुटि।</div>`;
+  }
+}
+
+async function approveBusiness(id) {
+  await db.collection("businesses").doc(id).update({ status: "approved" });
+  alert("व्यवसाय सफलतापूर्वक स्वीकृत कर दिया गया है!");
+  loadPendingBusinesses();
+}
+
+// 2. डोनेशन सेटिंग सेव और लोड करना
+async function loadDonationConfigSettings() {
+  try {
+    let doc = await db.collection("settings").doc("donationConfig").get();
+    if(doc.exists) {
+      let d = doc.data();
+      document.getElementById("cfgAccountName").value = d.accountName || "";
+      document.getElementById("cfgUpiId").value = d.upiId || "";
+      document.getElementById("cfgQrUrl").value = d.qrImageUrl || "";
+    }
+  } catch(e) {}
+}
+
+async function saveDonationConfig() {
+  let name = document.getElementById("cfgAccountName").value;
+  let upi = document.getElementById("cfgUpiId").value;
+  let qr = document.getElementById("cfgQrUrl").value;
+
+  await db.collection("settings").doc("donationConfig").set({
+    accountName: name,
+    upiId: upi,
+    qrImageUrl: qr
+  }, { merge: true });
+
+  alert("डोनेशन और UPI सेटिंग्स सफलताપूर्वक अपडेट कर दी गई हैं!");
+}
+
+async function loadPendingDonors() {
+  let container = document.getElementById("pendingDonorsList");
+  try {
+    let snapshot = await db.collection("donations").where("status", "==", "pending").get();
+    if(snapshot.empty) {
+      container.innerHTML = `<div style="padding:10px;text-align:center;">कोई नया सहयोग UTR पेंडिंग नहीं है।</div>`;
+      return;
+    }
+    let html = "";
+    snapshot.forEach(doc => {
+      let d = doc.data();
+      html += `
+        <div class="item-row">
+          <b>नाम: ${d.donorName}</b> (${d.mobile})<br>
+          राशि: ₹${d.amount} | UTR: <b>${d.utrNumber}</b><br>
+          <button class="btn" style="padding:4px 10px;font-size:11px;margin-top:6px;" onclick="approveDonor('${doc.id}')">भुगतान सत्यापित करें</button>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `<div style="padding:10px;">डेटा लोड करने में त्रुटि।</div>`;
+  }
+}
+
+async function approveDonor(id) {
+  await db.collection("donations").doc(id).update({ status: "verified" });
+  alert("सहयोग राशि सत्यापित कर दी गई है!");
+  loadPendingDonors();
 }
 </script>
 </body>

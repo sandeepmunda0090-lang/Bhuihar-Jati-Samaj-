@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset MPIN - Bhuihar Jati Samaj</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
+    .box { background: #fff; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    button { background: #007bff; color: #white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>MPIN Reset Karein</h2>
+    <input type="tel" id="resetMob" placeholder="Registered Mobile Number" maxlength="10">
+    <input type="date" id="resetDob" placeholder="Date of Birth">
+    <input type="password" id="newMpin" placeholder="Naya 6-Digit MPIN" maxlength="6">
+    <button onclick="resetMpinAction()">MPIN Badlein</button>
+    <p><a href="login.html">Login Par Wapas Jayein</a></p>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    // Wahi firebase config jo aapki baaki files me hai
+    const firebaseConfig = {
+      apiKey: "AivaSyDc8P_DPoUuKnLW9t7WY81i8-R4F...", 
+      authDomain: "bhuihar-firebase.firebaseapp.com",
+      projectId: "bhuihar-firebase",
+      storageBucket: "bhuihar-firebase.appspot.com",
+      messagingSenderId: "...",
+      appId: "..."
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    async function resetMpinAction() {
+      let mob = document.getElementById("resetMob").value.trim();
+      let dob = document.getElementById("resetDob").value;
+      let newMpin = document.getElementById("newMpin").value.trim();
+
+      if(!mob || !dob || !newMpin) {
+        alert("Kripya sabhi details bharein!");
+        return;
+      }
+
+      try {
+        // Firestore mein check karein ki mobile aur dob match ho rahe hain ya nahi
+        let snapshot = await db.collection("users").where("mobile", "==", mob).where("dob", "==", dob).get();
+        
+        if(snapshot.empty) {
+          alert("Mobile number ya Date of Birth galat hai!");
+          return;
+        }
+
+        // Agar match ho gaya toh MPIN update kar dein
+        snapshot.forEach(async (doc) => {
+          await db.collection("users").doc(doc.id).update({
+            mpin: newMpin
+          });
+        });
+
+        alert("MPIN safalatapoorvak badal gaya hai! Ab aap naye MPIN se login kar sakte hain.");
+        window.location.href = "login.html";
+
+      } catch(err) {
+        alert("Error: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

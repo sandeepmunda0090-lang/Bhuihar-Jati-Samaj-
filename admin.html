@@ -408,20 +408,25 @@ async function saveFundEntry(){
     document.getElementById("fundDesc").value = "";
   } catch(err) { alert("त्रुटि: " + err.message); }
 }
-  <script>
-  // पेज लोड होते ही हिस्ट्री में स्टेट जोड़ें
-  history.pushState({page: "secure"}, "", location.href);
-
-  // मोबाइल का बैक बटन दबने पर यह सीधे होमपेज पर भेज देगा
+ <script>
+  // Jab user home dashboard par ho, tab back dabane par popup dikhane ke liye
   window.addEventListener('popstate', function (event) {
-    history.pushState({page: "secure"}, "", location.href);
-    window.location.href = "index.html";
+    let confirmExit = confirm("Kya aap Bhuihar Jati Samaj app se bahar nikalna chahte hain?");
+    
+    if (confirmExit) {
+      if (navigator.app && navigator.app.exitApp) {
+        navigator.app.exitApp();
+      } else {
+        window.close();
+      }
+    } else {
+      // Agar user cancel kare, toh wapas history state maintain karein
+      history.pushState(null, null, location.href);
+    }
   });
 
-  // ऊपर दिए गए '←' बैक बटन के लिए फंक्शन
-  function goBackPage() {
-    window.location.href = "index.html";
-  }
+  // Page load hote hi ek state push kar dein
+  history.pushState(null, null, location.href);
 </script>
 </body>
 </html>

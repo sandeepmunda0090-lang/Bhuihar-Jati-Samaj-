@@ -117,21 +117,31 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
     </div>
 
-    <!-- काउंटिंग नंबर वाले स्टैट्स बॉक्स (0 से गिनती शुरू होगी) -->
+    <!-- काउंटिंग नंबर वाले स्टैट्स बॉक्स -->
     <div class="stats">
       <div class="stat"><b id="stMembers">0</b><span>कुल सदस्य</span></div>
       <div class="stat"><b id="stFamilies">0</b><span>परिवार</span></div>
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
+
+    <!-- समाज के पदाधिकारी का स्लाइडर -->
+    <div class="section-title" style="margin-top:16px">
+      <h2>समाज के पदाधिकारी</h2>
+      <span style="font-size:10.5px;color:var(--muted);">सम्पर्क हेतु स्लाइड करें ➔</span>
+    </div>
+    <div class="category-slider" id="padadhikariSlider">
+      <!-- Firestore se padadhikari yahan load honge -->
+    </div>
     
-    <div class="section-title"><h2>समाज की मुख्य सेवाएं</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
+    <!-- समाज की मुख्य सेवाएं -->
+    <div class="section-title" style="margin-top:18px"><h2>समाज की मुख्य सेवाएं</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     
-    <!-- होरिजॉन्टल स्लाइडर -->
+    <!-- होरिजॉन्टल स्लाइडर (बेहतरीन आइकॉन के साथ) -->
     <div class="category-slider">
       <a href="search.html" class="cat-card">
-        <div class="ic">🔎</div>
+        <div class="ic">🔍</div>
         <b>सदस्य खोज</b>
-        <span>नाम या गोत्र से डारेक्ट्री देखें</span>
+        <span>नाम या गोत्र से डायरेक्ट्री देखें</span>
       </a>
       <a href="blood.html" class="cat-card">
         <div class="ic">🩸</div>
@@ -139,14 +149,14 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <span>आपातकालीन ब्लड डोनर सूची</span>
       </a>
       <a href="matrimonial.html" class="cat-card">
-        <div class="ic">💍</div>
+        <div class="ic">🌹</div>
         <b>वैवाहिक</b>
         <span>समाज हेतु वर-वधू परिचय</span>
       </a>
       <a href="vehicles.html" class="cat-card">
         <div class="ic">🚜</div>
         <b>वाहन बुकिंग</b>
-        <span>ट्रैक्टर व पिकअप सेवाएं</span>
+        <span>ट्रैक्टर व पिकअप सेवाएं (देखें)</span>
       </a>
       <a href="jobs.html" class="cat-card">
         <div class="ic">💼</div>
@@ -154,7 +164,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <span>नौकरी व काम की जानकारी</span>
       </a>
       <a href="business.html" class="cat-card">
-        <div class="ic">🏪</div>
+        <div class="ic">🏬</div>
         <b>बिजनेस</b>
         <span>समाज की दुकानें व व्यापार</span>
       </a>
@@ -164,7 +174,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <span>समाज विकास सहयोग राशि</span>
       </a>
       <a href="family.html" class="cat-card">
-        <div class="ic">👨‍👩‍👧</div>
+        <div class="ic">🌳</div>
         <b>परिवार वृक्ष</b>
         <span>पारिवारिक वंशावली विवरण</span>
       </a>
@@ -182,7 +192,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     </div>
   </div>
 
-  <!-- बॉटम नेविगेशन (कोई स्क्रीन बैक बटन नहीं) -->
+  <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html" class="active"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
@@ -199,7 +209,54 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// 0 से नंबर काउंटिंग एनीमेशन
+// 1. पदाधिकारी लोड करने का फंक्शन (लॉगिन चेक के साथ)
+async function loadPadadhikari() {
+  let container = document.getElementById("padadhikariSlider");
+  if(!container) return;
+
+  try {
+    let snapshot = await db.collection("users").where("role", "==", "padadhikari").get();
+    
+    if(snapshot.empty) {
+      container.innerHTML = `<div class="card" style="min-width:100%;text-align:center;font-size:11px;color:var(--muted);padding:10px;">अभी कोई पदाधिकारी सूची नहीं जोड़ी गई है।</div>`;
+      return;
+    }
+
+    // जांच करें कि यूजर लॉग इन है या नहीं (आपकी लॉगिन व्यवस्था के अनुसार localStorage चेक कर रहे हैं)
+    let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+
+    let html = "";
+    snapshot.forEach(doc => {
+      let d = doc.data();
+      let name = d.fullName || "सदर";
+      let post = d.designation || "पदाधिकारी"; 
+      
+      let phone = "";
+      if (d.mobile) {
+        if (isLoggedIn) {
+          phone = `<a href="tel:${d.mobile}" style="font-size:9px;color:var(--p);text-decoration:none;display:block;margin-top:4px;">📞 ${d.mobile}</a>`;
+        } else {
+          phone = `<a href="#" onclick="alert('पदाधिकारी से संपर्क करने के लिए कृपया पहले लॉगिन करें!'); window.location.href='login.html';" style="font-size:9px;color:#d9534f;text-decoration:none;display:block;margin-top:4px;">🔒 कॉल हेतु लॉगिन करें</a>`;
+        }
+      }
+
+      html += `
+        <div class="cat-card">
+          <div class="ic">👔</div>
+          <b>${name}</b>
+          <span style="color:var(--navy);font-weight:700;font-size:10px;">${post}</span>
+          ${phone}
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `<div class="card" style="min-width:100%;text-align:center;font-size:11px;color:var(--muted);">डेटा लोड करने में त्रुटि।</div>`;
+  }
+}
+
+// 2. नंबर काउंटिंग एनिमेशन
 function animateCount(elementId, targetNumber) {
   let el = document.getElementById(elementId);
   if(!el) return;
@@ -215,6 +272,7 @@ function animateCount(elementId, targetNumber) {
   }, stepTime);
 }
 
+// 3. होम स्टैट्स लोड करने का फंक्शन
 async function loadHomeStats(){
   try{
     let [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);
@@ -227,12 +285,15 @@ async function loadHomeStats(){
     document.getElementById("stApproved").textContent = "0";
   }
 }
+
+// पेज लोड होते ही डेटा लोड करें
+loadPadadhikari();
 loadHomeStats();
-  history.pushState(null, null, location.href);
+
+// बैक बटन और एक्जिट पॉपअप का लॉजिक
+history.pushState(null, null, location.href);
 window.addEventListener('popstate', function (event) {
   history.pushState(null, null, location.href);
-  
-  // यदि आप होमपेज पर यस/नो एग्जिट पॉप-अप रखना चाहते हैं:
   let confirmExit = confirm("क्या आप भुईहर समाज पोर्टल से बाहर निकलना चाहते हैं?");
   if (confirmExit) {
     window.close();

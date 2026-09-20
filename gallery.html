@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0757a3">
+<title>फोटो एवं ऑडियो गैलरी | भुईहर समाज पोर्टल</title>
+<style>
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
+
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
+
+.back-btn-wrap{padding:4px 0 12px 0;}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
+
+.container{padding:16px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
+
+/* गैलरी ग्रिड (फोटो और ऑडियो) */
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.gallery-item{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.2s}
+.gallery-item:active{transform:scale(0.98)}
+
+.gallery-img{width:100%;height:130px;object-fit:cover;display:block;background:#e2e8f0}
+.gallery-caption{padding:8px;font-size:11.5px;font-weight:700;color:var(--navy);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ऑडियो प्लेयर कार्ड */
+.audio-card{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.audio-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
+audio{width:100%;height:35px;margin-top:4px}
+
+/* एचडी फुल-स्क्रीन लाइटबॉक्स (Modal) जो फोटो फटने नहीं देगा */
+#lightboxModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:1000;display:none;justify-content:center;align-items:center;padding:20px;flex-direction:column}
+#lightboxModal img{max-width:100%;max-height:82vh;object-fit:contain;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+#lightboxClose{position:absolute;top:20px;right:20px;background:#fff;color:#000;border:0;width:40px;height:40px;border-radius:50%;font-size:20px;font-weight:bold;cursor:pointer;display:grid;place-items:center}
+#lightboxCaption{color:#fff;margin-top:14px;font-size:14px;text-align:center;font-weight:700}
+
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
+.nav b{display:block;font-size:16px}
+.nav a.active{color:var(--p);font-weight:800}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="hero">
+    <div class="back-btn-wrap">
+      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+    </div>
+    <div class="brand">
+      <div class="logo">🖼️</div>
+      <div><h1>फोटो एवं ऑडियो गैलरी</h1><p>सांस्कृतिक यादें, तस्वीरें और ऑडियो कथाएँ</p></div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- फोटो गैलरी सेक्शन -->
+    <div class="card">
+      <h3 style="margin:0 0 4px;font-size:14px;color:var(--navy);">📷 सामाजिक एवं ऐतिहासिक तस्वीरें</h3>
+      <p style="margin:0 0 10px;font-size:11px;color:var(--muted);">किसी भी फोटो पर क्लिक करके उसे फुल एचडी व्यू में देखें।</p>
+      
+      <div class="gallery-grid" id="photoGalleryGrid">
+        <!-- डायनामिक तस्वीरें यहाँ लोड होंगी -->
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop', 'महाराजगंज समाज भवन बैठक')">
+          <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400&auto=format&fit=crop" class="gallery-img" alt="बैठक">
+          <div class="gallery-caption">समाज भवन बैठक</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop', 'वार्षिक मिलन समारोह')">
+          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=400&auto=format&fit=crop" class="gallery-img" alt="समारोह">
+          <div class="gallery-caption">वार्षिक मिलन समारोह</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ऑडियो गैलरी सेक्शन -->
+    <div class="card">
+      <h3 style="margin:0 0 4px;font-size:14px;color:var(--navy);">🎵 सांस्कृतिक ऑडियो एवं कथाएँ</h3>
+      <p style="margin:0 0 10px;font-size:11px;color:var(--muted);">पारंपरिक गीत और ऑडियो संदेश सुनें।</p>
+      
+      <div class="audio-card">
+        <div class="audio-title">🎶 समाज गीत / नागपुरी धुन</div>
+        <audio controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- एचडी फुल-स्क्रीन इमेज पॉप-अप (Lightbox Modal) -->
+  <div id="lightboxModal" onclick="closeLightbox()">
+    <button id="lightboxClose">×</button>
+    <img id="lightboxImg" src="" alt="HD View">
+    <div id="lightboxCaption"></div>
+  </div>
+
+  <!-- बॉटम नेविगेशन -->
+  <nav class="nav">
+    <a href="index.html"><b>⌂</b>Home</a>
+    <a href="search.html"><b>⌕</b>Search</a>
+    <a href="login.html"><b>👤</b>Profile</a>
+    <a href="blood.html"><b>🩸</b>Blood</a>
+    <a href="admin.html"><b>🛡️</b>Admin</a>
+  </nav>
+</div>
+
+<script>
+// एचडी लाइटबॉक्स खोलने का फंक्शन (फोटो फटेगी नहीं, साफ़ दिखेगी)
+function openLightbox(imgSrc, captionText) {
+  let modal = document.getElementById("lightboxModal");
+  let modalImg = document.getElementById("lightboxImg");
+  let caption = document.getElementById("lightboxCaption");
+
+  modal.style.display = "flex";
+  modalImg.src = imgSrc;
+  caption.innerText = captionText;
+}
+
+// लाइटबॉक्स बंद करने का फंक्शन
+function closeLightbox() {
+  document.getElementById("lightboxModal").style.display = "none";
+}
+</script>
+</body>
+</html>

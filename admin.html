@@ -51,26 +51,54 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     </div>
     <div class="brand">
       <div class="logo">🛡️</div>
-      <div><h1>मास्टर एडमिन पैनल</h1><p>सत्यापन, सदस्य सुरक्षा, व्यवसाय, पोल व सूचना नियंत्रण</p></div>
+      <div><h1>मास्टर एडमिन पैनल</h1><p>सत्यापन, बैठक, सदस्य सुरक्षा व पोल नियंत्रण</p></div>
     </div>
   </div>
 
   <div class="container">
     
-    <!-- 1. मोबाइल नंबर द्वारा सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली व्यू -->
+    <!-- 1. आगामी बैठक एवं सूचना जारी करने का फॉर्म (news.html) -->
+    <div class="card" style="border-left:4px solid var(--gold);">
+      <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">📢 आगामी बैठक एवं सूचना जारी करें (news.html)</h3>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">यहाँ से जोड़ी गई बैठक या सूचना सीधे `news.html` पर लाइव होगी।</p>
+      
+      <div class="form-group">
+        <label>प्रकार</label>
+        <select id="newsType" class="form-control">
+          <option value="बैठक (Meeting)">बैठक (Meeting)</option>
+          <option value="सूचना (Announcement)">सूचना (Announcement)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>शीर्षक</label>
+        <input type="text" id="newsTitle" class="form-control" placeholder="जैसे: वार्षिक समाज मिलन समारोह">
+      </div>
+      <div class="form-group">
+        <label>दिनांक एवं समय</label>
+        <input type="text" id="newsDate" class="form-control" placeholder="जैसे: आगामी रविवार, सुबह 11 बजे">
+      </div>
+      <div class="form-group">
+        <label>स्थान / स्थल</label>
+        <input type="text" id="newsVenue" class="form-control" placeholder="जैसे: समाज भवन, महाराजगंज">
+      </div>
+      <div class="form-group">
+        <label>विस्तृत विवरण</label>
+        <textarea id="newsDetails" class="form-control" rows="2" placeholder="बैठक या सूचना का विवरण लिखें..."></textarea>
+      </div>
+      <button class="btn" onclick="publishNews()">सूचना / बैठक लाइव करें</button>
+    </div>
+
+    <!-- 2. मोबाइल नंबर द्वारा सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली व्यू -->
     <div class="card" style="border-left:4px solid var(--p);">
       <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">🔍 सदस्य खोज एवं सुरक्षा नियंत्रण (Block/Unblock)</h3>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">मोबाइल नंबर दर्ज करके सदस्य का परिवार देखें या ब्लॉक करें।</p>
-      
       <div class="form-group">
         <input type="text" id="searchMobileInput" class="form-control" placeholder="10 अंकों का रजिस्टर्ड मोबाइल नंबर दर्ज करें">
       </div>
       <button class="btn" onclick="searchMemberByMobile()">मोबाइल से सदस्य खोजें</button>
-      
       <div id="searchMemberResult" style="margin-top:12px;"></div>
     </div>
 
-    <!-- 2. नए सदस्य पंजीयन सत्यापन -->
+    <!-- 3. नए सदस्य पंजीयन सत्यापन -->
     <div class="card">
       <h3 style="margin:0 0 10px;font-size:14px;color:var(--navy);">👤 नए सदस्य पंजीयन सत्यापन</h3>
       <div id="pendingMembersContainer">
@@ -78,7 +106,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       </div>
     </div>
 
-    <!-- 3. मेधावी छात्र सत्यापन -->
+    <!-- 4. मेधावी छात्र सत्यापन -->
     <div class="card">
       <h3 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🏆 मेधावी छात्र सत्यापन (achievers.html)</h3>
       <div id="pendingAchieversContainer">
@@ -86,60 +114,26 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       </div>
     </div>
 
-    <!-- 4. समाज की दुकान / व्यवसाय (business.html) डायरेक्टरी में जोड़ने का फॉर्म -->
+    <!-- 5. समाज की दुकान / व्यवसाय (business.html) डायरेक्टरी में जोड़ने का फॉर्म -->
     <div class="card">
       <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">🏪 समाज की दुकान / व्यवसाय जोड़ें (business.html)</h3>
       <div class="form-group">
-        <label>दुकान / व्यवसाय का नाम व प्रकार</label>
-        <input type="text" id="bizName" class="form-control" placeholder="जैसे: श्री राम ट्रेडर्स (खाद-बीज दुकान)">
-      </div>
-      <div class="form-group">
-        <label>संचालक / मालिक का नाम व मोबाइल</label>
-        <input type="text" id="bizOwner" class="form-control" placeholder="संचालक: श्री मोहन, मोबाइल: 9876543210">
-      </div>
-      <div class="form-group">
-        <label>पता / क्षेत्र</label>
-        <input type="text" id="bizAddress" class="form-control" placeholder="महाराजगंज मुख्य मार्ग, बलरामपुर">
+        <input type="text" id="bizName" class="form-control" placeholder="व्यवसाय का नाम व प्रकार" style="margin-bottom:6px;">
+        <input type="text" id="bizOwner" class="form-control" placeholder="संचालक का नाम व मोबाइल" style="margin-bottom:6px;">
+        <input type="text" id="bizAddress" class="form-control" placeholder="पता / क्षेत्र (जैसे: महाराजगंज)">
       </div>
       <button class="btn" onclick="addNewBusiness()">व्यवसाय डायरेक्टरी में जोड़ें</button>
-    </div>
-
-    <!-- 5. सूचना एवं बैठक जारी करने का फॉर्म (news.html) -->
-    <div class="card">
-      <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">📢 सूचना या बैठक जारी करें (news.html)</h3>
-      <div class="form-group">
-        <label>प्रकार व शीर्षक</label>
-        <select id="newsType" class="form-control" style="margin-bottom:6px;">
-          <option value="बैठक (Meeting)">बैठक (Meeting)</option>
-          <option value="सूचना (Announcement)">सूचना (Announcement)</option>
-        </select>
-        <input type="text" id="newsTitle" class="form-control" placeholder="शीर्षक दर्ज करें">
-      </div>
-      <div class="form-group">
-        <label>दिनांक, समय व स्थान</label>
-        <input type="text" id="newsDate" class="form-control" placeholder="दिनांक/समय: आगामी रविवार, सुबह 11 बजे" style="margin-bottom:6px;">
-        <input type="text" id="newsVenue" class="form-control" placeholder="स्थान: समाज भवन, महाराजगंज">
-      </div>
-      <div class="form-group">
-        <label>विस्तृत विवरण</label>
-        <textarea id="newsDetails" class="form-control" rows="2" placeholder="संदेश विवरण..."></textarea>
-      </div>
-      <button class="btn" onclick="publishNews()">सूचना लाइव करें</button>
     </div>
 
     <!-- 6. गैलरी में फोटो/ऑडियो लिंक जोड़ने का फॉर्म (gallery.html) -->
     <div class="card">
       <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">🖼️ गैलरी मीडिया जोड़ें (gallery.html)</h3>
       <div class="form-group">
-        <label>मीडिया प्रकार व शीर्षक</label>
         <select id="mediaType" class="form-control" style="margin-bottom:6px;">
           <option value="photo">फोटो (Image Link)</option>
           <option value="audio">ऑडियो (Audio Link)</option>
         </select>
-        <input type="text" id="mediaTitle" class="form-control" placeholder="शीर्षक दर्ज करें">
-      </div>
-      <div class="form-group">
-        <label>यूआरएल (URL Link)</label>
+        <input type="text" id="mediaTitle" class="form-control" placeholder="शीर्षक दर्ज करें" style="margin-bottom:6px;">
         <input type="text" id="mediaUrl" class="form-control" placeholder="इमेज या ऑडियो का सीधा लिंक">
       </div>
       <button class="btn" onclick="addGalleryMedia()">गैलरी में जोड़ें</button>
@@ -149,12 +143,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <div class="card">
       <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">🕊️ शोक संदेश जारी करें (condolence.html)</h3>
       <div class="form-group">
-        <label>दिवंगत का नाम व स्थान</label>
-        <input type="text" id="condName" class="form-control" placeholder="स्व. श्री..." style="margin-bottom:6px;">
-        <input type="text" id="condLocation" class="form-control" placeholder="स्थान: ग्राम महाराजगंज, बलरामपुर">
-      </div>
-      <div class="form-group">
-        <label>शोक संदेश विवरण</label>
+        <input type="text" id="condName" class="form-control" placeholder="दिवंगत का नाम (स्व. श्री...)" style="margin-bottom:6px;">
+        <input type="text" id="condLocation" class="form-control" placeholder="स्थान (ग्राम महाराजगंज)" style="margin-bottom:6px;">
         <textarea id="condDetails" class="form-control" rows="2" placeholder="संदेश विवरण..."></textarea>
       </div>
       <button class="btn" onclick="publishCondolence()">शोक संदेश लाइव करें</button>
@@ -164,8 +154,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <div class="card">
       <h3 style="margin:0 0 6px;font-size:14px;color:var(--navy);">🗳️ नया जनमत पोल बनाएँ (voting.html)</h3>
       <div class="form-group">
-        <label>पोल का प्रश्न व विकल्प</label>
-        <input type="text" id="pollQuestion" class="form-control" placeholder="प्रश्न दर्ज करें..." style="margin-bottom:6px;">
+        <input type="text" id="pollQuestion" class="form-control" placeholder="पोल का प्रश्न..." style="margin-bottom:6px;">
         <input type="text" id="pollOpt1" class="form-control" placeholder="विकल्प 1" style="margin-bottom:6px;">
         <input type="text" id="pollOpt2" class="form-control" placeholder="विकल्प 2">
       </div>
@@ -187,6 +176,13 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
+// 🔒 लॉगिन सुरक्षा गार्ड (Login & Authentication Check)
+// यदि यूजर लॉगिन नहीं है (localStorage में 'userLoggedIn' नहीं है), तो सीधे login.html पर भेज देगा
+if (localStorage.getItem("userLoggedIn") !== "true") {
+  alert("कृपया पहले लॉगिन करें!");
+  window.location.href = "login.html";
+}
+
 // 🔒 15 मिनट (900,000 मिलीसेकंड) की निष्क्रियता (Inactivity) पर ऑटो-लॉगआउट सुरक्षा
 let inactivityTimeout;
 const TIMEOUT_DURATION = 15 * 60 * 1000;
@@ -210,7 +206,30 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// 1. मोबाइल नंबर से सदस्य खोजें और ब्लॉक/अनब्लॉक करें
+// 1. आगामी बैठक या सूचना लाइव करना (news.html)
+async function publishNews() {
+  let type = document.getElementById("newsType").value;
+  let title = document.getElementById("newsTitle").value.trim();
+  let date = document.getElementById("newsDate").value.trim();
+  let venue = document.getElementById("newsVenue").value.trim();
+  let details = document.getElementById("newsDetails").value.trim();
+
+  if(!title || !date) { alert("कृपया शीर्षक और दिनांक भरें!"); return; }
+
+  try {
+    await db.collection("news").add({
+      type: type, title: title, date: date, venue: venue, details: details,
+      status: "approved", timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert("सूचना/बैठक सफलतापूर्वक लाइव कर दी गई है!");
+    document.getElementById("newsTitle").value = "";
+    document.getElementById("newsDate").value = "";
+    document.getElementById("newsVenue").value = "";
+    document.getElementById("newsDetails").value = "";
+  } catch(e) { alert("त्रुटि!"); }
+}
+
+// 2. मोबाइल नंबर से सदस्य खोजें और ब्लॉक/अनब्लॉक करें
 async function searchMemberByMobile() {
   let mob = document.getElementById("searchMobileInput").value.trim();
   let resDiv = document.getElementById("searchMemberResult");
@@ -335,10 +354,7 @@ async function addNewBusiness() {
   let owner = document.getElementById("bizOwner").value.trim();
   let address = document.getElementById("bizAddress").value.trim();
 
-  if(!name || !owner) {
-    alert("कृपया व्यवसाय का नाम और संचालक की जानकारी भरें!");
-    return;
-  }
+  if(!name || !owner) { alert("कृपया व्यवसाय का नाम और संचालक की जानकारी भरें!"); return; }
 
   try {
     await db.collection("businesses").add({
@@ -350,28 +366,6 @@ async function addNewBusiness() {
     document.getElementById("bizOwner").value = "";
     document.getElementById("bizAddress").value = "";
   } catch(e) { alert("जोड़ने में त्रुटि आई।"); }
-}
-
-async function publishNews() {
-  let type = document.getElementById("newsType").value;
-  let title = document.getElementById("newsTitle").value.trim();
-  let date = document.getElementById("newsDate").value.trim();
-  let venue = document.getElementById("newsVenue").value.trim();
-  let details = document.getElementById("newsDetails").value.trim();
-
-  if(!title || !date) { alert("कृपया शीर्षक और दिनांक भरें!"); return; }
-
-  try {
-    await db.collection("news").add({
-      type: type, title: title, date: date, venue: venue, details: details,
-      status: "approved", timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    alert("सूचना/बैठक सफलतापूर्वक लाइव कर दी गई है!");
-    document.getElementById("newsTitle").value = "";
-    document.getElementById("newsDate").value = "";
-    document.getElementById("newsVenue").value = "";
-    document.getElementById("newsDetails").value = "";
-  } catch(e) { alert("त्रुटि!"); }
 }
 
 async function addGalleryMedia() {

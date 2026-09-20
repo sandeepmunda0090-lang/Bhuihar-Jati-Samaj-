@@ -4,54 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0757a3">
-<title>रोज़गार व नौकरी | भुईहर जाति समाज</title>
+<title>रोजगार एवं जॉब्स | भुईहर समाज पोर्टल</title>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--red:#d93025;--shadow:0 10px 28px rgba(20,42,72,.09)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
+body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 
-@keyframes borderRotate {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
-.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px;border-radius:0 0 22px 22px}
-.header h1{margin:0;font-size:18px;font-weight:800}
-.header p{margin:2px 0 0;font-size:11px;opacity:.85}
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 
-.container{padding:12px}
+/* आकर्षक बैक बटन */
+.back-btn-wrap{padding:4px 0 12px 0;}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
 
-/* एकदम पतला और खूबसूरत रनिंग बॉर्डर कार्ड */
-.job-card {
-  position: relative;
-  border-radius: 16px;
-  background: var(--card);
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-  z-index: 1;
-  overflow: hidden;
-}
-.job-card::before {
-  content: '';
-  position: absolute;
-  top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;
-  background: linear-gradient(45deg, #0757a3, #f4b63f, #168c50, #0d7bd3, #0757a3);
-  background-size: 400%;
-  border-radius: 17px;
-  z-index: -1;
-  animation: borderRotate 5s linear infinite;
-}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
 
-.job-inner {
-  background: #fff;
-  border-radius: 15px;
-  padding: 14px;
-}
+.container{padding:16px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 
-.job-info h3{margin:0 0 4px;font-size:15px;font-weight:800;color:var(--navy)}
-.job-info p{margin:2px 0;font-size:11.5px;color:var(--muted)}
-.call-btn{background:linear-gradient(135deg,#168c50,#1fac63);color:#fff;border:0;padding:8px 12px;border-radius:10px;font:700 12px inherit;cursor:pointer;text-decoration:none;display:inline-block;margin-top:8px}
+/* जॉब कार्ड डिजाइन */
+.job-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;transition:all 0.2s}
+.job-card:active{transform:scale(0.99)}
+.job-title{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 4px;display:flex;justify-content:space-between;align-items:flex-start}
+.job-meta{font-size:11.5px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+
+/* न्यू ब्लिंकिंग बैज */
+.new-badge{background:#ef4444;color:#fff;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:6px;animation:pulse 1.5s infinite;display:inline-block}
+@keyframes pulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+
+.job-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;}
+.expiry-text{color:#dc2626;font-weight:700}
+.apply-btn{background:#e0f2fe;color:#0369a1;padding:6px 12px;border-radius:8px;font-weight:700;text-decoration:none;font-size:11.5px}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -62,22 +47,29 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 <body>
 
 <div id="app">
-  <div class="header">
-    <h1>💼 रोज़गार व नौकरी सहायता</h1>
-    <p>समाज के युवाओं हेतु कार्य व अवसर</p>
+  <div class="hero">
+    <div class="back-btn-wrap">
+      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+    </div>
+    <div class="brand">
+      <div class="logo">💼</div>
+      <div><h1>रोजगार एवं जॉब्स पोर्टल</h1><p>सरकारी, प्राइवेट एवं स्थानीय रोजगार अवसर</p></div>
+    </div>
   </div>
 
-  <div class="container" id="jobContainer">
-    <div class="job-card">
-      <div class="job-inner">
-        <div class="job-info">
-          <h3>दुकान सहायक / ऑपरेटर आवश्यकता</h3>
-          <p><b>कार्यक्षेत्र:</b> महाराजगंज • <b>वेतन:</b> योग्यतानुसार</p>
-          <p>📍 संपर्क करें और काम की जानकारी प्राप्त करें</p>
-          <a href="tel:9111111111" class="call-btn">📞 संपर्क करें</a>
-        </div>
-      </div>
+  <div class="container">
+    
+    <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
+      <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📢 युवाओं के लिए विशेष सूचना</h3>
+      <p style="margin:0;font-size:11px;color:#1e3a8a;">नवीनतम भर्तियाँ सबसे ऊपर दिखाई दे रही हैं। अंतिम तिथि से पहले आवेदन करें।</p>
     </div>
+
+    <!-- जॉब्स की सूची लोड होने का क्षेत्र -->
+    <h4 style="margin:14px 2px 8px;font-size:13.5px;color:var(--navy);">उपलब्ध रोजगार अवसर:</h4>
+    <div id="jobListContainer">
+      <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">जॉब्स की सूचियाँ लोड हो रही हैं...</div>
+    </div>
+
   </div>
 
   <!-- बॉटम नेविगेशन -->
@@ -97,25 +89,80 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-async function loadJobs(){
-  try{
-    let snap=await db.collection("jobs").get();
-    let container=document.getElementById("jobContainer");
-    if(!snap.empty){
-      let html="";
-      snap.forEach(doc=>{
-        let d=doc.data();
-        html+=`<div class="job-card"><div class="job-inner"><div class="job-info">
-          <h3>${d.jobTitle}</h3>
-          <p><b>कार्यक्षेत्र:</b> ${d.location||'महाराजगंज'} • <b>वेतन:</b> ${d.salary||'-'}</p>
-          <p>📍 ${d.description||''}</p>
-          <a href="tel:${d.mobile}" class="call-btn">📞 संपर्क करें</a>
-        </div></div></div>`;
-      });
-      container.innerHTML=html;
+// जॉब्स लोड करने का फंक्शन
+async function loadJobs() {
+  let container = document.getElementById("jobListContainer");
+  try {
+    // तारीख या टाइमस्टैम्प के हिसाब से सबसे नया ऊपर दिखाने के लिए orderBy
+    let snapshot = await db.collection("jobs").orderBy("timestamp", "desc").get();
+    
+    let jobs = [];
+    let today = new Date().toISOString().split('T')[0]; // आज की तारीख (YYYY-MM-DD)
+
+    snapshot.forEach(doc => {
+      let data = doc.data();
+      // यदि अंतिम तिथि निकल चुकी है, तो ऑटो-हाइड (प्रदर्शित न करें) करें
+      if(!data.expiryDate || data.expiryDate >= today) {
+        jobs.push({ id: doc.id, ...data });
+      }
+    });
+
+    // यदि डेटाबेस में अभी कोई जॉब न हो तो डेमो के लिए उदाहरण दिखाएं
+    if(jobs.length === 0) {
+      jobs = [
+        {
+          title: "छत्तीसगढ़ पुलिस ASI (Ministerial) भर्ती तैयारी",
+          dept: "छ.ग. शासन गृह विभाग",
+          qual: "स्नातक (Graduate) + कंप्यूटर दक्षता",
+          expiryDate: "2026-12-31",
+          desc: "समाज के युवाओं के लिए पुलिस उप-निरीक्षक (मीनिस्ट्रियल) परीक्षा हेतु महत्वपूर्ण दिशा-निर्देश एवं सिलेबस आधारित तैयारी।",
+          link: "#",
+          isNew: true
+        },
+        {
+          title: "जिला स्तर फील्ड ऑपरेशंस एसोसिएट",
+          dept: "Jio Partner World / स्थानीय पार्टनर",
+          qual: "12वीं पास / स्नातक (स्मार्टफोन जरूरी)",
+          expiryDate: "2026-07-15",
+          desc: "बलरामपुर एवं महाराजगंज क्षेत्र के अंतर्गत लोकेशन चेक-इन एवं डिजिटल फील्ड रीच कार्य हेतु।",
+          link: "#",
+          isNew: false
+        }
+      ];
     }
-  }catch(e){}
+
+    let html = "";
+    jobs.forEach(j => {
+      // यदि हाल ही में पोस्ट हुआ है या isNew ट्रू है, तो नया पॉप-अप बैज दिखाएं
+      let badgeHtml = j.isNew ? `<span class="new-badge">NEW ✨</span>` : "";
+
+      html += `
+        <div class="job-card">
+          <div class="job-title">
+            <span>${j.title}</span>
+            ${badgeHtml}
+          </div>
+          <div class="job-meta">
+            🏢 विभाग/कंपनी: <b>${j.dept || 'सामान्य'}</b><br>
+            🎓 योग्यता: ${j.qual || 'निर्धारित नहीं'}<br>
+            📝 विवरण: ${j.desc || 'विवरण उपलब्ध नहीं'}
+          </div>
+          <div class="job-footer">
+            <span class="expiry-text">⏳ अंतिम तिथि: ${j.expiryDate || 'निर्धारित नहीं'}</span>
+            <a href="${j.link || '#'}" target="_blank" class="apply-btn">विवरण देखें / आवेदन →</a>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+  } catch(e) {
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">जॉब्स लोड करने में असमर्थ।</div>`;
+  }
 }
+
+// पेज लोड होते ही जॉब्स लोड करें
 loadJobs();
 </script>
 </body>

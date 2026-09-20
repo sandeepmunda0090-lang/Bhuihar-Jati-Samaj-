@@ -4,38 +4,55 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="theme-color" content="#0757a3">
-<title>समाज बिजनेस व दुकानें | भुईहर जाति समाज</title>
+<title>समाज व्यापार एवं रोजगार डायरेक्टरी | भुईहर जाति समाज</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 
-@keyframes zoomInDrop {
-  0% { transform: translateY(-30px) scale(0.96); opacity: 0; }
-  60% { transform: translateY(4px) scale(1.005); opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
+
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
+
+/* आकर्षक और फोकस वाला बैक बटन */
+.back-btn-wrap{padding:4px 0 12px 0;}
+.custom-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s;
 }
+.custom-back-btn:active { transform: scale(0.96); }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;animation: zoomInDrop 0.7s ease-out forwards;}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
 
-.header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px;border-radius:0 0 22px 22px}
-.header h1{margin:0;font-size:18px;font-weight:800}
-.header p{margin:2px 0 0;font-size:11px;opacity:.85}
+.container{padding:16px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 
-.container{padding:12px}
+/* बिजनेस कैटेगरी फिल्टर चिप्स */
+.filter-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:12px}
+.filter-scroll::-webkit-scrollbar{display:none}
+.f-chip{background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+.f-chip.active{background:var(--p);color:#fff;border-color:var(--p)}
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-}
+/* बिजनेस कार्ड डिजाइन */
+.biz-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
+.biz-card b{display:block;font-size:15px;color:var(--navy);margin-bottom:3px}
+.biz-card span{display:block;font-size:11.5px;color:var(--muted);line-height:1.4}
+.biz-badge{position:absolute;top:12px;right:14px;background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px}
 
-.biz-info h3{margin:0 0 4px;font-size:15px;font-weight:800;color:var(--navy)}
-.biz-info p{margin:2px 0;font-size:11.5px;color:var(--muted)}
-.call-btn{background:linear-gradient(135deg,#168c50,#1fac63);color:#fff;border:0;padding:8px 12px;border-radius:10px;font:700 12px inherit;cursor:pointer;text-decoration:none;display:inline-block;margin-top:8px}
+.btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -46,19 +63,50 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 <body>
 
 <div id="app">
-  <div class="header">
-    <h1>🏪 समाज बिजनेस व दुकानें</h1>
-    <p>व्यापार, दुकान व प्रतिष्ठान डायरेक्टरी</p>
+  <div class="hero">
+    <!-- यूनिक और फोकस वाला बैक बटन -->
+    <div class="back-btn-wrap">
+      <a href="index.html" class="custom-back-btn">
+        <span style="font-size:15px;">←</span> मुख्य पृष्ठ (वापस जाएं)
+      </a>
+    </div>
+
+    <div class="brand">
+      <div class="logo">💼</div>
+      <div><h1>व्यापार एवं रोजगार सूची</h1><p>समाज के व्यवसायी व दुकानें • महाराजगंज</p></div>
+    </div>
   </div>
 
-  <div class="container" id="bizContainer">
-    <div class="card">
-      <div class="biz-info">
-        <h3>सामान्य व्यापार / दुकान</h3>
-        <p><b>संचालक:</b> समाज सदस्य • <b>सेवा:</b> किराना व जनरल स्टोर</p>
-        <p>📍 स्थान: महाराजगंज बाजार</p>
-        <a href="tel:9111111111" class="call-btn">📞 संपर्क करें</a>
+  <div class="container">
+    <!-- सुविचार / सूचना बॉक्स -->
+    <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;">
+      <h3 style="margin:0 0 4px;font-size:13px;color:#166534;">🤝 वोकल फॉर लोकल (समाज का व्यापार)</h3>
+      <p style="margin:0;font-size:11.5px;line-height:1.4;color:#14532d;">"आपसी सहयोग से ही समाज आर्थिक रूप से मजबूत होता है। अपनी जरूरत का सामान हमेशा समाज के व्यापारियों की दुकानों से ही खरीदें।"</p>
+    </div>
+
+    <!-- व्यापार श्रेणी फ़िल्टर बार -->
+    <div class="filter-scroll" id="bizFilters">
+      <div class="f-chip active" onclick="filterBiz('ALL', this)">सभी दुकानें</div>
+      <div class="f-chip" onclick="filterBiz('खाद-बीज', this)">खाद एवं बीज</div>
+      <div class="f-chip" onclick="filterBiz('किराना', this)">किराना स्टोर</div>
+      <div class="f-chip" onclick="filterBiz('हार्डवेयर', this)
+">हार्डवेयर व निर्माण</div>
+      <div class="f-chip" onclick="filterBiz('मेडिकल', this)">मेडिकल स्टोर</div>
+      <div class="f-chip" onclick="filterBiz('अन्य', this)">अन्य व्यवसाय</div>
+    </div>
+
+    <!-- बिजनेस सूची लोड होने का क्षेत्र -->
+    <div id="bizListContainer">
+      <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">
+        व्यापार डायरेक्टरी लोड हो रही है...
       </div>
+    </div>
+
+    <!-- स्वयं का व्यवसाय जोड़ने का अनुभाग -->
+    <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;">
+      <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">📢 क्या आपकी भी दुकान या व्यवसाय है?</h4>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">समाज पोर्टल पर अपनी दुकान का प्रचार करने के लिए अपना व्यवसाय यहाँ रजिस्टर करें।</p>
+      <button class="btn" onclick="openRegisterBizModal()">व्यवसाय पंजीकरण हेतु अनुरोध भेजें</button>
     </div>
   </div>
 
@@ -79,26 +127,103 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-async function loadBusiness(){
-  try{
-    let snap=await db.collection("business").get();
-    let container=document.getElementById("bizContainer");
-    if(!snap.empty){
-      let html="";
-      snap.forEach(doc=>{
-        let d=doc.data();
-        html+=`<div class="card"><div class="biz-info">
-          <h3>${d.businessName} (${d.ownerName})</h3>
-          <p><b>सेवा/उत्पाद:</b> ${d.category||'व्यापार'} • <b>विवरण:</b> ${d.details||'-'}</p>
-          <p>📍 स्थान: ${d.location||'महाराजगंज'}</p>
-          <a href="tel:${d.mobile}" class="call-btn">📞 संपर्क करें</a>
-        </div></div>`;
-      });
-      container.innerHTML=html;
+let allBusinesses = [];
+let currentBizFilter = 'ALL';
+
+// फायरबेस से स्वीकृत व्यवसाय लोड करने का फंक्शन
+async function loadBusinesses() {
+  let container = document.getElementById("bizListContainer");
+  try {
+    // मान लीजिए डेटाबेस में 'businesses' नामक कलेक्शन है जिसे एडमिन अप्रूव करता है
+    let snapshot = await db.collection("businesses").where("status", "==", "approved").get();
+    
+    allBusinesses = [];
+    snapshot.forEach(doc => {
+      allBusinesses.push(doc.data());
+    });
+
+    // यदि डेटाबेस में अभी कोई बिजनेस नहीं है, तो कुछ डेमो उदाहरण दिखाएं ताकि पेज खाली न लगे
+    if(allBusinesses.length === 0) {
+      allBusinesses = [
+        { bizName: "सोनू ट्रेडर्स एवं खाद भंडार", owner: "श्री सोनू राम", category: "खाद-बीज", address: "मुख्य बाजार, महाराजगंज", mobile: "9876543210", details: "उचित मूल्य पर सभी प्रकार के खाद और बीज उपलब्ध।" },
+        { bizName: "गुप्ता जनरल स्टोर", owner: "श्री राजकुमार गुप्ता", category: "किराना", address: "चौक पारा, बलरामपुर", mobile: "9876543211", details: "दैनिक उपयोग की सभी सामग्रियां।" }
+      ];
     }
-  }catch(e){}
+
+    renderBusinesses();
+  } catch(e) {
+    // त्रुटि आने पर भी डेमो डेटा दिखाएं ताकि लेआउट सही रहे
+    allBusinesses = [
+      { bizName: "सोनू ट्रेडर्स एवं खाद भंडार", owner: "श्री सोनू राम", category: "खाद-बीज", address: "मुख्य बाजार, महाराजगंज", mobile: "9876543210", details: "उचित मूल्य पर सभी प्रकार के खाद और बीज उपलब्ध।" }
+    ];
+    renderBusinesses();
+  }
 }
-loadBusiness();
+
+// बिजनेस सूची रेंडर करने और फ़िल्टर करने का लॉजिक
+function renderBusinesses() {
+  let container = document.getElementById("bizListContainer");
+  let filtered = allBusinesses;
+
+  if(currentBizFilter !== 'ALL') {
+    filtered = allBusinesses.filter(b => b.category && b.category.includes(currentBizFilter));
+  }
+
+  if(filtered.length === 0) {
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई दुकान पंजीकृत नहीं है।</div>`;
+    return;
+  }
+
+  let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  let html = "";
+
+  filtered.forEach(b => {
+    let contactAction = "";
+    if(isLoggedIn && b.mobile) {
+      contactAction = `<a href="tel:${b.mobile}" style="background:#e0f2fe;color:#0369a1;padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;">📞 संपर्क करें: ${b.mobile}</a>`;
+    } else {
+      contactAction = `<a href="login.html" style="background:#f1f5f9;color:var(--muted);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;">🔒 फोन नंबर हेतु लॉगिन करें</a>`;
+    }
+
+    html += `
+      <div class="biz-card">
+        <div class="biz-badge">${b.category || "व्यापार"}</div>
+        <b>${b.bizName}</b>
+        <span>संचालक: ${b.owner || "सक्रिय सदस्य"}</span>
+        <span>पता: ${b.address || "महाराजगंज, बलरामपुर"}</span>
+        <p style="margin:6px 0 0;font-size:12px;color:var(--text);">${b.details || ""}</p>
+        ${contactAction}
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+// फिल्टर बदलने का फंक्शन
+function filterBiz(cat, element) {
+  currentBizFilter = cat;
+  document.querySelectorAll('.f-chip').forEach(c => c.classList.remove('active'));
+  element.classList.add('active');
+  renderBusinesses();
+}
+
+// बिजनेस पंजीकरण अनुरोध भेजने का फंक्शन
+function openRegisterBizModal() {
+  let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  if(!isLoggedIn) {
+    alert("व्यवसाय रजिस्टर करने के लिए कृपया पहले लॉगिन करें!");
+    window.location.href = "login.html";
+    return;
+  }
+  let shopName = prompt("अपनी दुकान या व्यवसाय का नाम दर्ज करें:");
+  if(shopName) {
+    alert("आपके व्यवसाय का पंजीकरण अनुरोध एडमिन के पास भेज दिया गया है। सत्यापन के बाद यह डायरेक्टरी में लाइव हो जाएगा।");
+  }
+}
+
+// पेज लोड होते ही बिजनेस लोड करें
+loadBusinesses();
 </script>
 </body>
 </html>

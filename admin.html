@@ -409,13 +409,16 @@ async function saveFundEntry(){
   } catch(err) { alert("त्रुटि: " + err.message); }
 }
   <script>
-  // 1. मोबाइल का बैक बटन ब्लॉक करने वाला पुराना कोड
-  history.pushState(null, null, location.href);
+  // पेज लोड होते ही हिस्ट्री में स्टेट जोड़ें
+  history.pushState({page: "secure"}, "", location.href);
+
+  // मोबाइल का बैक बटन दबने पर यह सीधे होमपेज पर भेज देगा
   window.addEventListener('popstate', function (event) {
-    history.pushState(null, null, location.href);
+    history.pushState({page: "secure"}, "", location.href);
+    window.location.href = "index.html";
   });
 
-  // 2. इसके ठीक नीचे यह नया फंक्शन जोड़ दें ताकि आपका '←' बटन काम करने लगे
+  // ऊपर दिए गए '←' बैक बटन के लिए फंक्शन
   function goBackPage() {
     window.location.href = "index.html";
   }

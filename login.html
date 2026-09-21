@@ -41,7 +41,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc}
 
-/* बटन क्लिक इफ़ेक्ट और लोडिंग डिसेबल स्टाइल */
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;display:inline-block;margin-top:8px;transition: transform 0.1s ease, opacity 0.2s;}
 .btn:active{transform: scale(0.96);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
@@ -49,6 +48,15 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .link-row{text-align:center;margin-top:14px;font-size:12.5px}
 .link-row a{color:var(--p);text-decoration:none;font-weight:700;cursor:pointer}
+
+/* सुंदर सक्सेस पॉप-अप मॉडल स्टाइल */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(3px);}
+.modal-box{background:#fff;width:90%;max-width:340px;border-radius:20px;padding:24px 20px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.2);animation:popIn 0.3s ease-out;}
+@keyframes popIn{0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.success-icon-circle{width:70px;height:70px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 0 0 8px #f0fdf4;}
+.modal-title{font-size:18px;font-weight:800;color:var(--navy);margin:0 0 8px;}
+.modal-desc{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
+.modal-btn{background:var(--success);color:#fff;border:0;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:700;width:100%;cursor:pointer;}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -75,51 +83,27 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <div id="loginSection" class="card">
       <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">🔐 अपने खाते में लॉगिन करें</h3>
       
-      <div class="form-group">
-        <label>मोबाइल नंबर</label>
-        <input type="tel" id="loginMobile" class="form-control" placeholder="10 अंकों का रजिस्टर्ड नंबर" maxlength="10">
-      </div>
-
-      <div class="form-group">
-        <label>गुप्त MPIN (6 अंक)</label>
-        <input type="password" id="loginMpin" class="form-control" placeholder="6 अंकों का MPIN" maxlength="6">
-      </div>
+      <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="loginMobile" class="form-control" placeholder="10 अंकों का रजिस्टर्ड नंबर" maxlength="10"></div>
+      <div class="form-group"><label>गुप्त MPIN (6 अंक)</label><input type="password" id="loginMpin" class="form-control" placeholder="6 अंकों का MPIN" maxlength="6"></div>
 
       <button id="loginBtn" class="btn" onclick="handleUserLogin()">🚀 सुरक्षित लॉगिन करें</button>
 
-      <div class="link-row">
-        <span>MPIN भूल गए?</span> <a onclick="showResetSection()">यहाँ रीसेट करें</a>
-      </div>
-      <div class="link-row" style="margin-top:8px;">
-        <span>नया खाता बनाएं?</span> <a href="register.html">पंजीकरण करें</a>
-      </div>
+      <div class="link-row"><span>MPIN भूल गए?</span> <a onclick="showResetSection()">यहाँ रीसेट करें</a></div>
+      <div class="link-row" style="margin-top:8px;"><span>नया खाता बनाएं?</span> <a href="register.html">पंजीकरण करें</a></div>
     </div>
 
-    <!-- 2. MPIN रीसेट / फॉरगेट बॉक्स (शुरुआत में छुपा रहेगा) -->
+    <!-- 2. MPIN रीसेट बॉक्स -->
     <div id="resetSection" class="card" style="display:none;">
       <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">🔄 भूला हुआ MPIN नया बनाएं</h3>
       <p style="font-size:11px;color:var(--muted);margin-top:0;margin-bottom:10px;">अपना रजिस्टर्ड मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN सेट करें।</p>
       
-      <div class="form-group">
-        <label>रजिस्टर्ड मोबाइल नंबर</label>
-        <input type="tel" id="resetMobile" class="form-control" placeholder="10 अंकों का नंबर" maxlength="10">
-      </div>
-
-      <div class="form-group">
-        <label>जन्म तिथि (DOB - जो पंजीकरण में दी थी)</label>
-        <input type="date" id="resetDob" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label>नया 6-अंकों का MPIN बनाएं</label>
-        <input type="password" id="newMpin" class="form-control" placeholder="नया 6 अंकों का पिन" maxlength="6">
-      </div>
+      <div class="form-group"><label>रजिस्टर्ड मोबाइल नंबर</label><input type="tel" id="resetMobile" class="form-control" placeholder="10 अंकों का नंबर" maxlength="10"></div>
+      <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="resetDob" class="form-control"></div>
+      <div class="form-group"><label>नया 6-अंकों का MPIN</label><input type="password" id="newMpin" class="form-control" placeholder="नया 6 अंकों का पिन" maxlength="6"></div>
 
       <button id="resetBtn" class="btn gold" onclick="handleVerifyAndResetMPIN()">✨ नया MPIN सेट करें</button>
 
-      <div class="link-row">
-        <span>याद आ गया?</span> <a onclick="showLoginSection()">वापस लॉगिन पर जाएं</a>
-      </div>
+      <div class="link-row"><span>याद आ गया?</span> <a onclick="showLoginSection()">वापस लॉगिन पर जाएं</a></div>
     </div>
 
   </div>
@@ -133,6 +117,16 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
+<!-- सफलता पॉप-अप विंडो (Modal) -->
+<div id="successModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="success-icon-circle">✓</div>
+    <h3 class="modal-title" id="modalTitle">सफलता!</h3>
+    <p class="modal-desc" id="modalDesc">आपकी प्रक्रिया सफलतापूर्वक पूरी हो गई है।</p>
+    <button class="modal-btn" onclick="handleModalAction()">आगे बढ़ें (OK)</button>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -140,7 +134,24 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// स्क्रीन बदलने के फंक्शन
+let nextActionType = "login"; // "login" या "reset"
+
+function showSuccessModal(title, desc, actionType) {
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalDesc").innerText = desc;
+  nextActionType = actionType;
+  document.getElementById("successModal").style.display = "flex";
+}
+
+function handleModalAction() {
+  document.getElementById("successModal").style.display = "none";
+  if(nextActionType === "login") {
+    window.location.href = "index.html";
+  } else if(nextActionType === "reset") {
+    showLoginSection();
+  }
+}
+
 function showResetSection() {
   document.getElementById("loginSection").style.display = "none";
   document.getElementById("resetSection").style.display = "block";
@@ -153,7 +164,6 @@ function showLoginSection() {
   document.getElementById("pageTitleText").innerText = "सदस्य लॉगिन";
 }
 
-// 1. यूजर लॉगिन फंक्शन (तुरंत रिस्पॉन्स और लोडिंग के साथ)
 async function handleUserLogin() {
   let mobile = document.getElementById("loginMobile").value.trim();
   let mpin = document.getElementById("loginMpin").value.trim();
@@ -164,7 +174,6 @@ async function handleUserLogin() {
     return;
   }
 
-  // तुरंत फीडबैक (बटन लॉक और लोडिंग टेक्स्ट)
   btn.disabled = true;
   btn.innerText = "⏳ जाँच हो रही है...";
 
@@ -194,11 +203,14 @@ async function handleUserLogin() {
       return;
     }
 
-    // लॉगिन सफल, डेटा सेव करें
     localStorage.setItem("userLoggedInMobile", mobile);
     localStorage.setItem("userName", userData.fullName);
-    alert("✨ स्वागत है " + userData.fullName + "! आपका लॉगिन सफल रहा।");
-    window.location.href = "index.html";
+    
+    btn.disabled = false;
+    btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+
+    // सुंदर सफलता पॉप-अप दिखाएं
+    showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + userData.fullName + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
 
   } catch (error) {
     alert("❌ सर्वर त्रुटि: " + error.message);
@@ -207,7 +219,6 @@ async function handleUserLogin() {
   }
 }
 
-// 2. MPIN रीसेट फंक्शन (अनरेजिस्टर्ड मोबाइल वार्निंग और DOB मिलान के साथ)
 async function handleVerifyAndResetMPIN() {
   let mobile = document.getElementById("resetMobile").value.trim();
   let dob = document.getElementById("resetDob").value.trim();
@@ -224,16 +235,13 @@ async function handleVerifyAndResetMPIN() {
     return;
   }
 
-  // तुरंत फीडबैक (बटन लॉक और लोडिंग टेक्स्ट)
   btn.disabled = true;
   btn.innerText = "⏳ जाँच की जा रही है...";
 
   try {
-    // डेटाबेस में मोबाइल नंबर चेक करें
     let querySnapshot = await db.collection("users").where("mobile", "==", mobile).get();
 
     if (querySnapshot.empty) {
-      // सटीक पॉप-अप वार्निंग यदि मोबाइल नंबर रजिस्टर्ड नहीं है
       alert("⚠️ यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।");
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
@@ -243,9 +251,8 @@ async function handleVerifyAndResetMPIN() {
     let userDoc = querySnapshot.docs[0];
     let userData = userDoc.data();
 
-    // जन्मतिथि (DOB) का मिलान करें
     if (userData.dob !== dob) {
-      alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है! कृपया सही जानकारी दें।");
+      alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!");
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
       return;
@@ -258,15 +265,15 @@ async function handleVerifyAndResetMPIN() {
       return;
     }
 
-    // MPIN अपडेट करें
     await db.collection("users").doc(userDoc.id).update({
       mpin: newMpin
     });
 
-    alert("✨ सफलता! आपका नया MPIN सफलतापूर्वक सेट हो गया है। अब आप नए MPIN से लॉगिन कर सकते हैं।");
-    showLoginSection();
     btn.disabled = false;
     btn.innerText = "✨ नया MPIN सेट करें";
+
+    // सुंदर सफलता पॉप-अप दिखाएं
+    showSuccessModal("MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
 
   } catch (error) {
     alert("❌ त्रुटि: " + error.message);

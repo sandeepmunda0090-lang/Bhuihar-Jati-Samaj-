@@ -36,7 +36,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       border-top: 4px solid var(--navy);
     }
-    /* जैसा इमेज में था, वैसा कैप्सूल बैक बटन */
+    /* कैप्सूल बैक बटन */
     .custom-back-btn {
       display: inline-flex;
       align-items: center;
@@ -153,8 +153,11 @@
 
 <div class="container">
   
-  <!-- एडमिन लॉगिन सुरक्षा स्क्रीन (Firebase Auth) -->
+  <!-- एडमिन लॉगिन सुरक्षा स्क्रीन (बैक बटन के साथ) -->
   <div id="adminLoginCard" class="card" style="border-left-color: var(--navy); max-width: 400px; margin: 40px auto; text-align: center;">
+    <div style="text-align: left; margin-bottom: 10px;">
+      <a href="index.html" class="custom-back-btn" onclick="adminLogoutAndRedirect()">← मुख्य पृष्ठ (वापस जाएं)</a>
+    </div>
     <h3>🔐 एडमिन लॉगिन</h3>
     <p style="font-size: 11.5px; color: var(--muted); margin-bottom: 12px;">पैनल एक्सेस करने के लिए अपना Firebase एडमिन ईमेल व पासवर्ड डालें</p>
     <div class="form-group" style="text-align: left;">
@@ -171,7 +174,7 @@
   <!-- मुख्य एडमिन पैनल (लॉगिन के बाद दिखेगा) -->
   <div id="adminDashboardContent" style="display:none;">
     <header>
-      <a href="index.html" class="custom-back-btn">← मुख्य पृष्ठ (वापस जाएं)</a>
+      <a href="index.html" class="custom-back-btn" onclick="adminLogoutAndRedirect()">← मुख्य पृष्ठ (वापस जाएं)</a>
       <h1>🛡️ भुईहर जाति समाज</h1>
       <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (14 शक्तिशाली प्रबंधन फीचर्स)</p>
     </header>
@@ -313,7 +316,7 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Firebase से एडमिन ईमेल और पासवर्ड लॉगिन वेरीफाई करें
+  // एडमिन लॉगिन वेरीफाई करें
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
@@ -332,6 +335,15 @@
       .catch((error) => {
         alert("लॉगिन असफल: गलत ईमेल या पासवर्ड (" + error.message + ")");
       });
+  }
+
+  // बैक बटन दबाने पर Firebase से लॉग आउट होकर होमपेज पर जाना
+  function adminLogoutAndRedirect() {
+    auth.signOut().then(() => {
+      // लॉग आउट सफल
+    }).catch((error) => {
+      console.log("लॉग आउट त्रुटि: ", error);
+    });
   }
 
   // पदाधिकारी सेव करने का फंक्शन (जेंडर के साथ)

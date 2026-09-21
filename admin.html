@@ -36,6 +36,21 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       border-top: 4px solid var(--navy);
     }
+    /* जैसा इमेज में था, वैसा कैप्सूल बैक बटन */
+    .custom-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font: 700 12px inherit;
+      text-decoration: none;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
     h1 {
       color: var(--navy);
       font-size: 20px;
@@ -80,6 +95,7 @@
       font-size: 13px;
       box-sizing: border-box;
       outline: none;
+      background: #f9fafb;
     }
     .form-control:focus {
       border-color: var(--navy);
@@ -131,189 +147,225 @@
       background: #f1f5f9;
       color: var(--navy);
     }
-
-    /* प्रिंट स्टाइलिंग (फैमिली पीडीएफ रिपोर्ट के लिए) */
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #printableFamilyCard, #printableFamilyCard * {
-        visibility: visible;
-      }
-      #printableFamilyCard {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background: white;
-        padding: 20px;
-      }
-    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <header>
-    <h1>🛡️ भुईहर जाति समाज</h1>
-    <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (14 शक्तिशाली प्रबंधन फीचर्स)</p>
-  </header>
-
-  <!-- 1. पदाधिकारी (Officials) -->
-  <div class="card" style="border-left-color: var(--navy);">
-    <h3>👔 1. समाज के मुख्य पदाधिकारी जोड़ें</h3>
-    <div class="form-group"><label>पूरा नाम</label><input type="text" id="offName" class="form-control" placeholder="श्री रामलाल मुंडा"></div>
-    <div class="form-group"><label>पद का नाम</label><input type="text" id="offRole" class="form-control" placeholder="समाज अध्यक्ष"></div>
-    <div class="form-group"><label>मोबाइल/व्हाट्सएप नंबर</label><input type="text" id="offMobile" class="form-control" placeholder="9876543210"></div>
-    <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="offPhoto" class="form-control" placeholder="https://..."></div>
-    <button class="btn" onclick="saveOfficial()">पदाधिकारी जोड़ें</button>
-  </div>
-
-  <!-- 2. मेधावी छात्र (Achievers) -->
-  <div class="card" style="border-left-color: #2563eb;">
-    <h3>🏆 2. मेधावी छात्र / प्रतिभाएँ जोड़ें</h3>
-    <div class="form-group"><label>छात्र/छात्रा का नाम</label><input type="text" id="achName" class="form-control" placeholder="राहुल मुंडा"></div>
-    <div class="form-group"><label>उपलब्धि / कक्षा</label><input type="text" id="achDetail" class="form-control" placeholder="12वीं बोर्ड - 94%"></div>
-    <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
-    <button class="btn" style="background:#2563eb;" onclick="saveAchiever()">मेधावी छात्र जोड़ें</button>
-  </div>
-
-  <!-- 3. आगामी बैठक एवं सूचनाएँ (Meetings) -->
-  <div class="card" style="border-left-color: var(--gold);">
-    <h3>📢 3. आगामी बैठक एवं सूचनाएँ जोड़ें</h3>
-    <div class="form-group"><label>बैठक शीर्षक</label><input type="text" id="meetTitle" class="form-control" placeholder="वार्षिक महासभा बैठक"></div>
-    <div class="form-group"><label>दिनांक एवं समय</label><input type="text" id="meetTime" class="form-control" placeholder="रविवार, सुबह 11:00 बजे"></div>
-    <div class="form-group"><label>स्थान</label><input type="text" id="meetLoc" class="form-control" placeholder="समाज भवन, मुख्य चौक"></div>
-    <div class="form-group"><label>विवरण</label><textarea id="meetDesc" class="form-control" placeholder="विशेष मुद्दों पर चर्चा..."></textarea></div>
-    <button class="btn" style="background:var(--gold);" onclick="saveMeeting()">बैठक सूचना प्रकाशित करें</button>
-  </div>
-
-  <!-- 4. दान / सहयोग (Donations) -->
-  <div class="card" style="border-left-color: var(--green);">
-    <h3>💰 4. समाज दान / सहयोग अपडेट करें</h3>
-    <div class="form-group"><label>दानदाता का नाम</label><input type="text" id="donName" class="form-control" placeholder="श्री सोहन सिंह"></div>
-    <div class="form-group"><label>राशि / सहयोग विवरण</label><input type="text" id="donAmt" class="form-control" placeholder="₹5,100 / भवन निर्माण सहयोग"></div>
-    <button class="btn" style="background:var(--green);" onclick="saveDonation()">दान रिकॉर्ड जोड़ें</button>
-  </div>
-
-  <!-- 5. शोक संदेश (Condolences) -->
-  <div class="card" style="border-left-color: var(--red);">
-    <h3>🕯️ 5. शोक संदेश / श्रद्धांजलि पत्र जोड़ें</h3>
-    <div class="form-group"><label>दिवंगत का नाम</label><input type="text" id="condName" class="form-control" placeholder="स्व. श्री राम प्रसाद जी"></div>
-    <div class="form-group"><label>संक्षिप्त विवरण</label><textarea id="condDesc" class="form-control" placeholder="स्वर्गवास तिथि एवं संदेश..."></textarea></div>
-    <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="condPhoto" class="form-control" placeholder="https://..."></div>
-    <button class="btn" style="background:var(--red);" onclick="saveCondolence()">शोक संदेश जोड़ें</button>
-  </div>
-
-  <!-- 6. व्यवसाय डायरेक्टरी (Business Directory) -->
-  <div class="card">
-    <h3>🏪 6. व्यवसाय / दुकान डायरेक्टरी जोड़ें</h3>
-    <div class="form-group"><label>दुकान का नाम</label><input type="text" id="bizName" class="form-control" placeholder="राम ट्रेडर्स"></div>
-    <div class="form-group"><label>संचालक</label><input type="text" id="bizOwner" class="form-control" placeholder="श्री राम कुमार"></div>
-    <div class="form-group"><label>पता एवं मोबाइल</label><input type="text" id="bizContact" class="form-control" placeholder="मुख्य मार्ग महाराजगंज - 9876543210"></div>
-    <button class="btn" onclick="saveBusiness()">व्यवसाय जोड़ें</button>
-  </div>
-
-  <!-- 7. वैवाहिक बायोडाटा अप्रूवल (Matrimonial Approval) -->
-  <div class="card" style="border-left-color: #9333ea;">
-    <h3>💍 7. वैवाहिक बायोडाटा अप्रूवल</h3>
-    <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">पेंडिंग बायोडाटा की जाँच कर अप्रूव करें:</p>
-    <div class="table-responsive">
-      <table>
-        <tr><th>नाम</th><th>विवरण</th><th>कार्रवाई</th></tr>
-        <tr><td>अमित मुंडा</td><td>इंजीनियर, रायपुर</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="alert('बायोडाटा अप्रूव हो गया!')">Approve</button></td></tr>
-      </table>
+  
+  <!-- एडमिन लॉगिन सुरक्षा स्क्रीन (Firebase Auth) -->
+  <div id="adminLoginCard" class="card" style="border-left-color: var(--navy); max-width: 400px; margin: 40px auto; text-align: center;">
+    <h3>🔐 एडमिन लॉगिन</h3>
+    <p style="font-size: 11.5px; color: var(--muted); margin-bottom: 12px;">पैनल एक्सेस करने के लिए अपना Firebase एडमिन ईमेल व पासवर्ड डालें</p>
+    <div class="form-group" style="text-align: left;">
+      <label>एडमिन ईमेल</label>
+      <input type="email" id="adminEmail" class="form-control" placeholder="admin@bhuihar.com">
     </div>
-  </div>
-
-  <!-- 8. यात्रा / वाहन अनुमोदन (Travel Approval) -->
-  <div class="card" style="border-left-color: #0284c7;">
-    <h3>🚗 8. यात्रा / वाहन सेवा अनुमोदन</h3>
-    <div class="table-responsive">
-      <table>
-        <tr><th>सदस्य</th><th>वाहन/यात्रा विवरण</th><th>कार्रवाई</th></tr>
-        <tr><td>विकास सिंह</td><td>ट्रैक्टर बुकिंग - महाराजगंज</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="alert('यात्रा रिक्वेस्ट अप्रूव हो गई!')">Approve</button></td></tr>
-      </table>
+    <div class="form-group" style="text-align: left;">
+      <label>पासवर्ड</label>
+      <input type="password" id="adminPassword" class="form-control" placeholder="••••••••">
     </div>
+    <button class="btn" onclick="loginAdmin()">एडमिन लॉगिन करें</button>
   </div>
 
-  <!-- 9. कम्युनिटी चैट कंट्रोल & मॉडरेटर (Chat Moderation) -->
-  <div class="card" style="border-left-color: #475569;">
-    <h3>💬 9. कम्युनिटी चैट मॉडरेटर कंट्रोल</h3>
-    <p style="font-size:11px; color:var(--muted); margin:0 0 8px;">आपत्तिजनक संदेश या चैट रूम नियंत्रण:</p>
-    <button class="btn" style="background:#475569;" onclick="alert('चैट रूम रीसेट / मॉडरेट किया गया!')">चैट हिस्ट्री साफ़ करें / ब्लॉक चैट</button>
-  </div>
+  <!-- मुख्य एडमिन पैनल (लॉगिन के बाद दिखेगा) -->
+  <div id="adminDashboardContent" style="display:none;">
+    <header>
+      <a href="index.html" class="custom-back-btn">← मुख्य पृष्ठ (वापस जाएं)</a>
+      <h1>🛡️ भुईहर जाति समाज</h1>
+      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (14 शक्तिशाली प्रबंधन फीचर्स)</p>
+    </header>
 
-  <!-- 10. गैलरी फोटो (Gallery) -->
-  <div class="card">
-    <h3>🖼️ 10. गैलरी फोटो जोड़ें</h3>
-    <div class="form-group"><label>शीर्षक</label><input type="text" id="galTitle" class="form-control" placeholder="वार्षिक मिलन समारोह"></div>
-    <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="galPhoto" class="form-control" placeholder="https://..."></div>
-    <button class="btn" onclick="saveGallery()">गैलरी में जोड़ें</button>
-  </div>
+    <!-- 1. पदाधिकारी (Officials) - मेल/फीमेल ड्रॉपडाउन के साथ -->
+    <div class="card" style="border-left-color: var(--navy);">
+      <h3>👔 1. समाज के मुख्य पदाधिकारी जोड़ें</h3>
+      <div class="form-group"><label>पूरा नाम</label><input type="text" id="offName" class="form-control" placeholder="श्री रामलाल मुंडा"></div>
+      <div class="form-group"><label>लिंग (Gender)</label>
+        <select id="offGender" class="form-control">
+          <option value="Male">पुरुष (Male)</option>
+          <option value="Female">महिला (Female)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>पद का नाम</label><input type="text" id="offRole" class="form-control" placeholder="समाज अध्यक्ष"></div>
+      <div class="form-group"><label>मोबाइल/व्हाट्सएप नंबर</label><input type="text" id="offMobile" class="form-control" placeholder="9876543210"></div>
+      <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="offPhoto" class="form-control" placeholder="https://..."></div>
+      <button class="btn" onclick="saveOfficial()">पदाधिकारी जोड़ें</button>
+    </div>
 
-  <!-- 11. जनमत पोल (Polling) -->
-  <div class="card">
-    <h3>📊 11. जनमत पोल बनाएँ</h3>
-    <div class="form-group"><label>पोल का सवाल</label><input type="text" id="pollQue" class="form-control" placeholder="क्या इस वर्ष समाज का सामूहिक विवाह होना चाहिए?"></div>
-    <button class="btn" onclick="savePoll()">पोल लाइव करें</button>
-  </div>
+    <!-- 2. मेधावी छात्र (Achievers) -->
+    <div class="card" style="border-left-color: #2563eb;">
+      <h3>🏆 2. मेधावी छात्र / प्रतिभाएँ जोड़ें</h3>
+      <div class="form-group"><label>छात्र/छात्रा का नाम</label><input type="text" id="achName" class="form-control" placeholder="राहुल मुंडा"></div>
+      <div class="form-group"><label>उपलब्धि / कक्षा</label><input type="text" id="achDetail" class="form-control" placeholder="12वीं बोर्ड - 94%"></div>
+      <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
+      <button class="btn" style="background:#2563eb;" onclick="saveAchiever()">मेधावी छात्र जोड़ें</button>
+    </div>
 
-  <!-- 12, 13, 14. सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली पीडीएफ टेबल -->
-  <div class="card" style="border-left-color: #ea580c;">
-    <h3>🔍 12, 13, 14. सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली पीडीएफ</h3>
-    <div class="form-group">
-      <label>सदस्य का मोबाइल नंबर दर्ज करें</label>
-      <div style="display:flex; gap:8px;">
-        <input type="text" id="searchMobile" class="form-control" placeholder="10 अंकों का मोबाइल नंबर">
-        <button class="btn" style="width:120px;" onclick="searchMember()">खोजें</button>
+    <!-- 3. आगामी बैठक एवं सूचनाएँ -->
+    <div class="card" style="border-left-color: var(--gold);">
+      <h3>📢 3. आगामी बैठक एवं सूचनाएँ जोड़ें</h3>
+      <div class="form-group"><label>बैठक शीर्षक</label><input type="text" id="meetTitle" class="form-control" placeholder="वार्षिक महासभा बैठक"></div>
+      <div class="form-group"><label>दिनांक एवं समय</label><input type="text" id="meetTime" class="form-control" placeholder="रविवार, सुबह 11:00 बजे"></div>
+      <div class="form-group"><label>स्थान</label><input type="text" id="meetLoc" class="form-control" placeholder="समाज भवन, मुख्य चौक"></div>
+      <div class="form-group"><label>विवरण</label><textarea id="meetDesc" class="form-control" placeholder="विशेष मुद्दों पर चर्चा..."></textarea></div>
+      <button class="btn" style="background:var(--gold);" onclick="saveMeeting()">बैठक सूचना प्रकाशित करें</button>
+    </div>
+
+    <!-- 4. दान / सहयोग -->
+    <div class="card" style="border-left-color: var(--green);">
+      <h3>💰 4. समाज दान / सहयोग अपडेट करें</h3>
+      <div class="form-group"><label>दानदाता का नाम</label><input type="text" id="donName" class="form-control" placeholder="श्री सोहन सिंह"></div>
+      <div class="form-group"><label>राशि / सहयोग विवरण</label><input type="text" id="donAmt" class="form-control" placeholder="₹5,100 / भवन निर्माण सहयोग"></div>
+      <button class="btn" style="background:var(--green);" onclick="saveDonation()">दान रिकॉर्ड जोड़ें</button>
+    </div>
+
+    <!-- 5. शोक संदेश -->
+    <div class="card" style="border-left-color: var(--red);">
+      <h3>🕯️ 5. शोक संदेश / श्रद्धांजलि पत्र जोड़ें</h3>
+      <div class="form-group"><label>दिवंगत का नाम</label><input type="text" id="condName" class="form-control" placeholder="स्व. श्री राम प्रसाद जी"></div>
+      <div class="form-group"><label>संक्षिप्त विवरण</label><textarea id="condDesc" class="form-control" placeholder="स्वर्गवास तिथि एवं संदेश..."></textarea></div>
+      <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="condPhoto" class="form-control" placeholder="https://..."></div>
+      <button class="btn" style="background:var(--red);" onclick="saveCondolence()">शोक संदेश जोड़ें</button>
+    </div>
+
+    <!-- 6. व्यवसाय डायरेक्टरी -->
+    <div class="card">
+      <h3>🏪 6. व्यवसाय / दुकान डायरेक्टरी जोड़ें</h3>
+      <div class="form-group"><label>दुकान का नाम</label><input type="text" id="bizName" class="form-control" placeholder="राम ट्रेडर्स"></div>
+      <div class="form-group"><label>संचालक</label><input type="text" id="bizOwner" class="form-control" placeholder="श्री राम कुमार"></div>
+      <div class="form-group"><label>पता एवं मोबाइल</label><input type="text" id="bizContact" class="form-control" placeholder="मुख्य मार्ग महाराजगंज - 9876543210"></div>
+      <button class="btn" onclick="saveBusiness()">व्यवसाय जोड़ें</button>
+    </div>
+
+    <!-- 7. वैवाहिक बायोडाटा अप्रूवल -->
+    <div class="card" style="border-left-color: #9333ea;">
+      <h3>💍 7. वैवाहिक बायोडाटा अप्रूवल</h3>
+      <div class="table-responsive">
+        <table>
+          <tr><th>नाम</th><th>विवरण</th><th>कार्रवाई</th></tr>
+          <tr><td>अमित मुंडा</td><td>इंजीनियर, रायपुर</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="alert('बायोडाटा अप्रूव हो गया!')">Approve</button></td></tr>
+        </table>
       </div>
     </div>
 
-    <!-- सर्च रिजल्ट बॉक्स -->
-    <div id="memberResultBox" style="margin-top:12px; display:none; background:#f1f5f9; padding:12px; border-radius:8px;">
-      <h4 style="margin:0 0 8px; color:var(--navy); font-size:14px;">सदस्य विवरण एवं पारिवारिक रिकॉर्ड</h4>
-      <p id="memberInfoText" style="font-size:12px; margin:0 0 10px;"></p>
-      
-      <div style="display:flex; gap:8px; margin-bottom:10px;">
-        <button class="btn" id="blockUnblockBtn" style="background:var(--red);" onclick="toggleBlockStatus()">ब्लॉक करें</button>
-        <button class="btn" style="background:var(--navy);" onclick="downloadFamilyPDF()">🖨️ फैमिली पीडीएफ डाउनलोड करें</button>
+    <!-- 8. यात्रा / वाहन अनुमोदन -->
+    <div class="card" style="border-left-color: #0284c7;">
+      <h3>🚗 8. यात्रा / वाहन सेवा अनुमोदन</h3>
+      <div class="table-responsive">
+        <table>
+          <tr><th>सदस्य</th><th>वाहन/यात्रा विवरण</th><th>कार्रवाई</th></tr>
+          <tr><td>विकास सिंह</td><td>ट्रैक्टर बुकिंग - महाराजगंज</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="alert('यात्रा रिक्वेस्ट अप्रूव हो गई!')">Approve</button></td></tr>
+        </table>
       </div>
     </div>
+
+    <!-- 9. कम्युनिटी चैट कंट्रोल -->
+    <div class="card" style="border-left-color: #475569;">
+      <h3>💬 9. कम्युनिटी चैट मॉडरेटर कंट्रोल</h3>
+      <button class="btn" style="background:#475569;" onclick="alert('चैट रूम रीसेट / मॉडरेट किया गया!')">चैट हिस्ट्री साफ़ करें / ब्लॉक चैट</button>
+    </div>
+
+    <!-- 10. गैलरी फोटो -->
+    <div class="card">
+      <h3>🖼️ 10. गैलरी फोटो जोड़ें</h3>
+      <div class="form-group"><label>शीर्षक</label><input type="text" id="galTitle" class="form-control" placeholder="वार्षिक मिलन समारोह"></div>
+      <div class="form-group"><label>फोटो डायरेक्ट लिंक (URL)</label><input type="text" id="galPhoto" class="form-control" placeholder="https://..."></div>
+      <button class="btn" onclick="saveGallery()">गैलरी में जोड़ें</button>
+    </div>
+
+    <!-- 11. जनमत पोल -->
+    <div class="card">
+      <h3>📊 11. जनमत पोल बनाएँ</h3>
+      <div class="form-group"><label>पोल का सवाल</label><input type="text" id="pollQue" class="form-control" placeholder="क्या इस वर्ष समाज का सामूहिक विवाह होना चाहिए?"></div>
+      <button class="btn" onclick="savePoll()">पोल लाइव करें</button>
+    </div>
+
+    <!-- 12, 13, 14. सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली पीडीएफ -->
+    <div class="card" style="border-left-color: #ea580c;">
+      <h3>🔍 12, 13, 14. सदस्य खोज, ब्लॉक/अनब्लॉक और फैमिली पीडीएफ</h3>
+      <div class="form-group">
+        <label>सदस्य का मोबाइल नंबर दर्ज करें</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="searchMobile" class="form-control" placeholder="10 अंकों का मोबाइल नंबर">
+          <button class="btn" style="width:120px;" onclick="searchMember()">खोजें</button>
+        </div>
+      </div>
+      <div id="memberResultBox" style="margin-top:12px; display:none; background:#f1f5f9; padding:12px; border-radius:8px;">
+        <h4 style="margin:0 0 8px; color:var(--navy); font-size:14px;">सदस्य विवरण एवं पारिवारिक रिकॉर्ड</h4>
+        <p id="memberInfoText" style="font-size:12px; margin:0 0 10px;"></p>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <button class="btn" id="blockUnblockBtn" style="background:var(--red);" onclick="toggleBlockStatus()">ब्लॉक करें</button>
+          <button class="btn" style="background:var(--navy);" onclick="downloadFamilyPDF()">🖨️ फैमिली पीडीएफ डाउनलोड करें</button>
+        </div>
+      </div>
+    </div>
+    
   </div>
 
 </div>
 
-<!-- प्रिंट करने योग्य फैमिली पीडीएफ का छुपा हुआ लेआउट -->
-<div id="printableFamilyCard" style="display:none;">
-  <div style="text-align:center; border-bottom:2px solid #1e3a8a; padding-bottom:10px; margin-bottom:15px;">
-    <h2 style="color:#1e3a8a; margin:0;">भुईहर जाति समाज</h2>
-    <p style="margin:2px 0; font-size:12px; color:#64748b;">एकता • सेवा • सम्मान | पारिवारिक सदस्य पंजीका</p>
-  </div>
-  <p id="pdfFamilyHeaderDetails" style="font-size:13px; font-weight:bold; margin-bottom:10px;"></p>
-  <table style="width:100%; border-collapse:collapse; margin-bottom:30px; font-size:12px;">
-    <thead>
-      <tr style="background:#1e3a8a; color:white;">
-        <th style="border:1px solid #ccc; padding:6px;">क्र.सं.</th>
-        <th style="border:1px solid #ccc; padding:6px;">सदस्य का नाम</th>
-        <th style="border:1px solid #ccc; padding:6px;">संबंध</th>
-        <th style="border:1px solid #ccc; padding:6px;">आयु / शिक्षा</th>
-      </tr>
-    </thead>
-    <tbody id="pdfFamilyTableBody">
-      <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;" id="pdfHeadName">श्री रामलाल मुंडा</td><td style="border:1px solid #ccc; padding:6px;">परिवार मुखिया</td><td style="border:1px solid #ccc; padding:6px;">45 वर्ष / स्नातक</td></tr>
-      <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">सुमित्रा देवी</td><td style="border:1px solid #ccc; padding:6px;">धर्मपत्नी</td><td style="border:1px solid #ccc; padding:6px;">42 वर्ष</td></tr>
-      <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">अभियान मुंडा</td><td style="border:1px solid #ccc; padding:6px;">पुत्र</td><td style="border:1px solid #ccc; padding:6px;">10 वर्ष</td></tr>
-    </tbody>
-  </table>
-  <div style="float:right; text-align:center; margin-top:40px;">
-    <p style="margin:0 0 30px; font-size:12px;">_______________________</p>
-    <p style="margin:0; font-size:13px; font-weight:bold;">मुखिया का हस्ताक्षर</p>
-  </div>
-</div>
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-  function saveOfficial() { alert("पदाधिकारी सफलताપूर्वक जोड़ दिया गया है!"); }
+  const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Firebase से एडमिन ईमेल और पासवर्ड लॉगिन वेरीफाई करें
+  function loginAdmin() {
+    let email = document.getElementById("adminEmail").value.trim();
+    let pass = document.getElementById("adminPassword").value.trim();
+
+    if(!email || !pass){
+      alert("कृपया एडमिन ईमेल और पासवर्ड दर्ज करें!");
+      return;
+    }
+
+    auth.signInWithEmailAndPassword(email, pass)
+      .then((userCredential) => {
+        alert("सफलतापूर्वक एडमिन लॉगिन हो गया!");
+        document.getElementById("adminLoginCard").style.display = "none";
+        document.getElementById("adminDashboardContent").style.display = "block";
+      })
+      .catch((error) => {
+        alert("लॉगिन असफल: गलत ईमेल या पासवर्ड (" + error.message + ")");
+      });
+  }
+
+  // पदाधिकारी सेव करने का फंक्शन (जेंडर के साथ)
+  async function saveOfficial() {
+    let name = document.getElementById("offName").value;
+    let gender = document.getElementById("offGender").value;
+    let role = document.getElementById("offRole").value;
+    let mobile = document.getElementById("offMobile").value;
+    let photo = document.getElementById("offPhoto").value;
+
+    if(!name || !role || !mobile){
+      alert("कृपया नाम, पद और मोबाइल नंबर भरें!");
+      return;
+    }
+
+    try {
+      await db.collection("officials").add({
+        name: name,
+        gender: gender,
+        role: role,
+        mobile: mobile,
+        photo: photo,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert("पदाधिकारी सफलतापूर्वक जोड़ दिया गया है!");
+      document.getElementById("offName").value = "";
+      document.getElementById("offRole").value = "";
+      document.getElementById("offMobile").value = "";
+      document.getElementById("offPhoto").value = "";
+    } catch(err) {
+      alert("डेटा जोड़ने में त्रुटि: " + err.message);
+    }
+  }
+
   function saveAchiever() { alert("मेधावी छात्र की जानकारी जोड़ दी गई है!"); }
   function saveMeeting() { alert("आगामी बैठक की सूचना प्रकाशित कर दी गई है!"); }
   function saveDonation() { alert("दान सहयोग रिकॉर्ड दर्ज हो गया है!"); }
@@ -331,8 +383,6 @@
     }
     document.getElementById("memberResultBox").style.display = "block";
     document.getElementById("memberInfoText").innerHTML = "<b>मोबाइल नंबर:</b> " + mob + "<br><b>मुखिया नाम:</b> श्री रामलाल मुंडा<br><b>गाँव:</b> महाराजगंज, छ.ग.<br><b>स्थिति:</b> सक्रिय (Active Member)";
-    document.getElementById("pdfHeadName").innerText = "श्री रामलाल मुंडा (मो: " + mob + ")";
-    document.getElementById("pdfFamilyHeaderDetails").innerText = "मुखिया मोबाइल: " + mob + " | पता: ग्राम महाराजगंज, जिला बलरामपुर";
   }
 
   function toggleBlockStatus() {

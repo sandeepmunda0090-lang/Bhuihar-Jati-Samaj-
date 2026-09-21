@@ -147,7 +147,7 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// नया रजिस्ट्रेशन करने का मुख्य लॉजिक
+// नया रजिस्ट्रेशन करने का मुख्य लॉजिक (डुप्लीकेट प्रिवेंशन के साथ)
 async function handleRegister() {
   let fullName = document.getElementById("regName").value.trim();
   let fatherName = document.getElementById("regFather").value.trim();
@@ -160,28 +160,40 @@ async function handleRegister() {
 
   // वैलिडेशन चेक
   if(!fullName || !mobile || !mpin || !confirmMpin) {
-    alert("कृपया सभी आवश्यक और सुरक्षा (MPIN) से जुड़े कॉलम भरें।");
+    alert("⚠️ चेतावनी: कृपया सभी आवश्यक और सुरक्षा (MPIN) से जुड़े कॉलम भरें।");
     return;
   }
   if(mobile.length !== 10) {
-    alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
+    alert("⚠️ चेतावनी: कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
     return;
   }
   if(mpin.length !== 6) {
-    alert("सुरक्षा के लिए MPIN ठीक 6 अंकों का होना चाहिए।");
+    alert("⚠️ चेतावनी: सुरक्षा के लिए MPIN ठीक 6 अंकों का होना चाहिए।");
     return;
   }
   if(mpin !== confirmMpin) {
-    alert("नया MPIN और पुष्टि (Confirm) MPIN आपस में मेल नहीं खा रहे हैं! कृपया जाँच करें।");
+    alert("⚠️ चेतावनी: नया MPIN और पुष्टि (Confirm) MPIN आपस में मेल नहीं खा रहे हैं! कृपया जाँच करें।");
     return;
   }
 
   try {
-    // जांचें कि क्या यह मोबाइल नंबर पहले से रजिस्टर्ड है
-    let existingUser = await db.collection("users").where("mobile", "==", mobile).get();
-    if(!existingUser.empty) {
-      alert("यह मोबाइल नंबर पहले से ही समाज पोर्टल पर रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
+    // 1. जांचें कि क्या यह मोबाइल नंबर पहले से रजिस्टर्ड है
+    let mobileCheck = await db.collection("users").where("mobile", "==", mobile).get();
+    if(!mobileCheck.empty) {
+      alert("⚠️ चेतावनी: यह मोबाइल नंबर पहले से ही समाज पोर्टल पर रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
       window.location.href = "login.html";
+      return;
+    }
+
+    // 2. जांचें कि क्या एक ही नाम, जन्म तिथि (DOB) और पते वाला व्यक्ति पहले से मौजूद है (डूब्लिकेट रोकें)
+    let duplicateCheck = await db.collection("users")
+      .where("fullName", "==", fullName)
+      .where("dob", "==", dob)
+      .where("address", "==", address)
+      .get();
+
+    if(!duplicateCheck.empty) {
+      alert("⚠️ चेतावनी: इस नाम, जन्म तिथि और पते के साथ एक सदस्य पहले ही पंजीकृत है! आप दोबारा पंजीकरण नहीं कर सकते।");
       return;
     }
 
@@ -195,15 +207,15 @@ async function handleRegister() {
       address: address || "महाराजगंज, बलरामपुर",
       mpin: mpin,
       role: "member",
-      status: "pending", // एडमिन अप्रूवल के बाद लाइव होगा
+      status: "pending",
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    alert("बधाई हो! आपका पंजीकरण आवेदन सफलतापूर्वक जमा हो गया है। एडमिन द्वारा सत्यापन के बाद आपका खाता सक्रिय हो जाएगा।");
+    alert("✨ बधाई हो! आपका पंजीकरण आवेदन सफलतापूर्वक जमा हो गया है। एडमिन द्वारा सत्यापन के बाद आपका खाता सक्रिय हो जाएगा।");
     window.location.href = "login.html";
 
   } catch(e) {
-    alert("पंजीकरण सहेजने में त्रुटि आई। कृपया अपना इंटरनेट कनेक्शन जांचें।");
+    alert("❌ पंजीकरण सहेजने में त्रुटि आई। कृपया अपना इंटरनेट कनेक्शन जांचें।");
   }
 }
 </script>

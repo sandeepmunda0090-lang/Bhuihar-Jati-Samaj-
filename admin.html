@@ -153,7 +153,7 @@
 
 <div class="container">
   
-  <!-- एडमिन लॉगिन सुरक्षा स्क्रीन (बैक बटन के साथ) -->
+  <!-- एडमिन लॉगिन सुरक्षा स्क्रीन -->
   <div id="adminLoginCard" class="card" style="border-left-color: var(--navy); max-width: 400px; margin: 40px auto; text-align: center;">
     <div style="text-align: left; margin-bottom: 10px;">
       <a href="index.html" class="custom-back-btn" onclick="adminLogoutAndRedirect()">← मुख्य पृष्ठ (वापस जाएं)</a>
@@ -179,7 +179,7 @@
       <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (14 शक्तिशाली प्रबंधन फीचर्स)</p>
     </header>
 
-    <!-- 1. पदाधिकारी (Officials) - मेल/फीमेल ड्रॉपडाउन के साथ -->
+    <!-- 1. पदाधिकारी (Officials) -->
     <div class="card" style="border-left-color: var(--navy);">
       <h3>👔 1. समाज के मुख्य पदाधिकारी जोड़ें</h3>
       <div class="form-group"><label>पूरा नाम</label><input type="text" id="offName" class="form-control" placeholder="श्री रामलाल मुंडा"></div>
@@ -214,12 +214,19 @@
       <button class="btn" style="background:var(--gold);" onclick="saveMeeting()">बैठक सूचना प्रकाशित करें</button>
     </div>
 
-    <!-- 4. दान / सहयोग -->
+    <!-- 4. समाज दान / सहयोग एवं UPI कोष प्रबंधन -->
     <div class="card" style="border-left-color: var(--green);">
-      <h3>💰 4. समाज दान / सहयोग अपडेट करें</h3>
+      <h3>💰 4. समाज दान / सहयोग एवं UPI कोष प्रबंधन</h3>
       <div class="form-group"><label>दानदाता का नाम</label><input type="text" id="donName" class="form-control" placeholder="श्री सोहन सिंह"></div>
-      <div class="form-group"><label>राशि / सहयोग विवरण</label><input type="text" id="donAmt" class="form-control" placeholder="₹5,100 / भवन निर्माण सहयोग"></div>
-      <button class="btn" style="background:var(--green);" onclick="saveDonation()">दान रिकॉर्ड जोड़ें</button>
+      <div class="form-group"><label>राशि (₹)</label><input type="number" id="donAmount" class="form-control" placeholder="5100"></div>
+      <div class="form-group"><label>सहयोग प्रकार (Type)</label>
+        <select id="donType" class="form-control">
+          <option value="credit">जमा (Credit / प्राप्त राशि)</option>
+          <option value="debit">खर्च (Debit / उपयोग की गई राशि)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>विवरण / UPI संदर्भ (UPI Ref / Note)</label><input type="text" id="donDesc" class="form-control" placeholder="भवन निर्माण सहयोग / UPI Txn ID"></div>
+      <button class="btn" style="background:var(--green);" onclick="saveDonationToFund()">कोष (Fund) में प्रविष्टि जोड़ें</button>
     </div>
 
     <!-- 5. शोक संदेश -->
@@ -316,7 +323,6 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // एडमिन लॉगिन वेरीफाई करें
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
@@ -337,16 +343,11 @@
       });
   }
 
-  // बैक बटन दबाने पर Firebase से लॉग आउट होकर होमपेज पर जाना
   function adminLogoutAndRedirect() {
-    auth.signOut().then(() => {
-      // लॉग आउट सफल
-    }).catch((error) => {
-      console.log("लॉग आउट त्रुटि: ", error);
-    });
+    auth.signOut().then(() => {}).catch((error) => {});
   }
 
-  // पदाधिकारी सेव करने का फंक्शन (जेंडर के साथ)
+  // पदाधिकारी सेव करने का फंक्शन
   async function saveOfficial() {
     let name = document.getElementById("offName").value;
     let gender = document.getElementById("offGender").value;
@@ -378,9 +379,38 @@
     }
   }
 
+  // समाज सहयोग कोष / दान (UPI Fund) डेटाबेस में सेव करने का फंक्शन
+  async function saveDonationToFund() {
+    let name = document.getElementById("donName").value.trim();
+    let amount = document.getElementById("donAmount").value.trim();
+    let type = document.getElementById("donType").value;
+    let description = document.getElementById("donDesc").value.trim();
+
+    if(!name || !amount) {
+      alert("कृपया दानदाता का नाम और राशि दर्ज करें!");
+      return;
+    }
+
+    try {
+      await db.collection("funds").add({
+        donorName: name,
+        amount: parseFloat(amount),
+        type: type, // 'credit' या 'debit'
+        description: description || "समाज सहयोग राशि",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      alert("सफलतापूर्वक समाज कोष (Funds) में रिकॉर्ड दर्ज कर दिया गया है!");
+      document.getElementById("donName").value = "";
+      document.getElementById("donAmount").value = "";
+      document.getElementById("donDesc").value = "";
+    } catch(err) {
+      alert("कोष रिकॉर्ड सहेजने में त्रुटि: " + err.message);
+    }
+  }
+
   function saveAchiever() { alert("मेधावी छात्र की जानकारी जोड़ दी गई है!"); }
   function saveMeeting() { alert("आगामी बैठक की सूचना प्रकाशित कर दी गई है!"); }
-  function saveDonation() { alert("दान सहयोग रिकॉर्ड दर्ज हो गया है!"); }
   function saveCondolence() { alert("शोक संदेश जोड़ दिया गया है!"); }
   function saveBusiness() { alert("व्यवसाय डायरेक्टरी में जोड़ दिया गया है!"); }
   function saveGallery() { alert("गैलरी फोटो जोड़ दिया गया है!"); }

@@ -44,7 +44,10 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc}
 
-.btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
+/* बटन क्लिक इफ़ेक्ट और लोडिंग डिसेबल स्टाइल */
+.btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;text-decoration:none;display:inline-block;margin-top:8px;transition: transform 0.1s ease, opacity 0.2s;}
+.btn:active{transform: scale(0.96);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
 .login-link-row{text-align:center;margin-top:14px;font-size:12.5px}
@@ -122,7 +125,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         <input type="password" id="regConfirmMpin" class="form-control" placeholder="वही 6 अंक दोबारा दर्ज करें" maxlength="6">
       </div>
       
-      <button class="btn gold" onclick="handleRegister()">✨ पंजीकरण फॉर्म जमा करें</button>
+      <!-- बटन में ID जोड़ी गई है ताकि लोडिंग टेक्स्ट दिखाया जा सके -->
+      <button id="regSubmitBtn" class="btn gold" onclick="handleRegister()">✨ पंजीकरण फॉर्म जमा करें</button>
 
       <div class="login-link-row">
         <span>पपहले से खाता मौजूद है?</span> <a href="login.html">यहाँ लॉगिन करें</a>
@@ -147,7 +151,7 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// नया रजिस्ट्रेशन करने का मुख्य लॉजिक (डुप्लीकेट प्रिवेंशन के साथ)
+// नया रजिस्ट्रेशन करने का मुख्य लॉजिक (क्लिक फीडबैक और लोडिंग के साथ)
 async function handleRegister() {
   let fullName = document.getElementById("regName").value.trim();
   let fatherName = document.getElementById("regFather").value.trim();
@@ -157,6 +161,7 @@ async function handleRegister() {
   let address = document.getElementById("regAddress").value.trim();
   let mpin = document.getElementById("regMpin").value.trim();
   let confirmMpin = document.getElementById("regConfirmMpin").value.trim();
+  let btn = document.getElementById("regSubmitBtn");
 
   // वैलिडेशन चेक
   if(!fullName || !mobile || !mpin || !confirmMpin) {
@@ -176,16 +181,22 @@ async function handleRegister() {
     return;
   }
 
+  // तुरंत रिस्पॉन्स: बटन लॉक और लोडिंग टेक्स्ट दिखाना
+  btn.disabled = true;
+  btn.innerText = "⏳ जाँच हो रही है, कृपया प्रतीक्षा करें...";
+
   try {
     // 1. जांचें कि क्या यह मोबाइल नंबर पहले से रजिस्टर्ड है
     let mobileCheck = await db.collection("users").where("mobile", "==", mobile).get();
     if(!mobileCheck.empty) {
       alert("⚠️ चेतावनी: यह मोबाइल नंबर पहले से ही समाज पोर्टल पर रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
+      btn.disabled = false;
+      btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
       window.location.href = "login.html";
       return;
     }
 
-    // 2. जांचें कि क्या एक ही नाम, जन्म तिथि (DOB) और पते वाला व्यक्ति पहले से मौजूद है (डूब्लिकेट रोकें)
+    // 2. जांचें कि क्या एक ही नाम, जन्म तिथि (DOB) और पते वाला व्यक्ति पहले से मौजूद है
     let duplicateCheck = await db.collection("users")
       .where("fullName", "==", fullName)
       .where("dob", "==", dob)
@@ -194,10 +205,12 @@ async function handleRegister() {
 
     if(!duplicateCheck.empty) {
       alert("⚠️ चेतावनी: इस नाम, जन्म तिथि और पते के साथ एक सदस्य पहले ही पंजीकृत है! आप दोबारा पंजीकरण नहीं कर सकते।");
+      btn.disabled = false;
+      btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
       return;
     }
 
-    // फायरबेस में डेटा सेव करें (status: 'pending' रहेगा जब तक एडमिन अप्रूव न करे)
+    // फायरबेस में डेटा सेव करें
     await db.collection("users").add({
       fullName: fullName,
       fatherName: fatherName,
@@ -216,6 +229,8 @@ async function handleRegister() {
 
   } catch(e) {
     alert("❌ पंजीकरण सहेजने में त्रुटि आई। कृपया अपना इंटरनेट कनेक्शन जांचें।");
+    btn.disabled = false;
+    btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
   }
 }
 </script>

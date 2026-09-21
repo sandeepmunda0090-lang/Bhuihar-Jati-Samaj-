@@ -31,7 +31,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:10}
 .top-profile-btn{background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:5px 11px;border-radius:18px;font:700 12px inherit;cursor:pointer;text-decoration:none}
 
-/* साफ़-सुथरा कार्ड (बिना किसी चमकती हुई लाइटिंग के) */
+/* साफ़-सुथरा कार्ड */
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);animation: bounceDrop 0.9s ease-out;}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 8px}.section-title h2{font-size:16px;margin:0;color:var(--navy)}
 
@@ -48,11 +48,11 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-/* पदाधिकारी कार्ड (होरिजॉन्टल स्लाइडर के लिए) */
+/* पदाधिकारी कार्ड */
 .official-card{min-width:130px;max-width:130px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
 .official-card img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:6px;}
 .contact-btns{display:flex;gap:4px;margin-top:8px;width:100%}
-.contact-btns a{flex:1;background:var(--bg);border:1px solid var(--line);padding:4px 2px;border-radius:6px;font-size:9.5px;text-decoration:none;color:var(--navy);font-weight:bold;text-align:center;}
+.contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:4px 2px;border-radius:6px;font:inherit;font-size:9.5px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
@@ -93,7 +93,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 1. समाज के मुख्य पदाधिकारी (स्लाइडर) -->
+    <!-- 1. समाज के मुख्य पदाधिकारी (सिक्योरिटी चेक के साथ) -->
     <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2></div>
     <div class="category-slider" id="officialsSlider">
       <div class="official-card">
@@ -101,8 +101,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">श्री रामलाल मुंडा</b>
         <span style="font-size:9.5px; color:var(--muted);">अध्यक्ष</span>
         <div class="contact-btns">
-          <a href="tel:9876543210">📞 कॉल</a>
-          <a href="https://wa.me/919876543210">💬 चैट</a>
+          <button onclick="secureContact('tel', '9876543210')">📞 कॉल</button>
+          <button onclick="secureContact('wa', '9876543210')">💬 चैट</button>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     <div class="card">
       <h3 style="font-size:14px; margin-bottom:4px; color:var(--navy);">🏪 राम ट्रेडर्स & जनरल स्टोर</h3>
       <p class="admin-note" style="margin-bottom:6px;">संचालक: श्री राम कुमार | मुख्य मार्ग, महाराजगंज</p>
-      <a href="tel:9876543210" class="btn" style="padding:6px; font-size:12px; margin-top:4px;">📞 दुकान संचालक को कॉल करें</a>
+      <button class="btn" style="padding:6px; font-size:12px; margin-top:4px;" onclick="secureContact('tel', '9876543210')">📞 दुकान संचालक को कॉल करें</button>
     </div>
 
     <div class="section-title" style="margin-top:18px"><h2>समाज सूचना</h2></div>
@@ -154,6 +154,25 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+
+// प्राइवेसी / लॉगिन चेक फंक्शन (बिना लॉगिन कॉल/चैट ब्लॉक करेगा)
+function secureContact(type, number) {
+  // यहाँ चेक किया जा रहा है कि यूजर लॉगिन है या नहीं (लोकल स्टोरेज या सेशन से)
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // जब यूजर लॉगिन करेगा तो इसे true करना होगा
+
+  if (!isLoggedIn) {
+    alert("⚠️ सुरक्षा चेतावनी: पदाधिकारियों से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // यदि लॉगिन है, तो कॉल या व्हाट्सएप खुलेगा
+  if (type === 'tel') {
+    window.location.href = "tel:" + number;
+  } else if (type === 'wa') {
+    window.location.href = "https://wa.me/91" + number;
+  }
+}
 
 function animateCount(elementId, targetNumber) {
   let el = document.getElementById(elementId);

@@ -81,9 +81,12 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   </div>
 
   <div class="container">
-    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1e40af">
-      <h3 style="margin:0 0 4px;font-size:13px">📜 समाज विरासत सुविचार</h3>
-      <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
+    
+    <!-- 1. आगामी बैठक एवं सूचनाएँ (अब ऊपर आ गया है) -->
+    <div class="section-title" style="margin-top:6px"><h2>समाज सूचना</h2></div>
+    <div class="card">
+      <h3 style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
+      <p class="admin-note">महाराजगंज में आगामी रविवार को समाज की विशेष बैठक रखी गई है। सभी बन्धु सादर आमंत्रित हैं।</p>
     </div>
 
     <!-- जीरो से काउंटिंग होने वाले लाइव स्टैट्स बॉक्स -->
@@ -93,7 +96,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 1. समाज के मुख्य पदाधिकारी (सिक्योरिटी चेक के साथ) -->
+    <!-- 2. समाज के मुख्य पदाधिकारी (स्लाइडर) -->
     <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2></div>
     <div class="category-slider" id="officialsSlider">
       <div class="official-card">
@@ -107,7 +110,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       </div>
     </div>
     
-    <!-- 2. समाज की सभी 11 सेवाएँ (स्लाइडर) -->
+    <!-- 3. समाज की सभी 11 सेवाएँ (स्लाइडर) -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी व पीडीएफ</span></a>
@@ -123,7 +126,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <a href="helpdesk.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत पेटी व सुझाव</span></a>
     </div>
 
-    <!-- 3. व्यवसाय डायरेक्टरी / बैनर स्लाइडर -->
+    <!-- 4. व्यवसाय डायरेक्टरी / बैनर स्लाइडर -->
     <div class="section-title"><h2>समाज की दुकानें एवं व्यवसाय</h2></div>
     <div class="card">
       <h3 style="font-size:14px; margin-bottom:4px; color:var(--navy);">🏪 राम ट्रेडर्स & जनरल स्टोर</h3>
@@ -131,11 +134,12 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <button class="btn" style="padding:6px; font-size:12px; margin-top:4px;" onclick="secureContact('tel', '9876543210')">📞 दुकान संचालक को कॉल करें</button>
     </div>
 
-    <div class="section-title" style="margin-top:18px"><h2>समाज सूचना</h2></div>
-    <div class="card">
-      <h3 style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
-      <p class="admin-note">महाराजगंज में आगामी रविवार को समाज की विशेष बैठक रखी गई है। सभी बन्धु सादर आमंत्रित हैं।</p>
+    <!-- 5. समाज विरासत सुविचार (अब नीचे आ गया है) -->
+    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1e40af; margin-top:16px;">
+      <h3 style="margin:0 0 4px;font-size:13px">📜 समाज विरासत सुविचार</h3>
+      <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
     </div>
+
   </div>
 
   <!-- बॉटम नेविगेशन -->
@@ -155,10 +159,8 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// प्राइवेसी / लॉगिन चेक फंक्शन (बिना लॉगिन कॉल/चैट ब्लॉक करेगा)
 function secureContact(type, number) {
-  // यहाँ चेक किया जा रहा है कि यूजर लॉगिन है या नहीं (लोकल स्टोरेज या सेशन से)
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // जब यूजर लॉगिन करेगा तो इसे true करना होगा
+  const isLoggedIn = localStorage.getItem("userLoggedInMobile") === "true"; 
 
   if (!isLoggedIn) {
     alert("⚠️ सुरक्षा चेतावनी: पदाधिकारियों से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
@@ -166,7 +168,6 @@ function secureContact(type, number) {
     return;
   }
 
-  // यदि लॉगिन है, तो कॉल या व्हाट्सएप खुलेगा
   if (type === 'tel') {
     window.location.href = "tel:" + number;
   } else if (type === 'wa') {

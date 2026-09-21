@@ -13,19 +13,23 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:80px;}
 
 .header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 20px 20px;display:flex;justify-content:space-between;align-items:center;}
+.header-left {display: flex; align-items: center; gap: 10px;}
+.back-btn{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:16px;cursor:pointer;text-decoration:none;transition:0.2s;}
+.back-btn:active{transform:scale(0.9);}
+
 .header h1{margin:0;font-size:17px;font-weight:800}
 .header p{margin:2px 0 0;font-size:11px;opacity:.85}
 
 .container{padding:12px}
 
 /* लॉगिन कार्ड */
-.auth-card{background:var(--card);padding:20px;border-radius:16px;box-shadow:var(--shadow);margin-top:30px;text-align:center;}
+.auth-card{background:var(--card);padding:20px;border-radius:16px;box-shadow:var(--shadow);margin-top:20px;text-align:center;}
 .form-group{margin-bottom:12px;text-align:left;}
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-group input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#f9fafb}
 
 .btn{border:0;border-radius:12px;padding:12px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18)}
-.btn-danger{background:linear-gradient(135deg,var(--red),#ff5252);box-shadow:0 4px 12px rgba(217,48,37,.18)}
+.btn-gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200;box-shadow:0 4px 12px rgba(232,159,19,0.18)}
 
 /* डिजिटल आईडी कार्ड */
 .id-card{background:linear-gradient(135deg,#ffffff,#f8fafc);border:2px solid var(--gold);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;}
@@ -59,9 +63,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="header">
-    <div>
-      <h1>👤 सदस्य पोर्टल</h1>
-      <p>भुईहर जाति समाज • महाराजगंज</p>
+    <div class="header-left">
+      <a href="index.html" class="back-btn" title="वापस जाएं">←</a>
+      <div>
+        <h1>👤 सदस्य पोर्टल</h1>
+        <p>भुईहर जाति समाज • महाराजगंज</p>
+      </div>
     </div>
     <button id="logoutBtn" onclick="userLogout()" style="display:none;background:rgba(255,255,255,0.2);border:0;color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;">लॉग आउट</button>
   </div>
@@ -70,19 +77,53 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     
     <!-- 1. लॉगिन स्क्रीन (यदि यूजर लॉगिन नहीं है) -->
     <div id="loginAuthCard" class="auth-card">
-      <h3 style="margin-top:0;color:var(--navy);">🔐 सदस्य लॉगिन</h3>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">अपने मोबाइल नंबर और 6-डिजिट MPIN से प्रवेश करें</p>
-      <div class="form-group">
-        <label>मोबाइल नंबर (10 अंक)</label>
-        <input type="tel" id="loginMobile" maxlength="10" placeholder="अपना रजिस्टर्ड नंबर डालें">
-      </div>
-      <div class="form-group">
-        <label>गुप्त पिन (6-Digit MPIN)</label>
-        <input type="password" id="loginMpin" maxlength="6" placeholder="6 अंकों का MPIN">
-      </div>
-      <button class="btn" onclick="verifyUserLogin()">लॉगिन करें</button>
       
-      <p style="margin-top:14px;font-size:12px;">नया पंजीकरण नहीं किया है? <a href="register.html" style="color:var(--p);font-weight:700;text-decoration:none;">यहाँ रजिस्टर करें</a></p>
+      <!-- मुख्य लॉगिन फॉर्म -->
+      <div id="loginFormSection">
+        <h3 style="margin-top:0;color:var(--navy);">🔐 सदस्य लॉगिन</h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">अपने मोबाइल नंबर और 6-डिजिट MPIN से प्रवेश करें</p>
+        
+        <div class="form-group">
+          <label>मोबाइल नंबर (10 अंक)</label>
+          <input type="tel" id="loginMobile" maxlength="10" placeholder="अपना रजिस्टर्ड नंबर डालें">
+        </div>
+        <div class="form-group">
+          <label>गुप्त पिन (6-Digit MPIN)</label>
+          <input type="password" id="loginMpin" maxlength="6" placeholder="6 अंकों का MPIN">
+        </div>
+        <button class="btn" onclick="verifyUserLogin()">लॉगिन करें</button>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 11.5px;">
+          <a href="javascript:void(0);" onclick="showForgotForm()" style="color:var(--red);font-weight:700;text-decoration:none;">MPIN भूल गए?</a>
+          <a href="register.html" style="color:var(--p);font-weight:700;text-decoration:none;">नया पंजीकरण? यहाँ करें</a>
+        </div>
+      </div>
+
+      <!-- फॉरगेट/रिसेट MPIN फॉर्म (शुरुआत में छुपा रहेगा) -->
+      <div id="forgotFormSection" style="display:none; text-align:left;">
+        <h3 style="margin-top:0;color:var(--navy); text-align:center;">🔄 नया MPIN बनाएं</h3>
+        <p style="font-size:11.5px;color:var(--muted);margin-bottom:14px; text-align:center;">अपना रजिस्टर्ड मोबाइल नंबर व जन्म तिथि दर्ज करें</p>
+        
+        <div class="form-group">
+          <label>रजिस्टर्ड मोबाइल नंबर (10 अंक)</label>
+          <input type="tel" id="forgotMobile" maxlength="10" placeholder="मोबाइल नंबर डालें">
+        </div>
+        <div class="form-group">
+          <label>जन्म तिथि (Date of Birth)</label>
+          <input type="date" id="forgotDob">
+        </div>
+        <div class="form-group">
+          <label>नया 6-डिजिट MPIN बनाएं</label>
+          <input type="password" id="newMpin" maxlength="6" placeholder="नया 6 अंकों का MPIN">
+        </div>
+        
+        <button class="btn btn-gold" onclick="resetUserMpin()">MPIN अपडेट करें</button>
+        
+        <div style="text-align:center; margin-top:12px;">
+          <a href="javascript:void(0);" onclick="showLoginForm()" style="font-size:12px;color:var(--p);font-weight:700;text-decoration:none;">← वापस लॉगिन पर जाएं</a>
+        </div>
+      </div>
+
     </div>
 
     <!-- 2. यूजर डैशबोर्ड (लॉगिन के बाद दिखेगा) -->
@@ -125,7 +166,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         </div>
       </div>
 
-      <!-- सामुदायिक सूचनाएँ (सबसे नई सूचना सबसे ऊपर और 48 घंटे तक New टैग) -->
+      <!-- सामुदायिक सूचनाएँ -->
       <div class="section-title">📢 सामुदायिक सूचनाएँ व बैठकें</div>
       <div id="userPostsContainer">
         <p style="font-size:12px;color:var(--muted);text-align:center;">सूचनाएँ लोड हो रही हैं...</p>
@@ -152,12 +193,22 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// पेज लोड होने पर चेक करें कि क्या यूजर पहले से लॉग इन है
 window.onload = function(){
   let savedMobile = localStorage.getItem("userLoggedInMobile");
   if(savedMobile){
     fetchUserData(savedMobile);
   }
+}
+
+// फॉर्म स्विच करने के फंक्शन्स
+function showForgotForm(){
+  document.getElementById("loginFormSection").style.display = "none";
+  document.getElementById("forgotFormSection").style.display = "block";
+}
+
+function showLoginForm(){
+  document.getElementById("forgotFormSection").style.display = "none";
+  document.getElementById("loginFormSection").style.display = "block";
 }
 
 // यूजर लॉगिन वेरीफाई करें
@@ -192,6 +243,56 @@ async function verifyUserLogin(){
   }
 }
 
+// मोबाइल और DOB से नया MPIN सेट करने का फंक्शन (Forgot MPIN)
+async function resetUserMpin(){
+  let mob = document.getElementById("forgotMobile").value.trim();
+  let dob = document.getElementById("forgotDob").value.trim();
+  let newMpin = document.getElementById("newMpin").value.trim();
+
+  if(mob.length < 10 || !dob || newMpin.length < 6){
+    alert("कृपया सभी जानकारी सही से भरें (नया MPIN कम से कम 6 अंकों का हो)।");
+    return;
+  }
+
+  try {
+    // Firestore से चेक करें कि मोबाइल और जन्मतिथि मैच होती है या नहीं
+    let snapshot = await db.collection("users").where("mobile", "==", mob).get();
+    if(snapshot.empty){
+      alert("यह मोबाइल नंबर हमारे रिकॉर्ड में रजिस्टर्ड नहीं है।");
+      return;
+    }
+
+    let userDocId = null;
+    let matched = false;
+
+    snapshot.forEach(doc => {
+      let data = doc.data();
+      // डेटाबेस में सेव DOB से तुलना करें
+      if(data.dob === dob){
+        userDocId = doc.id;
+        matched = true;
+      }
+    });
+
+    if(!matched){
+      alert("दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है।");
+      return;
+    }
+
+    // यदि डेटा मैच हो गया तो नया MPIN अपडेट करें
+    await db.collection("users").doc(userDocId).update({
+      mpin: newMpin
+    });
+
+    alert("आपका नया MPIN सफलतापूर्वक सेट हो गया है! अब आप लॉगिन कर सकते हैं।");
+    showLoginForm();
+    document.getElementById("loginMobile").value = mob;
+
+  } catch(err) {
+    alert("MPIN अपडेट करने में त्रुटि: " + err.message);
+  }
+}
+
 // यूजर डेटा लोड करें और डैशबोर्ड दिखाएं
 async function fetchUserData(mob){
   try {
@@ -199,7 +300,6 @@ async function fetchUserData(mob){
     snapshot.forEach(doc => {
       let data = doc.data();
       
-      // आईडी कार्ड में वैल्यू भरें
       document.getElementById("cardName").innerText = data.fullName || "-";
       document.getElementById("cardRelation").innerText = (data.relationType || "पिता") + ": " + (data.relationName || "-");
       document.getElementById("cardGotra").innerText = data.gotra || "-";
@@ -208,12 +308,10 @@ async function fetchUserData(mob){
       document.getElementById("cardMobile").innerText = data.mobile;
       document.getElementById("cardStatus").innerText = data.status === "approved" ? "सक्रिय सदस्य" : data.status;
 
-      // स्क्रीन स्विच करें
       document.getElementById("loginAuthCard").style.display = "none";
       document.getElementById("userDashboard").style.display = "block";
       document.getElementById("logoutBtn").style.display = "block";
 
-      // फंड और पोस्ट लोड करें
       loadLiveFundBalance();
       loadUserPosts();
     });
@@ -222,7 +320,6 @@ async function fetchUserData(mob){
   }
 }
 
-// लाइव फंड बैलेंस कैलकुलेट करें
 async function loadLiveFundBalance(){
   try {
     let snap = await db.collection("funds").get();
@@ -250,12 +347,10 @@ async function loadLiveFundBalance(){
   }
 }
 
-// सामुदायिक सूचनाएं लोड करें (सबसे नई पोस्ट सबसे ऊपर और 48 घंटे तक NEW टैग)
 async function loadUserPosts(){
   let container = document.getElementById("userPostsContainer");
   
   try {
-    // orderBy('createdAt', 'desc') से सबसे नई पोस्ट सबसे ऊपर आएगी
     let snap = await db.collection("posts").orderBy("createdAt", "desc").get();
     
     if(snap.empty){
@@ -271,7 +366,6 @@ async function loadUserPosts(){
       let postDiv = document.createElement("div");
       postDiv.className = "post-card";
 
-      // 48 घंटे (2 दिन) की मिलीसेकंड में गणना
       let isNew = false;
       if(post.createdAt && post.createdAt.toDate){
         let postTime = post.createdAt.toDate().getTime();
@@ -283,7 +377,6 @@ async function loadUserPosts(){
 
       let newBadgeHTML = isNew ? `<div class="new-badge">NEW ⚡</div>` : "";
       
-      // दिनांक फॉर्मेट करें
       let dateStr = "";
       if(post.createdAt && post.createdAt.toDate){
         dateStr = post.createdAt.toDate().toLocaleDateString('hi-IN', {day:'numeric', month:'short', year:'numeric'});
@@ -299,7 +392,7 @@ async function loadUserPosts(){
       container.appendChild(postDiv);
     });
   } catch(err) {
-    container.innerHTML = "<p style='font-size:12px;color:var(--red);text-align:center;'>सूचनाएं लोड करने में त्रुटि। (यदि सूचकांक इंडेक्स की जरूरत हो तो कंसोल देखें)</p>";
+    container.innerHTML = "<p style='font-size:12px;color:var(--red);text-align:center;'>सूचनाएं लोड करने में त्रुटि।</p>";
   }
 }
 

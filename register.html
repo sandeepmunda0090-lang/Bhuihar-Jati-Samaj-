@@ -170,7 +170,8 @@ async function handleRegister() {
   btn.innerText = "⏳ जाँच हो रही है...";
 
   try {
-    let mobileCheck = await db.collection("users").where("mobile", "==", mobile).get();
+    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें[span_2](start_span)[span_2](end_span)
+    let mobileCheck = await db.collection("users").where("mobileNumber", "==", mobile).get();
     if(!mobileCheck.empty) {
       alert("⚠️ यह मोबाइल नंबर पहले से ही रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
       btn.disabled = false;
@@ -179,10 +180,11 @@ async function handleRegister() {
       return;
     }
 
+    // डेटाबेस के सही फील्ड नाम 'FullName' और 'dateOfBirth' से डुप्लीकेट जांच[span_3](start_span)[span_3](end_span)
     let duplicateCheck = await db.collection("users")
-      .where("fullName", "==", fullName)
-      .where("dob", "==", dob)
-      .where("address", "==", address)
+      .where("FullName", "==", fullName)
+      .where("dateOfBirth", "==", dob)
+      .where("village", "==", address)
       .get();
 
     if(!duplicateCheck.empty) {
@@ -192,13 +194,14 @@ async function handleRegister() {
       return;
     }
 
+    // डेटाबेस में सटीक फील्ड नामों के साथ डेटा सेव करें[span_4](start_span)[span_4](end_span)
     await db.collection("users").add({
-      fullName: fullName,
+      FullName: fullName,
       fatherName: fatherName,
-      mobile: mobile,
-      dob: dob,
-      gotra: gotra,
-      address: address || "महाराजगंज, बलरामपुर",
+      mobileNumber: mobile,
+      dateOfBirth: dob,
+      gothra: gotra,
+      village: address || "महाराजगंज, बलरामपुर",
       mpin: mpin,
       role: "member",
       status: "pending",

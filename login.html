@@ -178,7 +178,8 @@ async function handleUserLogin() {
   btn.innerText = "⏳ जाँच हो रही है...";
 
   try {
-    let querySnapshot = await db.collection("users").where("mobile", "==", mobile).get();
+    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें
+    let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
 
     if (querySnapshot.empty) {
       alert("⚠️ यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।");
@@ -204,13 +205,13 @@ async function handleUserLogin() {
     }
 
     localStorage.setItem("userLoggedInMobile", mobile);
-    localStorage.setItem("userName", userData.fullName);
+    localStorage.setItem("userName", userData.FullName || "सदस्य");
     
     btn.disabled = false;
     btn.innerText = "🚀 सुरक्षित लॉगिन करें";
 
     // सुंदर सफलता पॉप-अप दिखाएं
-    showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + userData.fullName + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
+    showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
 
   } catch (error) {
     alert("❌ सर्वर त्रुटि: " + error.message);
@@ -239,7 +240,8 @@ async function handleVerifyAndResetMPIN() {
   btn.innerText = "⏳ जाँच की जा रही है...";
 
   try {
-    let querySnapshot = await db.collection("users").where("mobile", "==", mobile).get();
+    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें
+    let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
 
     if (querySnapshot.empty) {
       alert("⚠️ यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।");
@@ -251,7 +253,8 @@ async function handleVerifyAndResetMPIN() {
     let userDoc = querySnapshot.docs[0];
     let userData = userDoc.data();
 
-    if (userData.dob !== dob) {
+    // डेटाबेस के सही फील्ड नाम 'dateOfBirth' से जांच करें
+    if (userData.dateOfBirth !== dob) {
       alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!");
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";

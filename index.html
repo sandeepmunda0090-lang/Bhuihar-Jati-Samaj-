@@ -11,14 +11,12 @@
 body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
 
-/* एनिमेशन: ऊपर से गिरना */
 @keyframes bounceDrop {
   0% { transform: translateY(-30px); opacity: 0; }
   60% { transform: translateY(6px); opacity: 1; }
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* एनिमेशन: आइकॉन का जोरदार उछलना */
 @keyframes iconBounce {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-7px) scale(1.1); }
@@ -31,7 +29,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:10}
 .top-profile-btn{background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:5px 11px;border-radius:18px;font:700 12px inherit;cursor:pointer;text-decoration:none}
 
-/* साफ़-सुथरा कार्ड */
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);animation: bounceDrop 0.9s ease-out;}
 .section-title{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 8px}.section-title h2{font-size:16px;margin:0;color:var(--navy)}
 
@@ -48,11 +45,13 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-/* पदाधिकारी कार्ड */
-.official-card{min-width:130px;max-width:130px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
-.official-card img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:6px;}
-.contact-btns{display:flex;gap:4px;margin-top:8px;width:100%}
-.contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:4px 2px;border-radius:6px;font:inherit;font-size:9.5px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
+/* पदाधिकारी 3D कार्ड और स्लाइडर स्टाइल */
+.official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
+.official-card:hover{transform:translateY(-3px);}
+.official-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
+.contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;transition:background 0.2s;}
+.contact-btns button:hover{background:#e2e8f0;}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
@@ -69,43 +68,45 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 <div id="app">
   <div class="hero">
     <div class="top-right-bar">
-      <a href="login.html" class="top-profile-btn">👤 लॉगिन</a>
+      <a href="login.html" id="topAuthBtn" class="top-profile-btn">👤 लॉगिन</a>
     </div>
     <div class="brand">
       <div class="logo">🌾</div>
       <div><h1>भुईहर जाति समाज</h1><p>महाराजगंज • डिजिटल पोर्टल</p></div>
     </div>
     <div class="hero-title">समाज को जोड़ें, परिवार को डिजिटल बनाएं।</div>
-    <div class="hero-sub">सदस्य पंजीकरण, डिजिटल आईडी, आपातकालीन रक्त व अन्य सेवाएं।</div>
-    <a href="register.html" class="btn gold" style="margin-top:12px">✨ नया सदस्य बनें</a>
+    <div class="hero-sub" id="heroSubText">सदस्य पंजीकरण, डिजिटल आईडी, आपातकालीन रक्त व अन्य सेवाएं।</div>
+    <div id="userWelcomeBox" style="display:none; margin-top:10px; background:rgba(255,255,255,0.18); padding:8px 12px; border-radius:12px; font-size:12px;"></div>
+    <a href="register.html" id="registerBannerBtn" class="btn gold" style="margin-top:12px">✨ नया सदस्य बनें</a>
   </div>
 
   <div class="container">
     
-    <!-- 1. आगामी बैठक एवं सूचनाएँ (अब ऊपर आ गया है) -->
+    <!-- 1. आगामी बैठक एवं सूचनाएँ -->
     <div class="section-title" style="margin-top:6px"><h2>समाज सूचना</h2></div>
     <div class="card">
       <h3 style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
       <p class="admin-note">महाराजगंज में आगामी रविवार को समाज की विशेष बैठक रखी गई है। सभी बन्धु सादर आमंत्रित हैं।</p>
     </div>
 
-    <!-- जीरो से काउंटिंग होने वाले लाइव स्टैट्स बॉक्स -->
+    <!-- लाइव स्टैट्स बॉक्स -->
     <div class="stats">
       <div class="stat"><b id="stMembers">0</b><span>कुल सदस्य</span></div>
       <div class="stat"><b id="stFamilies">0</b><span>परिवार</span></div>
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 2. समाज के मुख्य पदाधिकारी (स्लाइडर) -->
-    <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2></div>
+    <!-- 2. समाज के मुख्य पदाधिकारी (3D कार्ड स्लाइडर - मैन्युअल और ऑटो) -->
+    <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider" id="officialsSlider">
+      <!-- डेटाबेस से डायनेमिक लोड होगा या यहाँ डिफ़ॉल्ट कार्ड दिखेगा -->
       <div class="official-card">
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb" alt="अध्यक्ष">
         <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">श्री रामलाल मुंडा</b>
         <span style="font-size:9.5px; color:var(--muted);">अध्यक्ष</span>
         <div class="contact-btns">
           <button onclick="secureContact('tel', '9876543210')">📞 कॉल</button>
-          <button onclick="secureContact('wa', '9876543210')">💬 चैट</button>
+          <button onclick="secureContact('wa', '9876543210')">💬 व्हाट्सएप</button>
         </div>
       </div>
     </div>
@@ -126,7 +127,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <a href="helpdesk.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत पेटी व सुझाव</span></a>
     </div>
 
-    <!-- 4. व्यवसाय डायरेक्टरी / बैनर स्लाइडर -->
+    <!-- 4. व्यवसाय डायरेक्टरी -->
     <div class="section-title"><h2>समाज की दुकानें एवं व्यवसाय</h2></div>
     <div class="card">
       <h3 style="font-size:14px; margin-bottom:4px; color:var(--navy);">🏪 राम ट्रेडर्स & जनरल स्टोर</h3>
@@ -134,7 +135,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <button class="btn" style="padding:6px; font-size:12px; margin-top:4px;" onclick="secureContact('tel', '9876543210')">📞 दुकान संचालक को कॉल करें</button>
     </div>
 
-    <!-- 5. समाज विरासत सुविचार (अब नीचे आ गया है) -->
+    <!-- 5. समाज विरासत सुविचार -->
     <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1e40af; margin-top:16px;">
       <h3 style="margin:0 0 4px;font-size:13px">📜 समाज विरासत सुविचार</h3>
       <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
@@ -146,7 +147,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   <nav class="nav">
     <a href="index.html" class="active"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
-    <a href="login.html"><b>👤</b>Profile</a>
+    <a href="login.html" id="navProfileBtn"><b>👤</b>Profile</a>
     <a href="blood.html"><b>🩸</b>Blood</a>
     <a href="admin.html"><b>🛡️</b>Admin</a>
   </nav>
@@ -155,53 +156,112 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
+  const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+  firebase.initializeApp(firebaseConfig);
+  const db=firebase.firestore();
 
-function secureContact(type, number) {
-  const isLoggedIn = localStorage.getItem("userLoggedInMobile") === "true"; 
+  // चेक करें कि यूजर लॉगिन है या नहीं और होमपेज को तदनुरूप अपडेट करें
+  function checkLoginSession() {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    let loggedName = localStorage.getItem("userName");
 
-  if (!isLoggedIn) {
-    alert("⚠️ सुरक्षा चेतावनी: पदाधिकारियों से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
-    window.location.href = "login.html";
-    return;
-  }
+    if (loggedMobile) {
+      document.getElementById("topAuthBtn").innerText = "🚪 लॉगआउट";
+      document.getElementById("topAuthBtn").onclick = function(e) {
+        e.preventDefault();
+        localStorage.removeItem("userLoggedInMobile");
+        localStorage.removeItem("userName");
+        alert("✨ सफलतापर्वूक लॉगआउट हो गए!");
+        window.location.reload();
+      };
 
-  if (type === 'tel') {
-    window.location.href = "tel:" + number;
-  } else if (type === 'wa') {
-    window.location.href = "https://wa.me/91" + number;
-  }
-}
-
-function animateCount(elementId, targetNumber) {
-  let el = document.getElementById(elementId);
-  let current = 0;
-  if(targetNumber === 0) { el.textContent = "0"; return; }
-  let stepTime = Math.abs(Math.floor(800 / targetNumber));
-  let timer = setInterval(() => {
-    current += 1;
-    el.textContent = current;
-    if (current >= targetNumber) {
-      clearInterval(timer);
+      document.getElementById("heroSubText").style.display = "none";
+      let welcomeBox = document.getElementById("userWelcomeBox");
+      welcomeBox.style.display = "block";
+      welcomeBox.innerHTML = `👋 स्वागत है, <b>${loggedName || 'सदस्य'}</b>! आपका पोर्टल पूरी तरह से सक्रिय है।`;
+      
+      let regBtn = document.getElementById("registerBannerBtn");
+      regBtn.innerText = "📋 मेरा परिवार / प्रोफाइल देखें";
+      regBtn.href = "family.html";
     }
-  }, Math.max(stepTime, 20));
-}
-
-async function loadHomeStats(){
-  try{
-    let [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);
-    animateCount("stMembers", u.size);
-    animateCount("stFamilies", f.size);
-    animateCount("stApproved", u.docs.filter(d=>d.data().status==="approved").length);
-  }catch(e){
-    document.getElementById("stMembers").textContent = "0";
-    document.getElementById("stFamilies").textContent = "0";
-    document.getElementById("stApproved").textContent = "0";
   }
-}
-loadHomeStats();
+  checkLoginSession();
+
+  function secureContact(type, number) {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+
+    if (!loggedMobile) {
+      alert("⚠️ सुरक्षा चेतावनी: पदाधिकारियों से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (type === 'tel') {
+      window.location.href = "tel:" + number;
+    } else if (type === 'wa') {
+      window.location.href = "https://wa.me/91" + number;
+    }
+  }
+
+  function animateCount(elementId, targetNumber) {
+    let el = document.getElementById(elementId);
+    let current = 0;
+    if(targetNumber === 0) { el.textContent = "0"; return; }
+    let stepTime = Math.abs(Math.floor(800 / targetNumber));
+    let timer = setInterval(() => {
+      current += 1;
+      el.textContent = current;
+      if (current >= targetNumber) {
+        clearInterval(timer);
+      }
+    }, Math.max(stepTime, 20));
+  }
+
+  async function loadHomeStats(){
+    try{
+      let [u,f]=await Promise.all([db.collection("users").get(),db.collection("families").get()]);
+      animateCount("stMembers", u.size);
+      animateCount("stFamilies", f.size);
+      animateCount("stApproved", u.docs.filter(d=>d.data().status==="approved").length);
+    }catch(e){
+      document.getElementById("stMembers").textContent = "0";
+      document.getElementById("stFamilies").textContent = "0";
+      document.getElementById("stApproved").textContent = "0";
+    }
+  }
+  loadHomeStats();
+
+  // डेटाबेस से पदाधिकारियों को लोड करने का कोड
+  async function loadOfficialsToSlider() {
+    let slider = document.getElementById("officialsSlider");
+    try {
+      let snapshot = await db.collection("officials").get();
+      if(snapshot.empty) return; // अगर डेटाबेस खाली है तो डिफ़ॉल्ट कार्ड रहने दें
+
+      let html = "";
+      snapshot.forEach(doc => {
+        let o = doc.data();
+        let name = o.name || 'पदाधिकारी';
+        let role = o.role || 'पद';
+        let mobile = o.mobile || '9876543210';
+        let photo = o.photo && o.photo.startsWith('http') ? o.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
+
+        html += `<div class="official-card">
+          <img src="${photo}" alt="${role}">
+          <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">${name}</b>
+          <span style="font-size:9.5px; color:var(--muted);">${role}</span>
+          <div class="contact-btns">
+            <button onclick="secureContact('tel', '${mobile}')">📞 कॉल</button>
+            <button onclick="secureContact('wa', '${mobile}')">💬 व्हाट्सएप</button>
+          </div>
+        </div>`;
+      });
+      slider.innerHTML = html;
+    } catch(err) {
+      console.log("पदाधिकारी लोड करने में त्रुटि: ", err);
+    }
+  }
+  loadOfficialsToSlider();
 </script>
 </body>
 </html>

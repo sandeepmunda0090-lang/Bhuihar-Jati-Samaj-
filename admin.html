@@ -176,10 +176,10 @@
     <header>
       <a href="index.html" class="custom-back-btn" onclick="adminLogoutAndRedirect()">← मुख्य पृष्ठ (वापस जाएं)</a>
       <h1>🛡️ भुईहर जाति समाज</h1>
-      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (सभी 14 प्रबंधन फीचर्स)</p>
+      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (लाइव अप्रूवल और प्रबंधन फीचर्स)</p>
     </header>
 
-    <!-- न्यू रजिस्ट्रेशन पेंडिंग अप्रूवल लिस्ट -->
+    <!-- न्यू रजिस्ट्रेशन पेंडिंग अप्रूवल लिस्ट (Live Pending Approvals) -->
     <div class="card" style="border-left-color: var(--red);">
       <h3>⏳ नए सदस्य पंजीकरण - पेंडिंग अप्रूवल (<span id="pendingCount">0</span>)</h3>
       <p style="font-size:11px; color:var(--muted); margin-bottom:8px;">नए रजिस्टर्ड सदस्यों की सूची जिन्हें अप्रूव करना बाकी है:</p>
@@ -343,6 +343,7 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // एडमिन लॉगिन (लोडिंग और त्वरित रिस्पॉन्स के साथ)
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
@@ -361,7 +362,7 @@
         alert("✨ सफलतापूर्वक एडमिन लॉगिन हो गया!");
         document.getElementById("adminLoginCard").style.display = "none";
         document.getElementById("adminDashboardContent").style.display = "block";
-        loadPendingApprovals();
+        loadPendingApprovals(); // लॉगिन होते ही पेंडिंग लिस्ट लोड करें
       })
       .catch((error) => {
         alert("❌ लॉगिन असफल: गलत ईमेल या पासवर्ड (" + error.message + ")");
@@ -374,7 +375,7 @@
     auth.signOut().then(() => {}).catch((error) => {});
   }
 
-  // पेंडिंग अप्रूवल लिस्ट लोड करने का फंक्शन (डेटाबेस फील्ड्स के साथ सटीक मिलान)
+  // पेंडिंग अप्रूवल लिस्ट फायरबेस से लोड करने का फंक्शन (सटीक फील्ड मिलान के साथ)
   async function loadPendingApprovals() {
     let tbody = document.getElementById("pendingUsersTableBody");
     let countBadge = document.getElementById("pendingCount");
@@ -413,11 +414,11 @@
       });
       tbody.innerHTML = html;
     } catch(err) {
-      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--red);">डेटा लोड करने में त्रुटि: ${err.message}</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--red);">डेटा लोड करने में त्रुटि! (${err.message})</td></tr>`;
     }
   }
 
-  // यूजर को अप्रूव करने का सटीक फंक्शन
+  // यूजर को अप्रूव करने का सटीक और सुरक्षित फंक्शन
   async function approveUser(docId, name) {
     if(!confirm("क्या आप वाकई '" + name + "' के पंजीकरण को स्वीकृत (Approve) करना चाहते हैं?")) return;
     try {
@@ -429,6 +430,7 @@
     }
   }
 
+  // पदाधिकारी सेव करने का फंक्शन (लोडिंग के साथ)
   async function saveOfficial() {
     let name = document.getElementById("offName").value.trim();
     let gender = document.getElementById("offGender").value;
@@ -468,6 +470,7 @@
     }
   }
 
+  // समाज सहयोग कोष / दान (UPI Fund) डेटाबेस में सेव करने का फंक्शन
   async function saveDonationToFund() {
     let name = document.getElementById("donName").value.trim();
     let amount = document.getElementById("donAmount").value.trim();

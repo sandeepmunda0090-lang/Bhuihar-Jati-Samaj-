@@ -36,7 +36,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       border-top: 4px solid var(--navy);
     }
-    /* कैप्सूल बैक बटन */
     .custom-back-btn {
       display: inline-flex;
       align-items: center;
@@ -104,7 +103,6 @@
       resize: vertical;
       min-height: 60px;
     }
-    /* बटन क्लिक इफ़ेक्ट और लोडिंग डिसेबल स्टाइल */
     .btn {
       background: var(--navy);
       color: white;
@@ -377,7 +375,7 @@
     auth.signOut().then(() => {}).catch((error) => {});
   }
 
-  // पेंडिंग अप्रूवल लिस्ट फायरबेस से लोड करने का फंक्शन
+  // पेंडिंग अप्रूवल लिस्ट फायरबेस से लोड करने का फंक्शन (सटीक फील्ड नाम 'FullName' और 'mobileNumber' के साथ)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span)
   async function loadPendingApprovals() {
     let tbody = document.getElementById("pendingUsersTableBody");
     let countBadge = document.getElementById("pendingCount");
@@ -395,19 +393,24 @@
       snapshot.forEach(doc => {
         let u = doc.data();
         let docId = doc.id;
+        let name = u.FullName || 'अज्ञात';
+        let father = u.fatherName || '-';
+        let mobile = u.mobileNumber || '-';
+        let address = u.village || '-';
+
         html += `<tr>
-          <td><b>${u.fullName || 'अज्ञात'}</b><br><span style="font-size:10px; color:var(--muted);">पिता: ${u.fatherName || '-'}</span></td>
-          <td>📞 ${u.mobile || '-'}<br><span style="font-size:10px; color:var(--muted);">पता: ${u.address || '-'}</span></td>
-          <td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${docId}', '${u.fullName}')">✓ Approve</button></td>
+          <td><b>${name}</b><br><span style="font-size:10px; color:var(--muted);">पिता: ${father}</span></td>
+          <td>📞 ${mobile}<br><span style="font-size:10px; color:var(--muted);">पता: ${address}</span></td>
+          <td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${docId}', '${name}')">✓ Approve</button></td>
         </tr>`;
       });
       tbody.innerHTML = html;
     } catch(err) {
-      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--red);">डेटा लोड करने में त्रुटि!</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--red);">डेटा लोड करने में त्रुटि! (${err.message})</td></tr>`;
     }
   }
 
-  // यूजर को अप्रूव करने का फंक्शन
+  // यूजर को अप्रूव करने का फंक्शन[span_5](start_span)[span_5](end_span)
   async function approveUser(docId, name) {
     if(!confirm("क्या आप वाकई '" + name + "' के पंजीकरण को स्वीकृत (Approve) करना चाहते हैं?")) return;
     try {
@@ -419,7 +422,7 @@
     }
   }
 
-  // पदाधिकारी सेव करने का फंक्शन (लोडिंग के साथ)
+  // पदाधिकारी सेव करने का फंक्शन (लोडिंग के साथ)[span_6](start_span)[span_6](end_span)
   async function saveOfficial() {
     let name = document.getElementById("offName").value.trim();
     let gender = document.getElementById("offGender").value;
@@ -459,7 +462,7 @@
     }
   }
 
-  // समाज सहयोग कोष / दान (UPI Fund) डेटाबेस में सेव करने का फंक्शन
+  // समाज सहयोग कोष / दान (UPI Fund) डेटाबेस में सेव करने का फंक्शन[span_7](start_span)[span_7](end_span)
   async function saveDonationToFund() {
     let name = document.getElementById("donName").value.trim();
     let amount = document.getElementById("donAmount").value.trim();

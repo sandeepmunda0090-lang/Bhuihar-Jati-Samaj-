@@ -99,7 +99,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     <!-- 2. समाज के मुख्य पदाधिकारी (3D कार्ड स्लाइडर - मैन्युअल और ऑटो) -->
     <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider" id="officialsSlider">
-      <!-- डेटाबेस से डायनेमिक लोड होगा या यहाँ डिफ़ॉल्ट कार्ड दिखेगा -->
       <div class="official-card">
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb" alt="अध्यक्ष">
         <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">श्री रामलाल मुंडा</b>
@@ -153,6 +152,30 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   </nav>
 </div>
 
+<!-- हूबहू स्क्रीनशॉट वाला नया प्रीमियम पॉप-अप HTML और CSS -->
+<div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+    <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        
+        <!-- क्लोज़ (✕) बटन -->
+        <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+
+        <!-- ऊपर ग्लोइंग आइकॉन (जैसे स्क्रीनशॉट में है) -->
+        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
+            <span style="font-size:28px;">🚪</span>
+        </div>
+
+        <!-- मैसेज टाइटल / टेक्स्ट -->
+        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">महत्वपूर्ण सूचना</h3>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">क्या आप आगे बढ़ना चाहते हैं?</p>
+
+        <!-- दो स्टाइलिश बटन ('नहीं' और 'हाँ') -->
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">नहीं</button>
+            <button onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3);">हाँ</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -160,54 +183,44 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
-  // ऑटोमैटिक अल्ट्रा-मॉडर्न पॉप-अप HTML इंजेक्ट करने के लिए
-  document.addEventListener("DOMContentLoaded", function() {
-      if (!document.getElementById('proModal')) {
-          const modalDiv = document.createElement('div');
-          modalDiv.innerHTML = `
-          <div id="proModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md hidden transition-opacity duration-300" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.7); backdrop-filter:blur(8px); z-index:9999; display:none; align-items:center; justify-content:center;">
-              <div class="relative bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-7 w-11/12 max-w-sm shadow-[0_0_50px_rgba(59,130,246,0.15)] transform transition-all scale-90 opacity-0 duration-300" id="proModalContainer" style="background:linear-gradient(to bottom, #0f172a, #020617); border:1px solid #1e293b; border-radius:24px; padding:24px; width:90%; max-width:340px; text-align:center; box-shadow:0 0 50px rgba(59,130,246,0.2); transform:scale(0.9); opacity:0; transition:all 0.3s ease;">
-                  <div class="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 text-white flex items-center justify-center mx-auto mb-5 shadow-lg shadow-blue-500/30 text-2xl" style="width:60px; height:60px; border-radius:16px; background:linear-gradient(135deg, #2563eb, #22d3ee); color:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px; box-shadow:0 10px 20px rgba(37,99,235,0.3);">✨</div>
-                  <h3 id="proModalTitle" class="text-xl font-extrabold text-center text-white tracking-wide mb-2" style="font-size:18px; font-weight:800; color:#fff; margin-bottom:8px;">महत्वपूर्ण सूचना</h3>
-                  <p id="proModalMessage" class="text-slate-400 text-center text-sm mb-7 leading-relaxed font-normal" style="font-size:13px; color:#94a3b8; margin-bottom:24px; line-height:1.5;">मैसेज...</p>
-                  <button onclick="closeProModal()" class="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-lg shadow-blue-600/25 transition-all duration-200 active:scale-[0.98]" style="width:100%; padding:12px; background:#2563eb; color:#fff; font-weight:700; border:none; border-radius:14px; cursor:pointer; box-shadow:0 4px 12px rgba(37,99,235,0.4);">समझ गया (OK)</button>
-              </div>
-          </div>`;
-          document.body.appendChild(modalDiv);
-      }
-  });
+  // स्क्रीनशॉट जैसा प्रीमियम पॉप-अप कंट्रोल करने के लिए फंक्शन्स
+  let modalCallback = null;
 
-  function showProAlert(title, message) {
-      const modal = document.getElementById('proModal');
-      const container = document.getElementById('proModalContainer');
-      if(modal && container) {
-          document.getElementById('proModalTitle').innerText = title;
-          document.getElementById('proModalMessage').innerText = message;
-          modal.style.display = 'flex';
-          setTimeout(() => {
-              container.style.transform = 'scale(1)';
-              container.style.opacity = '1';
-          }, 20);
-      } else {
-          alert(message);
-      }
+  function showCustomAlert(title, message, callback) {
+      document.getElementById('customModalTitle').innerText = title;
+      document.getElementById('customModalMessage').innerText = message;
+      modalCallback = callback;
+
+      let overlay = document.getElementById('customModalOverlay');
+      let box = document.getElementById('customModalBox');
+      
+      overlay.style.display = 'flex';
+      setTimeout(() => {
+          overlay.style.opacity = '1';
+          box.style.transform = 'scale(1)';
+      }, 10);
   }
 
-  function closeProModal() {
-      const modal = document.getElementById('proModal');
-      const container = document.getElementById('proModalContainer');
-      if(modal && container) {
-          container.style.transform = 'scale(0.9)';
-          container.style.opacity = '0';
-          setTimeout(() => {
-              modal.style.display = 'none';
-          }, 300);
-      }
+  function closeCustomModal(isYes) {
+      let overlay = document.getElementById('customModalOverlay');
+      let box = document.getElementById('customModalBox');
+      
+      overlay.style.opacity = '0';
+      box.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+          overlay.style.display = 'none';
+          if (modalCallback) {
+              modalCallback(isYes);
+              modalCallback = null;
+          }
+      }, 300);
   }
 
-  // पुराने डिफ़ॉल्ट alert() को इस नए प्रीमियम डिज़ाइन से ओवरराइड करना
+  // पुराने डिफ़ॉल्ट alert() को इस नए स्क्रीनशॉट वाले डिज़ाइन से ओवरराइड करना
   window.alert = function(message) {
-      showProAlert("महत्वपूर्ण सूचना", message);
+      showCustomAlert("सूचना", message, function(yes) {
+          // यूजर के 'हाँ' या 'नहीं' दबाने पर यहाँ एक्शन लिया जा सकता है
+      });
   };
 
   // चेक करें कि यूजर लॉगिन है या नहीं और होमपेज को तदनुरूप अपडेट करें
@@ -242,7 +255,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
     if (!loggedMobile) {
       alert("⚠️ सुरक्षा चेतावनी: पदाधिकारियों से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
-      window.location.href = "login.html";
       return;
     }
 
@@ -281,12 +293,11 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadHomeStats();
 
-  // डेटाबेस से पदाधिकारियों को लोड करने का कोड
   async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {
       let snapshot = await db.collection("officials").get();
-      if(snapshot.empty) return; // अगर डेटाबेस खाली है तो डिफ़ॉल्ट कार्ड रहने दें
+      if(snapshot.empty) return;
 
       let html = "";
       snapshot.forEach(doc => {

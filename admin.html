@@ -147,6 +147,46 @@
       background: #f1f5f9;
       color: var(--navy);
     }
+
+    /* कस्टम सुंदर पॉप-अप मॉडल स्टाइल */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      display: none;
+    }
+    .modal-box {
+      background: white;
+      width: 90%;
+      max-width: 350px;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-box h4 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 16px;
+    }
+    .modal-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -176,10 +216,10 @@
     <header>
       <a href="index.html" class="custom-back-btn" onclick="adminLogoutAndRedirect()">← मुख्य पृष्ठ (वापस जाएं)</a>
       <h1>🛡️ भुईहर जाति समाज</h1>
-      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (लाइव अप्रूवल और प्रबंधन फीचर्स)</p>
+      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल (सभी 14 प्रबंधन फीचर्स)</p>
     </header>
 
-    <!-- न्यू रजिस्ट्रेशन पेंडिंग अप्रूवल लिस्ट (Live Pending Approvals) -->
+    <!-- न्यू रजिस्ट्रेशन पेंडिंग अप्रूवल लिस्ट -->
     <div class="card" style="border-left-color: var(--red);">
       <h3>⏳ नए सदस्य पंजीकरण - पेंडिंग अप्रूवल (<span id="pendingCount">0</span>)</h3>
       <p style="font-size:11px; color:var(--muted); margin-bottom:8px;">नए रजिस्टर्ड सदस्यों की सूची जिन्हें अप्रूव करना बाकी है:</p>
@@ -334,6 +374,18 @@
 
 </div>
 
+<!-- कस्टम सुंदर अप्रूवल पॉप-अप मॉडल -->
+<div id="customApproveModal" class="modal-overlay">
+  <div class="modal-box">
+    <h4>⚠️ पक्की पुष्टि (Confirmation)</h4>
+    <p id="modalMsgText">क्या आप वाकई इस सदस्य के पंजीकरण को स्वीकृत करना चाहते हैं?</p>
+    <div class="modal-btns">
+      <button class="btn" style="background: var(--muted);" onclick="closeCustomModal()">रद्द करें</button>
+      <button class="btn" style="background: var(--green);" id="confirmApproveBtn">हाँ, अप्रूव करें</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -343,7 +395,6 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // एडमिन लॉगिन (लोडिंग और त्वरित रिस्पॉन्स के साथ)
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
@@ -362,7 +413,7 @@
         alert("✨ सफलतापूर्वक एडमिन लॉगिन हो गया!");
         document.getElementById("adminLoginCard").style.display = "none";
         document.getElementById("adminDashboardContent").style.display = "block";
-        loadPendingApprovals(); // लॉगिन होते ही पेंडिंग लिस्ट लोड करें
+        loadPendingApprovals();
       })
       .catch((error) => {
         alert("❌ लॉगिन असफल: गलत ईमेल या पासवर्ड (" + error.message + ")");
@@ -375,7 +426,6 @@
     auth.signOut().then(() => {}).catch((error) => {});
   }
 
-  // पेंडिंग अप्रूवल लिस्ट फायरबेस से लोड करने का फंक्शन (सटीक फील्ड मिलान के साथ)
   async function loadPendingApprovals() {
     let tbody = document.getElementById("pendingUsersTableBody");
     let countBadge = document.getElementById("pendingCount");
@@ -409,7 +459,7 @@
         html += `<tr>
           <td><b>${name}</b><br><span style="font-size:10px; color:var(--muted);">पिता: ${father}</span></td>
           <td>📞 ${mobile}<br><span style="font-size:10px; color:var(--muted);">पता: ${address}</span></td>
-          <td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${u.id}', '${name}')">✓ Approve</button></td>
+          <td><button class="badge-btn" style="background:var(--green); color:white;" onclick="openApproveModal('${u.id}', '${name}')">✓ Approve</button></td>
         </tr>`;
       });
       tbody.innerHTML = html;
@@ -418,19 +468,42 @@
     }
   }
 
-  // यूजर को अप्रूव करने का सटीक और सुरक्षित फंक्शन
-  async function approveUser(docId, name) {
-    if(!confirm("क्या आप वाकई '" + name + "' के पंजीकरण को स्वीकृत (Approve) करना चाहते हैं?")) return;
-    try {
-      await db.collection("users").doc(docId).update({ status: "approved" });
-      alert("✨ " + name + " का खाता सफलतापूर्वक स्वीकृत कर दिया गया है!");
-      loadPendingApprovals(); // लिस्ट तुरंत रिफ्रेश करें
-    } catch(err) {
-      alert("❌ अप्रूव करने में त्रुटि: " + err.message);
-    }
+  let selectedDocId = null;
+  let selectedUserName = "";
+
+  function openApproveModal(docId, name) {
+    selectedDocId = docId;
+    selectedUserName = name;
+    document.getElementById("modalMsgText").innerText = "क्या आप वाकई '" + name + "' के पंजीकरण को स्वीकृत (Approve) करना चाहते हैं?";
+    document.getElementById("customApproveModal").style.display = "flex";
   }
 
-  // पदाधिकारी सेव करने का फंक्शन (लोडिंग के साथ)
+  function closeCustomModal() {
+    document.getElementById("customApproveModal").style.display = "none";
+    selectedDocId = null;
+    selectedUserName = "";
+  }
+
+  document.getElementById("confirmApproveBtn").onclick = async function() {
+    if(!selectedDocId) return;
+    
+    let btn = document.getElementById("confirmApproveBtn");
+    btn.disabled = true;
+    btn.innerText = "⏳ हो रहा है...";
+
+    try {
+      await db.collection("users").doc(selectedDocId).update({ status: "approved" });
+      closeCustomModal();
+      alert("✨ " + selectedUserName + " का खाता सफलतापूर्वक स्वीकृत कर दिया गया है!");
+      loadPendingApprovals();
+    } catch(err) {
+      alert("❌ अप्रूव करने में त्रुटि: " + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "हाँ, अप्रूव करें";
+    }
+  };
+
   async function saveOfficial() {
     let name = document.getElementById("offName").value.trim();
     let gender = document.getElementById("offGender").value;
@@ -470,7 +543,6 @@
     }
   }
 
-  // समाज सहयोग कोष / दान (UPI Fund) डेटाबेस में सेव करने का फंक्शन
   async function saveDonationToFund() {
     let name = document.getElementById("donName").value.trim();
     let amount = document.getElementById("donAmount").value.trim();

@@ -130,160 +130,155 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
+  const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+  firebase.initializeApp(firebaseConfig);
+  const db=firebase.firestore();
 
-let nextActionType = "login"; // "login" या "reset"
+  let nextActionType = "login";
 
-function showSuccessModal(title, desc, actionType) {
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalDesc").innerText = desc;
-  nextActionType = actionType;
-  document.getElementById("successModal").style.display = "flex";
-}
-
-function handleModalAction() {
-  document.getElementById("successModal").style.display = "none";
-  if(nextActionType === "login") {
-    window.location.href = "index.html";
-  } else if(nextActionType === "reset") {
-    showLoginSection();
-  }
-}
-
-function showResetSection() {
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("resetSection").style.display = "block";
-  document.getElementById("pageTitleText").innerText = "MPIN रीसेट करें";
-}
-
-function showLoginSection() {
-  document.getElementById("resetSection").style.display = "none";
-  document.getElementById("loginSection").style.display = "block";
-  document.getElementById("pageTitleText").innerText = "सदस्य लॉगिन";
-}
-
-async function handleUserLogin() {
-  let mobile = document.getElementById("loginMobile").value.trim();
-  let mpin = document.getElementById("loginMpin").value.trim();
-  let btn = document.getElementById("loginBtn");
-
-  if (!mobile || !mpin) {
-    alert("⚠️ कृपया मोबाइल नंबर और MPIN दोनों दर्ज करें!");
-    return;
+  function showSuccessModal(title, desc, actionType) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalDesc").innerText = desc;
+    nextActionType = actionType;
+    document.getElementById("successModal").style.display = "flex";
   }
 
-  btn.disabled = true;
-  btn.innerText = "⏳ जाँच हो रही है...";
+  function handleModalAction() {
+    document.getElementById("successModal").style.display = "none";
+    if(nextActionType === "login") {
+      window.location.href = "index.html";
+    } else if(nextActionType === "reset") {
+      showLoginSection();
+    }
+  }
 
-  try {
-    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें
-    let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
+  function showResetSection() {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("resetSection").style.display = "block";
+    document.getElementById("pageTitleText").innerText = "MPIN रीसेट करें";
+  }
 
-    if (querySnapshot.empty) {
-      alert("⚠️ यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।");
+  function showLoginSection() {
+    document.getElementById("resetSection").style.display = "none";
+    document.getElementById("loginSection").style.display = "block";
+    document.getElementById("pageTitleText").innerText = "सदस्य लॉगिन";
+  }
+
+  async function handleUserLogin() {
+    let mobile = document.getElementById("loginMobile").value.trim();
+    let mpin = document.getElementById("loginMpin").value.trim();
+    let btn = document.getElementById("loginBtn");
+
+    if (!mobile || !mpin) {
+      alert("⚠️ कृपया मोबाइल नंबर और MPIN दोनों दर्ज करें!");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "⏳ जाँच हो रही है...";
+
+    try {
+      let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
+
+      if (querySnapshot.empty) {
+        alert("⚠️ यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।");
+        btn.disabled = false;
+        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+        return;
+      }
+
+      let userData = querySnapshot.docs[0].data();
+
+      if (userData.mpin !== mpin) {
+        alert("⚠️ गलत MPIN! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
+        btn.disabled = false;
+        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+        return;
+      }
+
+      if (userData.status === "pending") {
+        alert("⏳ आपका खाता अभी एडमिन द्वारा स्वीकृत (Pending) होना बाकी है। कृपया प्रतीक्षा करें!");
+        btn.disabled = false;
+        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+        return;
+      }
+
+      localStorage.setItem("userLoggedInMobile", mobile);
+      localStorage.setItem("userName", userData.FullName || "सदस्य");
+      
       btn.disabled = false;
       btn.innerText = "🚀 सुरक्षित लॉगिन करें";
-      return;
-    }
 
-    let userData = querySnapshot.docs[0].data();
+      showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
 
-    if (userData.mpin !== mpin) {
-      alert("⚠️ गलत MPIN! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
+    } catch (error) {
+      alert("❌ सर्वर त्रुटि: " + error.message);
       btn.disabled = false;
       btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+    }
+  }
+
+  async function handleVerifyAndResetMPIN() {
+    let mobile = document.getElementById("resetMobile").value.trim();
+    let dob = document.getElementById("resetDob").value.trim();
+    let newMpin = document.getElementById("newMpin").value.trim();
+    let btn = document.getElementById("resetBtn");
+
+    if (!mobile || !dob) {
+      alert("⚠️ कृपया अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि (DOB) दोनों भरें!");
       return;
     }
 
-    if (userData.status === "pending") {
-      alert("⏳ आपका खाता अभी एडमिन द्वारा स्वीकृत (Pending) होना बाकी है। कृपया प्रतीक्षा करें!");
-      btn.disabled = false;
-      btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+    if (mobile.length !== 10) {
+      alert("⚠️ कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
       return;
     }
 
-    localStorage.setItem("userLoggedInMobile", mobile);
-    localStorage.setItem("userName", userData.FullName || "सदस्य");
-    
-    btn.disabled = false;
-    btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+    btn.disabled = true;
+    btn.innerText = "⏳ जाँच की जा रही है...";
 
-    // सुंदर सफलता पॉप-अप दिखाएं
-    showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
+    try {
+      let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
 
-  } catch (error) {
-    alert("❌ सर्वर त्रुटि: " + error.message);
-    btn.disabled = false;
-    btn.innerText = "🚀 सुरक्षित लॉगिन करें";
-  }
-}
+      if (querySnapshot.empty) {
+        alert("⚠️ यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।");
+        btn.disabled = false;
+        btn.innerText = "✨ नया MPIN सेट करें";
+        return;
+      }
 
-async function handleVerifyAndResetMPIN() {
-  let mobile = document.getElementById("resetMobile").value.trim();
-  let dob = document.getElementById("resetDob").value.trim();
-  let newMpin = document.getElementById("newMpin").value.trim();
-  let btn = document.getElementById("resetBtn");
+      let userDoc = querySnapshot.docs[0];
+      let userData = userDoc.data();
 
-  if (!mobile || !dob) {
-    alert("⚠️ कृपया अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि (DOB) दोनों भरें!");
-    return;
-  }
+      if (userData.dateOfBirth !== dob) {
+        alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!");
+        btn.disabled = false;
+        btn.innerText = "✨ नया MPIN सेट करें";
+        return;
+      }
 
-  if (mobile.length !== 10) {
-    alert("⚠️ कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
-    return;
-  }
+      if (!newMpin || newMpin.length !== 6) {
+        alert("⚠️ कृपया नया 6 अंकों का गुप्त MPIN दर्ज करें।");
+        btn.disabled = false;
+        btn.innerText = "✨ नया MPIN सेट करें";
+        return;
+      }
 
-  btn.disabled = true;
-  btn.innerText = "⏳ जाँच की जा रही है...";
+      await db.collection("users").doc(userDoc.id).update({
+        mpin: newMpin
+      });
 
-  try {
-    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें
-    let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
-
-    if (querySnapshot.empty) {
-      alert("⚠️ यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।");
-      btn.disabled = false;
-      btn.innerText = "✨ नया MPIN सेट करें";
-      return;
-    }
-
-    let userDoc = querySnapshot.docs[0];
-    let userData = userDoc.data();
-
-    // डेटाबेस के सही फील्ड नाम 'dateOfBirth' से जांच करें
-    if (userData.dateOfBirth !== dob) {
-      alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!");
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
-      return;
-    }
 
-    if (!newMpin || newMpin.length !== 6) {
-      alert("⚠️ कृपया नया 6 अंकों का गुप्त MPIN दर्ज करें।");
+      showSuccessModal("MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
+
+    } catch (error) {
+      alert("❌ त्रुटि: " + error.message);
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
-      return;
     }
-
-    await db.collection("users").doc(userDoc.id).update({
-      mpin: newMpin
-    });
-
-    btn.disabled = false;
-    btn.innerText = "✨ नया MPIN सेट करें";
-
-    // सुंदर सफलता पॉप-अप दिखाएं
-    showSuccessModal("MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
-
-  } catch (error) {
-    alert("❌ त्रुटि: " + error.message);
-    btn.disabled = false;
-    btn.innerText = "✨ नया MPIN सेट करें";
   }
-}
 </script>
 </body>
 </html>

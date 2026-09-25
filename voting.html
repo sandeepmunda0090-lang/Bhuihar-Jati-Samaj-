@@ -23,12 +23,10 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 
-/* पोल कार्ड डिजाइन */
 .poll-question{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 10px;line-height:1.4}
 .poll-option{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--text);transition:all 0.2s;display:flex;justify-content:space-between;align-items:center}
 .poll-option:hover{background:#eff6ff;border-color:#bfdbfe;color:var(--p)}
 
-/* रिजल्ट प्रोग्रेस बार */
 .result-bar-wrap{margin-bottom:10px}
 .result-label{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:3px;color:var(--navy)}
 .progress-bg{background:#e2e8f0;border-radius:8px;height:10px;width:100%;overflow:hidden}
@@ -62,14 +60,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <p style="margin:0;font-size:11.5px;color:#1e3a8a;">प्रत्येक रजिस्टर्ड सदस्य हर पोल पर एक बार अपना मत दे सकता है।</p>
     </div>
 
-    <!-- पोल लोड होने का मुख्य कंटेनर -->
     <div id="pollsContainer">
       <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">पोल लोड हो रहे हैं...</div>
     </div>
 
   </div>
 
-  <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
@@ -79,6 +75,22 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
+<!-- प्रीमियम पॉप-अप मॉडल -->
+<div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+    <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
+            <span style="font-size:28px;">⚠️</span>
+        </div>
+        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
+            <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -86,24 +98,66 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// पोल लोड करने का मुख्य फंक्शन
+let modalCallback = null;
+
+function showCustomAlert(title, message, callback, showLoginBtn = false) {
+    document.getElementById('customModalTitle').innerText = title;
+    document.getElementById('customModalMessage').innerText = message;
+    modalCallback = callback;
+
+    let actionBtn = document.getElementById('customModalActionBtn');
+    if(showLoginBtn) {
+        actionBtn.style.display = 'block';
+    } else {
+        actionBtn.style.display = 'none';
+    }
+
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+        box.style.transform = 'scale(1)';
+    }, 10);
+}
+
+function closeCustomModal(isYes) {
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    overlay.style.opacity = '0';
+    box.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        if (modalCallback) {
+            modalCallback(isYes);
+            modalCallback = null;
+        }
+    }, 300);
+}
+
+window.alert = function(message) {
+    showCustomAlert("सूचना", message, function(yes) {});
+};
+
 async function loadPolls() {
   let container = document.getElementById("pollsContainer");
   try {
-    let snapshot = await db.collection("polls").where("status", "==", "active").get();
+    let snapshot = await db.collection("polls").get();
     let polls = [];
     snapshot.forEach(doc => {
-      polls.push({ id: doc.id, ...doc.data() });
+      let p = doc.data();
+      if(!p.status || p.status === "active") {
+        polls.push({ id: doc.id, ...p });
+      }
     });
 
-    // यदि डेटाबेस में पोल न हो तो डेमो/डिफ़ॉल्ट एडवांस्ड पोल दिखाएं
     if(polls.length === 0) {
       polls = [
         {
           id: "demo_poll_1",
           question: "प्रश्न: क्या इस वर्ष समाज का वार्षिक मिलन समारोह महाराजगंज में आयोजित किया जाना चाहिए?",
           options: ["हाँ, बिल्कुल", "नहीं", "विचारणीय / अन्य स्थान"],
-          votes: [45, 5, 10], // डेमो वोट्स
+          votes: [45, 5, 10],
           totalVotes: 60
         }
       ];
@@ -114,39 +168,41 @@ async function loadPolls() {
 
     polls.forEach(p => {
       let hasVoted = userVotedData[p.id] !== undefined;
-      let total = p.totalVotes || p.votes.reduce((a, b) => a + b, 0) || 1;
+      let total = p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 1) || 1;
 
       if(!hasVoted) {
-        // वोटिंग विकल्प वाला व्यू
         let optionsHtml = "";
-        p.options.forEach((opt, idx) => {
-          optionsHtml += `<div class="poll-option" onclick="castVote('${p.id}', ${idx})"><span>${opt}</span> <span>👉</span></div>`;
-        });
+        if(p.options) {
+          p.options.forEach((opt, idx) => {
+            optionsHtml += `<div class="poll-option" onclick="castVote('${p.id}', ${idx})"><span>${opt}</span> <span>👉</span></div>`;
+          });
+        }
 
         html += `
           <div class="card">
-            <div class="poll-question">${p.question}</div>
+            <div class="poll-question">${p.question || 'जनमत पोल'}</div>
             <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">कुल मतदान: ${total} सदस्य</div>
             ${optionsHtml}
           </div>
         `;
       } else {
-        // वोट देने के बाद लाइव रिजल्ट प्रतिशत व्यू
         let resultsHtml = "";
-        p.options.forEach((opt, idx) => {
-          let count = p.votes[idx] || 0;
-          let percent = Math.round((count / total) * 100);
-          resultsHtml += `
-            <div class="result-bar-wrap">
-              <div class="result-label"><span>${opt}</span> <span>${count} वोट (${percent}%)</span></div>
-              <div class="progress-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-            </div>
-          `;
-        });
+        if(p.options && p.votes) {
+          p.options.forEach((opt, idx) => {
+            let count = p.votes[idx] || 0;
+            let percent = Math.round((count / total) * 100) || 0;
+            resultsHtml += `
+              <div class="result-bar-wrap">
+                <div class="result-label"><span>${opt}</span> <span>${count} वोट (${percent}%)</span></div>
+                <div class="progress-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+              </div>
+            `;
+          });
+        }
 
         html += `
           <div class="card">
-            <div class="poll-question">${p.question}</div>
+            <div class="poll-question">${p.question || 'जनमत पोल'}</div>
             <div style="background:#fef3c7;color:#d97706;font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;display:inline-block;margin-bottom:10px;">✅ आपने अपना मत दे दिया है (लाइव परिणाम)</div>
             ${resultsHtml}
             <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right;">कुल वैध मत: ${total}</div>
@@ -162,12 +218,15 @@ async function loadPolls() {
   }
 }
 
-// वोट दर्ज करने का फंक्शन
 async function castVote(pollId, optionIndex) {
-  let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-  if(!isLoggedIn) {
-    alert("मतदान करने के लिए कृपया पहले लॉगिन करें!");
-    window.location.href = "login.html";
+  // सही लॉगिन चाबी (userLoggedInMobile) की जाँच
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
+  if(!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "मतदान करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+      if(yes) {
+        window.location.href = "login.html";
+      }
+    }, true);
     return;
   }
 
@@ -183,7 +242,6 @@ async function castVote(pollId, optionIndex) {
 
       await pollRef.update({ votes: votes, totalVotes: totalVotes });
 
-      // लोकल स्टोरेज में सेव करें ताकि यूजर दोबारा वोट न कर सके
       let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
       userVotedData[pollId] = optionIndex;
       localStorage.setItem("voted_polls", JSON.stringify(userVotedData));
@@ -192,16 +250,14 @@ async function castVote(pollId, optionIndex) {
       loadPolls();
     }
   } catch(e) {
-    // यदि डेमो पोल पर क्लिक हुआ हो तो लोकल स्टोरेज से मैनेज करें
     let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
     userVotedData[pollId] = optionIndex;
     localStorage.setItem("voted_polls", JSON.stringify(userVotedData));
-    alert("आपका मत सफलतापर्वक दर्ज हो गया!");
+    alert("आपका मत सफलतापूर्वक दर्ज हो गया!");
     loadPolls();
   }
 }
 
-// पेज लोड होते ही पोल लोड करें
 loadPolls();
 </script>
 </body>

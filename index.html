@@ -61,6 +61,20 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .nav a.active{color:var(--p);font-weight:800}
 
 .admin-note{font-size:11px;color:var(--muted);line-height:1.4}
+
+/* लाइव चैट फ्लोटिंग बटन और विंडो स्टाइल */
+.chat-float-btn { position: fixed; bottom: 75px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; transition: transform 0.2s; }
+.chat-float-btn:active { transform: scale(0.95); }
+.chat-badge { background: var(--red); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
+.chat-modal { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 480px; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
+.chat-header { background: var(--p); color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+.chat-body { flex: 1; padding: 12px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 8px; }
+.chat-footer { padding: 10px; background: #fff; border-top: 1px solid var(--line); display: flex; gap: 8px; }
+.chat-footer input { flex: 1; padding: 10px; border: 1px solid var(--line); border-radius: 10px; outline: none; font: inherit; font-size: 13px; }
+.chat-footer button { background: var(--p); color: #fff; border: none; padding: 0 16px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+.msg-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 12.5px; line-height: 1.4; word-break: break-word; }
+.msg-incoming { background: #fff; color: var(--text); align-self: flex-start; border: 1px solid var(--line); }
+.msg-outgoing { background: var(--p); color: #fff; align-self: flex-end; }
 </style>
 </head>
 <body>
@@ -142,6 +156,26 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
   </div>
 
+  <!-- लाइव चैट फ्लोटिंग बटन (होम पेज पर हमेशा नजर आएगा) -->
+  <div class="chat-float-btn" onclick="toggleChatWindow()">
+    <span>💬 लाइव चैट</span>
+  </div>
+
+  <!-- चैट पॉप-अप विंडो -->
+  <div id="chatModalWindow" class="chat-modal">
+    <div class="chat-header">
+      <span>कम्युनिटी लाइव चैट</span>
+      <span style="cursor:pointer; font-size:16px;" onclick="toggleChatWindow()">✕</span>
+    </div>
+    <div class="chat-body" id="chatMessagesContainer">
+      <!-- मैसेज यहाँ लोड होंगे -->
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="chatInputMessage" placeholder="अपना संदेश यहाँ लिखें..." onkeypress="handleChatKeyPress(event)">
+      <button onclick="sendChatMessage()">भेजें</button>
+    </div>
+  </div>
+
   <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html" class="active"><b>⌂</b>Home</a>
@@ -159,7 +193,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         <!-- क्लोज़ (✕) बटन -->
         <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
 
-        <!-- ऊपर ग्लोइंग आइकॉन (जैसे स्क्रीनशॉट में है) -->
+        <!-- ऊपर ग्लोइंग आइकॉन -->
         <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
             <span style="font-size:28px;">🚪</span>
         </div>
@@ -216,14 +250,99 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       }, 300);
   }
 
-  // पुराने डिफ़ॉल्ट alert() को इस नए स्क्रीनशॉट वाले डिज़ाइन से ओवरराइड करना
+  // पुराने डिफ़ॉल्ट alert() को इस नए डिज़ाइन से ओवरराइड करना
   window.alert = function(message) {
-      showCustomAlert("सूचना", message, function(yes) {
-          // यूजर के 'हाँ' या 'नहीं' दबाने पर यहाँ एक्शन लिया जा सकता है
-      });
+      showCustomAlert("सूचना", message, function(yes) {});
   };
 
-  // चेक करें कि यूजर लॉगिन है या नहीं और होमपेज को तदनुरूप अपडेट करें
+  // --- लाइव चैट और 30-दिन ऑटो-डिलीट लॉजिक ---
+  function toggleChatWindow() {
+    let modal = document.getElementById("chatModalWindow");
+    if (modal.style.display === "flex") {
+      modal.style.display = "none";
+    } else {
+      modal.style.display = "flex";
+      loadChatMessages();
+    }
+  }
+
+  // चैट लोड करने और 30 दिन पुराने मैसेज स्वतः डिलीट करने का कोड
+  async function loadChatMessages() {
+    let container = document.getElementById("chatMessagesContainer");
+    container.innerHTML = "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>मैसेज लोड हो रहे हैं...</div>";
+
+    try {
+      let thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+      let snapshot = await db.collection("community_chats").orderBy("timestamp", "asc").get();
+
+      let html = "";
+      let batch = db.batch();
+      let deleteCount = 0;
+
+      snapshot.forEach(doc => {
+        let data = doc.data();
+        // 30 दिन पुराने मैसेज को फायरबेस से हटाने के लिए जोड़ना
+        if (data.timestamp && data.timestamp < thirtyDaysAgo) {
+          batch.delete(doc.ref);
+          deleteCount++;
+        } else {
+          let senderName = data.name || "सदस्य";
+          let messageText = data.text || "";
+          let isMe = data.mobile === localStorage.getItem("userLoggedInMobile");
+          let bubbleClass = isMe ? "msg-outgoing" : "msg-incoming";
+
+          html += `<div class="msg-bubble ${bubbleClass}">
+            <div style="font-size:9.5px; opacity:0.8; margin-bottom:2px; font-weight:bold;">${senderName}</div>
+            <div>${messageText}</div>
+          </div>`;
+        }
+      });
+
+      if (deleteCount > 0) {
+        await batch.commit();
+      }
+
+      container.innerHTML = html === "" ? "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>अभी कोई चैट नहीं है। बातचीत शुरू करें!</div>" : html;
+      container.scrollTop = container.scrollHeight;
+    } catch (e) {
+      container.innerHTML = "<div style='text-align:center; color:var(--red); font-size:12px; margin-top:20px;'>चैट लोड करने में त्रुटि हुई।</div>";
+    }
+  }
+
+  async function sendChatMessage() {
+    let input = document.getElementById("chatInputMessage");
+    let text = input.value.trim();
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    let loggedName = localStorage.getItem("userName") || "सदस्य";
+
+    if (!loggedMobile) {
+      alert("⚠️ चैट भेजने के लिए कृपया पहले लॉगिन करें!");
+      return;
+    }
+
+    if (text === "") return;
+
+    try {
+      await db.collection("community_chats").add({
+        mobile: loggedMobile,
+        name: loggedName,
+        text: text,
+        timestamp: Date.now()
+      });
+      input.value = "";
+      loadChatMessages();
+    } catch (e) {
+      alert("संदेश भेजने में विफल। कृपया पुनः प्रयास करें।");
+    }
+  }
+
+  function handleChatKeyPress(e) {
+    if (e.key === 'Enter') {
+      sendChatMessage();
+    }
+  }
+
+  // चेक करें कि यूजर लॉगिन है या नहीं
   function checkLoginSession() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     let loggedName = localStorage.getItem("userName");

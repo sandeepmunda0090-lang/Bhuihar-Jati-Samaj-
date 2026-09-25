@@ -135,7 +135,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       </div>
     </div>
     
-    <!-- 3. समाज की सभी 11 सेवाएँ (WhatsApp जैसे अनरीड नोटिफिकेशन बैज के साथ) -->
+    <!-- 3. समाज की सभी 11 सेवाएँ -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी व पीडीएफ</span></a>
@@ -271,11 +271,10 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   // --- केवल रजिस्टर्ड / लॉगिन यूजर के लिए अनरीड नोटिफिकेशन काउंटर चेक करने का लॉजिक ---
   async function checkUserUnreadNotifications() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    // यदि यूजर लॉगिन नहीं है, तो कुछ नहीं दिखाएंगे
     if (!loggedMobile) return;
 
     try {
-      let snapshot = await db.collection("jobs").get(); // या अन्य संग्रह जैसे 'news'
+      let snapshot = await db.collection("jobs").get();
       let lastSeen = localStorage.getItem("last_seen_jobs") || 0;
       let newCount = 0;
 
@@ -356,8 +355,10 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     let loggedName = localStorage.getItem("userName") || "सदस्य";
 
+    // सख्त जाँच: केवल लॉगिन यूजर ही चैट भेज सकेंगे
     if (!loggedMobile) {
-      alert("⚠️ चैट भेजने के लिए कृपया पहले लॉगिन करें!");
+      alert("⚠️ सुरक्षा चेतावनी: चैट रूम में संदेश भेजने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!");
+      window.location.href = "login.html";
       return;
     }
 
@@ -383,7 +384,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }
   }
 
-  // चेक करें कि यूजर लॉगिन है या नहीं (सही चाबी userLoggedInMobile का उपयोग)
   function checkLoginSession() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     let loggedName = localStorage.getItem("userName");
@@ -407,7 +407,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       regBtn.innerText = "📋 मेरा परिवार / प्रोफाइल देखें";
       regBtn.href = "family.html";
 
-      // यदि यूजर लॉगिन है, तभी नोटिफिकेशन काउंटर चलाएं
       checkUserUnreadNotifications();
     }
   }

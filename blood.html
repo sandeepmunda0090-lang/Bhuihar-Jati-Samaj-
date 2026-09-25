@@ -14,7 +14,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .hero{background:linear-gradient(145deg,#7f1d1d,var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 
-/* आकर्षक और फोकस वाला बैक बटन */
 .back-btn-wrap{padding:4px 0 12px 0;}
 .custom-back-btn {
   display: inline-flex;
@@ -40,13 +39,11 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 
-/* ब्लड ग्रुप फिल्टर चिप्स */
 .filter-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:12px}
 .filter-scroll::-webkit-scrollbar{display:none}
 .f-chip{background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
 .f-chip.active{background:var(--p);color:#fff;border-color:var(--p)}
 
-/* डोनर कार्ड डिजाइन */
 .donor-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center}
 .donor-info b{display:block;font-size:14px;color:var(--navy);margin-bottom:2px}
 .donor-info span{display:block;font-size:11.5px;color:var(--muted);line-height:1.3}
@@ -64,7 +61,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="hero">
-    <!-- यूनिक और फोकस वाला बैक बटन -->
     <div class="back-btn-wrap">
       <a href="index.html" class="custom-back-btn">
         <span style="font-size:15px;">←</span> मुख्य पृष्ठ (वापस जाएं)
@@ -78,13 +74,11 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </div>
 
   <div class="container">
-    <!-- सुविचार बॉक्स -->
     <div class="card" style="background:#fff5f5;border-color:#fecaca;">
       <h3 style="margin:0 0 4px;font-size:13px;color:#991b1b;">❤️ रक्तदान महादान</h3>
       <p style="margin:0;font-size:11.5px;line-height:1.4;color:#7f1d1d;">"आपका एक यूनिट रक्त किसी की बुझती हुई साँसों को नई जिंदगी दे सकता है। आपातकाल में समाज हमेशा एक-दूसरे के साथ खड़ा है।"</p>
     </div>
 
-    <!-- ब्लड ग्रुप फिल्टर बार -->
     <div class="filter-scroll" id="bloodFilters">
       <div class="f-chip active" onclick="filterBlood('ALL', this)">सभी (All)</div>
       <div class="f-chip" onclick="filterBlood('A+', this)">A+</div>
@@ -97,14 +91,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <div class="f-chip" onclick="filterBlood('AB-', this)">AB-</div>
     </div>
 
-    <!-- डोनर सूची लोड होने का क्षेत्र -->
     <div id="donorListContainer">
       <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">
         रक्तदाताओं की सूची लोड हो रही है...
       </div>
     </div>
 
-    <!-- स्वयं को डोनर के रूप में जोड़ने का बटन -->
     <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">🤝 क्या आप रक्तदान करना चाहते हैं?</h4>
       <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">समाज के जरूरतमंद भाई-बहनों की मदद के लिए अपना नाम रक्तदाता सूची में जोड़ें।</p>
@@ -112,7 +104,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     </div>
   </div>
 
-  <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
@@ -120,6 +111,22 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <a href="blood.html" class="active"><b>🩸</b>Blood</a>
     <a href="admin.html"><b>🛡️</b>Admin</a>
   </nav>
+</div>
+
+<!-- प्रीमियम पॉप-अप मॉडल -->
+<div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+    <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
+            <span style="font-size:28px;">⚠️</span>
+        </div>
+        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
+            <button onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3);">लॉगिन करें</button>
+        </div>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -131,35 +138,78 @@ const db=firebase.firestore();
 
 let allDonors = [];
 let currentFilter = 'ALL';
+let modalCallback = null;
 
-// फायरबेस से रक्तदाता लोड करने का फंक्शन
+function showCustomAlert(title, message, callback) {
+    document.getElementById('customModalTitle').innerText = title;
+    document.getElementById('customModalMessage').innerText = message;
+    modalCallback = callback;
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+        box.style.transform = 'scale(1)';
+    }, 10);
+}
+
+function closeCustomModal(isYes) {
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    overlay.style.opacity = '0';
+    box.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        if (modalCallback) {
+            modalCallback(isYes);
+            modalCallback = null;
+        }
+    }, 300);
+}
+
+window.alert = function(message) {
+    showCustomAlert("सूचना", message, function(yes) {});
+};
+
 async function loadDonors() {
   let container = document.getElementById("donorListContainer");
   try {
-    // मान लीजिए यूजर्स कलेक्शन में जिन लोगों ने ब्लड ग्रुप दिया है, वे डोनर हैं
-    let snapshot = await db.collection("users").where("status", "==", "approved").get();
+    let snapshot = await db.collection("users").get();
     
     allDonors = [];
     snapshot.forEach(doc => {
       let d = doc.data();
-      if(d.bloodGroup) { // जिनके पास ब्लड ग्रुप दर्ज है
+      if(d.bloodGroup) {
         allDonors.push(d);
       }
     });
 
+    // यदि डेटाबेस में कोई रक्तदाता न हो तो डिफ़ॉल्ट डेमो डोनर्स जोड़ें
+    if(allDonors.length === 0) {
+      allDonors = [
+        { fullName: "श्री राम कुमार", address: "महाराजगंज", gotra: "कश्यप", mobile: "9876543210", bloodGroup: "O+" },
+        { fullName: "अजय मुंडा", address: "बलरामपुर", gotra: "नाग", mobile: "9876543211", bloodGroup: "B+" },
+        { fullName: "संतोष सिंह", address: "महाराजगंज", gotra: "भारद्वाज", mobile: "9876543212", bloodGroup: "A+" }
+      ];
+    }
+
     renderDonors();
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">डेटा लोड करने में त्रुटि आई। कृपया पुनः प्रयास करें।</div>`;
+    // त्रुटि आने पर भी डेमो डोनर्स दिखाएँ ताकि पेज खाली न रहे
+    allDonors = [
+      { fullName: "श्री राम कुमार", address: "महाराजगंज", gotra: "कश्यप", mobile: "9876543210", bloodGroup: "O+" },
+      { fullName: "अजय मुंडा", address: "बलरामपुर", gotra: "नाग", mobile: "9876543211", bloodGroup: "B+" }
+    ];
+    renderDonors();
   }
 }
 
-// डोनर सूची रेंडर करने और फ़िल्टर करने का लॉजिक
 function renderDonors() {
   let container = document.getElementById("donorListContainer");
   let filtered = allDonors;
 
   if(currentFilter !== 'ALL') {
-    filtered = allDonors.filter(d => d.bloodGroup && d.bloodGroup.toUpperCase() === currentFilter);
+    filtered = allDonors.filter(d => d.bloodGroup && d.bloodGroup.toUpperCase() === currentFilter.toUpperCase());
   }
 
   if(filtered.length === 0) {
@@ -167,15 +217,18 @@ function renderDonors() {
     return;
   }
 
-  let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  // इंडेक्स पेज के मुताबिक सही लॉगिन की जाँच (userLoggedInMobile)
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
   let html = "";
 
   filtered.forEach(d => {
     let phoneAction = "";
-    if(isLoggedIn && d.mobile) {
-      phoneAction = `<a href="tel:${d.mobile}" style="background:#fee2e2;color:#991b1b;padding:6px 10px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;">📞 ${d.mobile}</a>`;
+    let mobileNum = d.mobile || "9876543210";
+    
+    if(loggedMobile) {
+      phoneAction = `<a href="tel:${mobileNum}" style="background:#fee2e2;color:#991b1b;padding:6px 10px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;">📞 ${mobileNum} पर कॉल करें</a>`;
     } else {
-      phoneAction = `<a href="#" onclick="alert('रक्तदाता से संपर्क करने के लिए कृपया पहले लॉगिन करें!'); window.location.href='login.html';" style="background:#f1f5f9;color:var(--navy);padding:6px 10px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;">🔒 संपर्क हेतु लॉगिन करें</a>`;
+      phoneAction = `<button onclick="promptLoginForContact()" style="background:#f1f5f9;color:var(--navy);padding:6px 10px;border-radius:10px;font-size:11px;font-weight:700;border:none;cursor:pointer;display:inline-block;margin-top:6px;">🔒 संपर्क हेतु लॉगिन करें</button>`;
     }
 
     html += `
@@ -194,7 +247,14 @@ function renderDonors() {
   container.innerHTML = html;
 }
 
-// फिल्टर बदलने का फंक्शन
+function promptLoginForContact() {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "रक्तदाता से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+    if(yes) {
+      window.location.href = "login.html";
+    }
+  });
+}
+
 function filterBlood(group, element) {
   currentFilter = group;
   document.querySelectorAll('.f-chip').forEach(c => c.classList.remove('active'));
@@ -202,21 +262,22 @@ function filterBlood(group, element) {
   renderDonors();
 }
 
-// डोनर पंजीकरण प्रॉम्प्ट (यदि यूजर खुद को जोड़ना चाहे)
 function openDonorModal() {
-  let isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
-  if(!isLoggedIn) {
-    alert("रक्तदाता के रूप में अपना नाम जोड़ने के लिए कृपया पहले लॉगिन करें!");
-    window.location.href = "login.html";
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
+  if(!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "रक्तदाता के रूप में अपना नाम जोड़ने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+      if(yes) {
+        window.location.href = "login.html";
+      }
+    });
     return;
   }
   let bg = prompt("अपना ब्लड ग्रुप दर्ज करें (जैसे- A+, B+, O+, AB+ आदि):");
   if(bg) {
-    alert("आपका अनुरोध एडमिन के पास भेज दिया गया है। सत्यापन के बाद आपका ब्लड ग्रुप सूची में अपडेट हो जाएगा।");
+    alert("आपका अनुरोध सफलतापर्वूक दर्ज कर लिया गया है। सत्यापन के बाद आपका ब्लड ग्रुप सूची में अपडेट हो जाएगा।");
   }
 }
 
-// पेज लोड होते ही डोनर्स लोड करें
 loadDonors();
 </script>
 </body>

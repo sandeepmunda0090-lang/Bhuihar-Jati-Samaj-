@@ -2,41 +2,115 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reset MPIN - Bhuihar Jati Samaj</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0757a3">
+  <title>MPIN रीसेट करें | भुईहर जाति समाज</title>
   <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
-    .box { background: #fff; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-    button { background: #007bff; color: #white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;}
+    .box { background: var(--card); padding: 24px 20px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: var(--shadow); border: 1px solid var(--line); text-align: center; }
+    h2 { color: var(--navy); font-size: 20px; margin-top: 0; margin-bottom: 6px; }
+    p.sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .form-group { text-align: left; margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    input { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; font: 13px inherit; background: #fafbfc; outline: none; }
+    input:focus { border-color: var(--p); background: #fff; }
+    button { background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border: none; padding: 12px; width: 100%; border-radius: 12px; cursor: pointer; font: 700 14px inherit; box-shadow: 0 4px 12px rgba(7,87,163,.2); margin-top: 10px; }
+    .back-link { display: inline-block; margin-top: 16px; font-size: 12.5px; color: var(--p); text-decoration: none; font-weight: 700; }
   </style>
 </head>
 <body>
 
   <div class="box">
-    <h2>MPIN Reset Karein</h2>
-    <input type="tel" id="resetMob" placeholder="Registered Mobile Number" maxlength="10">
-    <input type="date" id="resetDob" placeholder="Date of Birth">
-    <input type="password" id="newMpin" placeholder="Naya 6-Digit MPIN" maxlength="6">
-    <button onclick="resetMpinAction()">MPIN Badlein</button>
-    <p><a href="login.html">Login Par Wapas Jayein</a></p>
+    <h2>🔑 MPIN रीसेट करें</h2>
+    <p class="sub">पंजीकृत मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN बनाएं</p>
+    
+    <div class="form-group">
+      <label>पंजीकृत मोबाइल नंबर</label>
+      <input type="tel" id="resetMob" placeholder="10 अंकों का मोबाइल नंबर" maxlength="10">
+    </div>
+    
+    <div class="form-group">
+      <label>जन्मतिथि (Date of Birth)</label>
+      <input type="date" id="resetDob">
+    </div>
+
+    <div class="form-group">
+      <label>नया 6-डिजिट MPIN</label>
+      <input type="password" id="newMpin" placeholder="नया MPIN दर्ज करें" maxlength="6">
+    </div>
+
+    <button onclick="resetMpinAction()">MPIN बदलें</button>
+    <div>
+      <a href="login.html" class="back-link">← लॉगिन पेज पर वापस जाएं</a>
+    </div>
+  </div>
+
+  <!-- प्रीमियम पॉप-अप मॉडल -->
+  <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+      <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+          <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+          <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
+              <span style="font-size:28px;">🔐</span>
+          </div>
+          <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सूचना</h3>
+          <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ें।</p>
+          <div style="display:flex; gap:10px;">
+              <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">ठीक है</button>
+              <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">आगे बढ़ें</button>
+          </div>
+      </div>
   </div>
 
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
-    // Wahi firebase config jo aapki baaki files me hai
-    const firebaseConfig = {
-      apiKey: "AivaSyDc8P_DPoUuKnLW9t7WY81i8-R4F...", 
-      authDomain: "bhuihar-firebase.firebaseapp.com",
-      projectId: "bhuihar-firebase",
-      storageBucket: "bhuihar-firebase.appspot.com",
-      messagingSenderId: "...",
-      appId: "..."
-    };
+    const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+
+    let modalCallback = null;
+
+    function showCustomAlert(title, message, callback, showAction = false) {
+        document.getElementById('customModalTitle').innerText = title;
+        document.getElementById('customModalMessage').innerText = message;
+        modalCallback = callback;
+
+        let actionBtn = document.getElementById('customModalActionBtn');
+        if(showAction) {
+            actionBtn.style.display = 'block';
+        } else {
+            actionBtn.style.display = 'none';
+        }
+
+        let overlay = document.getElementById('customModalOverlay');
+        let box = document.getElementById('customModalBox');
+        overlay.style.display = 'flex';
+        setTimeout(() => {
+            overlay.style.opacity = '1';
+            box.style.transform = 'scale(1)';
+        }, 10);
+    }
+
+    function closeCustomModal(isYes) {
+        let overlay = document.getElementById('customModalOverlay');
+        let box = document.getElementById('customModalBox');
+        overlay.style.opacity = '0';
+        box.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            if (modalCallback) {
+                modalCallback(isYes);
+                modalCallback = null;
+            }
+        }, 300);
+    }
+
+    window.alert = function(message) {
+        showCustomAlert("सूचना", message, function(yes) {});
+    };
 
     async function resetMpinAction() {
       let mob = document.getElementById("resetMob").value.trim();
@@ -44,31 +118,35 @@
       let newMpin = document.getElementById("newMpin").value.trim();
 
       if(!mob || !dob || !newMpin) {
-        alert("Kripya sabhi details bharein!");
+        alert("कृपया सभी जानकारी (मोबाइल, जन्मतिथि और नया MPIN) भरें!");
+        return;
+      }
+
+      if(newMpin.length < 4) {
+        alert("नया MPIN कम से कम 4 से 6 अंकों का होना चाहिए!");
         return;
       }
 
       try {
-        // Firestore mein check karein ki mobile aur dob match ho rahe hain ya nahi
         let snapshot = await db.collection("users").where("mobile", "==", mob).where("dob", "==", dob).get();
         
         if(snapshot.empty) {
-          alert("Mobile number ya Date of Birth galat hai!");
+          alert("दर्ज किया गया मोबाइल नंबर या जन्मतिथि रिकॉर्ड से मैच नहीं हो रहा है!");
           return;
         }
 
-        // Agar match ho gaya toh MPIN update kar dein
         snapshot.forEach(async (doc) => {
           await db.collection("users").doc(doc.id).update({
             mpin: newMpin
           });
         });
 
-        alert("MPIN safalatapoorvak badal gaya hai! Ab aap naye MPIN se login kar sakte hain.");
-        window.location.href = "login.html";
+        showCustomAlert("✨ सफलता", "आपका MPIN सफलतापूर्वक बदल दिया गया है! अब आप नए MPIN से लॉगिन कर सकते हैं।", function(yes) {
+          window.location.href = "login.html";
+        }, false);
 
       } catch(err) {
-        alert("Error: " + err.message);
+        alert("त्रुटि: " + err.message);
       }
     }
   </script>

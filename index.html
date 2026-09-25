@@ -35,7 +35,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18);text-decoration:none;display:inline-block;text-align:center}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
-/* होरिजॉन्टल स्लाइडर कैटेगरी लेआउट */
 .category-slider{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .category-slider::-webkit-scrollbar{display:none}
 
@@ -45,7 +44,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-/* पदाधिकारी 3D कार्ड और स्लाइडर स्टाइल */
 .official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
 .official-card:hover{transform:translateY(-3px);}
 .official-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
@@ -65,7 +63,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 /* लाइव चैट फ्लोटिंग बटन और विंडो स्टाइल */
 .chat-float-btn { position: fixed; bottom: 75px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; transition: transform 0.2s; }
 .chat-float-btn:active { transform: scale(0.95); }
-.chat-badge { background: var(--red); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
 .chat-modal { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 480px; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
 .chat-header { background: var(--p); color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
 .chat-body { flex: 1; padding: 12px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 8px; }
@@ -110,7 +107,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 2. समाज के मुख्य पदाधिकारी (3D कार्ड स्लाइडर - मैन्युअल और ऑटो) -->
+    <!-- 2. समाज के मुख्य पदाधिकारी -->
     <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider" id="officialsSlider">
       <div class="official-card">
@@ -124,7 +121,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       </div>
     </div>
     
-    <!-- 3. समाज की सभी 11 सेवाएँ (स्लाइडर) -->
+    <!-- 3. समाज की सभी 11 सेवाएँ (चैट रूम और जनमत पोल के सही लिंक्स के साथ) -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी व पीडीएफ</span></a>
@@ -133,11 +130,11 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <a href="business.html" class="cat-card"><div class="ic">🏪</div><b>व्यवसाय</b><span>समाज की दुकानें व डायरेक्टरी</span></a>
       <a href="vehicles.html" class="cat-card"><div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग व अप्रूवल</span></a>
       <a href="blood.html" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>आपातकालीन ब्लड डोनर सूची</span></a>
-      <a href="chat.html" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट सेशन</span></a>
-      <a href="polling.html" class="cat-card"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की महत्वपूर्ण राय</span></a>
+      <a href="javascript:void(0);" onclick="toggleChatWindow()" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट सेशन</span></a>
+      <a href="voting.html" class="cat-card"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की महत्वपूर्ण राय</span></a>
       <a href="condolence.html" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि एवं शोक पत्र</span></a>
       <a href="gallery.html" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>आयोजन व कार्यक्रम फोटो</span></a>
-      <a href="helpdesk.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत पेटी व सुझाव</span></a>
+      <a href="feedback.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत पेटी व सुझाव</span></a>
     </div>
 
     <!-- 4. व्यवसाय डायरेक्टरी -->
@@ -156,7 +153,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
   </div>
 
-  <!-- लाइव चैट फ्लोटिंग बटन (होम पेज पर हमेशा नजर आएगा) -->
+  <!-- लाइव चैट फ्लोटिंग बटन -->
   <div class="chat-float-btn" onclick="toggleChatWindow()">
     <span>💬 लाइव चैट</span>
   </div>
@@ -186,23 +183,19 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   </nav>
 </div>
 
-<!-- हूबहू स्क्रीनशॉट वाला नया प्रीमियम पॉप-अप HTML और CSS -->
+<!-- प्रीमियम पॉप-अप HTML और CSS -->
 <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
     <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
         
-        <!-- क्लोज़ (✕) बटन -->
         <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
 
-        <!-- ऊपर ग्लोइंग आइकॉन -->
         <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
             <span style="font-size:28px;">🚪</span>
         </div>
 
-        <!-- मैसेज टाइटल / टेक्स्ट -->
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">महत्वपूर्ण सूचना</h3>
         <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">क्या आप आगे बढ़ना चाहते हैं?</p>
 
-        <!-- दो स्टाइलिश बटन ('नहीं' और 'हाँ') -->
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">नहीं</button>
             <button onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3);">हाँ</button>
@@ -217,7 +210,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
-  // स्क्रीनशॉट जैसा प्रीमियम पॉप-अप कंट्रोल करने के लिए फंक्शन्स
   let modalCallback = null;
 
   function showCustomAlert(title, message, callback) {
@@ -250,7 +242,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       }, 300);
   }
 
-  // पुराने डिफ़ॉल्ट alert() को इस नए डिज़ाइन से ओवरराइड करना
   window.alert = function(message) {
       showCustomAlert("सूचना", message, function(yes) {});
   };
@@ -266,7 +257,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }
   }
 
-  // चैट लोड करने और 30 दिन पुराने मैसेज स्वतः डिलीट करने का कोड
   async function loadChatMessages() {
     let container = document.getElementById("chatMessagesContainer");
     container.innerHTML = "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>मैसेज लोड हो रहे हैं...</div>";
@@ -281,7 +271,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
       snapshot.forEach(doc => {
         let data = doc.data();
-        // 30 दिन पुराने मैसेज को फायरबेस से हटाने के लिए जोड़ना
         if (data.timestamp && data.timestamp < thirtyDaysAgo) {
           batch.delete(doc.ref);
           deleteCount++;
@@ -342,7 +331,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }
   }
 
-  // चेक करें कि यूजर लॉगिन है या नहीं
+  // चेक करें कि यूजर लॉगिन है या नहीं (सही चाबी userLoggedInMobile का उपयोग)
   function checkLoginSession() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     let loggedName = localStorage.getItem("userName");

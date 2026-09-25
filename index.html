@@ -44,6 +44,21 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
+/* WhatsApp जैसा अनरीड नोटिफिकेशन बैज स्टाइल */
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: none;
+}
+
 .official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
 .official-card:hover{transform:translateY(-3px);}
 .official-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
@@ -60,7 +75,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
 .admin-note{font-size:11px;color:var(--muted);line-height:1.4}
 
-/* लाइव चैट फ्लोटिंग बटन और विंडो स्टाइल */
 .chat-float-btn { position: fixed; bottom: 75px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; transition: transform 0.2s; }
 .chat-float-btn:active { transform: scale(0.95); }
 .chat-modal { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 480px; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
@@ -121,15 +135,23 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       </div>
     </div>
     
-    <!-- 3. समाज की सभी 11 सेवाएँ (चैट रूम और जनमत पोल के सही लिंक्स के साथ) -->
+    <!-- 3. समाज की सभी 11 सेवाएँ (WhatsApp जैसे अनरीड नोटिफिकेशन बैज के साथ) -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करके आगे देखें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी व पीडीएफ</span></a>
       <a href="matrimonial.html" class="cat-card"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा अप्रूवल</span></a>
-      <a href="jobs.html" class="cat-card"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व मेधावी छात्र</span></a>
+      
+      <!-- रोज़गार शिक्षा सेवा जिसपर नोटिफिकेशन काउंटर दिखेगा -->
+      <a href="jobs.html" class="cat-card" style="position:relative;">
+        <div class="ic">💼</div>
+        <b>रोज़गार शिक्षा</b>
+        <span>नौकरी व मेधावी छात्र</span>
+        <span id="badge-jobs" class="notification-badge">0</span>
+      </a>
+
       <a href="business.html" class="cat-card"><div class="ic">🏪</div><b>व्यवसाय</b><span>समाज की दुकानें व डायरेक्टरी</span></a>
       <a href="vehicles.html" class="cat-card"><div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग व अप्रूवल</span></a>
-      <a href="blood.html" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>आपातकालीन ब्लड डोनर सूची</span></a>
+      <a href="blood.html" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>आपातकालीन डोनर सूची</span></a>
       <a href="javascript:void(0);" onclick="toggleChatWindow()" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट सेशन</span></a>
       <a href="voting.html" class="cat-card"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की महत्वपूर्ण राय</span></a>
       <a href="condolence.html" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि एवं शोक पत्र</span></a>
@@ -246,6 +268,36 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       showCustomAlert("सूचना", message, function(yes) {});
   };
 
+  // --- केवल रजिस्टर्ड / लॉगिन यूजर के लिए अनरीड नोटिफिकेशन काउंटर चेक करने का लॉजिक ---
+  async function checkUserUnreadNotifications() {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    // यदि यूजर लॉगिन नहीं है, तो कुछ नहीं दिखाएंगे
+    if (!loggedMobile) return;
+
+    try {
+      let snapshot = await db.collection("jobs").get(); // या अन्य संग्रह जैसे 'news'
+      let lastSeen = localStorage.getItem("last_seen_jobs") || 0;
+      let newCount = 0;
+
+      snapshot.forEach(doc => {
+        let data = doc.data();
+        if (data.timestamp && data.timestamp > lastSeen) {
+          newCount++;
+        }
+      });
+
+      if (newCount > 0) {
+        let badge = document.getElementById("badge-jobs");
+        if (badge) {
+          badge.style.display = "block";
+          badge.innerText = newCount;
+        }
+      }
+    } catch (e) {
+      console.log("नोटिफिकेशन चेक करने में त्रुटि");
+    }
+  }
+
   // --- लाइव चैट और 30-दिन ऑटो-डिलीट लॉजिक ---
   function toggleChatWindow() {
     let modal = document.getElementById("chatModalWindow");
@@ -342,7 +394,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         e.preventDefault();
         localStorage.removeItem("userLoggedInMobile");
         localStorage.removeItem("userName");
-        alert("✨ सफलतापर्वूक लॉगआउट हो गए!");
+        alert("✨ सफलतापूर्वक लॉगआउट हो गए!");
         window.location.reload();
       };
 
@@ -354,6 +406,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       let regBtn = document.getElementById("registerBannerBtn");
       regBtn.innerText = "📋 मेरा परिवार / प्रोफाइल देखें";
       regBtn.href = "family.html";
+
+      // यदि यूजर लॉगिन है, तभी नोटिफिकेशन काउंटर चलाएं
+      checkUserUnreadNotifications();
     }
   }
   checkLoginSession();

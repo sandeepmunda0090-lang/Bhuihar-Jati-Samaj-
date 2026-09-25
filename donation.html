@@ -14,7 +14,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 
-/* आकर्षक और फोकस वाला बैक बटन */
 .back-btn-wrap{padding:4px 0 12px 0;}
 .custom-back-btn {
   display: inline-flex;
@@ -40,7 +39,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 
-/* फॉर्म इनपुट स्टाइल्स */
 .form-group{margin-bottom:10px}
 .form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px}
 .form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc}
@@ -56,7 +54,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 <div id="app">
   <div class="hero">
-    <!-- यूनिक और फोकस वाला बैक बटन -->
     <div class="back-btn-wrap">
       <a href="index.html" class="custom-back-btn">
         <span style="font-size:15px;">←</span> मुख्य पृष्ठ (वापस जाएं)
@@ -70,18 +67,15 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </div>
 
   <div class="container">
-    <!-- पारदर्शिता संदेश -->
     <div class="card" style="background:#fefce8;border-color:#fde047;">
       <h3 style="margin:0 0 4px;font-size:13px;color:#a16207;">💡 पूर्ण पारदर्शिता (Transparency)</h3>
       <p style="margin:0;font-size:11.5px;line-height:1.4;color:#854d0e;">समाज के उत्थान, उत्सव और आपातकालीन सहायता के लिए आपका दिया गया हर एक रुपया पूरी तरह सुरक्षित है और इसका सार्वजनिक हिसाब रखा जाता है।</p>
     </div>
 
-    <!-- 📱 डायनेमिक UPI और QR कोड बॉक्स (जो एडमिन पैनल से कंट्रोल होगा) -->
     <div class="card" style="text-align:center;">
       <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">📲 डिजिटल सहयोग (UPI QR Code)</h3>
       <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px;">नीचे दिए गए क्यूआर कोड को Google Pay, PhonePe या Paytm से स्कैन करके सहयोग राशि भेजें:</p>
       
-      <!-- QR कोड दिखाने का क्षेत्र -->
       <div style="background:#f8fafc;padding:12px;border:1px dashed var(--line);border-radius:12px;display:inline-block;margin-bottom:10px;">
         <div id="qrCodeDisplay" style="font-size:12px;color:var(--muted);">QR कोड लोड हो रहा है...</div>
       </div>
@@ -92,7 +86,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       </div>
     </div>
 
-    <!-- 📝 सहयोग भेजने के बाद UTR / ट्रांजैक्शन सबमिट करने का फॉर्म -->
     <div class="card">
       <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📋 सहयोग रसीद हेतु जानकारी भेजें</h3>
       <p style="font-size:11px;color:var(--muted);margin:0 0 12px;">भुगतान करने के बाद यहाँ अपनी डिटेल भरें ताकि एडमिन इसे सत्यापित करके डोनर सूची में आपका नाम जोड़ सकें।</p>
@@ -119,7 +112,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
   </div>
 
-  <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
@@ -129,6 +121,22 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
+<!-- प्रीमियम पॉप-अप मॉडल -->
+<div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+    <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
+            <span style="font-size:28px;">⚠️</span>
+        </div>
+        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सूचना</h3>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ें।</p>
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">ठीक है</button>
+            <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
+        </div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -136,7 +144,49 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-// 📥 एडमिन द्वारा सेट किया गया UPI और QR डेटा लोड करना
+let modalCallback = null;
+
+function showCustomAlert(title, message, callback, showLoginBtn = false) {
+    document.getElementById('customModalTitle').innerText = title;
+    document.getElementById('customModalMessage').innerText = message;
+    modalCallback = callback;
+
+    let actionBtn = document.getElementById('customModalActionBtn');
+    if(showLoginBtn) {
+        actionBtn.style.display = 'block';
+    } else {
+        actionBtn.style.display = 'none';
+    }
+
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    
+    overlay.style.display = 'flex';
+    setTimeout(() => {
+        overlay.style.opacity = '1';
+        box.style.transform = 'scale(1)';
+    }, 10);
+}
+
+function closeCustomModal(isYes) {
+    let overlay = document.getElementById('customModalOverlay');
+    let box = document.getElementById('customModalBox');
+    
+    overlay.style.opacity = '0';
+    box.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        if (modalCallback) {
+            modalCallback(isYes);
+            modalCallback = null;
+        }
+    }, 300);
+}
+
+window.alert = function(message) {
+    showCustomAlert("सूचना", message, function(yes) {});
+};
+
 async function loadDonationSettings() {
   try {
     let doc = await db.collection("settings").doc("donationConfig").get();
@@ -145,14 +195,12 @@ async function loadDonationSettings() {
       document.getElementById("adminUpiId").innerText = data.upiId || "samaj@paytm";
       document.getElementById("adminAccountName").innerText = data.accountName || "श्री कोषाध्यक्ष जी";
       
-      // यदि एडमिन ने QR कोड का लिंक डाला है तो इमेज दिखाएं, अन्यथा डिफ़ॉल्ट टेक्स्ट
       if(data.qrImageUrl) {
         document.getElementById("qrCodeDisplay").innerHTML = `<img src="${data.qrImageUrl}" alt="UPI QR" style="width:150px;height:150px;border-radius:8px;">`;
       } else {
         document.getElementById("qrCodeDisplay").innerHTML = `<div style="font-size:11px;color:var(--navy);font-weight:700;padding:20px;">[ यहाँ एडमिन का सेट किया हुआ QR कोड दिखेगा ]</div>`;
       }
     } else {
-      // डिफ़ॉल्ट मान यदि डेटाबेस में अभी कुछ न हो
       document.getElementById("adminUpiId").innerText = "bhuiharsamaj@paytm";
       document.getElementById("adminAccountName").innerText = "समाज कोषाध्यक्ष (महाराजगंज)";
       document.getElementById("qrCodeDisplay").innerHTML = `<div style="font-size:11px;color:var(--muted);padding:15px;">एडमिन पैनल से UPI सेट करें</div>`;
@@ -164,8 +212,17 @@ async function loadDonationSettings() {
   }
 }
 
-// 📤 यूजर द्वारा UTR प्रूफ सबमिट करने का फंक्शन
 async function submitDonationProof() {
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
+  if(!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "सहयोग रसीद की जानकारी भेजने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+      if(yes) {
+        window.location.href = "login.html";
+      }
+    }, true);
+    return;
+  }
+
   let name = document.getElementById("donorName").value.trim();
   let mobile = document.getElementById("donorMobile").value.trim();
   let amount = document.getElementById("donorAmount").value.trim();
@@ -177,19 +234,17 @@ async function submitDonationProof() {
   }
 
   try {
-    // डेटाबेस में 'donations' कलेक्शन में पेंडिंग रिकॉर्ड सेव करें
     await db.collection("donations").add({
       donorName: name,
       mobile: mobile,
       amount: Number(amount),
       utrNumber: utr,
-      status: "pending", // एडमिन इसे वेरीफाई करेगा
+      status: "pending",
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
 
     alert("धन्यवाद! आपका सहयोग विवरण एडमिन के पास सत्यापन हेतु भेज दिया गया है। जाँच के बाद आपका नाम डोनर सूची में जोड़ दिया जाएगा।");
     
-    // फॉर्म खाली करें
     document.getElementById("donorName").value = "";
     document.getElementById("donorMobile").value = "";
     document.getElementById("donorAmount").value = "";
@@ -200,7 +255,6 @@ async function submitDonationProof() {
   }
 }
 
-// पेज लोड होते ही सेटिंग्स लोड करें
 loadDonationSettings();
 </script>
 </body>

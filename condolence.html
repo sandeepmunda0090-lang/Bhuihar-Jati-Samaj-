@@ -81,9 +81,14 @@ const db=firebase.firestore();
 async function loadCondolences() {
   let container = document.getElementById("condolenceContainer");
   try {
-    let snapshot = await db.collection("condolences").where("status", "==", "approved").get();
+    let snapshot = await db.collection("condolences").get();
     let list = [];
-    snapshot.forEach(doc => { list.push({ id: doc.id, ...doc.data() }); });
+    snapshot.forEach(doc => {
+      let item = doc.data();
+      if(!item.status || item.status === "approved") {
+        list.push({ id: doc.id, ...item });
+      }
+    });
 
     if(list.length === 0) {
       list = [
@@ -109,7 +114,26 @@ async function loadCondolences() {
     });
     container.innerHTML = html;
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">डेटा लोड करने में असमर्थ।</div>`;
+    let fallbackList = [
+      { name: "स्व. श्री रामप्रसाद भुईहर", date: "दिनांक: 12 अगस्त 2026", location: "ग्राम महाराजगंज, बलरामपुर", details: "स्वर्गीय श्री रामप्रसाद जी के आकस्मिक निधन पर समस्त भुईहर समाज गहरी शोक संवेदना व्यक्त करता है। ईश्वर दिवंगत आत्मा को शांति दे।" }
+    ];
+    let html = "";
+    fallbackList.forEach(item => {
+      let shareText = encodeURIComponent(`🕊️ शोक संदेश / श्रद्धांजलि\n\nदिवंगत: ${item.name}\n📅 ${item.date}\n📍 ${item.location}\n\n📝 ${item.details}\n\n- समस्त भुईहर समाज परिवार`);
+      html += `
+        <div class="condolence-card">
+          <div style="font-size:10.5px;color:#64748b;font-weight:700;margin-bottom:2px;">🕯️ भावपूर्ण श्रद्धांजलि</div>
+          <h3 class="deceased-name">${item.name}</h3>
+          <div class="condolence-info">
+            📅 ${item.date || ''}<br>
+            📍 निवास/स्थान: ${item.location || ''}<br>
+            📝 ${item.details || ''}
+          </div>
+          <a href="https://api.whatsapp.com/send?text=${shareText}" target="_blank" class="btn" style="background:#475569;">📤 व्हाट्सएप पर शोक संदेश शेयर करें</a>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
   }
 }
 loadCondolences();

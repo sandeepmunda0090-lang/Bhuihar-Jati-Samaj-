@@ -23,7 +23,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 
-/* गैलरी ग्रिड (फोटो और ऑडियो) */
 .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .gallery-item{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.2s}
 .gallery-item:active{transform:scale(0.98)}
@@ -31,12 +30,10 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .gallery-img{width:100%;height:130px;object-fit:cover;display:block;background:#e2e8f0}
 .gallery-caption{padding:8px;font-size:11.5px;font-weight:700;color:var(--navy);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ऑडियो प्लेयर कार्ड */
 .audio-card{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
 .audio-title{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px}
 audio{width:100%;height:35px;margin-top:4px}
 
-/* एचडी फुल-स्क्रीन लाइटबॉक्स (Modal) जो फोटो फटने नहीं देगा */
 #lightboxModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:1000;display:none;justify-content:center;align-items:center;padding:20px;flex-direction:column}
 #lightboxModal img{max-width:100%;max-height:82vh;object-fit:contain;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
 #lightboxClose{position:absolute;top:20px;right:20px;background:#fff;color:#000;border:0;width:40px;height:40px;border-radius:50%;font-size:20px;font-weight:bold;cursor:pointer;display:grid;place-items:center}
@@ -63,45 +60,32 @@ audio{width:100%;height:35px;margin-top:4px}
 
   <div class="container">
     
-    <!-- फोटो गैलरी सेक्शन -->
     <div class="card">
       <h3 style="margin:0 0 4px;font-size:14px;color:var(--navy);">📷 सामाजिक एवं ऐतिहासिक तस्वीरें</h3>
       <p style="margin:0 0 10px;font-size:11px;color:var(--muted);">किसी भी फोटो पर क्लिक करके उसे फुल एचडी व्यू में देखें।</p>
       
       <div class="gallery-grid" id="photoGalleryGrid">
-        <!-- डायनामिक तस्वीरें यहाँ लोड होंगी -->
-        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop', 'महाराजगंज समाज भवन बैठक')">
-          <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400&auto=format&fit=crop" class="gallery-img" alt="बैठक">
-          <div class="gallery-caption">समाज भवन बैठक</div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop', 'वार्षिक मिलन समारोह')">
-          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=400&auto=format&fit=crop" class="gallery-img" alt="समारोह">
-          <div class="gallery-caption">वार्षिक मिलन समारोह</div>
-        </div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;grid-column:span 2;">तस्वीरें लोड हो रही हैं...</div>
       </div>
     </div>
 
-    <!-- ऑडियो गैलरी सेक्शन -->
     <div class="card">
       <h3 style="margin:0 0 4px;font-size:14px;color:var(--navy);">🎵 सांस्कृतिक ऑडियो एवं कथाएँ</h3>
       <p style="margin:0 0 10px;font-size:11px;color:var(--muted);">पारंपरिक गीत और ऑडियो संदेश सुनें।</p>
       
-      <div class="audio-card">
-        <div class="audio-title">🎶 समाज गीत / नागपुरी धुन</div>
-        <audio controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+      <div id="audioGalleryContainer">
+        <div style="text-align:center;color:var(--muted);font-size:12px;padding:15px;">ऑडियो लोड हो रहे हैं...</div>
       </div>
     </div>
 
   </div>
 
-  <!-- एचडी फुल-स्क्रीन इमेज पॉप-अप (Lightbox Modal) -->
   <div id="lightboxModal" onclick="closeLightbox()">
     <button id="lightboxClose">×</button>
     <img id="lightboxImg" src="" alt="HD View">
     <div id="lightboxCaption"></div>
   </div>
 
-  <!-- बॉटम नेविगेशन -->
   <nav class="nav">
     <a href="index.html"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
@@ -111,8 +95,77 @@ audio{width:100%;height:35px;margin-top:4px}
   </nav>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-// एचडी लाइटबॉक्स खोलने का फंक्शन (फोटो फटेगी नहीं, साफ़ दिखेगी)
+const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+async function loadGalleryContent() {
+  let photoGrid = document.getElementById("photoGalleryGrid");
+  let audioContainer = document.getElementById("audioGalleryContainer");
+
+  try {
+    let [photoSnap, audioSnap] = await Promise.all([
+      db.collection("photos").get(),
+      db.collection("audios").get()
+    ]);
+
+    let photos = [];
+    photoSnap.forEach(doc => { photos.push(doc.data()); });
+
+    let audios = [];
+    audioSnap.forEach(doc => { audios.push(doc.data()); });
+
+    // यदि डेटाबेस खाली हो तो डिफ़ॉल्ट डेमो तस्वीरें दिखाएं
+    if(photos.length === 0) {
+      photos = [
+        { url: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop", caption: "महाराजगंज समाज भवन बैठक" },
+        { url: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop", caption: "वार्षिक मिलन समारोह" }
+      ];
+    }
+
+    if(audios.length === 0) {
+      audios = [
+        { title: "🎶 समाज गीत / नागपुरी धुन", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
+      ];
+    }
+
+    let photoHtml = "";
+    photos.forEach(p => {
+      let imgUrl = p.url || p.imageUrl || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=400&auto=format&fit=crop";
+      let caption = p.caption || p.title || "सामाजिक कार्यक्रम";
+      photoHtml += `
+        <div class="gallery-item" onclick="openLightbox('${imgUrl}', '${caption}')">
+          <img src="${imgUrl}" class="gallery-img" alt="${caption}">
+          <div class="gallery-caption">${caption}</div>
+        </div>
+      `;
+    });
+    photoGrid.innerHTML = photoHtml;
+
+    let audioHtml = "";
+    audios.forEach(a => {
+      let title = a.title || "सांस्कृतिक ऑडियो";
+      let url = a.url || "";
+      if(url) {
+        audioHtml += `
+          <div class="audio-card">
+            <div class="audio-title">${title}</div>
+            <audio controls src="${url}"></audio>
+          </div>
+        `;
+      }
+    });
+    audioContainer.innerHTML = audioHtml || "<div style='text-align:center;color:var(--muted);font-size:12px;'>कोई ऑडियो उपलब्ध नहीं है।</div>";
+
+  } catch(e) {
+    photoGrid.innerHTML = `<div style='text-align:center;color:var(--muted);font-size:12px;grid-column:span 2;'>डेटा लोड करने में त्रुटि हुई।</div>`;
+    audioContainer.innerHTML = `<div style='text-align:center;color:var(--muted);font-size:12px;'>ऑडियो लोड करने में असमर्थ।</div>`;
+  }
+}
+
 function openLightbox(imgSrc, captionText) {
   let modal = document.getElementById("lightboxModal");
   let modalImg = document.getElementById("lightboxImg");
@@ -123,10 +176,11 @@ function openLightbox(imgSrc, captionText) {
   caption.innerText = captionText;
 }
 
-// लाइटबॉक्स बंद करने का फंक्शन
 function closeLightbox() {
   document.getElementById("lightboxModal").style.display = "none";
 }
+
+loadGalleryContent();
 </script>
 </body>
 </html>

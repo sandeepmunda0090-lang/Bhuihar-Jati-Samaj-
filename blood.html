@@ -51,6 +51,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(220,38,38,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
 
+.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc;margin-top:8px;}
+
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
@@ -113,18 +115,34 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
-<!-- प्रीमियम पॉप-अप मॉडल -->
+<!-- सुंदर पॉप-अप मॉडल (अलर्ट और ब्लड ग्रुप चयन के लिए) -->
 <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
     <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
         <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
-        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
-            <span style="font-size:28px;">⚠️</span>
+        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #dc2626, #ef4444); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(220,38,38,0.4); border:4px solid #fff;">
+            <span id="modalIcon" style="font-size:28px;">⚠️</span>
         </div>
-        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
-        <div style="display:flex; gap:10px;">
-            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
-            <button onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3);">लॉगिन करें</button>
+        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सूचना</h3>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 16px; line-height:1.5;"></p>
+        
+        <!-- डायनेमिक ब्लड ग्रुप सिलेक्शन इनपुट (पंजीकरण के समय दिखेगा) -->
+        <div id="modalInputContainer" style="display:none; margin-bottom:16px; text-align:left;">
+            <label style="font-size:11.5px; font-weight:700; color:var(--navy);">अपना ब्लड ग्रुप चुनें:</label>
+            <select id="modalBloodSelect" class="form-control">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+
+        <div style="display:flex; gap:10px;" id="modalBtnRow">
+            <button id="modalCloseBtn" onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
+            <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #dc2626, #ef4444); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(220,38,38,0.3); display:none;">लॉगिन करें</button>
         </div>
     </div>
 </div>
@@ -140,10 +158,31 @@ let allDonors = [];
 let currentFilter = 'ALL';
 let modalCallback = null;
 
-function showCustomAlert(title, message, callback) {
+function showCustomAlert(title, message, callback, showLoginBtn = false, showInput = false, iconSymbol = "⚠️") {
     document.getElementById('customModalTitle').innerText = title;
     document.getElementById('customModalMessage').innerText = message;
+    document.getElementById('modalIcon').innerText = iconSymbol;
     modalCallback = callback;
+
+    let actionBtn = document.getElementById('customModalActionBtn');
+    let inputContainer = document.getElementById('modalInputContainer');
+
+    if(showLoginBtn) {
+        actionBtn.style.display = 'block';
+        actionBtn.innerText = "लॉगिन करें";
+    } else if(showInput) {
+        actionBtn.style.display = 'block';
+        actionBtn.innerText = "पंजीकरण भेजें";
+    } else {
+        actionBtn.style.display = 'none';
+    }
+
+    if(showInput) {
+        inputContainer.style.display = 'block';
+    } else {
+        inputContainer.style.display = 'none';
+    }
+
     let overlay = document.getElementById('customModalOverlay');
     let box = document.getElementById('customModalBox');
     overlay.style.display = 'flex';
@@ -168,7 +207,7 @@ function closeCustomModal(isYes) {
 }
 
 window.alert = function(message) {
-    showCustomAlert("सूचना", message, function(yes) {});
+    showCustomAlert("सूचना", message, function(yes) {}, false, false, "ℹ️");
 };
 
 async function loadDonors() {
@@ -179,28 +218,15 @@ async function loadDonors() {
     allDonors = [];
     snapshot.forEach(doc => {
       let d = doc.data();
-      if(d.bloodGroup) {
+      // केवल उन्हीं यूजर्स को दिखाएँ जिनका ब्लड ग्रुप डेटाबेस में मौजूद है और खाता स्वीकृत/सक्रिय है
+      if(d.bloodGroup && d.bloodGroup !== "उल्लिखित नहीं" && d.bloodGroup !== "") {
         allDonors.push(d);
       }
     });
 
-    // यदि डेटाबेस में कोई रक्तदाता न हो तो डिफ़ॉल्ट डेमो डोनर्स जोड़ें
-    if(allDonors.length === 0) {
-      allDonors = [
-        { fullName: "श्री राम कुमार", address: "महाराजगंज", gotra: "कश्यप", mobile: "9876543210", bloodGroup: "O+" },
-        { fullName: "अजय मुंडा", address: "बलरामपुर", gotra: "नाग", mobile: "9876543211", bloodGroup: "B+" },
-        { fullName: "संतोष सिंह", address: "महाराजगंज", gotra: "भारद्वाज", mobile: "9876543212", bloodGroup: "A+" }
-      ];
-    }
-
     renderDonors();
   } catch(e) {
-    // त्रुटि आने पर भी डेमो डोनर्स दिखाएँ ताकि पेज खाली न रहे
-    allDonors = [
-      { fullName: "श्री राम कुमार", address: "महाराजगंज", gotra: "कश्यप", mobile: "9876543210", bloodGroup: "O+" },
-      { fullName: "अजय मुंडा", address: "बलरामपुर", gotra: "नाग", mobile: "9876543211", bloodGroup: "B+" }
-    ];
-    renderDonors();
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">रक्तदाताओं की सूची लोड करने में त्रुटि हुई।</div>`;
   }
 }
 
@@ -217,13 +243,12 @@ function renderDonors() {
     return;
   }
 
-  // इंडेक्स पेज के मुताबिक सही लॉगिन की जाँच (userLoggedInMobile)
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   let html = "";
 
   filtered.forEach(d => {
     let phoneAction = "";
-    let mobileNum = d.mobile || "9876543210";
+    let mobileNum = d.mobileNumber || d.mobile || "9876543210";
     
     if(loggedMobile) {
       phoneAction = `<a href="tel:${mobileNum}" style="background:#fee2e2;color:#991b1b;padding:6px 10px;border-radius:10px;font-size:11px;font-weight:700;text-decoration:none;display:inline-block;margin-top:6px;">📞 ${mobileNum} पर कॉल करें</a>`;
@@ -234,9 +259,9 @@ function renderDonors() {
     html += `
       <div class="donor-card">
         <div class="donor-info">
-          <b>${d.fullName || "सुरक्षित सदस्य"}</b>
-          <span>निवास: ${d.address || "महाराजगंज, बलरामपुर"}</span>
-          <span>गोत्र: ${d.gotra || "सामान्य"}</span>
+          <b>${d.FullName || d.fullName || "सुरक्षित सदस्य"}</b>
+          <span>निवास: ${d.village || d.address || "महाराजगंज, बलरामपुर"}</span>
+          <span>गोत्र: ${d.gothra || d.gotra || "सामान्य"}</span>
           ${phoneAction}
         </div>
         <div class="blood-badge">${d.bloodGroup}</div>
@@ -252,7 +277,7 @@ function promptLoginForContact() {
     if(yes) {
       window.location.href = "login.html";
     }
-  });
+  }, true, false, "⚠️");
 }
 
 function filterBlood(group, element) {
@@ -262,20 +287,38 @@ function filterBlood(group, element) {
   renderDonors();
 }
 
-function openDonorModal() {
+async function openDonorModal() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
     showCustomAlert("⚠️ सुरक्षा चेतावनी", "रक्तदाता के रूप में अपना नाम जोड़ने के लिए कृपया पहले लॉगिन करें!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
-    });
+    }, true, false, "⚠️");
     return;
   }
-  let bg = prompt("अपना ब्लड ग्रुप दर्ज करें (जैसे- A+, B+, O+, AB+ आदि):");
-  if(bg) {
-    alert("आपका अनुरोध सफलतापर्वूक दर्ज कर लिया गया है। सत्यापन के बाद आपका ब्लड ग्रुप सूची में अपडेट हो जाएगा।");
-  }
+
+  // सुंदर पॉप-अप के अंदर ब्लड ग्रुप चुनने का विकल्प दिखाएं (बिना पुराने JS prompt के)
+  showCustomAlert("🩸 रक्तदाता पंजीयन", "कृपया अपना सही ब्लड ग्रुप चुनें ताकि आपातकाल में आपकी मदद ली जा सके:", async function(yes) {
+    if(yes) {
+      let selectedBg = document.getElementById("modalBloodSelect").value;
+      try {
+        let snapshot = await db.collection("users").where("mobileNumber", "==", loggedMobile).get();
+        if(!snapshot.empty) {
+          let docId = snapshot.docs[0].id;
+          await db.collection("users").doc(docId).update({
+            bloodGroup: selectedBg
+          });
+          alert("बधाई हो! आपका ब्लड ग्रुप (" + selectedBg + ") सफलतापूर्वक अपडेट कर दिया गया है। अब आप डायरेक्टरी में दिखने लगेंगे।");
+          loadDonors();
+        } else {
+          alert("⚠️ यूजर प्रोफाइल नहीं मिली। कृपया पुनः लॉगिन करें।");
+        }
+      } catch(e) {
+        alert("❌ त्रुटि: " + e.message);
+      }
+    }
+  }, false, true, "🩸");
 }
 
 loadDonors();

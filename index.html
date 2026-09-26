@@ -36,13 +36,56 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-/* WhatsApp जैसा अनरीड नोटिफिकेशन काउंटर बैज */
 .notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
 
 .official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
 .official-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
 .contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
+
+/* --- 3D मेधावी छात्र कार्ड स्टाइल्स --- */
+.achiever-card {
+  min-width: 210px;
+  max-width: 210px;
+  background: linear-gradient(145deg, #ffffff, #f0f4f8);
+  border: 2px solid #cbd5e1;
+  border-top: 4px solid var(--gold);
+  border-radius: 20px;
+  padding: 16px 12px;
+  text-align: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+  transform: perspective(1000px) rotateX(2deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.achiever-card:hover {
+  transform: perspective(1000px) translateY(-4px) rotateX(0deg);
+  box-shadow: 0 18px 35px rgba(7, 87, 163, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+.achiever-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4);
+  border: 1.5px solid #fff;
+}
+.achiever-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold);
+  margin: 8px auto 6px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
@@ -78,7 +121,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
   <div class="container">
     
-    <!-- 1. आगामी बैठक एवं सूचनाएँ (लाइव डेटा) -->
+    <!-- 1. आगामी बैठक एवं सूचनाएँ -->
     <div class="section-title" style="margin-top:6px"><h2>समाज सूचना</h2></div>
     <div class="card">
       <h3 id="homeMeetingTitle" style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
@@ -92,13 +135,19 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
+    <!-- 🏆 समाज की मेधावी प्रतिभाएँ (Top 3 3D Cards Slider) -->
+    <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ</h2><span style="font-size:10.5px;color:var(--muted);">टॉप 3 रैंक ➔</span></div>
+    <div class="category-slider" id="achieversSlider">
+      <div style="padding:10px; color:var(--muted); font-size:12px;">मेधावी छात्र लोड हो रहे हैं...</div>
+    </div>
+
     <!-- 2. समाज के मुख्य पदाधिकारी -->
     <div class="section-title"><h2>समाज के मुख्य पदाधिकारी</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider" id="officialsSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड हो रहे हैं...</div>
     </div>
     
-    <!-- 3. समाज की सभी 11 सेवाएँ (WhatsApp जैसे अनरीड नोटिफिकेशन बैज के साथ) -->
+    <!-- 3. समाज की सभी 11 सेवाएँ -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
@@ -190,6 +239,65 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadHomeMeeting();
 
+  // --- मेधावी छात्रों को लोड करना (टॉप 3 रैंकिंग, 3D कार्ड और ऑटो/टच स्लाइडर) ---
+  async function loadAchieversToSlider() {
+    let slider = document.getElementById("achieversSlider");
+    try {
+      let snap = await db.collection("achievers").get();
+      if(snap.empty) {
+        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई मेधावी छात्र दर्ज नहीं है।</div>`;
+        return;
+      }
+      
+      let list = [];
+      snap.forEach(doc => { list.push(doc.data()); });
+
+      // प्रतिशत या स्कोर के आधार पर घटते क्रम में सॉर्ट करना (यदि प्रतिशत फील्ड हो)
+      list.sort((a, b) => parseFloat(b.percentage || b.detail || 0) - parseFloat(a.percentage || a.detail || 0));
+
+      // केवल टॉप 3 छात्र लेना
+      let top3 = list.slice(0, 3);
+      let medals = ["🥇 रैंक #1", "🥈 रैंक #2", "🥉 रैंक #3"];
+      let html = "";
+
+      top3.forEach((ach, index) => {
+        let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
+        let badgeText = medals[index] || `रंक #${index+1}`;
+        
+        html += `
+          <div class="achiever-card">
+            <div class="achiever-badge">${badgeText}</div>
+            <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
+            <b style="font-size:13px; color:var(--navy); display:block; margin-bottom:2px;">${ach.name || 'छात्र नाम'}</b>
+            <span style="font-size:11px; font-weight:800; color:var(--p); display:block; margin-bottom:4px;">${ach.detail || 'उपलब्धि'}</span>
+            <div style="font-size:10px; color:var(--muted); line-height:1.3; border-top:1px dashed #cbd5e1; padding-top:6px; margin-top:4px; text-align:left;">
+              <div><b>पिता:</b> ${ach.fatherName || 'निर्धारित नहीं'}</div>
+              <div><b>माता:</b> ${ach.motherName || 'निर्धारित नहीं'}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      slider.innerHTML = html;
+
+      // ऑटो-स्लाइड (Auto-Scroll) लॉजिक
+      let scrollAmount = 0;
+      setInterval(() => {
+        if(slider) {
+          scrollAmount += 220;
+          if(scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+            scrollAmount = 0;
+          }
+          slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 3500);
+
+    } catch(e) {
+      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">लोड करने में त्रुटि हुई।</div>`;
+    }
+  }
+  loadAchieversToSlider();
+
   // पदाधिकारियों को लाइव लोड करना
   async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
@@ -215,14 +323,11 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadOfficialsToSlider();
 
-  // --- WhatsApp जैसा नोटिफिकेशन बैज चेकर (लॉगिन यूजर्स के लिए) ---
   async function checkUnreadNotifications() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (!loggedMobile) return; // केवल लॉगिन यूजर्स के लिए
-
-    // चेक करें किन सेवाओं में अप्रूव्ड डेटा आया है
+    if (!loggedMobile) return;
     checkCollectionBadge("jobs", "badge-jobs");
-    checkCollectionBadge("matrimonials", "badge-matrimonials");
+    checkCollectionBadge("matrimonial", "badge-matrimonials");
     checkCollectionBadge("businesses", "badge-businesses");
     checkCollectionBadge("vehicles", "badge-vehicles");
   }
@@ -235,7 +340,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
       snap.forEach(doc => {
         let d = doc.data();
-        let status = d.status || "approved"; // जो अप्रूव्ड हैं
+        let status = d.status || "approved";
         if (status === "approved" && d.timestamp && d.timestamp > lastSeen) {
           newCount++;
         }
@@ -253,7 +358,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }
   }
 
-  // चैट और अन्य लॉजिक
   function toggleChatWindow() {
     let modal = document.getElementById("chatModalWindow");
     modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
@@ -318,7 +422,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       regBtn.innerText = "📋 मेरा परिवार / प्रोफाइल देखें";
       regBtn.href = "family.html";
 
-      // लॉगिन होने पर नोटिफिकेशन बैज चेक करें
       checkUnreadNotifications();
     }
   }

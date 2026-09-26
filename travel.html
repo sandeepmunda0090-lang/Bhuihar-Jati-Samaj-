@@ -72,7 +72,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपनी वाहन सेवा या यात्रा सहायता जोड़ें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सूची में दिखाई देगा।</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सूची में दिखाई देगा[span_1](start_span)[span_1](end_span).</p>
       
       <div class="form-group">
         <label>वाहन / सेवा का विवरण (गाड़ी का प्रकार, रूट, नाम व मोबाइल नंबर)</label>
@@ -100,7 +100,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_2](start_span)[span_2](end_span).</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -165,30 +165,26 @@ async function loadTravelServices() {
     allTravelServices = [];
     snapshot.forEach(doc => {
       let t = doc.data();
-      if(!t.status || t.status === "approved") {
+      // केवल एडमिन द्वारा स्वीकृत (approved) सेवाएँ ही दिखेंगी
+      if(t.status === "approved") {
         allTravelServices.push({ id: doc.id, ...t });
       }
     });
 
-    if(allTravelServices.length === 0) {
-      allTravelServices = [
-        { title: "क्षेत्रीय टैक्सी व कार सेवा", route: "महाराजगंज ⇄ बलरामपुर / अंबिकापुर", driver: "श्री सुरेश भुईहर", type: "कार / चार पहिया", mobile: "9876543210", details: "आपातकालीन और पारिवारिक यात्रा हेतु उपलब्ध।" },
-        { title: "आपातकालीन एम्बुलेंस सेवा", route: "बलरामपुर जिला अस्पताल क्षेत्र", driver: "समाज सहायता वाहन", type: "एम्बुलेंस", mobile: "9876543211", details: "चिकित्सा सहायता हेतु 24 घंटे उपलब्ध।" }
-      ];
-    }
-
     renderTravelServices();
   } catch(e) {
-    allTravelServices = [
-      { title: "क्षेत्रीय टैक्सी व कार सेवा", route: "महाराजगंज ⇄ बलरामपुर", driver: "श्री सुरेश भुईहर", type: "कार", mobile: "9876543210", details: "पारिवारिक यात्रा हेतु।" }
-    ];
-    renderTravelServices();
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">परिवहन सेवाएँ लोड करने में त्रुटि हुई[span_3](start_span)[span_3](end_span).</div>`;
   }
 }
 
 function renderTravelServices() {
   let container = document.getElementById("travelListContainer");
-  // सही लॉगिन चाबी (userLoggedInMobile) की जाँच
+  
+  if(allTravelServices.length === 0) {
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">अभी कोई स्वीकृत परिवहन सेवा उपलब्ध नहीं है[span_4](start_span)[span_4](end_span).</div>`;
+    return;
+  }
+
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   let html = "";
 
@@ -217,9 +213,7 @@ function renderTravelServices() {
         <div class="travel-badge">${t.type || 'परिवहन सेवा'}</div>
         <h3 class="travel-title">${t.title || 'वाहन सेवा'}</h3>
         <div class="travel-info">
-          🛣️ रूट: <b>${t.route || 'क्षेत्रीय'}</b><br>
-          👤 संचालक/चालक: ${t.driver || 'उपलब्ध'}<br>
-          📝 विवरण: ${t.details || 'सुविधा उपलब्ध'}
+          🛣️ विवरण: <b>${t.details || t.route || 'क्षेत्रीय सेवा'}</b><br>
         </div>
         ${contactSection}
       </div>
@@ -230,7 +224,7 @@ function renderTravelServices() {
 }
 
 function promptLoginForTravel() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवहन सेवा का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवहन सेवा का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें[span_5](start_span)[span_5](end_span)!", function(yes) {
     if(yes) {
       window.location.href = "login.html";
     }
@@ -240,7 +234,7 @@ function promptLoginForTravel() {
 async function submitTravelRequest() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन सेवा जोड़ने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन सेवा जोड़ने के लिए कृपया पहले लॉगिन करें[span_6](start_span)[span_6](end_span)!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -250,25 +244,26 @@ async function submitTravelRequest() {
 
   let details = document.getElementById("travelDetails").value.trim();
   if(!details) {
-    alert("कृपया वाहन सेवा का विवरण दर्ज करें!");
+    alert("कृपया वाहन सेवा का विवरण दर्ज करें[span_7](start_span)[span_7](end_span)!");
     return;
   }
 
   try {
+    // नया अनुरोध 'pending' स्थिति में सेव होगा ताकि एडमिन पैनल में सत्यापन के लिए दिखे
     await db.collection("travel").add({
-      title: "नया परिवहन अनुरोध",
-      route: "क्षेत्रीय मार्ग",
-      driver: "पंजीकृत सदस्य",
-      type: "वाहन सेवा",
+      title: "पंजीकृत परिवहन सेवा",
+      driver: localStorage.getItem("userName") || "रजिस्टर्ड सदस्य",
+      mobile: loggedMobile,
+      type: "यात्रा वाहन",
       details: details,
       status: "pending",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      timestamp: Date.now()
     });
 
-    alert("आपका परिवहन सेवा अनुरोध सफलतापर्वक एडमिन के पास भेज दिया गया है। सत्यापन के बाद यह लाइव हो जाएगा।");
+    alert("आपका परिवहन सेवा अनुरोध एडमिन के पास भेज दिया गया है[span_8](start_span)[span_8](end_span)। एडमिन के सत्यापन के बाद यह लाइव हो जाएगा और सभी रजिस्टर्ड यूजर्स को नोटिफिकेशन मिल जाएगा।");
     document.getElementById("travelDetails").value = "";
   } catch(e) {
-    alert("अनुरोध भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
+    alert("अनुरोध भेजने में त्रुटि आई[span_9](start_span)[span_9](end_span)। कृपया पुनः प्रयास करें।");
   }
 }
 

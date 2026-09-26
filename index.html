@@ -36,6 +36,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
+/* WhatsApp जैसा अनरीड नोटिफिकेशन काउंटर बैज */
 .notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
 
 .official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
@@ -97,14 +98,31 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड हो रहे हैं...</div>
     </div>
     
-    <!-- 3. समाज की सभी 11 सेवाएँ -->
+    <!-- 3. समाज की सभी 11 सेवाएँ (WhatsApp जैसे अनरीड नोटिफिकेशन बैज के साथ) -->
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
     <div class="category-slider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
-      <a href="matrimonial.html" class="cat-card"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span></a>
-      <a href="jobs.html" class="cat-card" style="position:relative;"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span><span id="badge-jobs" class="notification-badge">0</span></a>
-      <a href="business.html" class="cat-card"><div class="ic">🏪</div><b>व्यवसाय</b><span>दुकानें व डायरेक्टरी</span></a>
-      <a href="vehicles.html" class="cat-card"><div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग</span></a>
+      
+      <a href="matrimonial.html" class="cat-card" style="position:relative;">
+        <div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span>
+        <span id="badge-matrimonials" class="notification-badge">0</span>
+      </a>
+
+      <a href="jobs.html" class="cat-card" style="position:relative;">
+        <div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span>
+        <span id="badge-jobs" class="notification-badge">0</span>
+      </a>
+
+      <a href="business.html" class="cat-card" style="position:relative;">
+        <div class="ic">🏪</div><b>व्यवसाय</b><span>दुकानें व डायरेक्टरी</span>
+        <span id="badge-businesses" class="notification-badge">0</span>
+      </a>
+
+      <a href="vehicles.html" class="cat-card" style="position:relative;">
+        <div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग</span>
+        <span id="badge-vehicles" class="notification-badge">0</span>
+      </a>
+
       <a href="blood.html" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>डोनर सूची</span></a>
       <a href="javascript:void(0);" onclick="toggleChatWindow()" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट</span></a>
       <a href="voting.html" class="cat-card"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की राय</span></a>
@@ -197,6 +215,44 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadOfficialsToSlider();
 
+  // --- WhatsApp जैसा नोटिफिकेशन बैज चेकर (लॉगिन यूजर्स के लिए) ---
+  async function checkUnreadNotifications() {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    if (!loggedMobile) return; // केवल लॉगिन यूजर्स के लिए
+
+    // चेक करें किन सेवाओं में अप्रूव्ड डेटा आया है
+    checkCollectionBadge("jobs", "badge-jobs");
+    checkCollectionBadge("matrimonials", "badge-matrimonials");
+    checkCollectionBadge("businesses", "badge-businesses");
+    checkCollectionBadge("vehicles", "badge-vehicles");
+  }
+
+  async function checkCollectionBadge(colName, badgeId) {
+    try {
+      let snap = await db.collection(colName).get();
+      let lastSeen = localStorage.getItem("last_seen_" + colName) || 0;
+      let newCount = 0;
+
+      snap.forEach(doc => {
+        let d = doc.data();
+        let status = d.status || "approved"; // जो अप्रूव्ड हैं
+        if (status === "approved" && d.timestamp && d.timestamp > lastSeen) {
+          newCount++;
+        }
+      });
+
+      if (newCount > 0) {
+        let badge = document.getElementById(badgeId);
+        if (badge) {
+          badge.style.display = "block";
+          badge.innerText = newCount;
+        }
+      }
+    } catch (e) {
+      console.log("बैज चेक त्रुटि: " + colName);
+    }
+  }
+
   // चैट और अन्य लॉजिक
   function toggleChatWindow() {
     let modal = document.getElementById("chatModalWindow");
@@ -261,6 +317,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       let regBtn = document.getElementById("registerBannerBtn");
       regBtn.innerText = "📋 मेरा परिवार / प्रोफाइल देखें";
       regBtn.href = "family.html";
+
+      // लॉगिन होने पर नोटिफिकेशन बैज चेक करें
+      checkUnreadNotifications();
     }
   }
   checkLoginSession();

@@ -75,7 +75,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना वैवाहिक बायोडाटा भेजें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी।</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी[span_1](start_span)[span_1](end_span).</p>
       
       <div class="form-group">
         <label>पूरी प्रोफाइल का विवरण (नाम, शिक्षा, गोत्र, जन्मतिथि व मोबाइल नंबर सहित)</label>
@@ -110,7 +110,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_2](start_span)[span_2](end_span).</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -195,7 +195,7 @@ async function loadMatrimonialProfiles() {
 
     renderProfiles();
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">प्रोफाइल लोड करने में त्रुटि हुई।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">प्रोफाइल लोड करने में त्रुटि हुई[span_3](start_span)[span_3](end_span).</div>`;
   }
 }
 
@@ -204,7 +204,7 @@ function renderProfiles() {
   let filtered = allProfiles.filter(p => p.category === currentCategory);
 
   if(filtered.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत प्रोफाइल उपलब्ध नहीं है।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत प्रोफाइल उपलब्ध नहीं है[span_4](start_span)[span_4](end_span).</div>`;
     return;
   }
 
@@ -226,7 +226,7 @@ function renderProfiles() {
     } else {
       contactSection = `
         <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line);">
-          <button onclick="promptLoginForMatrimonial()" class="login-lock-btn">🔒 संपर्क नंबर देखने के लिए लॉगिन करें</button>
+          <button onclick="promptLoginForMatrimonial()" class="login-lock-btn">🔒 संपर्क नंबर देखने के लिए लॉगिन करें[span_5](start_span)[span_5](end_span)</button>
         </div>
       `;
     }
@@ -249,7 +249,7 @@ function renderProfiles() {
 }
 
 function promptLoginForMatrimonial() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "वैवाहिक प्रोफाइल का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "वैवाहिक प्रोफाइल का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें[span_6](start_span)[span_6](end_span)!", function(yes) {
     if(yes) {
       window.location.href = "login.html";
     }
@@ -259,7 +259,7 @@ function promptLoginForMatrimonial() {
 async function submitMatrimonialRequest() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "बायोडाटा भेजने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "बायोडाटा भेजने के लिए कृपया पहले लॉगिन करें[span_7](start_span)[span_7](end_span)!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -267,11 +267,12 @@ async function submitMatrimonialRequest() {
     return;
   }
 
-  let details = document.getElementById("bioDetails").value.trim();
+  let detailsElement = document.getElementById("bioDetails");
+  let details = detailsElement ? detailsElement.value.trim() : "";
   let category = document.getElementById("bioCategory").value;
 
   if(!details) {
-    alert("कृपया बायोडाटा का विवरण दर्ज करें!");
+    alert("कृपया बायोडाटा का विवरण दर्ज करें[span_8](start_span)[span_8](end_span)!");
     return;
   }
 
@@ -285,10 +286,10 @@ async function submitMatrimonialRequest() {
       timestamp: Date.now()
     });
 
-    alert("आपका वैवाहिक बायोडाटा सफलतापूर्वक एडमिन के पास भेज दिया गया है। एडमिन के सत्यापन के बाद यह होमपेज पर लाइव हो जाएगा और सभी रजिस्टर्ड यूजर्स को नोटिफिकेशन मिल जाएगा।");
-    document.getElementById("bioDetails").value = "";
+    alert("आपका वैवाहिक बायोडाटा सफलतापूर्वक एडमिन के पास भेज दिया गया है[span_9](start_span)[span_9](end_span)। एडमिन के सत्यापन के बाद यह होमपेज पर लाइव हो जाएगा और सभी रजिस्टर्ड यूजर्स को नोटिफिकेशन मिल जाएगा।");
+    if(detailsElement) detailsElement.value = "";
   } catch(e) {
-    alert("बायोडाटा भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
+    alert("बायोडाटा भेजने में त्रुटि आई[span_10](start_span)[span_10](end_span)। कृपया पुनः प्रयास करें।");
   }
 }
 

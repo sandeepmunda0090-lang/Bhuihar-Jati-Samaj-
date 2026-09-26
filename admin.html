@@ -283,8 +283,8 @@
     loadAdminTable("gallery", "adminGalTable", (d, id) => `<tr><td><b>${d.title}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}', '${d.title}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("polls", "adminPollTable", (d, id) => `<tr><td><b>${d.question}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}', '${d.question}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    // पेंडिंग अप्रूवल वाली सेवाएँ (वैवाहिक और वाहन)
-    loadPendingApprovalList("matrimonials", "adminMatriTable", "वैवाहिक बायोडाटा");
+    // पेंडिंग अप्रूवल वाली सेवाएँ (वैवाहिक और वाहन) - यहाँ 'matrimonial' सही collection name सेट किया गया है
+    loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा");
     loadPendingApprovalList("vehicles", "adminVehicleTable", "वाहन बुकिंग");
   }
 

@@ -76,15 +76,26 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <input type="text" id="familySearchInput" class="search-input" placeholder="मुखिया का नाम, गोत्र या पारा खोजें..." onkeyup="filterFamilies()">
     </div>
 
+    <!-- रजिस्टर्ड यूजर्स के लिए फैमिली टेबल / रिपोर्ट सेक्शन -->
+    <div id="userFamilySection" class="card" style="display:none; background:#f0fdf4; border-color:#bbf7d0;">
+      <h4 style="margin:0 0 6px; color:#166534; font-size:14px;">📋 मेरे परिवार के सदस्य (पंजीका)</h4>
+      <p style="font-size:11px; color:#15803d; margin:0 0 10px;">यहाँ आप अपने परिवार के जोड़े गए सदस्यों की सूची देख सकते हैं और रिपोर्ट निकाल सकते हैं।</p>
+      <div id="myFamilyTableContainer" style="overflow-x:auto; margin-bottom:10px;">
+        <!-- परिवार के सदस्यों की टेबल यहाँ लोड होगी -->
+      </div>
+      <button class="btn" style="background:#16a34a; font-size:12px; padding:8px;" onclick="openAddFamilyMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
+      <button class="btn" style="background:#0284c7; font-size:12px; padding:8px; margin-top:6px;" onclick="window.print()">🖨️ परिवार सूची प्रिंट / PDF निकालें</button>
+    </div>
+
     <div id="familyListContainer">
       <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">
         परिवारों की सूची लोड हो रही है...
       </div>
     </div>
 
-    <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;">
+    <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;" id="registerFamilyCard">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना परिवार रजिस्टर करें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">यदि आपका परिवार इस डायरेक्टरी में नहीं है, तो नया विवरण भेजें।</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं।</p>
       <button class="btn" onclick="openRegisterFamilyModal()">परिवार पंजीयन अनुरोध भेजें</button>
     </div>
   </div>
@@ -106,7 +117,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_0](start_span)[span_0](end_span).</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -123,6 +134,7 @@ const db=firebase.firestore();
 
 let allFamilies = [];
 let modalCallback = null;
+let loggedMobile = localStorage.getItem("userLoggedInMobile");
 
 function showCustomAlert(title, message, callback, showLoginBtn = false) {
     document.getElementById('customModalTitle').innerText = title;
@@ -163,6 +175,14 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
+// पेज लोड होने पर चेक करें कि यूजर लॉगिन है या नहीं
+function checkUserSessionForFamily() {
+  if (loggedMobile) {
+    document.getElementById("userFamilySection").style.display = "block";
+    loadMyFamilyMembers();
+  }
+}
+
 async function loadFamilies() {
   let container = document.getElementById("familyListContainer");
   try {
@@ -196,12 +216,10 @@ function renderFamilies(list) {
   let container = document.getElementById("familyListContainer");
   
   if(list.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार नहीं मिला।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार नहीं मिला[span_1](start_span)[span_1](end_span).</div>`;
     return;
   }
 
-  // सही लॉगिन चाबी (userLoggedInMobile) की जाँच
-  let loggedMobile = localStorage.getItem("userLoggedInMobile");
   let html = "";
 
   list.forEach(f => {
@@ -211,7 +229,7 @@ function renderFamilies(list) {
     if(loggedMobile) {
       contactAction = `<a href="tel:${mobileNum}" style="background:#e0f2fe;color:#0369a1;padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;">📞 मुखिया संपर्क: ${mobileNum}</a>`;
     } else {
-      contactAction = `<button onclick="promptLoginForFamily()" style="background:#f1f5f9;color:var(--muted);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;display:inline-block;margin-top:8px;">🔒 संपर्क हेतु लॉगिन करें</button>`;
+      contactAction = `<button onclick="promptLoginForFamily()" style="background:#f1f5f9;color:var(--muted);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;display:inline-block;margin-top:8px;">🔒 संपर्क हेतु लॉगिन करें[span_2](start_span)[span_2](end_span)</button>`;
     }
 
     html += `
@@ -228,8 +246,76 @@ function renderFamilies(list) {
   container.innerHTML = html;
 }
 
+// केवल लॉगिन यूजर के लिए उनके परिवार के सदस्य लोड करना
+async function loadMyFamilyMembers() {
+  let tableContainer = document.getElementById("myFamilyTableContainer");
+  try {
+    let snap = await db.collection("family_members").where("userMobile", "==", loggedMobile).get();
+    let members = [];
+    snap.forEach(doc => {
+      members.push({ id: doc.id, ...doc.data() });
+    });
+
+    if(members.length === 0) {
+      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं जोड़ा है।</div>`;
+      return;
+    }
+
+    let tableHtml = `
+      <table style="width:100%; border-collapse:collapse; font-size:12px; background:#fff; border-radius:8px; overflow:hidden;">
+        <thead>
+          <tr style="background:#dcfce7; color:#166534; text-align:left;">
+            <th style="padding:6px; border:1px solid #bbf7d0;">सत्संग/नाम</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">संबंध</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">उम्र/ब्लड ग्रुप</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    members.forEach(m => {
+      tableHtml += `
+        <tr>
+          <td style="padding:6px; border:1px solid #bbf7d0;"><b>${m.name}</b></td>
+          <td style="padding:6px; border:1px solid #bbf7d0;">${m.relation}</td>
+          <td style="padding:6px; border:1px solid #bbf7d0;">${m.age || '-'} वर्ष (${m.bloodGroup || 'निश्चित नहीं'})</td>
+        </tr>
+      `;
+    });
+
+    tableHtml += `</tbody></table>`;
+    tableContainer.innerHTML = tableHtml;
+  } catch(e) {
+    tableContainer.innerHTML = `<div style="font-size:12px; color:red; text-align:center;">डेटा लोड करने में त्रुटि।</div>`;
+  }
+}
+
+async function openAddFamilyMemberModal() {
+  let name = prompt("परिवार के सदस्य का पूरा नाम दर्ज करें:");
+  if(!name) return;
+  let relation = prompt("मुखिया से संबंध (जैसे: पत्नी, पुत्र, पुत्री, माता, पिता):");
+  if(!relation) return;
+  let age = prompt("उम्र (वर्ष में):");
+  let bloodGroup = prompt("ब्लड ग्रुप (जैसे: A+, B+, O+, AB+ आदि - वैकल्पिक):");
+
+  try {
+    await db.collection("family_members").add({
+      userMobile: loggedMobile,
+      name: name,
+      relation: relation,
+      age: age || "",
+      bloodGroup: bloodGroup || "अज्ञात",
+      timestamp: Date.now()
+    });
+    alert("परिवार का सदस्य सफलतापूर्वक जोड़ दिया गया है[span_3](start_span)[span_3](end_span)!");
+    loadMyFamilyMembers();
+  } catch(e) {
+    alert("सदस्य जोड़ने में विफल[span_4](start_span)[span_4](end_span)।");
+  }
+}
+
 function promptLoginForFamily() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार के मुखिया से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार के मुखिया से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें[span_5](start_span)[span_5](end_span)!", function(yes) {
     if(yes) {
       window.location.href = "login.html";
     }
@@ -247,9 +333,8 @@ function filterFamilies() {
 }
 
 function openRegisterFamilyModal() {
-  let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें[span_6](start_span)[span_6](end_span)!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -258,11 +343,12 @@ function openRegisterFamilyModal() {
   }
   let head = prompt("परिवार के मुखिया का नाम दर्ज करें:");
   if(head) {
-    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है। सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
+    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है[span_7](start_span)[span_7](end_span)。 सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
   }
 }
 
 loadFamilies();
+checkUserSessionForFamily();
 </script>
 </body>
 </html>

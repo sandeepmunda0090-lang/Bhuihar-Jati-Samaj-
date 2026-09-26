@@ -86,6 +86,32 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <div class="form-group"><label>पिता / पति का नाम</label><input type="text" id="regFather" class="form-control" placeholder="पिता या पति का नाम लिखें"></div>
       <div class="form-group"><label>मोबाइल नंबर (जिससे लॉगिन होगा)</label><input type="tel" id="regMobile" class="form-control" placeholder="10 अंकों का सक्रिय मोबाइल नंबर" maxlength="10"></div>
       <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="regDob" class="form-control"></div>
+      
+      <!-- नया: वैवाहिक स्थिति ड्रॉप-डाउन (अनिवार्य) -->
+      <div class="form-group">
+        <label>वैवाहिक स्थिति (Marital Status)</label>
+        <select id="regMaritalStatus" class="form-control">
+          <option value="अविवाहित (Unmarried)">अविवाहित (Unmarried)</option>
+          <option value="विवाहित (Married)">विवाहित (Married)</option>
+        </select>
+      </div>
+
+      <!-- नया: रक्त समूह / ब्लड ग्रुप (वैकल्पिक / Optional) -->
+      <div class="form-group">
+        <label>रक्त समूह (Blood Group - वैकल्पिक)</label>
+        <select id="regBloodGroup" class="form-control">
+          <option value="">-- चयन करें (वैकल्पिक) --</option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+        </select>
+      </div>
+
       <div class="form-group"><label>गोत्र</label><input type="text" id="regGotra" class="form-control" placeholder="अपना गोत्र लिखें (जैसे- कश्यप, वत्स आदि)"></div>
       <div class="form-group"><label>निवास / ग्राम (पता)</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम"></div>
 
@@ -143,6 +169,8 @@ async function handleRegister() {
   let fatherName = document.getElementById("regFather").value.trim();
   let mobile = document.getElementById("regMobile").value.trim();
   let dob = document.getElementById("regDob").value.trim();
+  let maritalStatus = document.getElementById("regMaritalStatus").value;
+  let bloodGroup = document.getElementById("regBloodGroup").value;
   let gotra = document.getElementById("regGotra").value.trim();
   let address = document.getElementById("regAddress").value.trim();
   let mpin = document.getElementById("regMpin").value.trim();
@@ -170,7 +198,6 @@ async function handleRegister() {
   btn.innerText = "⏳ जाँच हो रही है...";
 
   try {
-    // डेटाबेस के सही फील्ड नाम 'mobileNumber' से जांच करें[span_2](start_span)[span_2](end_span)
     let mobileCheck = await db.collection("users").where("mobileNumber", "==", mobile).get();
     if(!mobileCheck.empty) {
       alert("⚠️ यह मोबाइल नंबर पहले से ही रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
@@ -180,7 +207,6 @@ async function handleRegister() {
       return;
     }
 
-    // डेटाबेस के सही फील्ड नाम 'FullName' और 'dateOfBirth' से डुप्लीकेट जांच[span_3](start_span)[span_3](end_span)
     let duplicateCheck = await db.collection("users")
       .where("FullName", "==", fullName)
       .where("dateOfBirth", "==", dob)
@@ -194,12 +220,14 @@ async function handleRegister() {
       return;
     }
 
-    // डेटाबेस में सटीक फील्ड नामों के साथ डेटा सेव करें[span_4](start_span)[span_4](end_span)
+    // डेटाबेस में नए फील्ड्स (maritalStatus और bloodGroup) के साथ डेटा सेव करें
     await db.collection("users").add({
       FullName: fullName,
       fatherName: fatherName,
       mobileNumber: mobile,
       dateOfBirth: dob,
+      maritalStatus: maritalStatus,
+      bloodGroup: bloodGroup || "उल्लिखित नहीं",
       gothra: gotra,
       village: address || "महाराजगंज, बलरामपुर",
       mpin: mpin,
@@ -208,7 +236,6 @@ async function handleRegister() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // सुंदर सक्सेस पॉप-अप दिखाएं
     showSuccessModal("सफलतापूर्वक पंजीकरण!", "बधाई हो! आपका आवेदन जमा हो गया है। एडमिन द्वारा सत्यापन के बाद खाता सक्रिय होगा।");
 
   } catch(e) {

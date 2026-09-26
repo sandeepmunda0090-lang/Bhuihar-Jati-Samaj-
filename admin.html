@@ -135,13 +135,15 @@
       </div>
     </div>
 
-    <!-- 5. मेधावी छात्र (Achievers) -->
+    <!-- 5. मेधावी छात्र (Achievers) - अपडेटेड फॉर्म -->
     <button class="accordion-header">🏆 4. मेधावी छात्र / प्रतिभाएँ <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #2563eb;">
         <input type="hidden" id="editAchId" value="">
         <div class="form-group"><label>छात्र/छात्रा का नाम</label><input type="text" id="achName" class="form-control" placeholder="राहुल मुंडा"></div>
-        <div class="form-group"><label>उपलब्धि / कक्षा</label><input type="text" id="achDetail" class="form-control" placeholder="12वीं बोर्ड - 94%"></div>
+        <div class="form-group"><label>पिता का नाम</label><input type="text" id="achFather" class="form-control" placeholder="श्री सोहन मुंडा"></div>
+        <div class="form-group"><label>माता का नाम</label><input type="text" id="achMother" class="form-control" placeholder="श्रीमती गीता मुंडा"></div>
+        <div class="form-group"><label>प्रतिशत / स्कोर / कक्षा विवरण</label><input type="text" id="achDetail" class="form-control" placeholder="94.5% (12वीं बोर्ड)"></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:#2563eb;" onclick="saveOrUpdateAchiever()">मेधावी छात्र सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
@@ -276,14 +278,16 @@
     loadAdminTable("jobs", "adminJobsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.company}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}', '${d.title}', '${d.company}', '${d.location}', '${d.qualification}', '${d.applyLink}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.detail}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    
+    // मेधावी छात्र टेबल लोडर (पिता और माता का नाम जोड़कर)
+    loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | पिता: ${d.fatherName || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    
     loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("condolences", "adminCondTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.description}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}', '${d.name}', '${d.description}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("businesses", "adminBizTable", (d, id) => `<tr><td><b>${d.bizName}</b> (${d.owner})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}', '${d.bizName}', '${d.owner}', '${d.contact}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("gallery", "adminGalTable", (d, id) => `<tr><td><b>${d.title}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}', '${d.title}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("polls", "adminPollTable", (d, id) => `<tr><td><b>${d.question}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}', '${d.question}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    // पेंडिंग अप्रूवल वाली सेवाएँ (वैवाहिक और वाहन) - यहाँ 'matrimonial' सही collection name सेट किया गया है
     loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा");
     loadPendingApprovalList("vehicles", "adminVehicleTable", "वाहन बुकिंग");
   }
@@ -378,18 +382,42 @@
   }
   function editMeeting(id, t, m) { document.getElementById("editMeetingId").value=id; document.getElementById("meetTitle").value=t; document.getElementById("meetDesc").value=m; }
 
+  // मेधावी छात्र सेव/अपडेट फंक्शन (पिता, माता और प्रतिशत के साथ)
   async function saveOrUpdateAchiever() {
     let id = document.getElementById("editAchId").value;
     let name = document.getElementById("achName").value.trim();
-    let data = { name, detail: document.getElementById("achDetail").value.trim(), photo: document.getElementById("achPhoto").value.trim() };
-    if(!name) { alert("⚠️ नाम भरें!"); return; }
-    if(id) { await db.collection("achievers").doc(id).update(data); document.getElementById("editAchId").value=""; }
-    else { await db.collection("achievers").add(data); }
+    let fatherName = document.getElementById("achFather").value.trim();
+    let motherName = document.getElementById("achMother").value.trim();
+    let detail = document.getElementById("achDetail").value.trim();
+    let photo = document.getElementById("achPhoto").value.trim();
+    
+    let data = { name, fatherName, motherName, detail, photo, timestamp: Date.now() };
+    if(!name) { alert("⚠️ छात्र का नाम भरें!"); return; }
+    
+    if(id) { 
+      await db.collection("achievers").doc(id).update(data); 
+      document.getElementById("editAchId").value=""; 
+    } else { 
+      await db.collection("achievers").add(data); 
+    }
+    
     alert("मेधावी छात्र सुरक्षित हो गया!");
-    document.getElementById("achName").value=""; document.getElementById("achDetail").value=""; document.getElementById("achPhoto").value="";
+    document.getElementById("achName").value=""; 
+    document.getElementById("achFather").value=""; 
+    document.getElementById("achMother").value=""; 
+    document.getElementById("achDetail").value=""; 
+    document.getElementById("achPhoto").value="";
     loadAllAdminData();
   }
-  function editAch(id, n, dt, p) { document.getElementById("editAchId").value=id; document.getElementById("achName").value=n; document.getElementById("achDetail").value=dt; document.getElementById("achPhoto").value=p; }
+  
+  function editAch(id, n, f, m, dt, p) { 
+    document.getElementById("editAchId").value = id; 
+    document.getElementById("achName").value = n; 
+    document.getElementById("achFather").value = f; 
+    document.getElementById("achMother").value = m; 
+    document.getElementById("achDetail").value = dt; 
+    document.getElementById("achPhoto").value = p; 
+  }
 
   async function saveOrUpdateFund() {
     let id = document.getElementById("editFundId").value;

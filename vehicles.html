@@ -75,7 +75,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना ट्रैक्टर या वाहन सूची में जोड़ें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सेवा पोर्टल पर लाइव होगी।</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सेवा पोर्टल पर लाइव होगी[span_1](start_span)[span_1](end_span).</p>
       
       <div class="form-group">
         <label>वाहन का विवरण (गाड़ी का नाम, श्रेणी, चालक व मोबाइल नंबर)</label>
@@ -110,7 +110,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_2](start_span)[span_2](end_span).</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -188,24 +188,15 @@ async function loadVehicles() {
     allVehicles = [];
     snapshot.forEach(doc => {
       let v = doc.data();
-      if(!v.status || v.status === "approved") {
+      // केवल एडमिन द्वारा स्वीकृत (approved) वाहन सेवाएँ ही दिखेंगी
+      if(v.status === "approved") {
         allVehicles.push({ id: doc.id, ...v });
       }
     });
 
-    if(allVehicles.length === 0) {
-      allVehicles = [
-        { title: "स्वराज 744 ट्रैक्टर सेवा", category: "agri", owner: "श्री मदन भुईहर", work: "खेती की जुताई, थ्रेशर व ढुलाई", area: "महाराजगंज क्षेत्र", mobile: "9876543210" },
-        { title: "छोटा हाथी (मालवाहक पिकअप)", category: "commercial", owner: "श्री विनोद भुईहर", work: "फसल और घरेलू सामान की ढुलाई", area: "महाराजगंज से बलरामपुर", mobile: "9876543211" }
-      ];
-    }
-
     renderVehicles();
   } catch(e) {
-    allVehicles = [
-      { title: "स्वराज ट्रैक्टर सेवा", category: "agri", owner: "श्री मदन भुईहर", work: "जुताई व ढुलाई", area: "महाराजगंज", mobile: "9876543210" }
-    ];
-    renderVehicles();
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">वाहन सूचियाँ लोड करने में त्रुटि हुई[span_3](start_span)[span_3](end_span).</div>`;
   }
 }
 
@@ -214,11 +205,10 @@ function renderVehicles() {
   let filtered = allVehicles.filter(v => v.category === currentVehicleCat);
 
   if(filtered.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत वाहन सेवा उपलब्ध नहीं है।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत वाहन सेवा उपलब्ध नहीं है[span_4](start_span)[span_4](end_span).</div>`;
     return;
   }
 
-  // सही लॉगिन चाबी (userLoggedInMobile) की जाँच
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   let html = "";
 
@@ -247,9 +237,8 @@ function renderVehicles() {
         <div class="vehicle-badge">${v.category === 'agri' ? 'कृषि उपयोग' : 'कमर्शियल ढुलाई'}</div>
         <h3 class="vehicle-title">${v.title || 'वाहन सेवा'}</h3>
         <div class="vehicle-info">
-          👤 वाहन स्वामी/चालक: <b>${v.owner || 'पंजीकृत सदस्य'}</b><br>
-          🛠️ कार्य: ${v.work || v.details || 'उपलब्ध'}<br>
-          📍 क्षेत्र: ${v.area || 'महाराजगंज, बलरामपुर'}
+          👤 वाहन विवरण: <b>${v.owner || 'पंजीकृत सदस्य'}</b><br>
+          🛠️ विवरण: ${v.details || v.work || 'उपलब्ध'}<br>
         </div>
         ${contactSection}
       </div>
@@ -260,7 +249,7 @@ function renderVehicles() {
 }
 
 function promptLoginForVehicle() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन सेवा का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन सेवा का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें[span_5](start_span)[span_5](end_span)!", function(yes) {
     if(yes) {
       window.location.href = "login.html";
     }
@@ -270,7 +259,7 @@ function promptLoginForVehicle() {
 async function submitVehicleRequest() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन जोड़ने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "वाहन जोड़ने के लिए कृपया पहले लॉगिन करें[span_6](start_span)[span_6](end_span)!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -282,23 +271,26 @@ async function submitVehicleRequest() {
   let category = document.getElementById("vehicleCategory").value;
 
   if(!details) {
-    alert("कृपया वाहन का विवरण दर्ज करें!");
+    alert("कृपया वाहन का विवरण दर्ज करें[span_7](start_span)[span_7](end_span)!");
     return;
   }
 
   try {
+    // नया अनुरोध 'pending' स्थिति में सेव होगा ताकि एडमिन पैनल में दिखे
     await db.collection("vehicles").add({
       title: "पंजीकृत वाहन सेवा",
+      owner: localStorage.getItem("userName") || "रजिस्टर्ड सदस्य",
+      mobile: loggedMobile,
       category: category,
       details: details,
       status: "pending",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      timestamp: Date.now()
     });
 
-    alert("आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है। सत्यापन के बाद यह लाइव हो जाएगा।");
+    alert("आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है[span_8](start_span)[span_8](end_span)। एडमिन के सत्यापन के बाद यह होमपेज पर लाइव हो जाएगा और सभी रजिस्टर्ड यूजर्स को नोटिफिकेशन मिल जाएगा।");
     document.getElementById("vehicleDetails").value = "";
   } catch(e) {
-    alert("अनुरोध भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
+    alert("अनुरोध भेजने में त्रुटि आई[span_9](start_span)[span_9](end_span)। कृपया पुनः प्रयास करें।");
   }
 }
 

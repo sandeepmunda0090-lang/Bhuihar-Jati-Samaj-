@@ -49,10 +49,36 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
 
+/* --- डिजिटल परिवार आईडी कार्ड स्टाइल --- */
+.digital-id-card {
+  background: linear-gradient(135deg, #ffffff, #f0fdf4);
+  border: 2px solid #22c55e;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.15);
+  position: relative;
+}
+.digital-id-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed #bbf7d0;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
+
+/* प्रिंट के दौरान केवल परिवार या रिपोर्ट कार्ड दिखाने के लिए */
+@media print {
+  body * { visibility: hidden; }
+  #printableArea, #printableArea * { visibility: visible; }
+  #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -76,17 +102,49 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <input type="text" id="familySearchInput" class="search-input" placeholder="मुखिया का नाम, गोत्र या पारा खोजें..." onkeyup="filterFamilies()">
     </div>
 
-    <!-- रजिस्टर्ड यूजर्स के लिए फैमिली टेबल / रिपोर्ट सेक्शन -->
+    <!-- रजिस्टर्ड यूजर्स के लिए डिजिटल परिवार आईडी कार्ड और रिपोर्ट सेक्शन -->
     <div id="userFamilySection" class="card" style="display:none; background:#f0fdf4; border-color:#bbf7d0;">
-      <h4 style="margin:0 0 6px; color:#166534; font-size:14px;">📋 मेरे परिवार के सदस्य (पंजीका)</h4>
-      <p style="font-size:11px; color:#15803d; margin:0 0 10px;">यहाँ आप अपने परिवार के जोड़े गए सदस्यों की सूची देख सकते हैं और रिपोर्ट निकाल सकते हैं।</p>
-      <div id="myFamilyTableContainer" style="overflow-x:auto; margin-bottom:10px;">
-        <!-- परिवार के सदस्यों की टेबल यहाँ लोड होगी -->
+      
+      <!-- प्रिंट करने योग्य एरिया -->
+      <div id="printableArea">
+        <div class="digital-id-card">
+          <div class="digital-id-header">
+            <div>
+              <b style="color:#166534; font-size:15px;">🌾 भुईहर जाति समाज - डिजिटल परिवार कार्ड</b>
+              <span style="font-size:10px; color:#15803d;">महाराजगंज, बलरामपुर (छ.ग.)</span>
+            </div>
+            <div style="background:#16a34a; color:#fff; font-size:10px; font-weight:800; padding:4px 8px; border-radius:8px;">
+              APPROVED ID
+            </div>
+          </div>
+          
+          <div style="font-size:12px; color:#1e293b; line-height:1.6;">
+            <div><b>परिवार मुखिया:</b> <span id="cardHeadName">-</span></div>
+            <div><b>पंजीकृत मोबाइल:</b> <span id="cardMobile">-</span></div>
+            <div><b>निवास / गोत्र:</b> <span id="cardAddress">-</span></div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <b style="font-size:12.5px; color:#166534; margin-bottom:4px; display:block;">📋 परिवार के सदस्य:</b>
+            <div id="myFamilyTableContainer" style="overflow-x:auto;">
+              <!-- परिवार के सदस्यों की टेबल यहाँ लोड होगी -->
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="btn" style="background:#16a34a; font-size:12px; padding:8px;" onclick="openAddFamilyMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
-      <button class="btn" style="background:#0284c7; font-size:12px; padding:8px; margin-top:6px;" onclick="window.print()">🖨️ परिवार सूची प्रिंट / PDF निकालें</button>
+
+      <button class="btn" style="background:#16a34a; font-size:12px; padding:10px; margin-top:6px;" onclick="openAddFamilyMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
+      <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; margin-top:6px;" onclick="window.print()">📥 डिजिटल परिवार कार्ड PDF डाउनलोड / प्रिंट करें</button>
     </div>
 
+    <!-- ऑल-फैमिली मास्टर रिपोर्ट पीडीएफ बटन (सभी के लिए या एडमिन हेतु) -->
+    <div class="card" style="background:#eff6ff; border-color:#bfdbfe; text-align:center;">
+      <h4 style="margin:0 0 4px; color:#1e40af; font-size:13.5px;">📊 ऑल-फैमिली मास्टर डायरेक्टरी रिपोर्ट</h4>
+      <p style="font-size:11px; color:#1e3a8a; margin:0 0 10px;">समाज के सभी पंजीकृत परिवारों की संपूर्ण सूची एक साथ देखें।</p>
+      <button class="btn" style="background:#2563eb; font-size:12px; padding:9px;" onclick="printMasterDirectoryReport()">🖨️ मास्टर डायरेक्टरी PDF प्रिंट करें</button>
+    </div>
+
+    <h4 style="margin:14px 2px 8px; font-size:13.5px; color:var(--navy);">पंजीकृत परिवार सूची:</h4>
     <div id="familyListContainer">
       <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">
         परिवारों की सूची लोड हो रही है...
@@ -117,7 +175,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_0](start_span)[span_0](end_span).</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें.</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -135,6 +193,7 @@ const db=firebase.firestore();
 let allFamilies = [];
 let modalCallback = null;
 let loggedMobile = localStorage.getItem("userLoggedInMobile");
+let loggedName = localStorage.getItem("userName") || "रजिस्टर्ड सदस्य";
 
 function showCustomAlert(title, message, callback, showLoginBtn = false) {
     document.getElementById('customModalTitle').innerText = title;
@@ -179,6 +238,9 @@ window.alert = function(message) {
 function checkUserSessionForFamily() {
   if (loggedMobile) {
     document.getElementById("userFamilySection").style.display = "block";
+    document.getElementById("cardHeadName").innerText = loggedName;
+    document.getElementById("cardMobile").innerText = loggedMobile;
+    document.getElementById("cardAddress").innerText = "महाराजगंज, बलरामपुर (छ.ग.)";
     loadMyFamilyMembers();
   }
 }
@@ -257,7 +319,7 @@ async function loadMyFamilyMembers() {
     });
 
     if(members.length === 0) {
-      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं जोड़ा है।</div>`;
+      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं जोड़ा है। नीचे दिए गए बटन से जोड़ें।</div>`;
       return;
     }
 
@@ -265,9 +327,9 @@ async function loadMyFamilyMembers() {
       <table style="width:100%; border-collapse:collapse; font-size:12px; background:#fff; border-radius:8px; overflow:hidden;">
         <thead>
           <tr style="background:#dcfce7; color:#166534; text-align:left;">
-            <th style="padding:6px; border:1px solid #bbf7d0;">सत्संग/नाम</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">सदस्य का नाम</th>
             <th style="padding:6px; border:1px solid #bbf7d0;">संबंध</th>
-            <th style="padding:6px; border:1px solid #bbf7d0;">उम्र/ब्लड ग्रुप</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">उम्र / ब्लड ग्रुप</th>
           </tr>
         </thead>
         <tbody>
@@ -315,7 +377,7 @@ async function openAddFamilyMemberModal() {
 }
 
 function promptLoginForFamily() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार के मुखिया से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें[span_5](start_span)[span_5](end_span)!", function(yes) {
+  showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार के मुखिया से सीधे संपर्क करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
     if(yes) {
       window.location.href = "login.html";
     }
@@ -332,9 +394,45 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
+function printMasterDirectoryReport() {
+  // ऑल-फैमिली मास्टर रिपोर्ट के लिए पूरी लिस्ट को प्रिंट व्यू पर भेजना
+  let originalContent = document.body.innerHTML;
+  let masterHtml = `<div style="padding:20px; font-family:sans-serif;">
+    <h2 style="color:#0757a3; text-align:center; margin-bottom:5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी रिपोर्ट</h2>
+    <p style="text-align:center; font-size:12px; color:#66758a; margin-top:0;">महाराजगंज एवं बलरामपुर क्षेत्र</p>
+    <hr style="border:1px solid #ddd; margin:15px 0;">
+    <table style="width:100%; border-collapse:collapse; font-size:12px;">
+      <thead>
+        <tr style="background:#0757a3; color:#fff;">
+          <th style="padding:8px; border:1px solid #ccc;">क्रम</th>
+          <th style="padding:8px; border:1px solid #ccc;">परिवार मुखिया</th>
+          <th style="padding:8px; border:1px solid #ccc;">गोत्र</th>
+          <th style="padding:8px; border:1px solid #ccc;">निवास / पता</th>
+          <th style="padding:8px; border:1px solid #ccc;">मोबाइल नंबर</th>
+        </tr>
+      </thead>
+      <tbody>`;
+  
+  allFamilies.forEach((f, idx) => {
+    masterHtml += `<tr>
+      <td style="padding:6px; border:1px solid #ccc; text-align:center;">${idx+1}</td>
+      <td style="padding:6px; border:1px solid #ccc;"><b>${f.headName}</b></td>
+      <td style="padding:6px; border:1px solid #ccc;">${f.gotra || 'सामान्य'}</td>
+      <td style="padding:6px; border:1px solid #ccc;">${f.address || 'महाराजगंज'}</td>
+      <td style="padding:6px; border:1px solid #ccc;">${f.mobile || '9876543210'}</td>
+    </tr>`;
+  });
+
+  masterHtml += `</tbody></table></div>`;
+  
+  document.body.innerHTML = masterHtml;
+  window.print();
+  window.location.reload(); // पेज रीलोड करके वापस स्थिति बहाल करना
+}
+
 function openRegisterFamilyModal() {
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें[span_6](start_span)[span_6](end_span)!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -343,7 +441,7 @@ function openRegisterFamilyModal() {
   }
   let head = prompt("परिवार के मुखिया का नाम दर्ज करें:");
   if(head) {
-    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है[span_7](start_span)[span_7](end_span)。 सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
+    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है。 सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
   }
 }
 

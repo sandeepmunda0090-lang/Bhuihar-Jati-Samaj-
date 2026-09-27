@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <!-- 5. मेधावी छात्र (Achievers) -->
+    <!-- 5. मेधावी छात्र (Achievers) - प्रोत्साहन राशि इनपुट के साथ -->
     <button class="accordion-header">🏆 4. मेधावी छात्र / प्रतिभाएँ <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #2563eb;">
@@ -144,6 +144,7 @@
         <div class="form-group"><label>पिता का नाम</label><input type="text" id="achFather" class="form-control" placeholder="श्री सोहन मुंडा"></div>
         <div class="form-group"><label>माता का नाम</label><input type="text" id="achMother" class="form-control" placeholder="श्रीमती गीता मुंडा"></div>
         <div class="form-group"><label>प्रतिशत / स्कोर / कक्षा विवरण</label><input type="text" id="achDetail" class="form-control" placeholder="94.5% (12वीं बोर्ड)"></div>
+        <div class="form-group"><label>प्रोत्साहन / सम्मान राशि (₹)</label><input type="text" id="achReward" class="form-control" placeholder="₹5,100 या स्वर्ण पदक"></div>
         <div class="form-group"><label>फोटो URL (पोर्ट्रेट फोटो)</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:#2563eb;" onclick="saveOrUpdateAchiever()">मेधावी छात्र सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
@@ -279,7 +280,7 @@
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | पिता: ${d.fatherName || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | राशि: ${d.reward || 'घोषित'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.reward || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
     loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("condolences", "adminCondTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.description}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}', '${d.name}', '${d.description}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
@@ -386,15 +387,17 @@
     let fatherName = document.getElementById("achFather").value.trim();
     let motherName = document.getElementById("achMother").value.trim();
     let detail = document.getElementById("achDetail").value.trim();
+    let reward = document.getElementById("achReward").value.trim();
     let photo = document.getElementById("achPhoto").value.trim();
     
-    let data = { name, fatherName, motherName, detail, photo, timestamp: Date.now() };
+    let data = { name, fatherName, motherName, detail, reward, photo, timestamp: Date.now() };
     if(!name) { alert("⚠️ छात्र का नाम भरें!"); return; }
     
     if(id) { 
       await db.collection("achievers").doc(id).update(data); 
       document.getElementById("editAchId").value=""; 
     } else { 
+      data.likes = 0; // Default likes
       await db.collection("achievers").add(data); 
     }
     
@@ -403,16 +406,18 @@
     document.getElementById("achFather").value=""; 
     document.getElementById("achMother").value=""; 
     document.getElementById("achDetail").value=""; 
+    document.getElementById("achReward").value=""; 
     document.getElementById("achPhoto").value="";
     loadAllAdminData();
   }
   
-  function editAch(id, n, f, m, dt, p) { 
+  function editAch(id, n, f, m, dt, rw, p) { 
     document.getElementById("editAchId").value = id; 
     document.getElementById("achName").value = n; 
     document.getElementById("achFather").value = f; 
     document.getElementById("achMother").value = m; 
     document.getElementById("achDetail").value = dt; 
+    document.getElementById("achReward").value = rw; 
     document.getElementById("achPhoto").value = p; 
   }
 

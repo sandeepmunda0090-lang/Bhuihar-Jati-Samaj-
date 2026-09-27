@@ -89,7 +89,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   border-radius: 12px;
   object-fit: cover;
   border: 2.5px solid var(--gold);
-  margin: 6px auto 8px;
+  margin: 6px auto 6px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
@@ -141,7 +141,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 🏆 समाज की मेधावी प्रतिभाएँ (Top 3 Portrait 3D Cards Slider) -->
+    <!-- 🏆 समाज की मेधावी प्रतिभाएँ (Top 3 Portrait 3D Cards Slider - Live Likes on Card) -->
     <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ</h2><span style="font-size:10.5px;color:var(--muted);">टॉप 3 रैंक ➔</span></div>
     <div class="category-slider" id="achieversSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">मेधावी छात्र लोड हो रहे हैं...</div>
@@ -301,12 +301,14 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       achieversDataList.forEach((ach, index) => {
         let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
         let badgeText = medals[index] || `रंक #${index+1}`;
+        let totalLikes = ach.likes || 0;
         
         html += `
           <div class="achiever-card" onclick="openAchieverModal(${index})">
             <div class="achiever-badge">${badgeText}</div>
             <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
-            <b style="font-size:12px; color:var(--navy); display:block; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${ach.name || 'छात्र नाम'}</b>
+            <b style="font-size:12px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${ach.name || 'छात्र नाम'}</b>
+            <div style="font-size:10px; color:var(--muted); margin-bottom:4px;">👍 <span id="card-likes-${ach.id}">${totalLikes}</span> Likes</div>
             <div style="background:#fef3c7; color:#92400e; font-size:9.5px; font-weight:800; padding:3px 6px; border-radius:6px; border:1px solid #fde68a; display:inline-block; margin-top:auto;">
               🎁 सम्मान राशि
             </div>
@@ -355,11 +357,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }, 10);
   }
 
-  // --- केवल रजिस्टर्ड यूजर के लिए और एक यूजर द्वारा केवल एक बार लाइक देने का फंक्शन ---
   async function likeAchiever() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     
-    // 1. अगर यूजर लॉग इन नहीं है, तो लॉगिन पेज पर भेजें
     if (!loggedMobile) {
       alert("⚠️ मेधावी छात्र को 'GOOD' (लाइक) देने के लिए कृपया पहले लॉगिन करें!");
       window.location.href = "login.html";
@@ -368,7 +368,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
     if (!currentActiveAchieverId) return;
 
-    // 2. चेक करें कि इस यूजर ने पहले ही इस छात्र को लाइक दिया है या नहीं (LocalStorage के जरिए)
     let likedKey = "liked_achiever_" + currentActiveAchieverId + "_" + loggedMobile;
     let hasLikedBefore = localStorage.getItem(likedKey);
 
@@ -382,8 +381,13 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     let newLikes = currentLikes + 1;
     likeCountSpan.innerText = newLikes;
 
+    // Card par bhi live update karein
+    let cardLikeSpan = document.getElementById("card-likes-" + currentActiveAchieverId);
+    if(cardLikeSpan) {
+      cardLikeSpan.innerText = newLikes;
+    }
+
     try {
-      // 3. डेटाबेस में अपडेट करें और यूजर का रिकॉर्ड सेव करें ताकि दोबारा न दे सके
       await db.collection("achievers").doc(currentActiveAchieverId).update({ likes: newLikes });
       localStorage.setItem(likedKey, "yes");
 

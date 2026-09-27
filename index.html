@@ -93,6 +93,63 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
+/* --- व्यवसाय और वाहन 3D बैनर कार्ड स्टाइल्स (सिंगल बैनर व्यू) --- */
+.banner-3d-card {
+  min-width: 100%;
+  max-width: 100%;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border: 2px solid var(--line);
+  border-left: 5px solid var(--p);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(7,87,163,0.1);
+  flex-shrink: 0;
+  transform: perspective(1000px) rotateY(0deg);
+  transition: transform 0.4s ease;
+}
+.banner-3d-card:hover {
+  transform: perspective(1000px) rotateY(2deg) scale(1.01);
+}
+.banner-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.banner-btn-call {
+  flex: 1;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(16,185,129,0.3);
+}
+.banner-btn-map {
+  flex: 1;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(245,158,11,0.3);
+}
+
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
@@ -141,7 +198,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <!-- 🏆 समाज की मेधावी प्रतिभाएँ (Top 3 Portrait 3D Cards Slider - Live Likes on Card) -->
+    <!-- 🏆 समाज की मेधावी प्रतिभाएँ (Top 3 Portrait 3D Cards Slider) -->
     <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ</h2><span style="font-size:10.5px;color:var(--muted);">टॉप 3 रैंक ➔</span></div>
     <div class="category-slider" id="achieversSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">मेधावी छात्र लोड हो रहे हैं...</div>
@@ -182,19 +239,23 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       <a href="javascript:void(0);" onclick="toggleChatWindow()" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट</span></a>
       <a href="voting.html" class="cat-card"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की राय</span></a>
       <a href="condolence.html" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि पत्र</span></a>
-      <a href="gallery.html" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>फोटो आयोजन</span></a>
+      <a href="gallery.html" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>photo आयोजन</span></a>
       <a href="feedback.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत व सुझाव</span></a>
     </div>
 
-    <!-- 4. व्यवसाय डायरेक्टरी -->
-    <div class="section-title"><h2>समाज की दुकानें एवं व्यवसाय</h2></div>
-    <div class="card">
-      <h3 style="font-size:14px; margin-bottom:4px; color:var(--navy);">🏪 राम ट्रेडर्स & जनरल स्टोर</h3>
-      <p class="admin-note" style="margin-bottom:6px;">संचालक: श्री राम कुमार | मुख्य मार्ग, महाराजगंज</p>
-      <button class="btn" style="padding:6px; font-size:12px; margin-top:4px;" onclick="secureContact('tel', '9876543210')">📞 कॉल करें</button>
+    <!-- 4. व्यवसाय 3D ऑटो/टच स्क्रॉल बैनर सेक्शन (सभी के लिए खुला) -->
+    <div class="section-title"><h2>🏪 समाज की दुकानें एवं व्यवसाय</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
+    <div class="category-slider" id="homeBusinessSlider">
+      <div style="padding:10px; color:var(--muted); font-size:12px;">व्यवसाय लोड हो रहे हैं...</div>
     </div>
 
-    <!-- 5. समाज सुविचार -->
+    <!-- 5. कार/वाहन बुकिंग 3D ऑटो/टच स्क्रॉल बैनर सेक्शन (सभी के लिए खुला) -->
+    <div class="section-title" style="margin-top:16px;"><h2>🚗 वाहन एवं कार बुकिंग सेवा</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
+    <div class="category-slider" id="homeVehicleSlider">
+      <div style="padding:10px; color:var(--muted); font-size:12px;">वाहन सेवा लोड हो रही है...</div>
+    </div>
+
+    <!-- 6. समाज सुविचार -->
     <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1e40af; margin-top:16px;">
       <h3 style="margin:0 0 4px;font-size:13px">📜 समाज विरासत सुविचार</h3>
       <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
@@ -427,8 +488,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
           <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">${o.name || 'पदाधिकारी'}</b>
           <span style="font-size:9.5px; color:var(--muted);">${o.role || 'पद'}</span>
           <div class="contact-btns">
-            <button onclick="secureContact('tel', '${o.mobile || '9876543210'}')">📞 कॉल</button>
-            <button onclick="secureContact('wa', '${o.mobile || '9876543210'}')">💬 व्हाट्सएप</button>
+            <button onclick="window.location.href='tel:${o.mobile || '9876543210'}'">📞 कॉल</button>
+            <button onclick="window.location.href='https://wa.me/91${o.mobile || '9876543210'}'">💬 व्हाट्सएप</button>
           </div>
         </div>`;
       });
@@ -436,6 +497,105 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     } catch(e) { console.log("पदाधिकारी लोड त्रुटि"); }
   }
   loadOfficialsToSlider();
+
+  // --- व्यवसाय (Businesses) लोड करने और 3D ऑटो/टच स्क्रॉल के साथ दिखाने का फंक्शन ---
+  async function loadHomeBusinesses() {
+    let slider = document.getElementById("homeBusinessSlider");
+    try {
+      let snap = await db.collection("businesses").where("status", "==", "approved").get();
+      if(snap.empty) {
+        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई व्यवसाय दर्ज नहीं है।</div>`;
+        return;
+      }
+      let html = "";
+      snap.forEach(doc => {
+        let b = doc.data();
+        let name = b.name || b.title || 'व्यवसाय नाम';
+        let owner = b.owner || b. संचालक || '-';
+        let mobile = b.mobile || b.phone || '9876543210';
+        let address = b.address || 'महाराजगंज, छत्तीसगढ़';
+        let mapLink = b.mapLink || b.map || `https://maps.google.com/?q=${encodeURIComponent(address)}`;
+
+        html += `
+          <div class="banner-3d-card">
+            <h3 style="font-size:14px; margin:0 0 4px; color:var(--navy);">🏪 ${name}</h3>
+            <p style="font-size:11px; color:var(--muted); margin:0 0 2px;"><b>संचालक:</b> ${owner}</p>
+            <p style="font-size:11px; color:var(--text); margin:0 0 8px;">📍 <b>पता:</b> ${address}</p>
+            <div class="banner-actions">
+              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
+              <a href="${mapLink}" target="_blank" class="banner-btn-map">📍 मैप लोकेशन</a>
+            </div>
+          </div>
+        `;
+      });
+      slider.innerHTML = html;
+
+      // ऑटो-स्क्रॉल लॉजिक (3D बैनर के लिए)
+      let scrollAmount = 0;
+      setInterval(() => {
+        if(slider) {
+          scrollAmount += slider.clientWidth;
+          if(scrollAmount >= slider.scrollWidth) {
+            scrollAmount = 0;
+          }
+          slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 4000);
+
+    } catch(e) {
+      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">व्यवसाय लोड करने में त्रुटि हुई।</div>`;
+    }
+  }
+  loadHomeBusinesses();
+
+  // --- वाहन बुकिंग (Vehicles) लोड करने और 3D ऑटो/टच स्क्रॉल के साथ दिखाने का फंक्शन ---
+  async function loadHomeVehicles() {
+    let slider = document.getElementById("homeVehicleSlider");
+    try {
+      let snap = await db.collection("vehicles").where("status", "==", "approved").get();
+      if(snap.empty) {
+        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई वाहन सेवा दर्ज नहीं है।</div>`;
+        return;
+      }
+      let html = "";
+      snap.forEach(doc => {
+        let v = doc.data();
+        let vName = v.vehicleName || v.name || 'कार / वाहन सेवा';
+        let driver = v.driverName || v.owner || '-';
+        let mobile = v.mobile || '9876543210';
+        let address = v.address || 'महाराजगंज';
+        let mapLink = v.mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`;
+
+        html += `
+          <div class="banner-3d-card" style="border-left-color: #f59e0b;">
+            <h3 style="font-size:14px; margin:0 0 4px; color:var(--navy);">🚗 ${vName}</h3>
+            <p style="font-size:11px; color:var(--muted); margin:0 0 2px;"><b>चालक/मालिक:</b> ${driver}</p>
+            <p style="font-size:11px; color:var(--text); margin:0 0 8px;">📍 <b>क्षेत्र/स्टेशन:</b> ${address}</p>
+            <div class="banner-actions">
+              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
+              <a href="${mapLink}" target="_blank" class="banner-btn-map">📍 मैप लोकेशन</a>
+            </div>
+          </div>
+        `;
+      });
+      slider.innerHTML = html;
+
+      let scrollAmountV = 0;
+      setInterval(() => {
+        if(slider) {
+          scrollAmountV += slider.clientWidth;
+          if(scrollAmountV >= slider.scrollWidth) {
+            scrollAmountV = 0;
+          }
+          slider.scrollTo({ left: scrollAmountV, behavior: 'smooth' });
+        }
+      }, 4500);
+
+    } catch(e) {
+      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">वाहन सेवा लोड करने में त्रुटि हुई।</div>`;
+    }
+  }
+  loadHomeVehicles();
 
   async function checkUnreadNotifications() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
@@ -508,7 +668,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   async function sendChatMessage() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     
-    // केवल रजिस्टर्ड यूजर ही चैट में संदेश भेज सकें
     if(!loggedMobile) {
       alert("⚠️ कम्युनिटी चैट में संदेश भेजने के लिए कृपया पहले लॉगिन करें!");
       window.location.href = "login.html";
@@ -556,13 +715,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }
   }
   checkLoginSession();
-
-  function secureContact(type, num) {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if(!loggedMobile) { alert("⚠️ संपर्क करने के लिए पहले लॉगिन करें!"); window.location.href="login.html"; return; }
-    if(type === 'tel') window.location.href = "tel:" + num;
-    else if(type === 'wa') window.location.href = "https://wa.me/91" + num;
-  }
 
   async function loadHomeStats(){
     try{

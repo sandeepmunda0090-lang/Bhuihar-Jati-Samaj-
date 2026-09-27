@@ -55,6 +55,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   text-align: center;
   flex-shrink: 0;
   position: relative;
+  cursor: pointer;
   box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 4px rgba(0, 0, 0, 0.05);
   transform: perspective(1000px) rotateX(2deg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -78,8 +79,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   border: 1.5px solid #fff;
 }
 .achiever-img {
-  width: 65px;
-  height: 65px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--gold);
@@ -195,6 +196,26 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     </div>
   </div>
 
+  <!-- मेधावी छात्र विवरण पॉप-अप मॉडल -->
+  <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+      <div id="achieverModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:24px; padding:20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+          <button onclick="closeAchieverModal()" style="position:absolute; top:12px; right:12px; background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; font-size:13px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
+          
+          <img id="modalAchPhoto" src="" style="width:75px; height:75px; border-radius:50%; object-fit:cover; border:3px solid var(--gold); margin:5px auto 10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+          
+          <h3 id="modalAchName" style="font-size:16px; font-weight:800; color:var(--navy); margin:0 0 4px;">छात्र नाम</h3>
+          <p id="modalAchDetail" style="font-size:12px; font-weight:700; color:var(--p); margin:0 0 10px;"></p>
+          
+          <div style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:10px; text-align:left; font-size:11.5px; color:var(--text); line-height:1.5;">
+              <div><b>पिता का नाम:</b> <span id="modalAchFather">-</span></div>
+              <div><b>माता का नाम:</b> <span id="modalAchMother">-</span></div>
+              <div style="margin-top:6px; border-top:1px dashed var(--line); padding-top:6px; color:var(--green); font-weight:bold;">🏆 प्रोत्साहन राशि: समाज की ओर से सम्मानित</div>
+          </div>
+
+          <button onclick="closeAchieverModal()" class="btn" style="margin-top:14px; padding:10px; font-size:12.5px;">बंद करें</button>
+      </div>
+  </div>
+
   <!-- चैट फ्लोटिंग बटन और विंडो -->
   <div class="chat-float-btn" onclick="toggleChatWindow()"><span>💬 लाइव चैट</span></div>
   <div id="chatModalWindow" class="chat-modal">
@@ -222,7 +243,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
-  // लाइव आगामी बैठक सूचना लोड करना
   async function loadHomeMeeting() {
     try {
       let snap = await db.collection("meetings").orderBy("timestamp", "desc").limit(1).get();
@@ -239,7 +259,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadHomeMeeting();
 
-  // --- मेधावी छात्रों को लोड करना (टॉप 3 रैंकिंग, 3D कार्ड और ऑटो/टच स्लाइडर) ---
+  // ग्लोबल अचीवर डेटा स्टोर करने के लिए
+  let achieversDataList = [];
+
   async function loadAchieversToSlider() {
     let slider = document.getElementById("achieversSlider");
     try {
@@ -250,29 +272,29 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       }
       
       let list = [];
-      snap.forEach(doc => { list.push(doc.data()); });
+      snap.forEach(doc => { 
+        let d = doc.data();
+        d.id = doc.id;
+        list.push(d); 
+      });
 
-      // प्रतिशत या स्कोर के आधार पर घटते क्रम में सॉर्ट करना (यदि प्रतिशत फील्ड हो)
       list.sort((a, b) => parseFloat(b.percentage || b.detail || 0) - parseFloat(a.percentage || a.detail || 0));
+      achieversDataList = list.slice(0, 3); // टॉप 3 सेव करें
 
-      // केवल टॉप 3 छात्र लेना
-      let top3 = list.slice(0, 3);
       let medals = ["🥇 रैंक #1", "🥈 रैंक #2", "🥉 रैंक #3"];
       let html = "";
 
-      top3.forEach((ach, index) => {
+      achieversDataList.forEach((ach, index) => {
         let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
         let badgeText = medals[index] || `रंक #${index+1}`;
         
         html += `
-          <div class="achiever-card">
+          <div class="achiever-card" onclick="openAchieverModal(${index})">
             <div class="achiever-badge">${badgeText}</div>
             <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
-            <b style="font-size:13px; color:var(--navy); display:block; margin-bottom:2px;">${ach.name || 'छात्र नाम'}</b>
-            <span style="font-size:11px; font-weight:800; color:var(--p); display:block; margin-bottom:4px;">${ach.detail || 'उपलब्धि'}</span>
-            <div style="font-size:10px; color:var(--muted); line-height:1.3; border-top:1px dashed #cbd5e1; padding-top:6px; margin-top:4px; text-align:left;">
-              <div><b>पिता:</b> ${ach.fatherName || 'निर्धारित नहीं'}</div>
-              <div><b>माता:</b> ${ach.motherName || 'निर्धारित नहीं'}</div>
+            <b style="font-size:13px; color:var(--navy); display:block; margin-bottom:4px;">${ach.name || 'छात्र नाम'}</b>
+            <div style="background:#fef3c7; color:#92400e; font-size:10.5px; font-weight:800; padding:4px 8px; border-radius:8px; border:1px solid #fde68a; display:inline-block;">
+              🎁 सम्मान राशि घोषित
             </div>
           </div>
         `;
@@ -280,7 +302,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
       slider.innerHTML = html;
 
-      // ऑटो-स्लाइड (Auto-Scroll) लॉजिक
       let scrollAmount = 0;
       setInterval(() => {
         if(slider) {
@@ -298,7 +319,36 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadAchieversToSlider();
 
-  // पदाधिकारियों को लाइव लोड करना
+  // पॉप-अप मॉडल खोलने और बंद करने के फंक्शन्स
+  function openAchieverModal(index) {
+    let ach = achieversDataList[index];
+    if(!ach) return;
+
+    document.getElementById("modalAchName").innerText = ach.name || "छात्र नाम";
+    document.getElementById("modalAchDetail").innerText = ach.detail || "";
+    document.getElementById("modalAchFather").innerText = ach.fatherName || "निर्धारित नहीं";
+    document.getElementById("modalAchMother").innerText = ach.motherName || "निर्धारित नहीं";
+    document.getElementById("modalAchPhoto").src = (ach.photo && ach.photo.startsWith('http')) ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
+
+    let overlay = document.getElementById("achieverModal");
+    let box = document.getElementById("achieverModalBox");
+    overlay.style.display = "flex";
+    setTimeout(() => {
+      overlay.style.opacity = "1";
+      box.style.transform = "scale(1)";
+    }, 10);
+  }
+
+  function closeAchieverModal() {
+    let overlay = document.getElementById("achieverModal");
+    let box = document.getElementById("achieverModalBox");
+    overlay.style.opacity = "0";
+    box.style.transform = "scale(0.8)";
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 300);
+  }
+
   async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {

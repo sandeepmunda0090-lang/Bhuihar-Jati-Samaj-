@@ -43,7 +43,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
 .contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
 
-/* --- पोर्ट्रेट (Vertical) 3D मेधावी छात्र कार्ड स्टाइल्स --- */
+/* --- पोर्ट्रेट (Vertical) 3D मेधावी छात्र कार्ड स्टाइल्स (सुधरा हुआ मार्जिन और पैडिंग) --- */
 .achiever-card {
   min-width: 160px;
   max-width: 160px;
@@ -51,7 +51,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   border: 2px solid #cbd5e1;
   border-top: 4px solid var(--gold);
   border-radius: 20px;
-  padding: 18px 10px;
+  padding: 24px 10px 18px 10px;
+  margin-top: 15px;
   text-align: center;
   flex-shrink: 0;
   position: relative;
@@ -69,17 +70,18 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 }
 .achiever-badge {
   position: absolute;
-  top: -10px;
+  top: -12px;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, #f59e0b, #d97706);
   color: #fff;
   font-size: 10px;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4);
   border: 1.5px solid #fff;
+  white-space: nowrap;
 }
 .achiever-img {
   width: 75px;
@@ -87,7 +89,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   border-radius: 12px;
   object-fit: cover;
   border: 2.5px solid var(--gold);
-  margin: 8px auto 8px;
+  margin: 6px auto 8px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
@@ -362,7 +364,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
     try {
       await db.collection("achievers").doc(currentActiveAchieverId).update({ likes: newLikes });
-      // Update local array
       let achObj = achieversDataList.find(a => a.id === currentActiveAchieverId);
       if(achObj) achObj.likes = newLikes;
     } catch(e) {

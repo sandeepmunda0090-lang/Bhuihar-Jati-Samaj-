@@ -23,16 +23,33 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .container{padding:16px 12px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 
-.poll-question{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 10px;line-height:1.4}
-.poll-option{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--text);transition:all 0.2s;display:flex;justify-content:space-between;align-items:center}
-.poll-option:hover{background:#eff6ff;border-color:#bfdbfe;color:var(--p)}
+.poll-question{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 12px;line-height:1.4}
+
+/* हाँ और ना के आइकॉन वाले सुंदर बटन्स */
+.poll-options-grid {display: flex; gap: 10px; margin-top: 10px;}
+.poll-yes-btn {
+  flex: 1; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 12px;
+  padding: 12px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3); transition: transform 0.2s;
+}
+.poll-yes-btn:active { transform: scale(0.96); }
+
+.poll-no-btn {
+  flex: 1; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border: none; border-radius: 12px;
+  padding: 12px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 12px rgba(239,68,68,0.3); transition: transform 0.2s;
+}
+.poll-no-btn:active { transform: scale(0.96); }
+
+.poll-other-btn {
+  width: 100%; background: #f1f5f9; color: var(--navy); border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
 
 .result-bar-wrap{margin-bottom:10px}
 .result-label{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:3px;color:var(--navy)}
 .progress-bg{background:#e2e8f0;border-radius:8px;height:10px;width:100%;overflow:hidden}
 .progress-fill{background:linear-gradient(90deg,var(--p),var(--p2));height:100%;width:0%;transition:width 0.6s ease}
-
-.btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -57,7 +74,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     
     <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
       <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📊 लाइव मतदान केंद्र</h3>
-      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">प्रत्येक रजिस्टर्ड सदस्य हर पोल पर एक बार अपना मत दे सकता है।</p>
+      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">प्रत्येक रजिस्टर्ड सदस्य हर पोल पर एक बार अपना मत दे सकता है[span_0](start_span)[span_0](end_span).</p>
     </div>
 
     <!-- पोल लोड होने का मुख्य कंटेनर -->
@@ -85,7 +102,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             <span style="font-size:28px;">⚠️</span>
         </div>
         <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
+        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें[span_1](start_span)[span_1](end_span).</p>
         <div style="display:flex; gap:10px;">
             <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
             <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
@@ -154,7 +171,6 @@ async function loadPolls() {
       }
     });
 
-    // यदि डेटाबेस में पोल न हो तो डिफ़ॉल्ट डेमो पोल दिखाएं
     if(polls.length === 0) {
       polls = [
         {
@@ -175,34 +191,39 @@ async function loadPolls() {
       let total = p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 1) || 1;
 
       if(!hasVoted) {
-        let optionsHtml = "";
-        if(p.options) {
-          p.options.forEach((opt, idx) => {
-            optionsHtml += `<div class="poll-option" onclick="castVote('${p.id}', ${idx})"><span>${opt}</span> <span>👉</span></div>`;
-          });
+        let optionsHtml = `
+          <div class="poll-options-grid">
+            <button class="poll-yes-btn" onclick="castVote('${p.id}', 0)">👍 हाँ</button>
+            <button class="poll-no-btn" onclick="castVote('${p.id}', 1)">👎 ना</button>
+          </div>
+        `;
+        if(p.options && p.options.length > 2) {
+          optionsHtml += `<button class="poll-other-btn" onclick="castVote('${p.id}', 2)">💬 ${p.options[2] || 'अन्य'}</button>`;
         }
 
         html += `
           <div class="card">
             <div class="poll-question">${p.question || 'जनमत पोल'}</div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">कुल मतदान: ${total} सदस्य</div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">कुल मतदान: ${total} सदस्य</div>
             ${optionsHtml}
           </div>
         `;
       } else {
         let resultsHtml = "";
-        if(p.options && p.votes) {
-          p.options.forEach((opt, idx) => {
-            let count = p.votes[idx] || 0;
-            let percent = Math.round((count / total) * 100) || 0;
-            resultsHtml += `
-              <div class="result-bar-wrap">
-                <div class="result-label"><span>${opt}</span> <span>${count} वोट (${percent}%)</span></div>
-                <div class="progress-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-              </div>
-            `;
-          });
-        }
+        let defaultOpts = ["हाँ", "नहीं", "अन्य"];
+        let opts = p.options || defaultOpts;
+        
+        opts.forEach((opt, idx) => {
+          let count = (p.votes && p.votes[idx]) || 0;
+          let percent = Math.round((count / total) * 100) || 0;
+          let icon = idx === 0 ? "👍" : idx === 1 ? "👎" : "💬";
+          resultsHtml += `
+            <div class="result-bar-wrap">
+              <div class="result-label"><span>${icon} ${opt}</span> <span>${count} वोट (${percent}%)</span></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+            </div>
+          `;
+        });
 
         html += `
           <div class="card">

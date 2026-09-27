@@ -298,6 +298,14 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
+  // Map link ko puri tarah safe banane ke liye function
+  function getSafeMapLink(rawLink, address) {
+    if (rawLink && typeof rawLink === 'string' && rawLink.startsWith('http') && !rawLink.includes('intent://')) {
+      return rawLink;
+    }
+    return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur')}`;
+  }
+
   async function loadHomeMeeting() {
     try {
       let snap = await db.collection("meetings").orderBy("timestamp", "desc").limit(1).get();
@@ -437,7 +445,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadOfficialsToSlider();
 
-  // --- व्यवसाय (Businesses) लोड करने का सुधरा हुआ फंक्शन (सुरक्षित वेब लिंक के साथ) ---
+  // --- व्यवसाय (Businesses) लोड करने का फंक्शन ---
   async function loadHomeBusinesses() {
     let slider = document.getElementById("homeBusinessSlider");
     try {
@@ -453,9 +461,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         let owner = b.owner || 'संचालक';
         let mobile = b.mobile || '9876543210';
         let address = b.address || 'महाराजगंज, छत्तीसगढ़';
-        
-        // वेबव्यू फ्रेंडली स्टैंडर्ड लिंक ताकि कभी intent:// एरर न आए
-        let mapLink = b.mapLink && b.mapLink.startsWith('http') ? b.mapLink : `https://maps.google.com/maps?q=${encodeURIComponent(address)}`;
+        let mapLink = getSafeMapLink(b.mapLink, address);
 
         html += `
           <div class="banner-3d-card">
@@ -486,24 +492,31 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadHomeBusinesses();
 
-  // --- वाहन बुकिंग (Vehicles) लोड करने का फंक्शन ---
+  // --- वाहन एवं यात्रा (Vehicles & Travel) लोड करने का फिक्स किया हुआ फंक्शन ---
   async function loadHomeVehicles() {
     let slider = document.getElementById("homeVehicleSlider");
     try {
-      let snap = await db.collection("vehicles").where("status", "==", "approved").get();
-      if(snap.empty) {
-        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई वाहन सेवा दर्ज नहीं है।</div>`;
+      let [vehSnap, travSnap] = await Promise.all([
+        db.collection("vehicles").where("status", "==", "approved").get(),
+        db.collection("travel").where("status", "==", "approved").get()
+      ]);
+
+      let allVehiclesList = [];
+      vehSnap.forEach(doc => { allVehiclesList.push(doc.data()); });
+      travSnap.forEach(doc => { allVehiclesList.push(doc.data()); });
+
+      if(allVehiclesList.length === 0) {
+        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई वाहन या यात्रा सेवा दर्ज नहीं है।</div>`;
         return;
       }
+
       let html = "";
-      snap.forEach(doc => {
-        let v = doc.data();
+      allVehiclesList.forEach(v => {
         let vName = v.vehicleName || v.title || 'कार / वाहन सेवा';
-        let driver = v.driverName || v.owner || 'चालक';
+        let driver = v.driverName || v.driver || v.owner || 'चालक';
         let mobile = v.mobile || '9876543210';
-        let address = v.address || 'महाराजगंज';
-        
-        let mapLink = v.mapLink && v.mapLink.startsWith('http') ? v.mapLink : `https://maps.google.com/maps?q=${encodeURIComponent(address)}`;
+        let address = v.address || v.details || 'महाराजगंज';
+        let mapLink = getSafeMapLink(v.mapLink, address);
 
         html += `
           <div class="banner-3d-card" style="border-left-color: #f59e0b;">

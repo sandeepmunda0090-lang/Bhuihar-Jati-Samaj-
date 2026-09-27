@@ -233,7 +233,11 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   <!-- चैट फ्लोटिंग बटन और विंडो -->
   <div class="chat-float-btn" onclick="toggleChatWindow()"><span>💬 लाइव चैट</span></div>
   <div id="chatModalWindow" class="chat-modal">
-    <div class="chat-header"><span>कम्युनिटी लाइव चैट</span><span style="cursor:pointer;" onclick="toggleChatWindow()">✕</span></div>
+    <div class="chat-header">
+      <span>कम्युनिटी लाइव चैट</span>
+      <span id="chatMessageCounter" style="font-size:11px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:10px;">कुल संदेश: 0</span>
+      <span style="cursor:pointer;" onclick="toggleChatWindow()">✕</span>
+    </div>
     <div class="chat-body" id="chatMessagesContainer"></div>
     <div class="chat-footer">
       <input type="text" id="chatInputMessage" placeholder="संदेश लिखें..." onkeypress="handleChatKeyPress(event)">
@@ -381,7 +385,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     let newLikes = currentLikes + 1;
     likeCountSpan.innerText = newLikes;
 
-    // Card par bhi live update karein
     let cardLikeSpan = document.getElementById("card-likes-" + currentActiveAchieverId);
     if(cardLikeSpan) {
       cardLikeSpan.innerText = newLikes;
@@ -477,11 +480,14 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
   async function loadChatMessages() {
     let container = document.getElementById("chatMessagesContainer");
+    let counterBadge = document.getElementById("chatMessageCounter");
     container.innerHTML = "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>मैसेज लोड हो रहे हैं...</div>";
     try {
       let snap = await db.collection("community_chats").orderBy("timestamp", "asc").get();
       let html = "";
+      let totalMsgs = snap.size;
       let loggedMob = localStorage.getItem("userLoggedInMobile");
+      
       snap.forEach(doc => {
         let d = doc.data();
         let isMe = d.mobile === loggedMob;
@@ -490,25 +496,38 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
           <div>${d.text || ''}</div>
         </div>`;
       });
+      
       container.innerHTML = html || "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>कोई चैट नहीं है।</div>";
+      counterBadge.innerText = "कुल संदेश: " + totalMsgs;
       container.scrollTop = container.scrollHeight;
-    } catch(e) { container.innerHTML = "<div style='text-align:center; color:red; font-size:12px;'>लोड त्रुटि</div>"; }
+    } catch(e) { 
+      container.innerHTML = "<div style='text-align:center; color:red; font-size:12px;'>लोड त्रुटि</div>"; 
+    }
   }
 
   async function sendChatMessage() {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    
+    // केवल रजिस्टर्ड यूजर ही चैट में संदेश भेज सकें
+    if(!loggedMobile) {
+      alert("⚠️ कम्युनिटी चैट में संदेश भेजने के लिए कृपया पहले लॉगिन करें!");
+      window.location.href = "login.html";
+      return;
+    }
+
     let input = document.getElementById("chatInputMessage");
     let text = input.value.trim();
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
     let loggedName = localStorage.getItem("userName") || "सदस्य";
 
-    if(!loggedMobile) { alert("⚠️ चैट भेजने के लिए कृपया लॉगिन करें!"); window.location.href="login.html"; return; }
     if(!text) return;
 
     try {
       await db.collection("community_chats").add({ mobile: loggedMobile, name: loggedName, text: text, timestamp: Date.now() });
       input.value = "";
       loadChatMessages();
-    } catch(e) { alert("संदेश भेजने में विफल।"); }
+    } catch(e) { 
+      alert("संदेश भेजने में विफल।"); 
+    }
   }
 
   function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }

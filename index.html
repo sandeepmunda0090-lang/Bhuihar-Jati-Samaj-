@@ -199,7 +199,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     </div>
   </div>
 
-  <!-- मेधावी छात्र विवरण पॉप-अप मॉडल -->
+  <!-- मेधावी छात्र विवरण पॉप-अप मॉडल (प्रोत्साहन राशि और GOOD बटन के साथ) -->
   <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
       <div id="achieverModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:24px; padding:20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
           <button onclick="closeAchieverModal()" style="position:absolute; top:12px; right:12px; background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; font-size:13px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
@@ -212,7 +212,16 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
           <div style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:10px; text-align:left; font-size:11.5px; color:var(--text); line-height:1.5;">
               <div><b>पिता का नाम:</b> <span id="modalAchFather">-</span></div>
               <div><b>माता का नाम:</b> <span id="modalAchMother">-</span></div>
-              <div style="margin-top:6px; border-top:1px dashed var(--line); padding-top:6px; color:var(--green); font-weight:bold;">🏆 प्रोत्साहन राशि: समाज की ओर से सम्मानित</div>
+              <div style="margin-top:8px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:6px 8px; color:#065f46; font-weight:bold; font-size:12px; text-align:center;">
+                🎁 प्रोत्साहन / सम्मान राशि: <span id="modalAchReward">घोषित</span>
+              </div>
+          </div>
+
+          <!-- GOOD बटन और लाइव लाइक काउंटर -->
+          <div style="margin-top:14px; display:flex; align-items:center; justify-content:center; gap:10px;">
+              <button onclick="likeAchiever()" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; border-radius:20px; padding:8px 16px; font-size:13px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(16,185,129,0.3); display:flex; align-items:center; gap:6px;">
+                  👍 GOOD <span id="modalLikeCount" style="background:rgba(255,255,255,0.3); padding:2px 6px; border-radius:10px; font-size:11px;">0</span>
+              </button>
           </div>
 
           <button onclick="closeAchieverModal()" class="btn" style="margin-top:14px; padding:10px; font-size:12.5px;">बंद करें</button>
@@ -263,6 +272,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   loadHomeMeeting();
 
   let achieversDataList = [];
+  let currentActiveAchieverId = null;
 
   async function loadAchieversToSlider() {
     let slider = document.getElementById("achieversSlider");
@@ -325,10 +335,13 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     let ach = achieversDataList[index];
     if(!ach) return;
 
+    currentActiveAchieverId = ach.id;
     document.getElementById("modalAchName").innerText = ach.name || "छात्र नाम";
     document.getElementById("modalAchDetail").innerText = ach.detail || "";
     document.getElementById("modalAchFather").innerText = ach.fatherName || "निर्धारित नहीं";
     document.getElementById("modalAchMother").innerText = ach.motherName || "निर्धारित नहीं";
+    document.getElementById("modalAchReward").innerText = ach.reward || "समाज की ओर से घोषित";
+    document.getElementById("modalLikeCount").innerText = ach.likes || 0;
     document.getElementById("modalAchPhoto").src = (ach.photo && ach.photo.startsWith('http')) ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
 
     let overlay = document.getElementById("achieverModal");
@@ -338,6 +351,23 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       overlay.style.opacity = "1";
       box.style.transform = "scale(1)";
     }, 10);
+  }
+
+  async function likeAchiever() {
+    if(!currentActiveAchieverId) return;
+    let likeCountSpan = document.getElementById("modalLikeCount");
+    let currentLikes = parseInt(likeCountSpan.innerText) || 0;
+    let newLikes = currentLikes + 1;
+    likeCountSpan.innerText = newLikes;
+
+    try {
+      await db.collection("achievers").doc(currentActiveAchieverId).update({ likes: newLikes });
+      // Update local array
+      let achObj = achieversDataList.find(a => a.id === currentActiveAchieverId);
+      if(achObj) achObj.likes = newLikes;
+    } catch(e) {
+      console.log("Like update error");
+    }
   }
 
   function closeAchieverModal() {

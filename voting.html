@@ -116,6 +116,9 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
+// पेज खुलते ही पोल नोटिफिकेशन को सीन मानकर बैज हटा दें
+localStorage.setItem("last_seen_polls", Date.now());
+
 let modalCallback = null;
 
 function showCustomAlert(title, message, callback, showLoginBtn = false) {

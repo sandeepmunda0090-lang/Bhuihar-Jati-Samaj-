@@ -437,7 +437,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   }
   loadOfficialsToSlider();
 
-  // --- व्यवसाय (Businesses) लोड करने का सुधरा हुआ फंक्शन (बोल्ड और स्पष्ट नाम तथा मैप ऐप के साथ) ---
+  // --- व्यवसाय (Businesses) लोड करने का सुधरा हुआ फंक्शन (सुरक्षित वेब लिंक के साथ) ---
   async function loadHomeBusinesses() {
     let slider = document.getElementById("homeBusinessSlider");
     try {
@@ -453,8 +453,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         let owner = b.owner || 'संचालक';
         let mobile = b.mobile || '9876543210';
         let address = b.address || 'महाराजगंज, छत्तीसगढ़';
-        // सीधा गूगल मैप ऐप खोलने के लिए स्टैंडर्ड लिंक फॉर्मेट
-        let mapLink = b.mapLink && b.mapLink.startsWith('http') ? b.mapLink : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        
+        // वेबव्यू फ्रेंडली स्टैंडर्ड लिंक ताकि कभी intent:// एरर न आए
+        let mapLink = b.mapLink && b.mapLink.startsWith('http') ? b.mapLink : `https://maps.google.com/maps?q=${encodeURIComponent(address)}`;
 
         html += `
           <div class="banner-3d-card">
@@ -501,7 +502,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         let driver = v.driverName || v.owner || 'चालक';
         let mobile = v.mobile || '9876543210';
         let address = v.address || 'महाराजगंज';
-        let mapLink = v.mapLink && v.mapLink.startsWith('http') ? v.mapLink : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        
+        let mapLink = v.mapLink && v.mapLink.startsWith('http') ? v.mapLink : `https://maps.google.com/maps?q=${encodeURIComponent(address)}`;
 
         html += `
           <div class="banner-3d-card" style="border-left-color: #f59e0b;">

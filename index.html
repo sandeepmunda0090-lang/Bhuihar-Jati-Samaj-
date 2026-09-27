@@ -43,7 +43,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
 .contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
 
-/* --- पोर्ट्रेट (Vertical) 3D मेधावी छात्र कार्ड स्टाइल्स (सुधरा हुआ मार्जिन और पैडिंग) --- */
+/* --- पोर्ट्रेट (Vertical) 3D मेधावी छात्र कार्ड स्टाइल्स --- */
 .achiever-card {
   min-width: 160px;
   max-width: 160px;
@@ -201,7 +201,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     </div>
   </div>
 
-  <!-- मेधावी छात्र विवरण पॉप-अप मॉडल (प्रोत्साहन राशि और GOOD बटन के साथ) -->
+  <!-- मेधावी छात्र विवरण पॉप-अप मॉडल -->
   <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
       <div id="achieverModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:24px; padding:20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
           <button onclick="closeAchieverModal()" style="position:absolute; top:12px; right:12px; background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; font-size:13px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
@@ -219,7 +219,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
               </div>
           </div>
 
-          <!-- GOOD बटन और लाइव लाइक काउंटर -->
+          <!-- GOOD बटन और लाइव लाइक काउंटर (लॉगिन चेक के साथ) -->
           <div style="margin-top:14px; display:flex; align-items:center; justify-content:center; gap:10px;">
               <button onclick="likeAchiever()" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; border-radius:20px; padding:8px 16px; font-size:13px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(16,185,129,0.3); display:flex; align-items:center; gap:6px;">
                   👍 GOOD <span id="modalLikeCount" style="background:rgba(255,255,255,0.3); padding:2px 6px; border-radius:10px; font-size:11px;">0</span>
@@ -355,19 +355,44 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     }, 10);
   }
 
+  // --- केवल रजिस्टर्ड यूजर के लिए और एक यूजर द्वारा केवल एक बार लाइक देने का फंक्शन ---
   async function likeAchiever() {
-    if(!currentActiveAchieverId) return;
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    
+    // 1. अगर यूजर लॉग इन नहीं है, तो लॉगिन पेज पर भेजें
+    if (!loggedMobile) {
+      alert("⚠️ मेधावी छात्र को 'GOOD' (लाइक) देने के लिए कृपया पहले लॉगिन करें!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (!currentActiveAchieverId) return;
+
+    // 2. चेक करें कि इस यूजर ने पहले ही इस छात्र को लाइक दिया है या नहीं (LocalStorage के जरिए)
+    let likedKey = "liked_achiever_" + currentActiveAchieverId + "_" + loggedMobile;
+    let hasLikedBefore = localStorage.getItem(likedKey);
+
+    if (hasLikedBefore === "yes") {
+      alert("ℹ️ आपने इस मेधावी छात्र को पहले ही 'GOOD' दे दिया है! आप एक यूजर से केवल एक ही बार लाइक दे सकते हैं।");
+      return;
+    }
+
     let likeCountSpan = document.getElementById("modalLikeCount");
     let currentLikes = parseInt(likeCountSpan.innerText) || 0;
     let newLikes = currentLikes + 1;
     likeCountSpan.innerText = newLikes;
 
     try {
+      // 3. डेटाबेस में अपडेट करें और यूजर का रिकॉर्ड सेव करें ताकि दोबारा न दे सके
       await db.collection("achievers").doc(currentActiveAchieverId).update({ likes: newLikes });
+      localStorage.setItem(likedKey, "yes");
+
       let achObj = achieversDataList.find(a => a.id === currentActiveAchieverId);
       if(achObj) achObj.likes = newLikes;
+
+      alert("✨ धन्यवाद! आपका 'GOOD' सफलतापूर्वक दर्ज हो गया है।");
     } catch(e) {
-      console.log("Like update error");
+      alert("लाइक अपडेट करने में त्रुटि हुई।");
     }
   }
 

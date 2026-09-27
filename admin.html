@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <!-- 5. मेधावी छात्र (Achievers) - अपडेटेड फॉर्म -->
+    <!-- 5. मेधावी छात्र (Achievers) -->
     <button class="accordion-header">🏆 4. मेधावी छात्र / प्रतिभाएँ <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #2563eb;">
@@ -144,7 +144,7 @@
         <div class="form-group"><label>पिता का नाम</label><input type="text" id="achFather" class="form-control" placeholder="श्री सोहन मुंडा"></div>
         <div class="form-group"><label>माता का नाम</label><input type="text" id="achMother" class="form-control" placeholder="श्रीमती गीता मुंडा"></div>
         <div class="form-group"><label>प्रतिशत / स्कोर / कक्षा विवरण</label><input type="text" id="achDetail" class="form-control" placeholder="94.5% (12वीं बोर्ड)"></div>
-        <div class="form-group"><label>फोटो URL</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
+        <div class="form-group"><label>फोटो URL (पोर्ट्रेट फोटो)</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:#2563eb;" onclick="saveOrUpdateAchiever()">मेधावी छात्र सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
       </div>
@@ -279,7 +279,6 @@
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    // मेधावी छात्र टेबल लोडर (पिता और माता का नाम जोड़कर)
     loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | पिता: ${d.fatherName || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
     loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
@@ -340,7 +339,6 @@
     loadAllAdminData();
   }
 
-  // --- CRUD सेव / अपडेट फंक्शन्स ---
   async function saveOrUpdateJob() {
     let id = document.getElementById("editJobId").value;
     let title = document.getElementById("jobTitle").value.trim();
@@ -382,7 +380,6 @@
   }
   function editMeeting(id, t, m) { document.getElementById("editMeetingId").value=id; document.getElementById("meetTitle").value=t; document.getElementById("meetDesc").value=m; }
 
-  // मेधावी छात्र सेव/अपडेट फंक्शन (पिता, माता और प्रतिशत के साथ)
   async function saveOrUpdateAchiever() {
     let id = document.getElementById("editAchId").value;
     let name = document.getElementById("achName").value.trim();

@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <!-- 5. मेधावी छात्र (Achievers) - प्रोत्साहन राशि इनपुट के साथ -->
+    <!-- 5. मेधावी छात्र (Achievers) -->
     <button class="accordion-header">🏆 4. मेधावी छात्र / प्रतिभाएँ <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #2563eb;">
@@ -178,14 +178,16 @@
       </div>
     </div>
 
-    <!-- 8. व्यवसाय डायरेक्टरी -->
+    <!-- 8. व्यवसाय डायरेक्टरी (अलग फील्ड्स के साथ अपडेटेड) -->
     <button class="accordion-header">🏪 7. व्यवसाय / दुकान डायरेक्टरी (अप्रूवल व प्रबंधन) <span>▼</span></button>
     <div class="accordion-content">
       <div class="card">
         <input type="hidden" id="editBizId" value="">
         <div class="form-group"><label>दुकान का नाम</label><input type="text" id="bizName" class="form-control" placeholder="राम ट्रेडर्स"></div>
-        <div class="form-group"><label>संचालक</label><input type="text" id="bizOwner" class="form-control" placeholder="श्री राम कुमार"></div>
-        <div class="form-group"><label>पता एवं मोबाइल</label><input type="text" id="bizContact" class="form-control" placeholder="महाराजगंज - 9876543210"></div>
+        <div class="form-group"><label>संचालक का नाम</label><input type="text" id="bizOwner" class="form-control" placeholder="श्री राम कुमार"></div>
+        <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="bizMobile" class="form-control" placeholder="9876543210" maxlength="10"></div>
+        <div class="form-group"><label>पूरा पता / स्थान</label><input type="text" id="bizAddress" class="form-control" placeholder="मुख्य मार्ग, महाराजगंज"></div>
+        <div class="form-group"><label>Google Map लोकेशन लिंक</label><input type="text" id="bizMapLink" class="form-control" placeholder="https://maps.google.com/?q=..."></div>
         <button class="btn" onclick="saveOrUpdateBusiness()">व्यवसाय सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>दुकान व संचालक</th><th>कार्रवाई</th></tr></thead><tbody id="adminBizTable"></tbody></table></div>
       </div>
@@ -204,10 +206,17 @@
       </div>
     </div>
 
-    <!-- 10. यात्रा / वाहन सेवा अनुमोदन -->
+    <!-- 10. यात्रा / वाहन सेवा अनुमोदन (अलग फील्ड्स के साथ अपडेटेड) -->
     <button class="accordion-header">🚗 9. यात्रा / वाहन सेवा अनुमोदन <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #0284c7;">
+        <input type="hidden" id="editTravelId" value="">
+        <div class="form-group"><label>वाहन का नाम / सेवा प्रकार</label><input type="text" id="travelTitleInput" class="form-control" placeholder="स्वराज ट्रैक्टर / ट्रैवलर"></div>
+        <div class="form-group"><label>चालक / मालिक का नाम</label><input type="text" id="travelDriverInput" class="form-control" placeholder="श्री रामलाल"></div>
+        <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="travelMobileInput" class="form-control" placeholder="9876543210" maxlength="10"></div>
+        <div class="form-group"><label>रूट / पूरा पता</label><input type="text" id="travelAddressInput" class="form-control" placeholder="महाराजगंज से अंबिकापुर"></div>
+        <div class="form-group"><label>Google Map लोकेशन लिंक</label><input type="text" id="travelMapInput" class="form-control" placeholder="https://maps.google.com/?q=..."></div>
+        <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateTravelAdmin()">वाहन सेवा सुरक्षित करें</button>
         <div class="table-responsive">
           <table>
             <thead><tr><th>सदस्य व विवरण</th><th>कार्रवाई</th></tr></thead>
@@ -284,12 +293,15 @@
     
     loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("condolences", "adminCondTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.description}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}', '${d.name}', '${d.description}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("businesses", "adminBizTable", (d, id) => `<tr><td><b>${d.bizName}</b> (${d.owner})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}', '${d.bizName}', '${d.owner}', '${d.contact}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    
+    // व्यवसाय टेबल लोड (नए फील्ड्स के साथ)
+    loadAdminTable("businesses", "adminBizTable", (d, id) => `<tr><td><b>${d.bizName}</b> (${d.owner})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'} | 📍 ${d.address || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}', '${d.bizName || ''}', '${d.owner || ''}', '${d.mobile || ''}', '${d.address || ''}', '${d.mapLink || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    
     loadAdminTable("gallery", "adminGalTable", (d, id) => `<tr><td><b>${d.title}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}', '${d.title}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("polls", "adminPollTable", (d, id) => `<tr><td><b>${d.question}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}', '${d.question}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
     loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा");
-    loadPendingApprovalList("vehicles", "adminVehicleTable", "वाहन बुकिंग");
+    loadPendingTravelApprovals();
   }
 
   async function loadPendingApprovals() {
@@ -327,11 +339,49 @@
         let d = doc.data();
         let status = d.status || "pending";
         if(status === "pending") {
-          html += `<tr><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.description || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
+          html += `<tr><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
         }
       });
       document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई पेंडिंग ${labelName} नहीं है</td></tr>`;
     } catch(e) { document.getElementById(tableId).innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`; }
+  }
+
+  // यात्रा/वाहन पेंडिंग अप्रूवल और लिस्ट लोड करने के लिए विशेष फंक्शन
+  async function loadPendingTravelApprovals() {
+    try {
+      let snap = await db.collection("travel").get();
+      let html = "";
+      snap.forEach(doc => {
+        let d = doc.data();
+        let status = d.status || "pending";
+        let tName = d.title || d.vehicleName || 'वाहन सेवा';
+        let driver = d.driver || d.driverName || '-';
+        let mobile = d.mobile || '-';
+        let address = d.address || '-';
+        
+        if(status === "pending") {
+          html += `<tr>
+            <td><b>${tName}</b> (${driver})<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
+            <td>
+              <button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}')">✏️</button>
+              <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
+            </td>
+          </tr>`;
+        } else {
+          html += `<tr>
+            <td><b>${tName}</b> (${driver}) [स्वीकृत]<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
+            <td>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}')">✏️</button>
+              <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
+            </td>
+          </tr>`;
+        }
+      });
+      document.getElementById("adminVehicleTable").innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई वाहन सेवा उपलब्ध नहीं है</td></tr>`;
+    } catch(e) {
+      document.getElementById("adminVehicleTable").innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`;
+    }
   }
 
   async function approveDynamicDoc(col, id) {
@@ -397,7 +447,7 @@
       await db.collection("achievers").doc(id).update(data); 
       document.getElementById("editAchId").value=""; 
     } else { 
-      data.likes = 0; // Default likes
+      data.likes = 0; 
       await db.collection("achievers").add(data); 
     }
     
@@ -448,18 +498,102 @@
   }
   function editCond(id, n, desc, p) { document.getElementById("editCondId").value=id; document.getElementById("condName").value=n; document.getElementById("condDesc").value=desc; document.getElementById("condPhoto").value=p; }
 
+  // व्यवसाय सेव करने का अपडेटेड फंक्शन (अलग फील्ड्स के साथ)
   async function saveOrUpdateBusiness() {
     let id = document.getElementById("editBizId").value;
     let bizName = document.getElementById("bizName").value.trim();
-    let data = { bizName, owner: document.getElementById("bizOwner").value.trim(), contact: document.getElementById("bizContact").value.trim(), status: "approved" };
-    if(!bizName) { alert("⚠️ दुकान का नाम भरें!"); return; }
-    if(id) { await db.collection("businesses").doc(id).update(data); document.getElementById("editBizId").value=""; }
-    else { await db.collection("businesses").add(data); }
+    let owner = document.getElementById("bizOwner").value.trim();
+    let mobile = document.getElementById("bizMobile").value.trim();
+    let address = document.getElementById("bizAddress").value.trim();
+    let mapLink = document.getElementById("bizMapLink").value.trim();
+
+    if(!bizName || !mobile || !address) { 
+      alert("⚠️ दुकान का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!"); 
+      return; 
+    }
+
+    let data = { 
+      bizName: bizName, 
+      owner: owner || 'संचालक', 
+      mobile: mobile, 
+      address: address, 
+      mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`, 
+      status: "approved" 
+    };
+
+    if(id) { 
+      await db.collection("businesses").doc(id).update(data); 
+      document.getElementById("editBizId").value=""; 
+    } else { 
+      await db.collection("businesses").add(data); 
+    }
+    
     alert("व्यवसाय सुरक्षित हो गया!");
-    document.getElementById("bizName").value=""; document.getElementById("bizOwner").value=""; document.getElementById("bizContact").value="";
+    document.getElementById("bizName").value=""; 
+    document.getElementById("bizOwner").value=""; 
+    document.getElementById("bizMobile").value=""; 
+    document.getElementById("bizAddress").value=""; 
+    document.getElementById("bizMapLink").value="";
     loadAllAdminData();
   }
-  function editBiz(id, bn, ow, ct) { document.getElementById("editBizId").value=id; document.getElementById("bizName").value=bn; document.getElementById("bizOwner").value=ow; document.getElementById("bizContact").value=ct; }
+  
+  function editBiz(id, bn, ow, mob, addr, map) { 
+    document.getElementById("editBizId").value = id; 
+    document.getElementById("bizName").value = bn; 
+    document.getElementById("bizOwner").value = ow; 
+    document.getElementById("bizMobile").value = mob; 
+    document.getElementById("bizAddress").value = addr; 
+    document.getElementById("bizMapLink").value = map; 
+  }
+
+  // वाहन/यात्रा सेवा सेव करने का अपडेटेड फंक्शन (अलग फील्ड्स के साथ)
+  async function saveOrUpdateTravelAdmin() {
+    let id = document.getElementById("editTravelId").value;
+    let title = document.getElementById("travelTitleInput").value.trim();
+    let driver = document.getElementById("travelDriverInput").value.trim();
+    let mobile = document.getElementById("travelMobileInput").value.trim();
+    let address = document.getElementById("travelAddressInput").value.trim();
+    let mapLink = document.getElementById("travelMapInput").value.trim();
+
+    if(!title || !mobile || !address) {
+      alert("⚠️ वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!");
+      return;
+    }
+
+    let data = {
+      title: title,
+      driver: driver || 'चालक',
+      mobile: mobile,
+      address: address,
+      mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`,
+      status: "approved",
+      timestamp: Date.now()
+    };
+
+    if(id) {
+      await db.collection("travel").doc(id).update(data);
+      document.getElementById("editTravelId").value = "";
+    } else {
+      await db.collection("travel").add(data);
+    }
+
+    alert("वाहन सेवा सुरक्षित हो गई!");
+    document.getElementById("travelTitleInput").value = "";
+    document.getElementById("travelDriverInput").value = "";
+    document.getElementById("travelMobileInput").value = "";
+    document.getElementById("travelAddressInput").value = "";
+    document.getElementById("travelMapInput").value = "";
+    loadAllAdminData();
+  }
+
+  function editTravelAdminData(id, t, dr, mob, addr, map) {
+    document.getElementById("editTravelId").value = id;
+    document.getElementById("travelTitleInput").value = t;
+    document.getElementById("travelDriverInput").value = dr;
+    document.getElementById("travelMobileInput").value = mob;
+    document.getElementById("travelAddressInput").value = addr;
+    document.getElementById("travelMapInput").value = map;
+  }
 
   async function saveOrUpdateGallery() {
     let id = document.getElementById("editGalId").value;

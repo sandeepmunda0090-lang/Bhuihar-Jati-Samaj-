@@ -38,8 +38,9 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
 .notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
 
-.official-card{min-width:145px;max-width:145px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
-.official-card img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+/* --- पदाधिकारी पोर्ट्रेट कार्ड स्टाइल --- */
+.official-card{min-width:155px;max-width:155px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
+.official-card img{width:75px;height:95px;border-radius:12px;object-fit:cover;border:2.5px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.15);}
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
 .contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
 
@@ -288,10 +289,13 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   const db=firebase.firestore();
 
   function getSafeMapLink(rawLink, address) {
-    if (rawLink && typeof rawLink === 'string' && rawLink.startsWith('http') && !rawLink.includes('intent://')) {
+    if (!rawLink || typeof rawLink !== 'string' || rawLink.includes('intent://') || rawLink.includes('/place/')) {
+      return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
+    }
+    if (rawLink.startsWith('http')) {
       return rawLink;
     }
-    return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur')}`;
+    return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
   }
 
   async function loadHomeMeeting() {
@@ -409,27 +413,46 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     setTimeout(() => { overlay.style.display = "none"; }, 300);
   }
 
+  // --- पदाधिकारी (Officials) लोड करने का अपडेटेड पोर्ट्रेट फंक्शन ---
   async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {
       let snap = await db.collection("officials").get();
-      if(snap.empty) return;
+      if(snap.empty) {
+        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई पदाधिकारी दर्ज नहीं है।</div>`;
+        return;
+      }
       let html = "";
       snap.forEach(doc => {
         let o = doc.data();
         let photo = o.photo && o.photo.startsWith('http') ? o.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
-        html += `<div class="official-card">
-          <img src="${photo}" alt="पदाधिकारी">
-          <b style="font-size:11.5px; color:var(--navy); margin-bottom:2px;">${o.name || 'पदाधिकारी'}</b>
-          <span style="font-size:9.5px; color:var(--muted);">${o.role || 'पद'}</span>
-          <div class="contact-btns">
-            <button onclick="window.location.href='tel:${o.mobile || '9876543210'}'">📞 कॉल</button>
-            <button onclick="window.location.href='https://wa.me/91${o.mobile || '9876543210'}'">💬 व्हाट्सएप</button>
+        html += `
+          <div class="official-card">
+            <img src="${photo}" alt="पदाधिकारी फोटो">
+            <b style="font-size:12px; color:var(--navy); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.name || 'पदाधिकारी'}</b>
+            <span style="font-size:10px; color:var(--muted); margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.role || 'पद'}</span>
+            <div class="contact-btns">
+              <button onclick="window.location.href='tel:${o.mobile || '9876543210'}'">📞 कॉल</button>
+              <button onclick="window.location.href='https://wa.me/91${o.mobile || '9876543210'}'">💬 चैट</button>
+            </div>
           </div>
-        </div>`;
+        `;
       });
       slider.innerHTML = html;
-    } catch(e) { console.log("पदाधिकारी लोड त्रुटि"); }
+
+      // ऑटो-स्लाइड सुविधा ताकि यूजर को आसानी हो
+      let scrollAmount = 0;
+      setInterval(() => {
+        if(slider) {
+          scrollAmount += 170;
+          if(scrollAmount >= slider.scrollWidth - slider.clientWidth) { scrollAmount = 0; }
+          slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 4000);
+
+    } catch(e) {
+      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड करने में त्रुटि हुई।</div>`;
+    }
   }
   loadOfficialsToSlider();
 

@@ -27,15 +27,15 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18);text-decoration:none;display:inline-block;text-align:center}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
-/* --- स्वागत बॉक्स और सर्कल दान कोष डिज़ाइन --- */
+/* --- स्वागत बॉक्स और सर्कल दान कोष डिज़ाइन (अपडेटेड पैडिंग व स्पेसिंग) --- */
 .welcome-box-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   background: rgba(255, 255, 255, 0.22);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 16px;
   margin-top: 12px;
   backdrop-filter: blur(5px);
@@ -45,6 +45,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   color: #fff;
   font-weight: 700;
   line-height: 1.4;
+  padding-left: 4px;
 }
 .welcome-action-side {
   display: flex;
@@ -665,7 +666,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       let welcomeBox = document.getElementById("userWelcomeBox");
       welcomeBox.style.display = "block";
 
-      // दान कोष का कुल अमाउंट जोड़ना
       let totalDonationAmount = "₹0";
       try {
         let donSnap = await db.collection("donations").get();
@@ -677,7 +677,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         if(sum > 0) totalDonationAmount = "₹" + sum.toLocaleString('en-IN');
       } catch(e) {}
 
-      // स्वागत, मेरा परिवार बटन और गोल (Circle) दान कोष काउंटर
       welcomeBox.innerHTML = `
         <div class="welcome-box-flex">
           <div class="welcome-text-side">

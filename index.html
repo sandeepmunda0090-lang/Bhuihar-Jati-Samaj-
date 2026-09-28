@@ -38,7 +38,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 
 .notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
 
-/* --- पदाधिकारी पोर्ट्रेट कार्ड स्टाइल --- */
 .official-card{min-width:155px;max-width:155px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
 .official-card img{width:75px;height:95px;border-radius:12px;object-fit:cover;border:2.5px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.15);}
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
@@ -289,13 +288,8 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   const db=firebase.firestore();
 
   function getSafeMapLink(rawLink, address) {
-    if (!rawLink || typeof rawLink !== 'string' || rawLink.includes('intent://') || rawLink.includes('/place/')) {
-      return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
-    }
-    if (rawLink.startsWith('http')) {
-      return rawLink;
-    }
-    return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
+    let query = encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh');
+    return `https://www.google.com/maps/search/?api=1&query=${query}`;
   }
 
   async function loadHomeMeeting() {
@@ -413,7 +407,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
     setTimeout(() => { overlay.style.display = "none"; }, 300);
   }
 
-  // --- पदाधिकारी (Officials) लोड करने का अपडेटेड पोर्ट्रेट फंक्शन ---
   async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {
@@ -440,7 +433,6 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
       });
       slider.innerHTML = html;
 
-      // ऑटो-स्लाइड सुविधा ताकि यूजर को आसानी हो
       let scrollAmount = 0;
       setInterval(() => {
         if(slider) {

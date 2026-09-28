@@ -27,7 +27,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;margin-top:6px;box-shadow:0 4px 12px rgba(7,87,163,.18);text-decoration:none;display:inline-block;text-align:center}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
-/* --- Alag-alag 3D card aur Dan Kosh circle layout --- */
+/* --- कॉम्पैक्ट 3D कार्ड और बड़ा दान कोष सर्कल --- */
 .welcome-container-box {
   position: relative;
   display: flex;
@@ -70,33 +70,33 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
   width: fit-content;
 }
 .donation-circle-badge {
-  width: 75px;
-  height: 75px;
+  width: 90px;
+  height: 90px;
   background: linear-gradient(135deg, #f59e0b, #d97706);
-  border: 3px solid #fff;
+  border: 3.5px solid #fff;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #fff;
-  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.6), inset 0 2px 4px rgba(255,255,255,0.6);
+  box-shadow: 0 8px 22px rgba(217, 119, 6, 0.65), inset 0 2px 4px rgba(255,255,255,0.7);
   text-align: center;
   padding: 4px;
   flex-shrink: 0;
   animation: iconBounce 2s infinite ease-in-out;
 }
 .donation-circle-badge span.title {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 800;
   line-height: 1;
   opacity: 0.95;
 }
 .donation-circle-badge span.amount {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 900;
   line-height: 1.2;
-  margin-top: 3px;
+  margin-top: 4px;
   white-space: nowrap;
 }
 
@@ -681,7 +681,7 @@ body{margin:0;background:#eaf0f7;font-family:system-ui,"Noto Sans Devanagari",Ar
         if(sum > 0) totalDonationAmount = "₹" + sum.toLocaleString('en-IN');
       } catch(e) {}
 
-      // Alag-alag compact 3d card aur dur sthit dan kosh circle
+      // कॉम्पैक्ट यूजर कार्ड और बड़ा दान कोष सर्कल लेआउट
       welcomeBox.innerHTML = `
         <div class="welcome-container-box">
           <div class="welcome-user-card">

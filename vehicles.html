@@ -74,7 +74,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना ट्रैक्टर या वाहन सूची में जोड़ें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सेवा पोर्टल पर लाइव होगी[span_6](start_span)[span_6](end_span).</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सेवा पोर्टल पर लाइव होगी।</p>
       
       <div class="form-group">
         <label>वाहन का नाम / प्रकार</label>
@@ -125,13 +125,8 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
 function getSafeMapLink(rawLink, address) {
-  if (!rawLink || typeof rawLink !== 'string' || rawLink.includes('intent://') || rawLink.includes('/place/')) {
-    return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
-  }
-  if (rawLink.startsWith('http')) {
-    return rawLink;
-  }
-  return `https://maps.google.com/maps?q=${encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh')}`;
+  let query = encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh');
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
 let currentVehicleCat = 'agri';
@@ -162,7 +157,7 @@ async function loadVehicles() {
     });
     renderVehicles();
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">वाहन सूचियाँ लोड करने में त्रुटि हुई[span_7](start_span)[span_7](end_span).</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">वाहन सूचियाँ लोड करने में त्रुटि हुई।</div>`;
   }
 }
 
@@ -171,7 +166,7 @@ function renderVehicles() {
   let filtered = allVehicles.filter(v => v.category === currentVehicleCat);
 
   if(filtered.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत वाहन सेवा उपलब्ध नहीं है[span_8](start_span)[span_8](end_span).</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत वाहन सेवा उपलब्ध नहीं है।</div>`;
     return;
   }
 
@@ -231,14 +226,14 @@ async function submitVehicleRequest() {
       status: "pending",
       timestamp: Date.now()
     });
-    alert("आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है[span_9](start_span)[span_9](end_span)! सत्यापन के बाद यह लाइव हो जाएगा।");
+    alert("आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है! सत्यापन के बाद यह लाइव हो जाएगा।");
     document.getElementById("vehicleNameInput").value = "";
     document.getElementById("driverNameInput").value = "";
     document.getElementById("mobileInput").value = "";
     document.getElementById("addressInput").value = "";
     document.getElementById("mapLinkInput").value = "";
   } catch(e) {
-    alert("अनुरोध भेजने में त्रुटि आई[span_10](start_span)[span_10](end_span)। कृपया पुनः प्रयास करें।");
+    alert("अनुरोध भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
   }
 }
 

@@ -119,6 +119,11 @@ function getSafeMapLink(rawLink, address) {
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
 
+function openExternalMap(url) {
+  let cleanUrl = (url && url.includes('http')) ? url : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Maharajganj Balrampur Chhattisgarh')}`;
+  window.open(cleanUrl, '_system');
+}
+
 let allTravelServices = [];
 
 async function loadTravelServices() {
@@ -162,7 +167,7 @@ function renderTravelServices() {
         </div>
         <div class="contact-actions">
           <a href="tel:${mobile}" class="action-btn call-btn">📞 कॉल करें</a>
-          <a href="${mapLink}" target="_blank" rel="noopener noreferrer" class="action-btn map-btn">📍 मैप लोकेशन</a>
+          <a href="javascript:void(0);" onclick="openExternalMap('${mapLink}')" class="action-btn map-btn">📍 मैप लोकेशन</a>
         </div>
       </div>
     `;

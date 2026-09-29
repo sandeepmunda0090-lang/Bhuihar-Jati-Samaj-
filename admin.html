@@ -395,10 +395,30 @@
     }
   }
 
+  // अपडेटेड अप्रूव फंक्शन (नोटिफिकेशन सपोर्ट के साथ)
   async function approveDynamicDoc(col, id) {
-    await db.collection(col).doc(id).update({ status: "approved" });
-    alert("सफलतापूर्वक स्वीकृत कर दिया गया!");
-    loadAllAdminData();
+    try {
+      await db.collection(col).doc(id).update({ status: "approved" });
+      
+      let docSnap = await db.collection(col).doc(id).get();
+      if(docSnap.exists) {
+        let d = docSnap.data();
+        let serviceName = d.name || d.title || d.bizName || "आपकी सेवा";
+        if(d.fcmToken) {
+          sendAutomatedNotification(d.fcmToken, "बधाई हो! 🎉", `आपका ${serviceName} अनुरोध स्वीकृत कर लिया गया है।`);
+        }
+      }
+
+      alert("सफलतापूर्वक स्वीकृत कर दिया गया!");
+      loadAllAdminData();
+    } catch (error) {
+      console.error("अप्रूवल में एरर:", error);
+      alert("स्वीकृत करने में त्रुटि आई!");
+    }
+  }
+
+  function sendAutomatedNotification(token, title, body) {
+    console.log("Notification requested for token:", token, "Title:", title, "Body:", body);
   }
 
   // जॉब सेव करने का अपडेटेड फंक्शन

@@ -127,12 +127,15 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </div>
 </div>
 
+<!-- Firebase SDKs (App, Firestore और Messaging शामिल किए गए हैं) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 <script>
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
+  const messaging = firebase.messaging(); // FCM Messaging इंस्टेंस
 
   let nextActionType = "login";
 
@@ -187,7 +190,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         return;
       }
 
-      let userData = querySnapshot.docs[0].data();
+      let userDoc = querySnapshot.docs[0];
+      let userData = userDoc.data();
 
       if (userData.mpin !== mpin) {
         alert("⚠️ गलत MPIN! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
@@ -202,6 +206,22 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         btn.innerText = "🚀 सुरक्षित लॉगिन करें";
         return;
       }
+
+      // लॉगिन सफल होने पर FCM टोकन प्राप्त करके डेटाबेस में अपडेट करें
+      let fcmToken = "";
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          fcmToken = await messaging.getToken();
+        }
+      } catch (err) {
+        console.log("FCM Token अपडेट करने में त्रुटि (वैकल्पिक):", err);
+      }
+
+      // डेटाबेस में यूजर का fcmToken रिफ्रेश/अपडेट करें
+      await db.collection("users").doc(userDoc.id).update({
+        fcmToken: fcmToken || userData.fcmToken || ""
+      });
 
       localStorage.setItem("userLoggedInMobile", mobile);
       localStorage.setItem("userName", userData.FullName || "सदस्य");

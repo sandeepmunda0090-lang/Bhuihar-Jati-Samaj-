@@ -73,6 +73,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
 
+/* अलग-अलग कॉलम / फॉर्म इनपुट स्टाइल */
+.form-group { margin-bottom: 10px; text-align: left; }
+.form-group label { display: block; font-size: 11.5px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.form-control { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; font: 13px inherit; background: #fafbfc; box-sizing: border-box; outline: none; }
+.form-control:focus { border-color: var(--p); }
+
 /* प्रिंट के दौरान केवल परिवार या रिपोर्ट कार्ड दिखाने के लिए */
 @media print {
   body * { visibility: hidden; }
@@ -133,8 +139,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         </div>
       </div>
 
-      <button class="btn" style="background:#16a34a; font-size:12px; padding:10px; margin-top:6px;" onclick="openAddFamilyMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
-      <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; margin-top:6px;" onclick="window.print()">📥 डिजिटल परिवार कार्ड PDF डाउनलोड / प्रिंट करें</button>
+      <button class="btn" style="background:#16a34a; font-size:12px; padding:10px; margin-top:6px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
+      <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; margin-top:6px;" onclick="printDigitalCardPDF()">📥 डिजिटल परिवार कार्ड PDF डाउनलोड / प्रिंट करें</button>
     </div>
 
     <!-- ऑल-फैमिली मास्टर रिपोर्ट पीडीएफ बटन -->
@@ -167,7 +173,52 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
-<!-- प्रीमियम पॉप-अप मॉडल -->
+<!-- अलग-अलग कॉलम वाला सुंदर पॉप-अप फॉर्म (Modal) -->
+<div id="addMemberModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; padding:12px;">
+    <div style="background:#ffffff; width:100%; max-width:360px; border-radius:20px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
+        <h3 style="font-size:16px; font-weight:800; color:var(--navy); margin:0 0 12px; text-align:center;">➕ परिवार का नया सदस्य जोड़ें</h3>
+        
+        <div class="form-group">
+            <label>सदस्य का पूरा नाम *</label>
+            <input type="text" id="modalMemberName" class="form-control" placeholder="उदा: राहुल मुंडा">
+        </div>
+        <div class="form-group">
+            <label>मुखिया से संबंध *</label>
+            <input type="text" id="modalMemberRelation" class="form-control" placeholder="उदा: पुत्र / पत्नी / पिता">
+        </div>
+        <div class="form-group">
+            <label>उम्र (वर्ष में)</label>
+            <input type="number" id="modalMemberAge" class="form-control" placeholder="उदा: 22">
+        </div>
+        <div class="form-group">
+            <label>रक्त समूह (Blood Group)</label>
+            <select id="modalMemberBlood" class="form-control">
+              <option value="अज्ञात">चयन करें (वैकल्पिक)</option>
+              <option value="A+">A+</option><option value="A-">A-</option>
+              <option value="B+">B+</option><option value="B-">B-</option>
+              <option value="O+">O+</option><option value="O-">O-</option>
+              <option value="AB+">AB+</option><option value="AB-">AB-</option>
+            </select>
+        </div>
+        <!-- नया विकल्प: पढ़ाई, काम या बेरोजगार -->
+        <div class="form-group">
+            <label>व्यवसायिक स्थिति (Education / Work Status)</label>
+            <select id="modalMemberStatus" class="form-control">
+              <option value="पढ़ाई करता है">📚 पढ़ाई करता है (Student)</option>
+              <option value="काम करता है">💼 काम करता है (Working)</option>
+              <option value="बेरोजगार">🔍 बेरोजगार / नौकरी की तलाश</option>
+              <option value="अन्य">अन्य (गृहणी / बच्चा आदि)</option>
+            </select>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:14px;">
+            <button onclick="closeAddMemberModal()" style="flex:1; padding:10px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:10px; cursor:pointer; font-size:13px;">रद्द करें</button>
+            <button onclick="saveFamilyMemberData()" style="flex:1; padding:10px; background:var(--p); color:#fff; font-weight:700; border:none; border-radius:10px; cursor:pointer; font-size:13px; box-shadow:0 4px 12px rgba(7,87,163,0.3);">सुरक्षित करें</button>
+        </div>
+    </div>
+</div>
+
+<!-- प्रीमियम अलर्ट पॉप-अप मॉडल -->
 <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
     <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
         <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
@@ -277,7 +328,7 @@ function renderFamilies(list) {
   let container = document.getElementById("familyListContainer");
   
   if(list.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार नहीं मिला[span_1](start_span)[span_1](end_span).</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार नहीं मिला[span_0](start_span)[span_0](end_span).</div>`;
     return;
   }
 
@@ -290,7 +341,7 @@ function renderFamilies(list) {
     if(loggedMobile) {
       contactAction = `<a href="tel:${mobileNum}" style="background:#e0f2fe;color:#0369a1;padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;text-decoration:none;display:inline-block;margin-top:8px;">📞 मुखिया संपर्क: ${mobileNum}</a>`;
     } else {
-      contactAction = `<button onclick="promptLoginForFamily()" style="background:#f1f5f9;color:var(--muted);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;display:inline-block;margin-top:8px;">🔒 संपर्क हेतु लॉगिन करें[span_2](start_span)[span_2](end_span)</button>`;
+      contactAction = `<button onclick="promptLoginForFamily()" style="background:#f1f5f9;color:var(--muted);padding:6px 12px;border-radius:10px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;display:inline-block;margin-top:8px;">🔒 संपर्क हेतु लॉगिन करें[span_1](start_span)[span_1](end_span)</button>`;
     }
 
     html += `
@@ -317,7 +368,7 @@ async function loadMyFamilyMembers() {
     });
 
     if(members.length === 0) {
-      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं جوड़ा है। नीचे दिए गए बटन से जोड़ें।</div>`;
+      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं जोड़ा है। नीचे दिए गए बटन से जोड़ें।</div>`;
       return;
     }
 
@@ -327,7 +378,8 @@ async function loadMyFamilyMembers() {
           <tr style="background:#dcfce7; color:#166534; text-align:left;">
             <th style="padding:6px; border:1px solid #bbf7d0;">सदस्य का नाम</th>
             <th style="padding:6px; border:1px solid #bbf7d0;">संबंध</th>
-            <th style="padding:6px; border:1px solid #bbf7d0;">उम्र / ब्लड ग्रुप</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">उम्र / ब्लड</th>
+            <th style="padding:6px; border:1px solid #bbf7d0;">स्थिति</th>
           </tr>
         </thead>
         <tbody>
@@ -339,6 +391,7 @@ async function loadMyFamilyMembers() {
           <td style="padding:6px; border:1px solid #bbf7d0;"><b>${m.name}</b></td>
           <td style="padding:6px; border:1px solid #bbf7d0;">${m.relation}</td>
           <td style="padding:6px; border:1px solid #bbf7d0;">${m.age || '-'} वर्ष (${m.bloodGroup || 'निश्चित नहीं'})</td>
+          <td style="padding:6px; border:1px solid #bbf7d0; font-weight:bold; color:var(--p);">${m.workStatus || 'अन्य'}</td>
         </tr>
       `;
     });
@@ -350,13 +403,36 @@ async function loadMyFamilyMembers() {
   }
 }
 
-async function openAddFamilyMemberModal() {
-  let name = prompt("परिवार के सदस्य का पूरा नाम दर्ज करें:");
-  if(!name) return;
-  let relation = prompt("मुखिया से संबंध (जैसे: पत्नी, पुत्र, पुत्री, माता, पिता):");
-  if(!relation) return;
-  let age = prompt("उम्र (वर्ष में):");
-  let bloodGroup = prompt("ब्लड ग्रुप (जैसे: A+, B+, O+, AB+ आदि - वैकल्पिक):");
+function openAddMemberModal() {
+  if(!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार का सदस्य जोड़ने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+      if(yes) window.location.href = "login.html";
+    }, true);
+    return;
+  }
+  document.getElementById("modalMemberName").value = "";
+  document.getElementById("modalMemberRelation").value = "";
+  document.getElementById("modalMemberAge").value = "";
+  document.getElementById("modalMemberBlood").value = "अज्ञात";
+  document.getElementById("modalMemberStatus").value = "पढ़ाई करता है";
+  document.getElementById("addMemberModal").style.display = "flex";
+}
+
+function closeAddMemberModal() {
+  document.getElementById("addMemberModal").style.display = "none";
+}
+
+async function saveFamilyMemberData() {
+  let name = document.getElementById("modalMemberName").value.trim();
+  let relation = document.getElementById("modalMemberRelation").value.trim();
+  let age = document.getElementById("modalMemberAge").value.trim();
+  let bloodGroup = document.getElementById("modalMemberBlood").value;
+  let workStatus = document.getElementById("modalMemberStatus").value;
+
+  if(!name || !relation) {
+    alert("⚠️ कृपया सदस्य का पूरा नाम और संबंध दोनों दर्ज करें!");
+    return;
+  }
 
   try {
     await db.collection("family_members").add({
@@ -364,13 +440,15 @@ async function openAddFamilyMemberModal() {
       name: name,
       relation: relation,
       age: age || "",
-      bloodGroup: bloodGroup || "अज्ञात",
+      bloodGroup: bloodGroup,
+      workStatus: workStatus,
       timestamp: Date.now()
     });
-    alert("परिवार का सदस्य सफलतापूर्वक जोड़ दिया गया है[span_3](start_span)[span_3](end_span)!");
+    closeAddMemberModal();
+    alert("परिवार का सदस्य सफलतापूर्वक जोड़ दिया गया है[span_2](start_span)[span_2](end_span)!");
     loadMyFamilyMembers();
   } catch(e) {
-    alert("सदस्य जोड़ने में विफल[span_4](start_span)[span_4](end_span)।");
+    alert("सदस्य जोड़ने में विफल[span_3](start_span)[span_3](end_span): " + e.message);
   }
 }
 
@@ -390,6 +468,16 @@ function filterFamilies() {
     (f.address && f.address.toLowerCase().includes(query))
   );
   renderFamilies(filtered);
+}
+
+function printDigitalCardPDF() {
+  let printContents = document.getElementById("printableArea").innerHTML;
+  let originalContents = document.body.innerHTML;
+
+  document.body.innerHTML = `<div style="padding:20px; font-family:sans-serif;">${printContents}</div>`;
+  window.print();
+  document.body.innerHTML = originalContents;
+  window.location.reload();
 }
 
 function printMasterDirectoryReport() {

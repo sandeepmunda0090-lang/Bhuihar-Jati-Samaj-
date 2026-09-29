@@ -90,18 +90,31 @@
       </div>
     </div>
 
-    <!-- 2. रोजगार / जॉब वेकेंसी -->
+    <!-- 2. रोजगार / जॉब वेकेंसी (सरकारी और प्राइवेट अपडेटेड) -->
     <button class="accordion-header">💼 1. रोजगार / जॉब वेकेंसी पोस्टिंग <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #0284c7;">
         <input type="hidden" id="editJobId" value="">
-        <div class="form-group"><label>जॉब शीर्षक</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर"></div>
-        <div class="form-group"><label>कंपनी का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स"></div>
-        <div class="form-group"><label>स्थान</label><input type="text" id="jobLoc" class="form-control" placeholder="अंबिकापुर"></div>
-        <div class="form-group"><label>योग्यता</label><input type="text" id="jobQuali" class="form-control" placeholder="12वीं पास"></div>
-        <div class="form-group"><label>अप्लाई लिंक</label><input type="text" id="jobApplyLink" class="form-control" placeholder="https://..."></div>
+        
+        <div class="form-group">
+          <label>जॉब श्रेणी (सरकारी या प्राइवेट)</label>
+          <select id="jobCategory" class="form-control">
+            <option value="government">🏛️ सरकारी नौकरी (CG Vyapam / All India)</option>
+            <option value="private">🏢 प्राइवेट नौकरी (Telecom / Operator / Field)</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label>जॉब शीर्षक / पद का नाम</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर / CG Vyapam ASI"></div>
+        <div class="form-group"><label>कंपनी / विभाग का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स / छत्तीसगढ़ व्यापम"></div>
+        <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="अंबिकापुर / महाराजगंज"></div>
+        <div class="form-group"><label>वेतन / सैलरी (प्राइवेट के लिए)</label><input type="text" id="jobSalary" class="form-control" placeholder="₹15,000 - ₹20,000 / माह"></div>
+        <div class="form-group"><label>योग्यता</label><input type="text" id="jobQuali" class="form-control" placeholder="12वीं पास / स्नातक"></div>
+        <div class="form-group"><label>ऑनलाइन अप्लाई लिंक (सरकारी/वेबसाइट)</label><input type="text" id="jobApplyLink" class="form-control" placeholder="https://..."></div>
+        <div class="form-group"><label>मोबाइल नंबर (कॉल / WhatsApp हेतु)</label><input type="text" id="jobMobile" class="form-control" placeholder="9876543210"></div>
+        <div class="form-group"><label>विशेष टैग</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert या 💼 Private Telecom Job"></div>
+
         <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateJob()">जॉब सुरक्षित / पोस्ट करें</button>
-        <div class="table-responsive"><table><thead><tr><th>शीर्षक / कंपनी</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>शीर्षक / कंपनी / प्रकार</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
       </div>
     </div>
 
@@ -178,7 +191,7 @@
       </div>
     </div>
 
-    <!-- 8. व्यवसाय डायरेक्टरी (अलग फील्ड्स के साथ अपडेटेड) -->
+    <!-- 8. व्यवसाय डायरेक्टरी -->
     <button class="accordion-header">🏪 7. व्यवसाय / दुकान डायरेक्टरी (अप्रूवल व प्रबंधन) <span>▼</span></button>
     <div class="accordion-content">
       <div class="card">
@@ -206,7 +219,7 @@
       </div>
     </div>
 
-    <!-- 10. यात्रा / वाहन सेवा अनुमोदन (अलग फील्ड्स के साथ अपडेटेड) -->
+    <!-- 10. यात्रा / वाहन सेवा अनुमोदन -->
     <button class="accordion-header">🚗 9. यात्रा / वाहन सेवा अनुमोदन <span>▼</span></button>
     <div class="accordion-content">
       <div class="card" style="border-left-color: #0284c7;">
@@ -285,7 +298,7 @@
 
   function loadAllAdminData() {
     loadPendingApprovals();
-    loadAdminTable("jobs", "adminJobsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.company}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}', '${d.title}', '${d.company}', '${d.location}', '${d.qualification}', '${d.applyLink}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("jobs", "adminJobsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.company || d.dept || ''} [${d.category === 'private' ? 'प्राइवेट' : 'सरकारी'}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}', '${d.category || 'government'}', '${d.title || ''}', '${d.company || ''}', '${d.location || ''}', '${d.salary || ''}', '${d.qualification || ''}', '${d.applyLink || ''}', '${d.mobile || ''}', '${d.tag || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
@@ -294,7 +307,6 @@
     loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("condolences", "adminCondTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.description}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}', '${d.name}', '${d.description}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    // व्यवसाय टेबल लोड (नए फील्ड्स के साथ)
     loadAdminTable("businesses", "adminBizTable", (d, id) => `<tr><td><b>${d.bizName}</b> (${d.owner})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'} | 📍 ${d.address || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}', '${d.bizName || ''}', '${d.owner || ''}', '${d.mobile || ''}', '${d.address || ''}', '${d.mapLink || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
     loadAdminTable("gallery", "adminGalTable", (d, id) => `<tr><td><b>${d.title}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}', '${d.title}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
@@ -346,7 +358,6 @@
     } catch(e) { document.getElementById(tableId).innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`; }
   }
 
-  // यात्रा/वाहन पेंडिंग अप्रूवल और लिस्ट लोड करने के लिए विशेष फंक्शन
   async function loadPendingTravelApprovals() {
     try {
       let snap = await db.collection("travel").get();
@@ -390,19 +401,43 @@
     loadAllAdminData();
   }
 
+  // जॉब सेव करने का अपडेटेड फंक्शन
   async function saveOrUpdateJob() {
     let id = document.getElementById("editJobId").value;
+    let category = document.getElementById("jobCategory").value;
     let title = document.getElementById("jobTitle").value.trim();
     let company = document.getElementById("jobCompany").value.trim();
-    let data = { title, company, location: document.getElementById("jobLoc").value.trim(), qualification: document.getElementById("jobQuali").value.trim(), applyLink: document.getElementById("jobApplyLink").value.trim(), timestamp: Date.now() };
-    if(!title || !company) { alert("⚠️ शीर्षक और कंपनी भरें!"); return; }
+    let location = document.getElementById("jobLoc").value.trim();
+    let salary = document.getElementById("jobSalary").value.trim();
+    let qualification = document.getElementById("jobQuali").value.trim();
+    let applyLink = document.getElementById("jobApplyLink").value.trim();
+    let mobile = document.getElementById("jobMobile").value.trim();
+    let tag = document.getElementById("jobTag").value.trim();
+
+    if(!title || !company) { alert("⚠️ जॉब शीर्षक और कंपनी/विभाग का नाम भरें!"); return; }
+
+    let data = { category, title, company, location, salary, qualification, applyLink, mobile, tag, timestamp: Date.now() };
+
     if(id) { await db.collection("jobs").doc(id).update(data); document.getElementById("editJobId").value=""; }
     else { await db.collection("jobs").add(data); }
+    
     alert("जॉब सुरक्षित हो गई!");
-    document.getElementById("jobTitle").value=""; document.getElementById("jobCompany").value=""; document.getElementById("jobLoc").value=""; document.getElementById("jobQuali").value=""; document.getElementById("jobApplyLink").value="";
+    document.getElementById("jobTitle").value=""; document.getElementById("jobCompany").value=""; document.getElementById("jobLoc").value=""; document.getElementById("jobSalary").value=""; document.getElementById("jobQuali").value=""; document.getElementById("jobApplyLink").value=""; document.getElementById("jobMobile").value=""; document.getElementById("jobTag").value="";
     loadAllAdminData();
   }
-  function editJob(id, t, c, l, q, a) { document.getElementById("editJobId").value=id; document.getElementById("jobTitle").value=t; document.getElementById("jobCompany").value=c; document.getElementById("jobLoc").value=l; document.getElementById("jobQuali").value=q; document.getElementById("jobApplyLink").value=a; }
+
+  function editJob(id, cat, t, c, l, sal, q, a, mob, tg) { 
+    document.getElementById("editJobId").value=id; 
+    document.getElementById("jobCategory").value=cat; 
+    document.getElementById("jobTitle").value=t; 
+    document.getElementById("jobCompany").value=c; 
+    document.getElementById("jobLoc").value=l; 
+    document.getElementById("jobSalary").value=sal; 
+    document.getElementById("jobQuali").value=q; 
+    document.getElementById("jobApplyLink").value=a; 
+    document.getElementById("jobMobile").value=mob; 
+    document.getElementById("jobTag").value=tg; 
+  }
 
   async function saveOrUpdateOfficial() {
     let id = document.getElementById("editOfficialId").value;
@@ -498,7 +533,6 @@
   }
   function editCond(id, n, desc, p) { document.getElementById("editCondId").value=id; document.getElementById("condName").value=n; document.getElementById("condDesc").value=desc; document.getElementById("condPhoto").value=p; }
 
-  // व्यवसाय सेव करने का अपडेटेड फंक्शन (अलग फील्ड्स के साथ)
   async function saveOrUpdateBusiness() {
     let id = document.getElementById("editBizId").value;
     let bizName = document.getElementById("bizName").value.trim();
@@ -546,7 +580,6 @@
     document.getElementById("bizMapLink").value = map; 
   }
 
-  // वाहन/यात्रा सेवा सेव करने का अपडेटेड फंक्शन (अलग फील्ड्स के साथ)
   async function saveOrUpdateTravelAdmin() {
     let id = document.getElementById("editTravelId").value;
     let title = document.getElementById("travelTitleInput").value.trim();

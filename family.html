@@ -137,7 +137,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; margin-top:6px;" onclick="window.print()">📥 डिजिटल परिवार कार्ड PDF डाउनलोड / प्रिंट करें</button>
     </div>
 
-    <!-- ऑल-फैमिली मास्टर रिपोर्ट पीडीएफ बटन (सभी के लिए या एडमिन हेतु) -->
+    <!-- ऑल-फैमिली मास्टर रिपोर्ट पीडीएफ बटन -->
     <div class="card" style="background:#eff6ff; border-color:#bfdbfe; text-align:center;">
       <h4 style="margin:0 0 4px; color:#1e40af; font-size:13.5px;">📊 ऑल-फैमिली मास्टर डायरेक्टरी रिपोर्ट</h4>
       <p style="font-size:11px; color:#1e3a8a; margin:0 0 10px;">समाज के सभी पंजीकृत परिवारों की संपूर्ण सूची एक साथ देखें।</p>
@@ -234,7 +234,6 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
-// पेज लोड होने पर चेक करें कि यूजर लॉगिन है या नहीं
 function checkUserSessionForFamily() {
   if (loggedMobile) {
     document.getElementById("userFamilySection").style.display = "block";
@@ -308,7 +307,6 @@ function renderFamilies(list) {
   container.innerHTML = html;
 }
 
-// केवल लॉगिन यूजर के लिए उनके परिवार के सदस्य लोड करना
 async function loadMyFamilyMembers() {
   let tableContainer = document.getElementById("myFamilyTableContainer");
   try {
@@ -319,7 +317,7 @@ async function loadMyFamilyMembers() {
     });
 
     if(members.length === 0) {
-      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं जोड़ा है। नीचे दिए गए बटन से जोड़ें।</div>`;
+      tableContainer.innerHTML = `<div style="font-size:12px; color:#166534; text-align:center; padding:8px;">आपने अभी तक अपने परिवार का कोई सदस्य नहीं جوड़ा है। नीचे दिए गए बटन से जोड़ें।</div>`;
       return;
     }
 
@@ -395,8 +393,6 @@ function filterFamilies() {
 }
 
 function printMasterDirectoryReport() {
-  // ऑल-फैमिली मास्टर रिपोर्ट के लिए पूरी लिस्ट को प्रिंट व्यू पर भेजना
-  let originalContent = document.body.innerHTML;
   let masterHtml = `<div style="padding:20px; font-family:sans-serif;">
     <h2 style="color:#0757a3; text-align:center; margin-bottom:5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी रिपोर्ट</h2>
     <p style="text-align:center; font-size:12px; color:#66758a; margin-top:0;">महाराजगंज एवं बलरामपुर क्षेत्र</p>
@@ -425,9 +421,11 @@ function printMasterDirectoryReport() {
 
   masterHtml += `</tbody></table></div>`;
   
-  document.body.innerHTML = masterHtml;
-  window.print();
-  window.location.reload(); // पेज रीलोड करके वापस स्थिति बहाल करना
+  let newWin = window.open('', '_blank');
+  newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body>' + masterHtml + '</body></html>');
+  newWin.document.close();
+  newWin.focus();
+  setTimeout(() => { newWin.print(); newWin.close(); }, 500);
 }
 
 function openRegisterFamilyModal() {
@@ -441,7 +439,7 @@ function openRegisterFamilyModal() {
   }
   let head = prompt("परिवार के मुखिया का नाम दर्ज करें:");
   if(head) {
-    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है。 सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
+    alert("आपके परिवार का पंजीयन अनुरोध एडमिन के पास भेज दिया गया है। सत्यापन के बाद यह डायरेक्टरी में दिख जाएगा।");
   }
 }
 

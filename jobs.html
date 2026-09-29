@@ -21,18 +21,24 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
 
 .container{padding:16px 12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
+
+/* --- टैब बटन डिज़ाइन --- */
+.job-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.job-tab-btn{flex:1;padding:10px;background:#e2e8f0;color:var(--muted);border:none;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;text-align:center;transition:all 0.2s;}
+.job-tab-btn.active{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,0.25);}
 
 .job-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;transition:all 0.2s}
-.job-title{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 4px;display:flex;justify-content:space-between;align-items:flex-start}
-.job-meta{font-size:11.5px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.job-title{font-size:15px;color:var(--navy);font-weight:800;margin:0 0 6px;display:flex;justify-content:space-between;align-items:flex-start}
+.job-meta{font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.5}
 
-.new-badge{background:#ef4444;color:#fff;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:6px;animation:pulse 1.5s infinite;display:inline-block}
-@keyframes pulse{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+.tag-badge{background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;display:inline-block;margin-bottom:6px;}
+.tag-badge.private{background:#ecfdf5;color:#065f46;}
 
-.job-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;}
-.expiry-text{color:#dc2626;font-weight:700}
-.apply-btn{background:#e0f2fe;color:#0369a1;padding:6px 12px;border-radius:8px;font-weight:700;text-decoration:none;font-size:11.5px;cursor:pointer;border:none;}
+.job-actions{display:flex;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid var(--line);flex-wrap:wrap;}
+.action-btn{flex:1;padding:8px;border-radius:8px;font-weight:700;text-decoration:none;font-size:11.5px;cursor:pointer;border:none;text-align:center;}
+.btn-primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;}
+.btn-call{background:linear-gradient(135deg,#10b981,#059669);color:#fff;}
+.btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;}
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
@@ -57,10 +63,15 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     
     <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
       <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📢 युवाओं के लिए विशेष सूचना</h3>
-      <p style="margin:0;font-size:11px;color:#1e3a8a;">नवीनतम भर्तियाँ सबसे ऊपर दिखाई दे रही हैं। अंतिम तिथि से पहले आवेदन करें।</p>
+      <p style="margin:0;font-size:11px;color:#1e3a8a;">अपनी पसंद के अनुसार सरकारी या प्राइवेट जॉब्स टैब चुनें।</p>
     </div>
 
-    <h4 style="margin:14px 2px 8px;font-size:13.5px;color:var(--navy);">उपलब्ध रोजगार अवसर:</h4>
+    <!-- सरकारी और प्राइवेट टैब -->
+    <div class="job-tabs">
+      <button id="tabGovt" class="job-tab-btn active" onclick="switchTab('government')">🏛️ सरकारी नौकरी</button>
+      <button id="tabPvt" class="job-tab-btn" onclick="switchTab('private')">🏢 प्राइवेट नौकरी</button>
+    </div>
+
     <div id="jobListContainer">
       <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">जॉब्स की सूचियाँ लोड हो रही हैं...</div>
     </div>
@@ -76,7 +87,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
-<!-- प्रीमियम पॉप-अप मॉडल (इंडेक्स जैसा) -->
+<!-- पॉप-अप मॉडल -->
 <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
     <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
         <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
@@ -98,6 +109,16 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+
+let activeTab = 'government'; // डिफ़ॉल्ट सरकारी टैब
+let allJobsData = [];
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tabGovt').className = tab === 'government' ? 'job-tab-btn active' : 'job-tab-btn';
+  document.getElementById('tabPvt').className = tab === 'private' ? 'job-tab-btn active' : 'job-tab-btn';
+  renderJobs();
+}
 
 let modalCallback = null;
 function showCustomAlert(title, message, callback) {
@@ -131,8 +152,7 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
-// सिक्योर अप्लाई क्लिक फंक्शन (लॉगिन जांच के साथ)
-function secureApply(url) {
+function secureAction(url, isExternal = true) {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if (!loggedMobile) {
     showCustomAlert("⚠️ सुरक्षा चेतावनी", "जॉब का विवरण देखने या आवेदन करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
@@ -143,9 +163,13 @@ function secureApply(url) {
     return;
   }
   if(url && url !== '#') {
-    window.open(url, '_blank');
+    if(isExternal) {
+      window.open(url, '_blank');
+    } else {
+      window.location.href = url;
+    }
   } else {
-    alert("इस जॉब के लिए विस्तृत लिंक अभी उपलब्ध नहीं है।");
+    alert("इस विकल्प हेतु लिंक या नंबर उपलब्ध नहीं है।");
   }
 }
 
@@ -153,69 +177,101 @@ async function loadJobs() {
   let container = document.getElementById("jobListContainer");
   try {
     let snapshot = await db.collection("jobs").get();
-    let jobs = [];
-    let today = new Date().toISOString().split('T')[0];
+    allJobsData = [];
 
     snapshot.forEach(doc => {
       let data = doc.data();
-      if(!data.expiryDate || data.expiryDate >= today) {
-        jobs.push({ id: doc.id, ...data });
-      }
+      allJobsData.push({ id: doc.id, ...data });
     });
 
-    // यदि डेटाबेस खाली हो तो डेमो जॉब्स दिखाएँ
-    if(jobs.length === 0) {
-      jobs = [
+    // यदि डेटाबेस खाली हो तो डेमो डेटा दिखाएँ ताकि टैब टेस्ट हो सकें
+    if(allJobsData.length === 0) {
+      allJobsData = [
         {
+          category: "government",
           title: "छत्तीसगढ़ पुलिस ASI (Ministerial) भर्ती तैयारी",
-          dept: "छ.ग. शासन गृह विभाग",
+          company: "छ.ग. शासन गृह विभाग",
           qual: "स्नातक (Graduate) + कंप्यूटर दक्षता",
           expiryDate: "2026-12-31",
-          desc: "समाज के युवाओं के लिए पुलिस उप-निरीक्षक (मीनिस्ट्रियल) परीक्षा हेतु महत्वपूर्ण दिशा-निर्देश एवं सिलेबस आधारित तैयारी।",
-          link: "#",
-          isNew: true
+          desc: "पुलिस उप-निरीक्षक परीक्षा हेतु महत्वपूर्ण दिशा-निर्देश।",
+          applyLink: "#",
+          tag: "🔥 CG Vyapam Alert"
         },
         {
+          category: "private",
           title: "जिला स्तर फील्ड ऑपरेशंस एसोसिएट",
-          dept: "Jio Partner World / स्थानीय पार्टनर",
-          qual: "12वीं पास / स्नातक (स्मार्टफोन जरूरी)",
-          expiryDate: "2026-07-15",
-          desc: "बलरामपुर एवं महाराजगंज क्षेत्र के अंतर्गत लोकेशन चेक-इन एवं डिजिटल फील्ड रीच कार्य हेतु।",
-          link: "#",
-          isNew: false
+          company: "Jio Partner World",
+          salary: "₹18,000 / माह + इंसेंटिव",
+          qual: "12वीं पास (स्मार्टफोन जरूरी)",
+          location: "महाराजगंज, बलरामपुर",
+          mobile: "9876543210",
+          onlineLink: "#",
+          tag: "💼 Private Telecom Job"
         }
       ];
     }
 
-    let html = "";
-    jobs.forEach(j => {
-      let badgeHtml = j.isNew ? `<span class="new-badge">NEW ✨</span>` : "";
-      let safeLink = j.link || '#';
-
-      html += `
-        <div class="job-card">
-          <div class="job-title">
-            <span>${j.title}</span>
-            ${badgeHtml}
-          </div>
-          <div class="job-meta">
-            🏢 विभाग/कंपनी: <b>${j.dept || 'सामान्य'}</b><br>
-            🎓 योग्यता: ${j.qual || 'निर्धारित नहीं'}<br>
-            📝 विवरण: ${j.desc || 'विवरण उपलब्ध नहीं'}
-          </div>
-          <div class="job-footer">
-            <span class="expiry-text">⏳ अंतिम तिथि: ${j.expiryDate || 'निर्धारित नहीं'}</span>
-            <button onclick="secureApply('${safeLink}')" class="apply-btn">विवरण देखें / आवेदन →</button>
-          </div>
-        </div>
-      `;
-    });
-
-    container.innerHTML = html;
+    renderJobs();
 
   } catch(e) {
     container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">जॉब्स लोड करने में असमर्थ।</div>`;
   }
+}
+
+function renderJobs() {
+  let container = document.getElementById("jobListContainer");
+  let filtered = allJobsData.filter(j => (j.category || 'government') === activeTab);
+
+  if(filtered.length === 0) {
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:25px;">इस श्रेणी में अभी कोई जॉब उपलब्ध नहीं है।</div>`;
+    return;
+  }
+
+  let html = "";
+  filtered.forEach(j => {
+    let tagHtml = j.tag ? `<span class="tag-badge ${activeTab === 'private' ? 'private' : ''}">${j.tag}</span>` : "";
+    
+    if(activeTab === 'government') {
+      let safeLink = j.applyLink || j.link || '#';
+      html += `
+        <div class="job-card">
+          ${tagHtml}
+          <div class="job-title"><span>${j.title || 'शीर्षक नहीं'}</span></div>
+          <div class="job-meta">
+            🏢 विभाग: <b>${j.company || j.dept || 'सामान्य'}</b><br>
+            🎓 योग्यता: ${j.qual || 'निर्धारित नहीं'}<br>
+            📝 विवरण: ${j.desc || 'विवरण उपलब्ध नहीं'}
+          </div>
+          <div class="job-actions">
+            <button onclick="secureAction('${safeLink}')" class="action-btn btn-primary" style="flex:1;">🌐 ऑनलाइन आवेदन / विवरण देखें</button>
+          </div>
+        </div>
+      `;
+    } else {
+      let mob = j.mobile || '';
+      let onlineLink = j.onlineLink || j.applyLink || '';
+      
+      html += `
+        <div class="job-card">
+          ${tagHtml}
+          <div class="job-title"><span>${j.title || 'शीर्षक नहीं'}</span></div>
+          <div class="job-meta">
+            🏢 कंपनी: <b>${j.company || 'प्राइवेट संस्था'}</b><br>
+            📍 लोकेशन: ${j.location || 'महाराजगंज / बलरामपुर'}<br>
+            💰 वेतन: ${j.salary || 'कम्पनी के अनुसार'}<br>
+            🎓 योग्यता: ${j.qual || 'निर्धारित नहीं'}
+          </div>
+          <div class="job-actions">
+            ${onlineLink ? `<button onclick="secureAction('${onlineLink}')" class="action-btn btn-primary">🌐 ऑनलाइन फॉर्म</button>` : ''}
+            ${mob ? `<button onclick="secureAction('tel:${mob}', false)" class="action-btn btn-call">📞 कॉल करें</button>` : ''}
+            ${mob ? `<button onclick="secureAction('https://wa.me/91${mob}')" class="action-btn btn-wa">💬 WhatsApp</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  container.innerHTML = html;
 }
 
 loadJobs();

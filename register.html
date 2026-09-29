@@ -87,7 +87,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       <div class="form-group"><label>मोबाइल नंबर (जिससे लॉगिन होगा)</label><input type="tel" id="regMobile" class="form-control" placeholder="10 अंकों का सक्रिय मोबाइल नंबर" maxlength="10"></div>
       <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="regDob" class="form-control"></div>
       
-      <!-- नया: वैवाहिक स्थिति ड्रॉप-डाउन (अनिवार्य) -->
+      <!-- वैवाहिक स्थिति ड्रॉप-डाउन (अनिवार्य) -->
       <div class="form-group">
         <label>वैवाहिक स्थिति (Marital Status)</label>
         <select id="regMaritalStatus" class="form-control">
@@ -96,7 +96,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         </select>
       </div>
 
-      <!-- नया: रक्त समूह / ब्लड ग्रुप (वैकल्पिक / Optional) -->
+      <!-- रक्त समूह / ब्लड ग्रुप (वैकल्पिक / Optional) -->
       <div class="form-group">
         <label>रक्त समूह (Blood Group - वैकल्पिक)</label>
         <select id="regBloodGroup" class="form-control">
@@ -146,12 +146,15 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </div>
 </div>
 
+<!-- Firebase SDKs (App, Firestore और Messaging शामिल किए गए हैं) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 <script>
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+const messaging = firebase.messaging(); // FCM Messaging इंस्टेंस
 
 function showSuccessModal(title, desc) {
   document.getElementById("modalTitle").innerText = title;
@@ -220,7 +223,18 @@ async function handleRegister() {
       return;
     }
 
-    // डेटाबेस में नए फील्ड्स (maritalStatus और bloodGroup) के साथ डेटा सेव करें
+    // FCM टोकन प्राप्त करने की कोशिश (Notification Permission के साथ)
+    let fcmToken = "";
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        fcmToken = await messaging.getToken();
+      }
+    } catch (err) {
+      console.log("FCM Token प्राप्त करने में त्रुटि (वैकल्पिक):", err);
+    }
+
+    // डेटाबेस में नए फील्ड्स के साथ-साथ fcmToken भी सेव करें
     await db.collection("users").add({
       FullName: fullName,
       fatherName: fatherName,
@@ -231,6 +245,7 @@ async function handleRegister() {
       gothra: gotra,
       village: address || "महाराजगंज, बलरामपुर",
       mpin: mpin,
+      fcmToken: fcmToken || "", // यहाँ FCM टोकन सेव हो जाएगा
       role: "member",
       status: "pending",
       createdAt: firebase.firestore.FieldValue.serverTimestamp()

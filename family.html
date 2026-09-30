@@ -65,11 +65,11 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .nav b{display:block;font-size:16px;margin-bottom:2px}
 .nav a.active{color:var(--p);font-weight:800}
 
-/* प्रिंट के दौरान केवल प्रिंस्टेबल एरिया दिखने के लिए */
+/* प्रिंट के दौरान केवल एक्टिव कार्ड या रिपोर्ट दिखने के लिए */
 @media print {
   body * { visibility: hidden !important; }
-  #printableArea, #printableArea * { visibility: visible !important; }
-  #printableArea { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; background: #fff !important; z-index: 9999; padding: 10px; }
+  .printable-active, .printable-active * { visibility: visible !important; }
+  .printable-active { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; background: #fff !important; z-index: 9999; padding: 20px; }
 }
 </style>
 </head>
@@ -96,7 +96,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <!-- लॉगिन न होने पर दिखने वाला संदेश -->
     <div id="authGuardBox" class="card" style="text-align:center;padding:24px;display:none;">
       <h3 style="color:var(--navy);font-size:16px;margin-top:0;">🔒 कृपया पहले लॉगिन करें</h3>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है।</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है[span_0](start_span)[span_0](end_span).</p>
       <a href="login.html" class="btn" style="text-decoration:none;display:inline-block;">लॉगिन पेज पर जाएं</a>
     </div>
 
@@ -159,7 +159,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;" id="registerFamilyCard">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:14px;">➕ अपना परिवार रजिस्टर करें</h4>
-      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px; line-height:1.4;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं।</p>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px; line-height:1.4;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं[span_1](start_span)[span_1](end_span).</p>
       <button class="btn" onclick="openRegisterFamilyModal()">परिवार पंजीयन अनुरोध भेजें</button>
     </div>
   </div>
@@ -491,7 +491,7 @@ async function saveFamilyMemberData() {
   let workStatus = document.getElementById("modalMemberStatus").value;
 
   if(!name) {
-    alert("⚠️️ कृपया सदस्य का पूरा नाम दर्ज करें!");
+    alert("⚠️ कृपया सदस्य का पूरा नाम दर्ज करें!");
     return;
   }
 
@@ -533,14 +533,17 @@ function filterFamilies() {
 }
 
 // ------------------------------------------------------------------
-// डायरेक्ट प्रिंट और सेव PDF (window.print) - 100% काम करने वाला तरीका
+// 100% सुरक्षित और काम करने वाला प्रिंट / PDF सेव फंक्शन (White Screen Fix)
 // ------------------------------------------------------------------
 function printDigitalCardPDF() {
+  let cardElem = document.getElementById("printableArea");
+  cardElem.classList.add("printable-active");
   window.print();
+  cardElem.classList.remove("printable-active");
 }
 
 function printMasterDirectoryReport() {
-  let masterHtml = `<div style="padding:20px; font-family:sans-serif;">
+  let masterHtml = `<div style="padding:20px; font-family:sans-serif;" id="masterPrintArea">
     <h2 style="color:#0757a3; text-align:center; margin-bottom:5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी रिपोर्ट</h2>
     <p style="text-align:center; font-size:12px; color:#66758a; margin-top:0;">महाराजगंज एवं बलरामपुर क्षेत्र</p>
     <hr style="border:1px solid #ddd; margin:15px 0;">
@@ -567,20 +570,21 @@ function printMasterDirectoryReport() {
   });
 
   masterHtml += `</tbody></table></div>`;
-  
-  let newWin = window.open('', '_blank', 'width=800,height=600');
-  if (!newWin) {
-    alert("कृपया पॉप-अप (Pop-up) की अनुमति दें!");
+
+  let printWindow = window.open('', '_blank', 'width=800,height=600');
+  if (!printWindow) {
+    alert("कृपया अपने ब्राउज़र में पॉप-अप (Pop-up) की अनुमति दें!");
     return;
   }
 
-  newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body style="background:#fff;">' + masterHtml + '</body></html>');
-  newWin.document.close();
-  newWin.focus();
-  setTimeout(() => { 
-    newWin.print(); 
-    newWin.close(); 
-  }, 500);
+  printWindow.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body style="background:#fff; margin:0; padding:0;">' + masterHtml + '</body></html>');
+  printWindow.document.close();
+  printWindow.focus();
+  
+  setTimeout(() => {
+    printWindow.print();
+    printWindow.close();
+  }, 600);
 }
 
 function openRegisterFamilyModal() {
@@ -608,7 +612,7 @@ async function submitFamilyRegistrationRequest() {
   let membersCount = document.getElementById("reqMembersCount").value.trim();
 
   if(!headName || !gotra || !address) {
-    alert("⚠️ कृपया मुखिया का नाम, गोत्र और पता सभी कॉलम में भरें!");
+    alert("⚠️️ कृपया मुखिया का नाम, गोत्र और पता सभी कॉलम में भरें!");
     return;
   }
 

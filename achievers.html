@@ -2,13 +2,22 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>मेधावी छात्र एवं प्रतिभा सम्मान | भुईहर समाज पोर्टल</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
 
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
@@ -16,7 +25,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 /* आकर्षक बैक बटन */
 .back-btn-wrap{padding:4px 0 12px 0;}
-.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12);backdrop-filter:blur(4px)}
 
 .brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
@@ -33,10 +42,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 /* फॉर्म और बटन */
 .form-group{margin-bottom:10px}
 .form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px}
-.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc}
+.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc;outline:none}
+.form-control:focus{border-color:var(--p)}
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
+.btn:active{transform:scale(0.98)}
 
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
@@ -103,7 +114,6 @@ const db=firebase.firestore();
 async function loadAchievers() {
   let container = document.getElementById("achieverListContainer");
   try {
-    // केवल एडमिन द्वारा स्वीकृत (status == 'approved') छात्रों को दिखाएंगे
     let snapshot = await db.collection("achievers").where("status", "==", "approved").get();
     
     let achievers = [];
@@ -111,7 +121,6 @@ async function loadAchievers() {
       achievers.push({ id: doc.id, ...doc.data() });
     });
 
-    // यदि डेटाबेस खाली हो तो डेमो डेटा दिखाएं
     if(achievers.length === 0) {
       achievers = [
         { name: "कु. नेहा भुईहर", classInfo: "कक्षा 10वीं बोर्ड", score: "94.5% (जिला टॉपर)", school: "शासकीय हाई स्कूल महाराजगंज", details: "उत्कृष्ट शैक्षणिक प्रदर्शन हेतु समाज द्वारा सम्मानित।" },
@@ -162,7 +171,7 @@ async function submitAchieverRequest() {
       classInfo: "बोर्ड परीक्षा",
       score: "सत्यापनधीन",
       details: details,
-      status: "pending", // एडमिन के अप्रूवल के बाद ही मुख्य सूची में दिखेगा
+      status: "pending",
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
 

@@ -2,13 +2,22 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>परिवार डायरेक्टरी एवं प्रबंधन | भुईहर समाज पोर्टल</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 10px 30px rgba(20,42,72,0.08)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
 
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
@@ -92,7 +101,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <!-- लॉगिन न होने पर दिखने वाला संदेश -->
     <div id="authGuardBox" class="card" style="text-align:center;padding:24px;display:none;">
       <h3 style="color:var(--navy);font-size:16px;margin-top:0;">🔒 कृपया पहले लॉगिन करें</h3>
-      <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है।</p>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है[span_2](start_span)[span_2](end_span).</p>
       <a href="login.html" class="btn" style="text-decoration:none;display:inline-block;">लॉगिन पेज पर जाएं</a>
     </div>
 
@@ -104,7 +113,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
           <div class="digital-id-header">
             <div>
               <b style="color:#166534; font-size:15.5px;">🌾 भुईहर जाति समाज - डिजिटल परिवार कार्ड</b>
-              <span style="font-size:11px; color:#15803d; display:block; margin-top:2px;">महाराजगंज, बलरामपुर (छ.ग.)</span>
+              <span style="font-size:11px; color:#15803d; display:block; margin-top:2px;">महाराजगंज, बलरामपुर (छ.ग.)[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span)</span>
             </div>
             <div style="background:#16a34a; color:#fff; font-size:10px; font-weight:800; padding:5px 10px; border-radius:10px;">
               APPROVED
@@ -122,7 +131,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             </tr>
             <tr>
               <td style="padding:4px 0;"><b>निवास / गोत्र:</b></td>
-              <td style="padding:4px 0;"><span id="cardAddress">महाराजगंज, बलरामपुर (छ.ग.)</span></td>
+              <td style="padding:4px 0;"><span id="cardAddress">महाराजगंज, बलरामपुर (छ.ग.)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)</span></td>
             </tr>
           </table>
 
@@ -136,14 +145,14 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
       </div>
 
       <button class="btn" style="background:#16a34a; font-size:13px; padding:11px; margin-top:4px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
-      <button class="btn" style="background:#0284c7; font-size:13px; padding:11px; margin-top:6px;" onclick="downloadDigitalCardPDF()">📥 डिजिटल परिवार कार्ड PDF डाउनलोड करें</button>
+      <button class="btn" style="background:#0284c7; font-size:13px; padding:11px; margin-top:6px;" onclick="downloadDigitalCardPDF()">📥 डिजिटल परिवार कार्ड HD PDF डाउनलोड करें</button>
     </div>
 
     <!-- ऑल-फैमिली मास्टर रिपोर्ट पीडीएफ बटन -->
     <div class="card" style="background:#eff6ff; border-color:#bfdbfe; text-align:center;">
       <h4 style="margin:0 0 6px; color:#1e40af; font-size:14px;">📊 ऑल-फैमिली मास्टर डायरेक्टरी रिपोर्ट</h4>
       <p style="font-size:11.5px; color:#1e3a8a; margin:0 0 12px; line-height:1.4;">समाज के सभी पंजीकृत परिवारों की संपूर्ण सूची एक साथ देखें।</p>
-      <button class="btn" style="background:#2563eb; font-size:13px; padding:10px;" onclick="downloadMasterDirectoryPDF()">📥 मास्टर डायरेक्टरी PDF डाउनलोड करें</button>
+      <button class="btn" style="background:#2563eb; font-size:13px; padding:10px;" onclick="downloadMasterDirectoryPDF()">📥 मास्टर डायरेक्टरी HD PDF डाउनलोड करें</button>
     </div>
 
     <h4 style="margin:16px 2px 10px; font-size:14px; color:var(--navy);">पंजीकृत परिवार सूची:</h4>
@@ -155,7 +164,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;" id="registerFamilyCard">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:14px;">➕ अपना परिवार रजिस्टर करें</h4>
-      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px; line-height:1.4;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं।</p>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px; line-height:1.4;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं[span_7](start_span)[span_7](end_span).</p>
       <button class="btn" onclick="openRegisterFamilyModal()">परिवार पंजीयन अनुरोध भेजें</button>
     </div>
   </div>
@@ -529,7 +538,7 @@ function filterFamilies() {
 }
 
 // ----------------------------------------------------
-// 100% काम करने वाला html2pdf डाउनलोड फंक्शन
+// HD क्वालिटी PDF डाउनलोड फंक्शन (scale: 3 for sharp text)
 // ----------------------------------------------------
 function downloadDigitalCardPDF() {
   let element = document.getElementById('printableArea');
@@ -537,12 +546,12 @@ function downloadDigitalCardPDF() {
     margin:       10,
     filename:     'Digital_Family_Card.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    html2canvas:  { scale: 3, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   
   html2pdf().from(element).set(opt).save().then(() => {
-    alert("✅ डिजिटल परिवार कार्ड आपके मोबाइल में सफलतापूर्वक डाउनलोड हो गया है!");
+    alert("✅ डिजिटल परिवार कार्ड HD क्वालिटी में डाउनलोड हो गया है!");
   }).catch(err => {
     alert("PDF डाउनलोड करने में त्रुटि: " + err.message);
   });
@@ -584,12 +593,12 @@ function downloadMasterDirectoryPDF() {
     margin:       10,
     filename:     'Master_Directory_Report.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    html2canvas:  { scale: 3, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
   html2pdf().from(element).set(opt).save().then(() => {
-    alert("✅ मास्टर डायरेक्टरी रिपोर्ट आपके मोबाइल में सफलतापूर्वक डाउनलोड हो गई है!");
+    alert("✅ मास्टर डायरेक्टरी रिपोर्ट HD क्वालिटी में डाउनलोड हो गई है!");
   }).catch(err => {
     alert("मास्टर रिपोर्ट डाउनलोड करने में त्रुटि: " + err.message);
   });
@@ -620,7 +629,7 @@ async function submitFamilyRegistrationRequest() {
   let membersCount = document.getElementById("reqMembersCount").value.trim();
 
   if(!headName || !gotra || !address) {
-    alert("⚠️ कृपया मुखिया का नाम, गोत्र और पता सभी कॉलम में भरें!");
+    alert("⚠️️ कृपया मुखिया का नाम, गोत्र और पता सभी कॉलम में भरें!");
     return;
   }
 

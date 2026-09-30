@@ -2,13 +2,22 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>समाज इतिहास | भुईहर जाति समाज</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
 
 @keyframes zoomInDrop {
   0% { transform: translateY(-30px) scale(0.96); opacity: 0; }
@@ -23,7 +32,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .header p{margin:2px 0 0;font-size:11px;opacity:.85}
 
 .back-btn-wrap{padding:4px 0 10px 0;}
-.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12);backdrop-filter:blur(4px)}
 
 .container{padding:12px}
 
@@ -39,7 +48,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .hist-info h3{margin:0 0 6px;font-size:15px;font-weight:800;color:var(--navy)}
 .hist-info p{margin:4px 0;font-size:12px;color:var(--muted);line-height:1.5}
 
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
@@ -60,8 +69,8 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <div class="card">
       <div class="hist-info">
         <h3>भुईहर समाज की ऐतिहासिक पृष्ठभूमि</h3>
-        <p>भुईहर जाति समाज अपनी भूमि से जुड़ाव, श्रमशीलता और समृद्ध सांस्कृतिक परंपराओं के लिए जाना जाता है। महाराजगंज और आसपास के अंचल में समाज के पूर्वजों ने अपनी मेहनत से समाज की नींव को मजबूत किया है।</p>
-        <p>यह डिजिटल पोर्टल हमारी उसी पुरानी परंपरा और संस्कृति को आधुनिक तकनीक से जोड़कर आने वाली पीढ़ियों के लिए संरक्षित करने का एक प्रयास है।</p>
+        <p>भुईहर जाति समाज अपनी भूमि से जुड़ाव, श्रमशीलता और समृद्ध सांस्कृतिक परंपराओं के लिए जाना जाता है। महाराजगंज और आसपास के अंचल में समाज के पूर्वजों ने अपनी मेहनत से समाज की नींव को मजबूत किया है[span_2](start_span)[span_2](end_span)।</p>
+        <p>यह डिजिटल पोर्टल हमारी उसी पुरानी परंपरा और संस्कृति को आधुनिक तकनीक से जोड़कर आने वाली पीढ़ियों के लिए संरक्षित करने का एक प्रयास है[span_3](start_span)[span_3](end_span)।</p>
       </div>
     </div>
   </div>

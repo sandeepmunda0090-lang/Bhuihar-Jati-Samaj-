@@ -2,13 +2,22 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#dc2626">
 <title>आपातकालीन रक्तदाता डायरेक्ट्री | भुईहर जाति समाज</title>
 <style>
 :root{--p:#dc2626;--p2:#ef4444;--navy:#082b54;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
 
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
@@ -50,10 +59,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .blood-badge{background:#fee2e2;color:#991b1b;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:13px;border:1px solid #fca5a5;flex-shrink:0}
 
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(220,38,38,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
+.btn:active{transform:scale(0.98)}
 
-.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc;margin-top:8px;}
+.form-control{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:13px inherit;background:#fafbfc;margin-top:8px;outline:none;}
+.form-control:focus{border-color:var(--p)}
 
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
@@ -218,7 +229,6 @@ async function loadDonors() {
     allDonors = [];
     snapshot.forEach(doc => {
       let d = doc.data();
-      // केवल उन्हीं यूजर्स को दिखाएँ जिनका ब्लड ग्रुप डेटाबेस में मौजूद है और खाता स्वीकृत/सक्रिय है
       if(d.bloodGroup && d.bloodGroup !== "उल्लिखित नहीं" && d.bloodGroup !== "") {
         allDonors.push(d);
       }
@@ -298,7 +308,6 @@ async function openDonorModal() {
     return;
   }
 
-  // सुंदर पॉप-अप के अंदर ब्लड ग्रुप चुनने का विकल्प दिखाएं (बिना पुराने JS prompt के)
   showCustomAlert("🩸 रक्तदाता पंजीयन", "कृपया अपना सही ब्लड ग्रुप चुनें ताकि आपातकाल में आपकी मदद ली जा सके:", async function(yes) {
     if(yes) {
       let selectedBg = document.getElementById("modalBloodSelect").value;

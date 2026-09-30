@@ -2,13 +2,22 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>लॉगिन / MPIN रीसेट | भुईहर जाति समाज</title>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--danger:#dc2626;--success:#16a34a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;color:var(--text)}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
 
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
 
@@ -28,6 +37,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   font-weight: 700;
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  backdrop-filter: blur(4px);
 }
 
 .brand{display:flex;align-items:center;gap:12px}
@@ -39,10 +49,11 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
 .form-group{margin-bottom:12px}
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc}
+.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
+.form-control:focus{border-color:var(--p)}
 
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;display:inline-block;margin-top:8px;transition: transform 0.1s ease, opacity 0.2s;}
-.btn:active{transform: scale(0.96);}
+.btn:active{transform: scale(0.98);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
 .btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
 
@@ -58,7 +69,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .modal-desc{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
 .modal-btn{background:var(--success);color:#fff;border:0;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:700;width:100%;cursor:pointer;}
 
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px}
+.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
@@ -135,7 +146,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
-  const messaging = firebase.messaging(); // FCM Messaging इंस्टेंस
+  const messaging = firebase.messaging();
 
   let nextActionType = "login";
 
@@ -207,7 +218,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         return;
       }
 
-      // लॉगिन सफल होने पर FCM टोकन प्राप्त करके डेटाबेस में अपडेट करें
       let fcmToken = "";
       try {
         const permission = await Notification.requestPermission();
@@ -218,7 +228,6 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
         console.log("FCM Token अपडेट करने में त्रुटि (वैकल्पिक):", err);
       }
 
-      // डेटाबेस में यूजर का fcmToken रिफ्रेश/अपडेट करें
       await db.collection("users").doc(userDoc.id).update({
         fcmToken: fcmToken || userData.fcmToken || ""
       });

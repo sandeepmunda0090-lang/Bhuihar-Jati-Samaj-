@@ -62,6 +62,13 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
 .nav a.active{color:var(--p);font-weight:800}
+
+/* प्रिंट के दौरान केवल कार्ड या रिपोर्ट दिखाने के लिए */
+@media print {
+  body * { visibility: hidden !important; }
+  #printableArea, #printableArea * { visibility: visible !important; }
+  #printableArea { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; background: #fff !important; z-index: 9999; }
+}
 </style>
 </head>
 <body>
@@ -87,7 +94,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     <!-- लॉगिन न होने पर दिखने वाला संदेश -->
     <div id="authGuardBox" class="card" style="text-align:center;padding:22px;display:none;">
       <h3 style="color:var(--navy);font-size:15px;margin-top:0;">🔒 कृपया पहले लॉगिन करें</h3>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है[span_2](start_span)[span_2](end_span).</p>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">अपने परिवार की सूची देखने और सदस्य जोड़ने के लिए पोर्टल पर लॉगिन करना अनिवार्य है[span_1](start_span)[span_1](end_span).</p>
       <a href="login.html" class="btn" style="text-decoration:none;display:inline-block;">लॉगिन पेज पर जाएं</a>
     </div>
 
@@ -141,7 +148,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 
     <div class="card" style="text-align:center;background:#fafbfc;margin-top:16px;" id="registerFamilyCard">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना परिवार रजिस्टर करें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं[span_3](start_span)[span_3](end_span).</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">केवल रजिस्टर्ड और लॉगिन सदस्य ही अपना परिवार जोड़ सकते हैं.</p>
       <button class="btn" onclick="openRegisterFamilyModal()">परिवार पंजीयन अनुरोध भेजें</button>
     </div>
   </div>
@@ -155,7 +162,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
-<!-- परिवार सदस्य जोड़ने का पॉप-अप फॉर्म (अलग-अलग कॉलम के साथ) -->
+<!-- परिवार सदस्य जोड़ने का पॉप-अप फॉर्म -->
 <div id="addMemberModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; padding:12px;">
     <div style="background:#ffffff; width:100%; max-width:360px; border-radius:20px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3); max-height:90vh; overflow-y:auto;">
         <h3 style="font-size:16px; font-weight:800; color:var(--navy); margin:0 0 12px; text-align:center;">➕ परिवार का नया सदस्य जोड़ें</h3>
@@ -206,7 +213,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
     </div>
 </div>
 
-<!-- परिवार पंजीयन अनुरोध भेजने का फॉर्म (Modal) -->
+<!-- परिवार पंजीयन अनुरोध भेजने का फॉर्म -->
 <div id="registerFamilyModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; padding:12px;">
     <div style="background:#ffffff; width:100%; max-width:360px; border-radius:20px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,0.3);">
         <h3 style="font-size:16px; font-weight:800; color:var(--navy); margin:0 0 12px; text-align:center;">📋 परिवार पंजीयन अनुरोध</h3>
@@ -302,7 +309,6 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
-// सेशन चेक और डेटा लोड करना
 function checkUserSessionForFamily() {
   if (!loggedMobile) {
     document.getElementById("authGuardBox").style.display = "block";
@@ -379,7 +385,6 @@ function renderFamilies(list) {
   container.innerHTML = html;
 }
 
-// अपने परिवार के सदस्य डेटाबेस से लोड करना
 async function loadMyFamilyMembers() {
   let tableContainer = document.getElementById("myFamilyTableContainer");
   try {
@@ -485,14 +490,9 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// डिजिटल कार्ड PDF प्रिंट
+// डिजिटल कार्ड PDF प्रिंट (सफेद स्क्रीन समस्या का स्थाई समाधान)
 function printDigitalCardPDF() {
-  let printContents = document.getElementById("printableArea").innerHTML;
-  let newWin = window.open('', '_blank');
-  newWin.document.write('<html><head><title>डिजिटल परिवार कार्ड</title></head><body style="font-family:sans-serif; padding:20px;">' + printContents + '</body></html>');
-  newWin.document.close();
-  newWin.focus();
-  setTimeout(() => { newWin.print(); newWin.close(); }, 500);
+  window.print();
 }
 
 // मास्टर डायरेक्टरी रिपोर्ट प्रिंट
@@ -525,14 +525,17 @@ function printMasterDirectoryReport() {
 
   masterHtml += `</tbody></table></div>`;
   
-  let newWin = window.open('', '_blank');
-  newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body>' + masterHtml + '</body></html>');
-  newWin.document.close();
-  newWin.focus();
-  setTimeout(() => { newWin.print(); newWin.close(); }, 500);
+  let newWin = window.open('', '_blank', 'width=800,height=600');
+  if(newWin) {
+    newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body>' + masterHtml + '</body></html>');
+    newWin.document.close();
+    newWin.focus();
+    setTimeout(() => { newWin.print(); newWin.close(); }, 500);
+  } else {
+    alert("कृपया अपने ब्राउज़र में पॉप-अप (Pop-up) की अनुमति दें।");
+  }
 }
 
-// नया परिवार पंजीयन अनुरोध फॉर्म खोलना/बंद करना
 function openRegisterFamilyModal() {
   if(!loggedMobile) {
     showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें!", function(yes) {
@@ -551,7 +554,6 @@ function closeRegisterFamilyModal() {
   document.getElementById("registerFamilyModal").style.display = "none";
 }
 
-// डेटाबेस में परिवार पंजीयन अनुरोध भेजना
 async function submitFamilyRegistrationRequest() {
   let headName = document.getElementById("reqHeadName").value.trim();
   let gotra = document.getElementById("reqGotra").value.trim();
@@ -574,7 +576,7 @@ async function submitFamilyRegistrationRequest() {
       timestamp: Date.now()
     });
     closeRegisterFamilyModal();
-    alert("✨ आपके परिवार का पंजीयन अनुरोध सफलताaपूर्वक एडमिन के पास भेज दिया गया है। एडमिन द्वारा स्वीकृति के बाद यह डायरेक्टरी में दिखाई देगा!");
+    alert("✨ आपके परिवार का पंजीयन अनुरोध सफलतापूर्वक एडमिन के पास भेज दिया गया है। एडमिन द्वारा स्वीकृति के बाद यह डायरेक्टरी में दिखाई देगा!");
   } catch(e) {
     alert("❌ अनुरोध भेजने में विफल: " + e.message);
   }

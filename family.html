@@ -27,13 +27,13 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
 .search-input{flex:1;padding:12px 16px;border:1px solid var(--line);border-radius:14px;font:13.5px inherit;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.02);outline:none}
 .search-input:focus{border-color:var(--p)}
 
-.family-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);position:relative;transition:transform 0.2s}
+.family-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 .family-card b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:3px}
 .family-card span{display:block;font-size:12px;color:var(--muted);line-height:1.5}
 .family-badge{position:absolute;top:14px;right:16px;background:#eff6ff;color:var(--p);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:10px}
 
-.btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:8px;transition:opacity 0.2s}
-.btn:active{opacity:0.9;transform:scale(0.98)}
+.btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
+.btn:active{transform:scale(0.98)}
 
 /* डिजिटल परिवार आईडी कार्ड स्टाइल */
 .digital-id-card {
@@ -54,23 +54,16 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   margin-bottom: 12px;
 }
 
-/* प्रोफेशनल फॉर्म इनपुट स्टाइल */
+/* फॉर्म इनपुट स्टाइल */
 .form-group { margin-bottom: 12px; text-align: left; }
 .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
-.form-control { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; font: 13.5px inherit; background: #fafbfc; box-sizing: border-box; outline: none; transition: border-color 0.2s; }
+.form-control { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; font: 13.5px inherit; background: #fafbfc; box-sizing: border-box; outline: none; }
 .form-control:focus { border-color: var(--p); background: #fff; }
 
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 4px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:6px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px;margin-bottom:2px}
 .nav a.active{color:var(--p);font-weight:800}
-
-/* प्रिंट के दौरान केवल कार्ड या रिपोर्ट दिखाने के लिए (सफेद स्क्रीन समस्या का स्थाई समाधान) */
-@media print {
-  body * { visibility: hidden !important; }
-  #printableArea, #printableArea * { visibility: visible !important; }
-  #printableArea { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; background: #fff !important; z-index: 9999; }
-}
 </style>
 </head>
 <body>
@@ -110,7 +103,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
               <b style="color:#166534; font-size:15.5px;">🌾 भुईहर जाति समाज - डिजिटल परिवार कार्ड</b>
               <span style="font-size:11px; color:#15803d; display:block; margin-top:2px;">महाराजगंज, बलरामपुर (छ.ग.)</span>
             </div>
-            <div style="background:#16a34a; color:#fff; font-size:10px; font-weight:800; padding:5px 10px; border-radius:10px; letter-spacing:0.5px;">
+            <div style="background:#16a34a; color:#fff; font-size:10px; font-weight:800; padding:5px 10px; border-radius:10px;">
               APPROVED
             </div>
           </div>
@@ -164,7 +157,7 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
   </nav>
 </div>
 
-<!-- परिवार सदस्य जोड़ने का प्रोफेशनल पॉप-अप फॉर्म (DOB ऑटो-कैलकुलेशन के साथ) -->
+<!-- परिवार सदस्य जोड़ने का पॉप-अप फॉर्म (DOB ऑटो-कैलकुलेशन के साथ) -->
 <div id="addMemberModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.75); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; padding:14px;">
     <div style="background:#ffffff; width:100%; max-width:380px; border-radius:24px; padding:22px; box-shadow:0 25px 50px rgba(0,0,0,0.3); max-height:92vh; overflow-y:auto;">
         <h3 style="font-size:17px; font-weight:800; color:var(--navy); margin:0 0 16px; text-align:center;">➕ परिवार का नया सदस्य जोड़ें</h3>
@@ -185,12 +178,12 @@ body{margin:0;background:var(--bg);font-family:system-ui,"Noto Sans Devanagari",
             </select>
         </div>
         <div class="form-group">
-            <label>जन्म तिथि (Date of Birth) - आयु ऑटो कैलकुलेट होगी</label>
+            <label>जन्म तिथि (Date of Birth)</label>
             <input type="date" id="modalMemberDob" class="form-control" onchange="calculateAutoAge()">
         </div>
         <div class="form-group">
             <label>आयु (Auto-Calculated Age)</label>
-            <input type="text" id="modalMemberAge" class="form-control" readonly style="background:#f1f5f9; color:var(--navy); font-weight:700;" placeholder="जन्म तिथि चुनने पर यहाँ उम्र दिखेगी">
+            <input type="text" id="modalMemberAge" class="form-control" readonly style="background:#f1f5f9; color:var(--navy); font-weight:700;" placeholder="जन्म तिथि चुनने पर उम्र दिखेगी">
         </div>
         <div class="form-group">
             <label>रक्त समूह (Blood Group)</label>
@@ -328,7 +321,7 @@ function checkUserSessionForFamily() {
   }
 }
 
-// जन्मतिथि से ऑटो आयु कैलकुलेशन फंक्शन
+// जन्मतिथि से ऑटो आयु कैलकुलेशन
 function calculateAutoAge() {
   let dobString = document.getElementById("modalMemberDob").value;
   if(!dobString) return;
@@ -501,7 +494,7 @@ async function saveFamilyMemberData() {
     alert("परिवार का सदस्य सफलतापूर्वक जोड़ दिया गया है!");
     loadMyFamilyMembers();
   } catch(e) {
-    alert("सदस्य जोड़ने में विफल: " + e.message);
+    alert("सदस्य جوड़ने में विफल: " + e.message);
   }
 }
 
@@ -523,12 +516,30 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// डिजिटल कार्ड PDF प्रिंट (सफेद स्क्रीन समस्या का स्थाई समाधान)
+// सुरक्षित प्रिंट और PDF फिक्स (White Screen Fix)
 function printDigitalCardPDF() {
-  window.print();
+  let printContents = document.getElementById("printableArea").innerHTML;
+  let printWindow = window.open('', '_blank', 'width=600,height=600');
+  
+  if (!printWindow) {
+    alert("कृपया अपने ब्राउज़र में पॉप-अप (Pop-up) की अनुमति दें।");
+    return;
+  }
+
+  printWindow.document.write('<html><head><title>डिजिटल परिवार कार्ड</title>');
+  printWindow.document.write('<style>body{font-family:sans-serif; padding:20px; background:#fff;} .digital-id-card{border:2px solid #22c55e; border-radius:16px; padding:16px; background:#f0fdf4;}</style>');
+  printWindow.document.write('</head><body>');
+  printWindow.document.write(printContents);
+  printWindow.document.write('</body></html>');
+  printWindow.document.close();
+  printWindow.focus();
+  
+  setTimeout(() => {
+    printWindow.print();
+    printWindow.close();
+  }, 500);
 }
 
-// मास्टर डायरेक्टरी रिपोर्ट प्रिंट
 function printMasterDirectoryReport() {
   let masterHtml = `<div style="padding:20px; font-family:sans-serif;">
     <h2 style="color:#0757a3; text-align:center; margin-bottom:5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी रिपोर्ट</h2>
@@ -559,19 +570,23 @@ function printMasterDirectoryReport() {
   masterHtml += `</tbody></table></div>`;
   
   let newWin = window.open('', '_blank', 'width=800,height=600');
-  if(newWin) {
-    newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body>' + masterHtml + '</body></html>');
-    newWin.document.close();
-    newWin.focus();
-    setTimeout(() => { newWin.print(); newWin.close(); }, 500);
-  } else {
-    alert("कृपया अपने ब्राउज़र में पॉप-अप (Pop-up) की अनुमति दें।");
+  if (!newWin) {
+    alert("कृपया पॉप-अप (Pop-up) की अनुमति दें!");
+    return;
   }
+
+  newWin.document.write('<html><head><title>मास्टर डायरेक्टरी रिपोर्ट</title></head><body>' + masterHtml + '</body></html>');
+  newWin.document.close();
+  newWin.focus();
+  setTimeout(() => { 
+    newWin.print(); 
+    newWin.close(); 
+  }, 500);
 }
 
 function openRegisterFamilyModal() {
   if(!loggedMobile) {
-    showCustomAlert("⚠️️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "परिवार रजिस्टर करने के लिए कृपया पहले लॉगिन करें!", function(yes) {
       if(yes) window.location.href = "login.html";
     }, true);
     return;

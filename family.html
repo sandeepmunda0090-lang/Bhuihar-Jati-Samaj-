@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>परिवार डायरेक्टरी एवं प्रबंधन | भुईहर समाज पोर्टल</title>
 <style>
@@ -89,7 +89,7 @@ body{
     </div>
     <div class="brand">
       <div class="logo">👨‍👩‍👧‍👦</div>
-      <div><h1>समाज परिवार डायरेक्टरी</h1><p>महाराजगंज एवं बलरामपुर क्षेत्र के परिवार</p></div>
+      <div><h1>समाज परिवार डायरेक्टरी</h1><p>महाराजगंज एवं बलरामपुर क्षेत्र के परिवार[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span)</p></div>
     </div>
   </div>
 
@@ -342,7 +342,6 @@ function checkUserSessionForFamily() {
   }
 }
 
-// जन्मतिथि से ऑटो आयु कैलकुलेशन
 function calculateAutoAge() {
   let dobString = document.getElementById("modalMemberDob").value;
   if(!dobString) return;
@@ -419,7 +418,7 @@ function renderFamilies(list) {
       <div class="family-card">
         <div class="family-badge">गोत्र: ${f.gotra || "सामान्य"}</div>
         <b>${f.headName}</b>
-        <span>निवास: ${f.address || "महाराजगंज, बलरामपुर"}</span>
+        <span>निवास: ${f.address || "महाराजगंज, बलरामपुर"}[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)</span>
         <span>परिवार के कुल सदस्य: <b>${f.membersCount || 1} लोग</b></span>
         ${contactAction}
       </div>
@@ -538,9 +537,18 @@ function filterFamilies() {
 }
 
 // ----------------------------------------------------
-// HD क्वालिटी PDF डाउनलोड फंक्शन (scale: 3 for sharp text)
+// सुरक्षा जाँच के साथ HD PDF डाउनलोड फंक्शन (बिना लॉगिन डाउनलोड नहीं होगा)
 // ----------------------------------------------------
 function downloadDigitalCardPDF() {
+  if (!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "डिजिटल परिवार कार्ड डाउनलोड करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+      if(yes) {
+        window.location.href = "login.html";
+      }
+    }, true);
+    return;
+  }
+
   let element = document.getElementById('printableArea');
   let opt = {
     margin:       10,
@@ -558,9 +566,18 @@ function downloadDigitalCardPDF() {
 }
 
 function downloadMasterDirectoryPDF() {
+  if (!loggedMobile) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "मास्टर डायरेक्टरी रिपोर्ट डाउनलोड करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+      if(yes) {
+        window.location.href = "login.html";
+      }
+    }, true);
+    return;
+  }
+
   let masterHtml = `<div style="padding:20px; font-family:sans-serif; background:#fff;">
     <h2 style="color:#0757a3; text-align:center; margin-bottom:5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी रिपोर्ट</h2>
-    <p style="text-align:center; font-size:12px; color:#66758a; margin-top:0;">महाराजगंज एवं बलरामपुर क्षेत्र</p>
+    <p style="text-align:center; font-size:12px; color:#66758a; margin-top:0;">महाराजगंज एवं बलरामपुर क्षेत्र[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)</p>
     <hr style="border:1px solid #ddd; margin:15px 0;">
     <table style="width:100%; border-collapse:collapse; font-size:12px;">
       <thead>

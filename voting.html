@@ -30,48 +30,64 @@ body{
 
 .container{padding:16px 12px}
 
-/* --- 3D लाइव काउंटर सर्कल कार्ड (नया डिज़ाइन) --- */
-.poll-top-header {
+/* --- डुअल 3D सर्कुलर कार्ड्स (नया डिज़ाइन) --- */
+.dual-stats-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-box-3d {
+  flex: 1;
   background: linear-gradient(135deg, #082b54, #0757a3);
   border: 1.5px solid rgba(255,255,255,0.3);
-  border-radius: 20px;
-  padding: 14px 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 10px 25px rgba(8,43,84,0.2);
+  border-radius: 18px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(8,43,84,0.2);
   color: #fff;
-}
-.poll-header-text h3 { margin: 0 0 2px; font-size: 15px; font-weight: 800; }
-.poll-header-text p { margin: 0; font-size: 11px; opacity: 0.85; }
-
-.live-counter-circle {
-  width: 65px;
-  height: 65px;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  border: 3px solid #fff;
-  border-radius: 50%;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 18px rgba(217,119,6,0.5), inset 0 2px 4px rgba(255,255,255,0.6);
-  flex-shrink: 0;
-  position: relative;
 }
-.live-counter-circle .live-dot {
-  position: absolute; top: 4px; right: 6px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
-  box-shadow: 0 0 6px #22c55e; animation: pulseDot 1.5s infinite;
-}
-@keyframes pulseDot { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.6; } 100% { transform: scale(0.9); opacity: 1; } }
 
-.live-counter-circle span.count-num { font-size: 16px; font-weight: 900; line-height: 1; color: #fff; }
-.live-counter-circle span.count-lbl { font-size: 8.5px; font-weight: 800; text-transform: uppercase; margin-top: 2px; opacity: 0.95; }
+.stat-box-3d .active-pin {
+  position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e; animation: pulsePin 1.5s infinite;
+}
+@keyframes pulsePin { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
+
+.circle-badge-3d {
+  width: 58px;
+  height: 58px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(217,119,6,0.5), inset 0 2px 4px rgba(255,255,255,0.6);
+  margin-bottom: 6px;
+}
+
+.circle-badge-3d span {
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.stat-box-3d p {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.9;
+}
 
 /* पोल कार्ड्स */
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);position:relative}
-.poll-question{font-size:15.5px;color:var(--navy);font-weight:800;margin:0 0 14px;line-height:1.45}
+.poll-question{font-size:15.5px;color:var(--navy);font-weight:800;margin:0 0 10px;line-height:1.45}
 
 .poll-options-grid {display: flex; gap: 10px; margin-top: 12px;}
 .poll-yes-btn {
@@ -112,23 +128,31 @@ body{
       <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
     </div>
     <div class="brand">
-      <div class="logo">🗳️</div>
+      <div class="logo">🗳️️</div>
       <div><h1>डिजिटल जनमत पोल</h1><p>समाज के महत्वपूर्ण निर्णयों पर आपकी राय</p></div>
     </div>
   </div>
 
   <div class="container">
     
-    <!-- 3D लाइव काउंटर हेडर कार्ड -->
-    <div class="poll-top-header">
-      <div class="poll-header-text">
-        <h3>📊 लाइव मतदान केंद्र</h3>
-        <p>कुल समाज के वोट</p>
+    <!-- डुअल 3D सर्कुलर स्टैट्स कार्ड्स -->
+    <div class="dual-stats-wrapper">
+      <!-- पहला कार्ड: कुल समाज सदस्य संख्या -->
+      <div class="stat-box-3d">
+        <div class="active-pin"></div>
+        <div class="circle-badge-3d">
+          <span id="totalMembersCount">0</span>
+        </div>
+        <p>कुल समाज सदस्य</p>
       </div>
-      <div class="live-counter-circle">
-        <div class="live-dot"></div>
-        <span class="count-num" id="totalGlobalVotes">0</span>
-        <span class="count-lbl">वोट्स</span>
+
+      <!-- दूसरा कार्ड: डाले गए कुल वोट्स अनुपात (मिले वोट्स / कुल) -->
+      <div class="stat-box-3d">
+        <div class="active-pin"></div>
+        <div class="circle-badge-3d">
+          <span id="totalRatioCount">0</span>
+        </div>
+        <p>कुल डाले गए वोट्स</p>
       </div>
     </div>
 
@@ -214,23 +238,27 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
-// स्मूथ नंबर काउंटर एनीमेशन फंक्शन (0 से टारगेट तक)
-function animateCounter(targetValue) {
-    let counterElement = document.getElementById("totalGlobalVotes");
-    if (!counterElement) return;
+// स्मूथ काउंटर एनीमेशन फंक्शन
+function animateElementValue(elementId, targetValue, isRatio = false, totalVal = 0) {
+    let el = document.getElementById(elementId);
+    if (!el) return;
+    if (isRatio) {
+        el.innerText = `${targetValue}/${totalVal}`;
+        return;
+    }
     let startVal = 0;
-    let duration = 1000; // 1 सेकंड
+    let duration = 1000;
     let startTime = null;
 
     function step(timestamp) {
         if (!startTime) startTime = timestamp;
         let progress = Math.min((timestamp - startTime) / duration, 1);
         let currentVal = Math.floor(progress * (targetValue - startVal) + startVal);
-        counterElement.innerText = currentVal;
+        el.innerText = currentVal;
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else {
-            counterElement.innerText = targetValue;
+            el.innerText = targetValue;
         }
     }
     window.requestAnimationFrame(step);
@@ -239,15 +267,21 @@ function animateCounter(targetValue) {
 async function loadPolls() {
   let container = document.getElementById("pollsContainer");
   try {
-    let snapshot = await db.collection("polls").get();
-    let polls = [];
-    let globalTotalSum = 0;
+    let [pollSnap, userSnap] = await Promise.all([
+      db.collection("polls").get(),
+      db.collection("users").get()
+    ]);
 
-    snapshot.forEach(doc => {
+    let totalMembers = userSnap.size > 0 ? userSnap.size : 150; // अगर डेटाबेस खाली हो तो डिफ़ॉल्ट मान
+    let polls = [];
+    let globalTotalVotes = 0;
+
+    pollSnap.forEach(doc => {
       let p = doc.data();
       if(!p.status || p.status === "active") {
-        polls.push({ id: doc.id, ...p });
-        globalTotalSum += (p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 0));
+        let pollVotesTotal = p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 0);
+        polls.push({ id: doc.id, computedTotal: pollVotesTotal, ...p });
+        globalTotalVotes += pollVotesTotal;
       }
     });
 
@@ -258,21 +292,22 @@ async function loadPolls() {
           question: "प्रश्न: क्या इस वर्ष समाज का वार्षिक मिलन समारोह महाराजगंज में आयोजित किया जाना चाहिए?",
           options: ["हाँ, बिल्कुल", "नहीं", "विचारणीय / अन्य स्थान"],
           votes: [45, 5, 10],
-          totalVotes: 60
+          computedTotal: 60
         }
       ];
-      globalTotalSum = 60;
+      globalTotalVotes = 60;
     }
 
-    // 3D काउंटर एनीमेशन कॉल करें
-    animateCounter(globalTotalSum);
+    // दोनों 3D सर्कल्स अपडेट करें
+    animateElementValue("totalMembersCount", totalMembers);
+    animateElementValue("totalRatioCount", globalTotalVotes, true, totalMembers);
 
     let html = "";
     let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
 
     polls.forEach(p => {
       let hasVoted = userVotedData[p.id] !== undefined;
-      let total = p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 1) || 1;
+      let total = p.computedTotal || 1;
 
       if(!hasVoted) {
         let optionsHtml = `
@@ -288,7 +323,7 @@ async function loadPolls() {
         html += `
           <div class="card">
             <div class="poll-question">${p.question || 'जनमत पोल'}</div>
-            <div style="font-size:11.5px;color:var(--muted);margin-bottom:12px;">👥 कुल मतदान: ${total} सदस्य</div>
+            <div style="background:#f1f5f9; color:var(--navy); padding:5px 10px; border-radius:8px; display:inline-block; font-size:11.5px; font-weight:700; margin-bottom:12px;">📊 इस पोल पर कुल मतदान: ${total} सदस्य</div>
             ${optionsHtml}
           </div>
         `;
@@ -312,9 +347,11 @@ async function loadPolls() {
         html += `
           <div class="card">
             <div class="poll-question">${p.question || 'जनमत पोल'}</div>
-            <div style="background:#fef3c7;color:#d97706;font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:8px;display:inline-block;margin-bottom:12px;">✅ आपने अपना मत दे दिया है (लाइव परिणाम)</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span style="background:#fef3c7;color:#d97706;font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;">✅ आपने मत दे दिया है</span>
+              <span style="font-size:11.5px;color:var(--muted);font-weight:700;">📊 इस पोल पर कुल मतदान: ${total} सदस्य</span>
+            </div>
             ${resultsHtml}
-            <div style="font-size:11.5px;color:var(--muted);margin-top:10px;text-align:right;">कुल वैध मत: ${total}</div>
           </div>
         `;
       }

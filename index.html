@@ -565,15 +565,17 @@ body{
         let mobile = v.mobile || '9876543210';
         let address = v.address || v.details || 'महाराजगंज';
         let mapLink = getSafeMapLink(v.mapLink, address);
+        let catBadge = v.category === 'car' ? '🚗 ट्रैवल कार' : v.category === 'commercial' ? '🚚 मालवाहक' : '🚜 वाहन सेवा';
 
         html += `
-          <div class="banner-3d-card" style="border-left-color: #f59e0b;">
-            <h3 style="font-size:15px; margin:0 0 6px; color:var(--navy); font-weight:900;">🚗 ${vName}</h3>
-            <p style="font-size:11.5px; color:var(--muted); margin:0 0 3px;"><b>चालक/मालिक:</b> ${driver}</p>
-            <p style="font-size:11.5px; color:var(--text); margin:0 0 10px;">📍 <b>क्षेत्र/स्टेशन:</b> ${address}</p>
-            <div class="banner-actions">
-              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
-              <a href="javascript:void(0);" onclick="openExternalMap('${mapLink}')" class="banner-btn-map">📍 मैप लोकेशन</a>
+          <div class="banner-3d-card" style="border-left-color: #f59e0b; position:relative;">
+            <div style="position:absolute; top:14px; right:14px; background:#eff6ff; color:var(--p); font-size:10px; font-weight:900; padding:3px 8px; border-radius:8px; border:1px solid #bfdbfe;">${catBadge}</div>
+            <h3 style="font-size:16px; margin:0 0 6px; color:var(--navy); font-weight:900;">🚘 ${vName}</h3>
+            <p style="font-size:12px; color:var(--muted); margin:0 0 4px;">👤 <b>चालक/मालिक:</b> ${driver}</p>
+            <p style="font-size:12px; color:var(--text); margin:0 0 14px;">📍 <b>रूट/पता:</b> ${address}</p>
+            <div class="banner-actions" style="display:flex; gap:10px;">
+              <a href="tel:${mobile}" class="banner-btn-call" style="flex:1; background:linear-gradient(135deg, #10b981, #059669); color:#fff; padding:9px; border-radius:10px; font-weight:bold; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">📞 कॉल करें</a>
+              <a href="javascript:void(0);" onclick="openExternalMap('${mapLink}')" class="banner-btn-map" style="flex:1; background:linear-gradient(135deg, #f59e0b, #d97706); color:#fff; padding:9px; border-radius:10px; font-weight:bold; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">📍 मैप लोकेशन</a>
             </div>
           </div>
         `;

@@ -231,6 +231,7 @@
         <div class="form-group"><label>वाहन का नाम / सेवा प्रकार</label><input type="text" id="travelTitleInput" class="form-control" placeholder="स्वराज ट्रैक्टर / ट्रैवलर"></div>
         <div class="form-group"><label>चालक / मालिक का नाम</label><input type="text" id="travelDriverInput" class="form-control" placeholder="श्री रामलाल"></div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="travelMobileInput" class="form-control" placeholder="9876543210" maxlength="10"></div>
+        <div class="form-group"><label>वाहन श्रेणी</label><select id="travelCategoryInput" class="form-control"><option value="agri">कृषि वाहन (Agri Tractor)</option><option value="commercial">कमर्शियल / ढुलाई (Commercial Transport)</option><option value="car">ट्रैवल कार / टैक्सी (Travel Car / Taxi)</option></select></div>
         <div class="form-group"><label>रूट / पूरा पता</label><input type="text" id="travelAddressInput" class="form-control" placeholder="महाराजगंज से अंबिकापुर"></div>
         <div class="form-group"><label>Google Map लोकेशन लिंक</label><input type="text" id="travelMapInput" class="form-control" placeholder="https://maps.google.com/?q=..."></div>
         <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateTravelAdmin()">वाहन सेवा सुरक्षित करें</button>
@@ -379,7 +380,7 @@
             <td><b>${tName}</b> (${driver})<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
             <td>
               <button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}')">✏️</button>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}', '${d.category || 'agri'}')">✏️</button>
               <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
             </td>
           </tr>`;
@@ -387,7 +388,7 @@
           html += `<tr>
             <td><b>${tName}</b> (${driver}) [स्वीकृत]<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
             <td>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}')">✏️</button>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}', '${d.category || 'agri'}')">✏️</button>
               <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
             </td>
           </tr>`;
@@ -617,12 +618,14 @@
       return;
     }
 
+    let category = document.getElementById("travelCategoryInput").value;
     let data = {
       title: title,
       driver: driver || 'चालक',
       mobile: mobile,
       address: address,
       mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`,
+      category: category,
       status: "approved",
       timestamp: Date.now()
     };
@@ -643,13 +646,16 @@
     loadAllAdminData();
   }
 
-  function editTravelAdminData(id, t, dr, mob, addr, map) {
+  function editTravelAdminData(id, t, dr, mob, addr, map, cat) {
     document.getElementById("editTravelId").value = id;
     document.getElementById("travelTitleInput").value = t;
     document.getElementById("travelDriverInput").value = dr;
     document.getElementById("travelMobileInput").value = mob;
     document.getElementById("travelAddressInput").value = addr;
     document.getElementById("travelMapInput").value = map;
+    if(document.getElementById("travelCategoryInput")) {
+      document.getElementById("travelCategoryInput").value = cat || 'agri';
+    }
   }
 
   async function saveOrUpdateGallery() {

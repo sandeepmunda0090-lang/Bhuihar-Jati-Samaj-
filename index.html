@@ -109,8 +109,8 @@ body{
   white-space: nowrap;
 }
 
-.category-slider{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.category-slider::-webkit-scrollbar{display:none}
+.category-slider { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; padding-top: 4px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; scroll-snap-type: x mandatory; cursor: grab; }
+.category-slider::-webkit-scrollbar { display: none; } .category-slider:active { cursor: grabbing; }
 
 .cat-card{min-width:115px;max-width:115px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.2s;position:relative;}
 .cat-card:active{transform:scale(0.95)}
@@ -168,17 +168,7 @@ body{
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
-.banner-3d-card {
-  min-width: 100%;
-  max-width: 100%;
-  background: linear-gradient(135deg, #ffffff, #f8fafc);
-  border: 2px solid var(--line);
-  border-left: 5px solid var(--p);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 10px 25px rgba(7,87,163,0.1);
-  flex-shrink: 0;
-}
+.banner-3d-card { min-width: 100%; max-width: 100%; background: linear-gradient(135deg, #ffffff, #f8fafc); border: 2px solid var(--line); border-left: 6px solid var(--p); border-radius: 18px; padding: 18px; box-shadow: 0 10px 30px rgba(7,87,163,0.12); flex-shrink: 0; scroll-snap-align: start; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease; transform: perspective(800px) rotateY(2deg); }
 .banner-actions {
   display: flex;
   gap: 10px;
@@ -729,5 +719,51 @@ body{
   }
   loadHomeStats();
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sliders = document.querySelectorAll(".category-slider");
+  sliders.forEach(slider => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener("mousedown", (e) => {
+      isDown = true;
+      slider.classList.add("active");
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+      slider.classList.remove("active");
+    });
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+      slider.classList.remove("active");
+    });
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll-fast multiplier
+      slider.scrollLeft = scrollLeft - walk;
+    });
+  });
+
+  // Auto-slide functionality for business and vehicle banners
+  setInterval(() => {
+    const bizSlider = document.getElementById("homeBusinessSlider");
+    if(bizSlider && bizSlider.children.length > 1) {
+      if(bizSlider.scrollLeft + bizSlider.clientWidth >= bizSlider.scrollWidth - 10) {
+        bizSlider.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        bizSlider.scrollBy({ left: bizSlider.clientWidth, behavior: 'smooth' });
+      }
+    }
+  }, 4000);
+});
+</script>
 </body>
+
 </html>

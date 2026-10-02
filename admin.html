@@ -692,5 +692,46 @@
     }
   }
 </script>
+
+<script>
+  // Universal Mobile Number Validation (Only 0-9 digits, max 10 digits)
+  document.addEventListener('input', function(e) {
+    let t = e.target;
+    if (t && t.tagName === 'INPUT') {
+      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
+                          (t.id && t.id.toLowerCase().includes('mobile')) ||
+                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
+                          (t.type === 'tel');
+      if (isMobileField) {
+        let cleaned = t.value.replace(/[^0-9]/g, '').slice(0, 10);
+        if (t.value !== cleaned) {
+          t.value = cleaned;
+        }
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    let t = e.target;
+    if (t && t.tagName === 'INPUT') {
+      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
+                          (t.id && t.id.toLowerCase().includes('mobile')) ||
+                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
+                          (t.type === 'tel');
+      if (isMobileField) {
+        if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
+          return;
+        }
+        if (e.ctrlKey || e.metaKey) {
+          return;
+        }
+        if (!/^[0-9]$/.test(e.key) || t.value.length >= 10) {
+          e.preventDefault();
+        }
+      }
+    }
+  });
+</script>
+
 </body>
 </html>

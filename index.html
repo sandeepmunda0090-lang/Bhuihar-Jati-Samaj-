@@ -2,7 +2,6 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>भुईहर जाति समाज | महाराजगंज</title>
@@ -11,14 +10,24 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
-  background:#eaf0f7;
+  background:#f4f7fb;
   font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
   color:var(--text);
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   text-rendering:optimizeLegibility;
 }
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 50px rgba(0,0,0,0.15);padding-bottom:85px}
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 50px rgba(0,0,0,0.15);
+  padding-bottom:85px;
+  transition: background 1.2s ease, color 0.5s ease;
+}
 
 @keyframes bounceDrop { 0% { transform: translateY(-30px); opacity: 0; } 60% { transform: translateY(6px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 @keyframes iconBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.05); } }
@@ -112,11 +121,20 @@ body{
 .category-slider { display: flex; gap: 15px; overflow-x: auto; padding: 20px 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; perspective: 1200px; cursor: grab; }
 .category-slider::-webkit-scrollbar { display: none; } .category-slider:active { cursor: grabbing; }
 
-.cat-card{min-width:115px;max-width:115px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.2s;position:relative;}
+.cat-card{min-width:115px;max-width:115px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);position:relative;}
 .cat-card:active{transform:scale(0.95)}
 .cat-card .ic{width:56px;height:56px;border-radius:14px;background:rgba(7,87,163,0.1);display:grid;place-items:center;font-size:26px;margin-bottom:8px;animation: iconBounce 1.5s infinite ease-in-out}
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
+
+/* 3D Circular Wheel Zoom Effect for Center Active Item */
+.cat-card.active-center {
+  transform: scale(1.12) translateY(-4px);
+  background: linear-gradient(135deg, #ffffff, #eff6ff);
+  border-color: var(--p);
+  box-shadow: 0 15px 35px rgba(7,87,163,0.22);
+  z-index: 5;
+}
 
 .notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
 
@@ -191,9 +209,9 @@ body{
   gap: 6px;
   box-shadow: 0 4px 10px rgba(16,185,129,0.3);
 }
-.banner-btn-map {
+.banner-btn-whatsapp {
   flex: 1;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: linear-gradient(135deg, #25D366, #128C7E);
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -206,7 +224,7 @@ body{
   align-items: center;
   justify-content: center;
   gap: 6px;
-  box-shadow: 0 4px 10px rgba(245,158,11,0.3);
+  box-shadow: 0 4px 10px rgba(37,211,102,0.3);
 }
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
@@ -236,7 +254,6 @@ body{
   z-index: 10;
 }
 </style>
-
 </head>
 <body>
 
@@ -274,8 +291,8 @@ body{
       <div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड हो रहे हैं...</div>
     </div>
     
-    <div class="section-title"><h2>समाज की सभी 11 सेवाएँ</h2><span style="font-size:10.5px;color:var(--muted);">स्लाइड करें ➔</span></div>
-    <div class="category-slider">
+    <div class="section-title"><h2>समाज की सभी 11 सेवाएँ (3D रोटरी व्हील)</h2><span style="font-size:10.5px;color:var(--muted);">हाथ से घुमाएं ➔</span></div>
+    <div class="category-slider" id="servicesWheelSlider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
       <a href="matrimonial.html" class="cat-card" style="position:relative;"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span><span id="badge-matrimonials" class="notification-badge">0</span></a>
       <a href="jobs.html" class="cat-card" style="position:relative;"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span><span id="badge-jobs" class="notification-badge">0</span></a>
@@ -357,15 +374,23 @@ body{
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
-  function getSafeMapLink(rawLink, address) {
-    let query = encodeURIComponent(address || 'Maharajganj Balrampur Chhattisgarh');
-    return `https://www.google.com/maps/search/?api=1&query=${query}`;
-  }
-
-  function openExternalMap(url) {
-    let cleanUrl = (url && url.includes('http')) ? url : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Maharajganj Balrampur Chhattisgarh')}`;
-    window.open(cleanUrl, '_system');
-  }
+  // Dynamic Background color changer on blank space clicks (Ankhon ko sukoon dene wale soft palettes)
+  const softPalettes = [
+    { bg: "#f4f7fb" },
+    { bg: "#eef2f7" },
+    { bg: "#f0fdf4" },
+    { bg: "#fdf4f8" },
+    { bg: "#fefce8" },
+    { bg: "#f8fafc" }
+  ];
+  let colorIndex = 0;
+  document.addEventListener("click", (e) => {
+    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('select') || e.target.closest('.card') || e.target.closest('.cat-card') || e.target.closest('.banner-3d-card') || e.target.closest('.achiever-card') || e.target.closest('.official-card')) {
+      return;
+    }
+    colorIndex = (colorIndex + 1) % softPalettes.length;
+    document.getElementById("app").style.background = softPalettes[colorIndex].bg;
+  });
 
   async function loadHomeMeeting() {
     try {
@@ -520,7 +545,6 @@ body{
         let owner = b.owner || 'संचालक';
         let mobile = b.mobile || '9876543210';
         let address = b.address || 'महाराजगंज, छत्तीसगढ़';
-        let mapLink = getSafeMapLink(b.mapLink, address);
 
         html += `
           <div class="banner-3d-card">
@@ -529,7 +553,7 @@ body{
             <p style="font-size:11.5px; color:var(--text); margin:0 0 10px;">📍 <b>पता:</b> ${address}</p>
             <div class="banner-actions">
               <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
-              <a href="javascript:void(0);" onclick="openExternalMap('${mapLink}')" class="banner-btn-map">📍 मैप लोकेशन</a>
+              <a href="https://wa.me/91${mobile}?text=Namaste,%20mujhe%20aapki%20business%20service%20chahiye." target="_blank" class="banner-btn-whatsapp">💬 व्हाट्सएप</a>
             </div>
           </div>
         `;
@@ -564,7 +588,6 @@ body{
         let driver = v.driverName || v.driver || v.owner || 'चालक';
         let mobile = v.mobile || '9876543210';
         let address = v.address || v.details || 'महाराजगंज';
-        let mapLink = getSafeMapLink(v.mapLink, address);
         let catBadge = v.category === 'car' ? '🚗 ट्रैवल कार' : v.category === 'commercial' ? '🚚 मालवाहक' : '🚜 वाहन सेवा';
 
         html += `
@@ -573,9 +596,9 @@ body{
             <h3 style="font-size:16px; margin:0 0 6px; color:var(--navy); font-weight:900;">🚘 ${vName}</h3>
             <p style="font-size:12px; color:var(--muted); margin:0 0 4px;">👤 <b>चालक/मालिक:</b> ${driver}</p>
             <p style="font-size:12px; color:var(--text); margin:0 0 14px;">📍 <b>रूट/पता:</b> ${address}</p>
-            <div class="banner-actions" style="display:flex; gap:10px;">
-              <a href="tel:${mobile}" class="banner-btn-call" style="flex:1; background:linear-gradient(135deg, #10b981, #059669); color:#fff; padding:9px; border-radius:10px; font-weight:bold; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">📞 कॉल करें</a>
-              <a href="javascript:void(0);" onclick="openExternalMap('${mapLink}')" class="banner-btn-map" style="flex:1; background:linear-gradient(135deg, #f59e0b, #d97706); color:#fff; padding:9px; border-radius:10px; font-weight:bold; text-align:center; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;">📍 मैप लोकेशन</a>
+            <div class="banner-actions">
+              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
+              <a href="https://wa.me/91${mobile}?text=Namaste,%20mujhe%20aapki%20vehicle%20service%20chahiye." target="_blank" class="banner-btn-whatsapp">💬 व्हाट्सएप</a>
             </div>
           </div>
         `;
@@ -731,7 +754,6 @@ body{
   loadHomeStats();
 </script>
 
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const sliders = document.querySelectorAll(".category-slider");
@@ -792,21 +814,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Auto-slide functionality for ALL horizontal category sliders
+  // Auto-slide functionality ONLY for business and vehicle banners (11 services are manual circular rotary wheel as requested)
   setInterval(() => {
-    sliders.forEach(slider => {
-      if (slider && slider.children.length > 1 && !slider.matches(':hover') && !slider.matches(':active')) {
-        if(slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
-          slider.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          slider.scrollBy({ left: 220, behavior: 'smooth' });
-        }
+    const bizSlider = document.getElementById("homeBusinessSlider");
+    if(bizSlider && bizSlider.children.length > 1 && !bizSlider.matches(':hover') && !bizSlider.matches(':active')) {
+      if(bizSlider.scrollLeft + bizSlider.clientWidth >= bizSlider.scrollWidth - 10) {
+        bizSlider.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        bizSlider.scrollBy({ left: 220, behavior: 'smooth' });
       }
-    });
+    }
+
+    const vehSlider = document.getElementById("homeVehicleSlider");
+    if(vehSlider && vehSlider.children.length > 1 && !vehSlider.matches(':hover') && !vehSlider.matches(':active')) {
+      if(vehSlider.scrollLeft + vehSlider.clientWidth >= vehSlider.scrollWidth - 10) {
+        vehSlider.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        vehSlider.scrollBy({ left: 220, behavior: 'smooth' });
+      }
+    }
   }, 4500);
 });
 </script>
 
 </body>
-
 </html>

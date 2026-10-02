@@ -572,23 +572,41 @@ body{
     setTimeout(() => { overlay.style.display = "none"; }, 300);
   }
 
-  async function loadOfficialsToSlider() {
+    async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {
-      let snap = await db.collection("officials").limit(10).get();
+      let snap = await db.collection("officials").limit(20).get();
       if(snap.empty) {
         slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई पदाधिकारी दर्ज नहीं है।</div>`;
         return;
       }
+      let list = [];
+      snap.forEach(doc => { let d = doc.data(); d.id = doc.id; list.push(d); });
+      
+      // Define exact hierarchy priority mapping
+      const rolePriority = {
+        "महतो": 1,
+        "कहतो": 2,
+        "अध्यक्ष": 3,
+        "उपाध्यक्ष": 4,
+        "सचिव": 5,
+        "कोषाध्यक्ष": 6
+      };
+
+      list.sort((a, b) => {
+        let pA = rolePriority[a.role] || 99;
+        let pB = rolePriority[b.role] || 99;
+        return pA - pB;
+      });
+
       let html = "";
-      snap.forEach(doc => {
-        let o = doc.data();
+      list.forEach(o => {
         let photo = o.photo && o.photo.startsWith('http') ? o.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
         html += `
           <div class="official-card">
             <img src="${photo}" alt="पदाधिकारी फोटो">
-            <b style="font-size:12px; color:var(--navy); margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.name || 'पदाधिकारी'}</b>
-            <span style="font-size:10px; color:var(--muted); margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.role || 'पद'}</span>
+            <b style="font-size:13.5px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.role || 'पद'}</b>
+            <span style="font-size:11px; color:var(--muted); display:block; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.name || 'पदाधिकारी'}</span>
             <div class="contact-btns">
               <button onclick="window.location.href='tel:${o.mobile || '9876543210'}'">📞 कॉल</button>
               <button onclick="window.location.href='https://wa.me/91${o.mobile || '9876543210'}'">💬 चैट</button>
@@ -908,6 +926,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 4500);
 });
+</script>
+
+
+<script>
+  // Universal Mobile Number Validation (Only 0-9 digits, max 10 digits)
+  document.addEventListener('input', function(e) {
+    let t = e.target;
+    if (t && t.tagName === 'INPUT') {
+      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
+                          (t.id && t.id.toLowerCase().includes('mobile')) ||
+                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
+                          (t.type === 'tel');
+      if (isMobileField) {
+        let cleaned = t.value.replace(/[^0-9]/g, '').slice(0, 10);
+        if (t.value !== cleaned) {
+          t.value = cleaned;
+        }
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    let t = e.target;
+    if (t && t.tagName === 'INPUT') {
+      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
+                          (t.id && t.id.toLowerCase().includes('mobile')) ||
+                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
+                          (t.type === 'tel');
+      if (isMobileField) {
+        // Allow navigation keys, backspace, delete, tab, numbers
+        if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
+          return;
+        }
+        if (e.ctrlKey || e.metaKey) {
+          return; // Allow Ctrl+C, Ctrl+V, etc.
+        }
+        if (!/^[0-9]$/.test(e.key) || t.value.length >= 10) {
+          e.preventDefault();
+        }
+      }
+    }
+  });
 </script>
 
 </body>

@@ -731,9 +731,11 @@ body{
   loadHomeStats();
 </script>
 
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const sliders = document.querySelectorAll(".category-slider");
+  
   sliders.forEach(slider => {
     let isDown = false;
     let startX;
@@ -745,56 +747,16 @@ document.addEventListener("DOMContentLoaded", () => {
       startX = e.pageX - slider.offsetLeft;
       scrollLeft = slider.scrollLeft;
     });
+    
     slider.addEventListener("mouseleave", () => {
       isDown = false;
       slider.classList.remove("active");
     });
+    
     slider.addEventListener("mouseup", () => {
       isDown = false;
       slider.classList.remove("active");
     });
-    slider.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll-fast multiplier
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  });
-
-  // Auto-slide functionality for business and vehicle banners
-  setInterval(() => {
-    const bizSlider = document.getElementById("homeBusinessSlider");
-    if(bizSlider && bizSlider.children.length > 1) {
-      if(bizSlider.scrollLeft + bizSlider.clientWidth >= bizSlider.scrollWidth - 10) {
-        bizSlider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        bizSlider.scrollBy({ left: bizSlider.clientWidth, behavior: 'smooth' });
-      }
-    }
-  }, 4000);
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const sliders = document.querySelectorAll(".category-slider");
-  
-  sliders.forEach(slider => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    slider.getElementById = slider.id || "slider_" + Math.random();
-
-    slider.addEventListener("mousedown", (e) => {
-      isDown = true;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    
-    slider.addEventListener("mouseleave", () => { isDown = false; });
-    slider.addEventListener("mouseup", () => { isDown = false; });
     
     slider.addEventListener("mousemove", (e) => {
       if (!isDown) return;
@@ -809,12 +771,12 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCenterCard(slider);
     });
 
-    // Initial check
     updateCenterCard(slider);
   });
 
   function updateCenterCard(slider) {
-    const cards = slider.querySelectorAll(".banner-3d-card");
+    const cards = slider.querySelectorAll(".banner-3d-card, .achiever-card, .official-card, .cat-card");
+    if(cards.length === 0) return;
     const sliderRect = slider.getBoundingClientRect();
     const sliderCenter = sliderRect.left + sliderRect.width / 2;
 
@@ -830,17 +792,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Auto-slide for business slider
+  // Auto-slide functionality for ALL horizontal category sliders
   setInterval(() => {
-    const bizSlider = document.getElementById("homeBusinessSlider");
-    if(bizSlider && bizSlider.children.length > 1) {
-      if(bizSlider.scrollLeft + bizSlider.clientWidth >= bizSlider.scrollWidth - 10) {
-        bizSlider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        bizSlider.scrollBy({ left: 310, behavior: 'smooth' });
+    sliders.forEach(slider => {
+      if (slider && slider.children.length > 1 && !slider.matches(':hover') && !slider.matches(':active')) {
+        if(slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
+          slider.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          slider.scrollBy({ left: 220, behavior: 'smooth' });
+        }
       }
-    }
-  }, 4000);
+    });
+  }, 4500);
 });
 </script>
 

@@ -163,11 +163,20 @@ function switchVehicleTab(cat) {
 async function loadVehicles() {
   let container = document.getElementById("vehicleListContainer");
   try {
-    let snapshot = await db.collection("vehicles").get();
+    let [vehSnap, travSnap] = await Promise.all([
+      db.collection("vehicles").get(),
+      db.collection("travel").get()
+    ]);
     allVehicles = [];
-    snapshot.forEach(doc => {
+    vehSnap.forEach(doc => {
       let v = doc.data();
-      if(v.status === "approved") {
+      if((v.status || "approved") === "approved") {
+        allVehicles.push({ id: doc.id, ...v });
+      }
+    });
+    travSnap.forEach(doc => {
+      let v = doc.data();
+      if((v.status || "approved") === "approved") {
         allVehicles.push({ id: doc.id, ...v });
       }
     });

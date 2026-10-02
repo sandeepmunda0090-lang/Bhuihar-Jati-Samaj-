@@ -146,16 +146,16 @@ body{
 /* 3D Unique Rotary Circle Layout for Achievers (Rank #1 center zoom-in, Ranks #2 and #3 left & right angled stack) */
 #achieversSlider {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   overflow-x: auto;
-  padding: 25px 10px;
+  padding: 25px calc(50% - 85px);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   perspective: 1200px;
   cursor: grab;
   align-items: center;
-  justify-content: center;
 }
 #achieversSlider::-webkit-scrollbar { display: none; }
 

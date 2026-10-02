@@ -133,6 +133,13 @@
             <option value="महतो">महतो</option><option value="कहतो">कहतो</option><option value="अध्यक्ष">अध्यक्ष</option><option value="उपाध्यक्ष">उपाध्यक्ष</option><option value="सचिव">सचिव</option><option value="कोषाध्यक्ष">कोषाध्यक्ष</option>
           </select>
         </div>
+
+        <div class="form-group"><label>लिंग (Gender)</label>
+          <select id="offGender" class="form-control">
+            <option value="male">पुरुष (Male)</option>
+            <option value="female">महिला (Female)</option>
+          </select>
+        </div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="offMobile" class="form-control" placeholder="9876543210"></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="offPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" onclick="saveOrUpdateOfficial()">पदाधिकारी सुरक्षित करें</button>
@@ -304,7 +311,7 @@
   function loadAllAdminData() {
     loadPendingApprovals();
     loadAdminTable("jobs", "adminJobsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.company || d.dept || ''} [${d.category === 'private' ? 'प्राइवेट' : 'सरकारी'}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}', '${d.category || 'government'}', '${d.title || ''}', '${d.company || ''}', '${d.location || ''}', '${d.salary || ''}', '${d.qualification || ''}', '${d.applyLink || ''}', '${d.mobile || ''}', '${d.tag || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role}) - ${d.gender === 'female' ? 'महिला' : 'पुरुष'}</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.gender || 'male'}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
     loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | राशि: ${d.reward || 'घोषित'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.reward || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
@@ -467,15 +474,15 @@
   async function saveOrUpdateOfficial() {
     let id = document.getElementById("editOfficialId").value;
     let name = document.getElementById("offName").value.trim();
-    let data = { name, role: document.getElementById("offRole").value, mobile: document.getElementById("offMobile").value.trim(), photo: document.getElementById("offPhoto").value.trim() };
+    let data = { name, role: document.getElementById("offRole").value, gender: document.getElementById("offGender").value, mobile: document.getElementById("offMobile").value.trim(), photo: document.getElementById("offPhoto").value.trim() };
     if(!name) { alert("⚠️ नाम भरें!"); return; }
     if(id) { await db.collection("officials").doc(id).update(data); document.getElementById("editOfficialId").value=""; }
     else { await db.collection("officials").add(data); }
     alert("पदाधिकारी सुरक्षित हो गया!");
-    document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value="";
+    document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value=""; document.getElementById("offGender").value="male";
     loadAllAdminData();
   }
-  function editOfficial(id, n, r, m, p) { document.getElementById("editOfficialId").value=id; document.getElementById("offName").value=n; document.getElementById("offRole").value=r; document.getElementById("offMobile").value=m; document.getElementById("offPhoto").value=p; }
+  function editOfficial(id, n, r, g, m, p) { document.getElementById("editOfficialId").value=id; document.getElementById("offName").value=n; document.getElementById("offRole").value=r; document.getElementById("offGender").value=g || 'male'; document.getElementById("offMobile").value=m; document.getElementById("offPhoto").value=p; }
 
   async function saveOrUpdateMeeting() {
     let id = document.getElementById("editMeetingId").value;

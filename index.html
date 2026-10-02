@@ -572,7 +572,28 @@ body{
     setTimeout(() => { overlay.style.display = "none"; }, 300);
   }
 
-    async function loadOfficialsToSlider() {
+    
+  function checkLoginAndCall(mobile) {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    if (!loggedMobile) {
+      alert("⚠️ पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें!");
+      window.location.href = "login.html";
+      return;
+    }
+    window.location.href = 'tel:' + mobile;
+  }
+
+  function checkLoginAndChat(mobile) {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    if (!loggedMobile) {
+      alert("⚠️ पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें तालिका में!");
+      window.location.href = "login.html";
+      return;
+    }
+    window.open('https://wa.me/91' + mobile, '_blank');
+  }
+
+  async function loadOfficialsToSlider() {
     let slider = document.getElementById("officialsSlider");
     try {
       let snap = await db.collection("officials").limit(20).get();
@@ -608,8 +629,8 @@ body{
             <b style="font-size:13.5px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.role || 'पद'}</b>
             <span style="font-size:11px; color:var(--muted); display:block; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.name || 'पदाधिकारी'}</span>
             <div class="contact-btns">
-              <button onclick="window.location.href='tel:${o.mobile || '9876543210'}'">📞 कॉल</button>
-              <button onclick="window.location.href='https://wa.me/91${o.mobile || '9876543210'}'">💬 चैट</button>
+              <button onclick="checkLoginAndCall('${o.mobile || '9876543210'}')">📞 कॉल</button>
+              <button onclick="checkLoginAndChat('${o.mobile || '9876543210'}')">💬 चैट</button>
             </div>
           </div>
         `;

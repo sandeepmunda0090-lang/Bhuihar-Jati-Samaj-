@@ -434,30 +434,68 @@ body{
   }
   loadHomeMeeting();
 
-  let achieversDataList = [];
+    let achieversDataList = [];
   let currentActiveAchieverId = null;
+
+  function parseAchieverScore(ach) {
+    // Check percentage, score, or parse numbers from detail string
+    if (ach.percentage !== undefined && ach.percentage !== null && ach.percentage !== "") {
+      let v = parseFloat(String(ach.percentage).replace(/[^0-9.]/g, ''));
+      if (!isNaN(v)) return v;
+    }
+    if (ach.score !== undefined && ach.score !== null && ach.score !== "") {
+      let v = parseFloat(String(ach.score).replace(/[^0-9.]/g, ''));
+      if (!isNaN(v)) return v;
+    }
+    if (ach.detail) {
+      let v = parseFloat(String(ach.detail).replace(/[^0-9.]/g, ''));
+      if (!isNaN(v)) return v;
+    }
+    return 0;
+  }
 
   async function loadAchieversToSlider() {
     let slider = document.getElementById("achieversSlider");
     try {
-      let snap = await db.collection("achievers").limit(5).get();
+      let snap = await db.collection("achievers").limit(10).get();
       if(snap.empty) {
         slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई मेधावी छात्र दर्ज नहीं है।</div>`;
         return;
       }
       let list = [];
       snap.forEach(doc => { let d = doc.data(); d.id = doc.id; list.push(d); });
-      list.sort((a, b) => parseFloat(b.percentage || b.detail || 0) - parseFloat(a.percentage || a.detail || 0));
-      achieversDataList = list.slice(0, 3);
-      let medals = ["🥇 रैंक #1", "🥈 रैंक #2", "🥉 रैंक #3"];
+      
+      // Sort strictly by percentage/score descending (highest score = Rank #1)
+      list.sort((a, b) => parseAchieverScore(b) - parseAchieverScore(a));
+      
+      let top3 = list.slice(0, 3);
+      achieversDataList = top3;
+
+      // Reorder for 3D Rotary Circle view: [Rank 2, Rank 1, Rank 3] so Rank #1 is in the exact center!
+      let orderedList = [];
+      let originalIndices = [];
+      if(top3.length >= 3) {
+        orderedList = [top3[1], top3[0], top3[2]];
+        originalIndices = [1, 0, 2];
+      } else if(top3.length === 2) {
+        orderedList = [top3[1], top3[0]];
+        originalIndices = [1, 0];
+      } else {
+        orderedList = top3;
+        originalIndices = [0];
+      }
+
+      let medalsMap = ["🥈 रैंक #2", "🥇 रैंक #1", "🥉 रैंक #3"];
       let html = "";
-      achieversDataList.forEach((ach, index) => {
+      orderedList.forEach((ach, renderIdx) => {
+        let origIdx = originalIndices[renderIdx];
         let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
-        let badgeText = medals[index] || `रंक #${index+1}`;
+        let badgeText = medalsMap[renderIdx] || `रंक #${origIdx+1}`;
         let totalLikes = ach.likes || 0;
-        let isTopCenter = index === 0 ? 'active-center' : '';
+        // Rank #1 (origIdx === 0) gets active-center zoom-in
+        let isTopCenter = origIdx === 0 ? 'active-center' : '';
         html += `
-          <div class="achiever-card ${isTopCenter}" onclick="openAchieverModal(${index})">
+          <div class="achiever-card ${isTopCenter}" onclick="openAchieverModal(${origIdx})">
             <div class="achiever-badge">${badgeText}</div>
             <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
             <b style="font-size:12px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${ach.name || 'छात्र नाम'}</b>
@@ -468,7 +506,7 @@ body{
       });
       slider.innerHTML = html;
       
-      // Scroll to center the Rank #1 card by default (left padding automatically centers index 0)
+      // Scroll to center Rank #1 card by default (left padding automatically centers index 0 of orderedList)
       setTimeout(() => {
         slider.scrollTo({ left: 0, behavior: 'smooth' });
       }, 200);

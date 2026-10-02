@@ -127,7 +127,7 @@ body{
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
 
-/* 3D Circular Wheel Zoom Effect for Center Active Item */
+/* 3D Circular Wheel Zoom Effect for Center Active Item in 11 Services */
 .cat-card.active-center {
   transform: scale(1.12) translateY(-4px);
   background: linear-gradient(135deg, #ffffff, #eff6ff);
@@ -143,23 +143,49 @@ body{
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
 .contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
 
+/* 3D Unique Rotary Circle Layout for Achievers (Rank #1 center zoom-in, Ranks #2 and #3 left & right angled stack) */
+#achieversSlider {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 25px 10px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  perspective: 1200px;
+  cursor: grab;
+  align-items: center;
+  justify-content: center;
+}
+#achieversSlider::-webkit-scrollbar { display: none; }
+
 .achiever-card {
-  min-width: 160px;
-  max-width: 160px;
+  min-width: 170px;
+  max-width: 170px;
   background: linear-gradient(145deg, #ffffff, #f0f4f8);
   border: 2px solid #cbd5e1;
   border-top: 4px solid var(--gold);
   border-radius: 20px;
   padding: 24px 10px 18px 10px;
-  margin-top: 15px;
   text-align: center;
   flex-shrink: 0;
+  scroll-snap-align: center;
   position: relative;
   cursor: pointer;
   box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: perspective(800px) rotateY(15deg) scale(0.9);
+  opacity: 0.8;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, opacity 0.5s ease;
+}
+.achiever-card.active-center, .achiever-card:hover {
+  transform: perspective(800px) rotateY(0deg) scale(1.1) translateY(-6px);
+  opacity: 1;
+  box-shadow: 0 20px 40px rgba(7,87,163,0.25);
+  border-color: var(--p);
+  z-index: 10;
 }
 .achiever-badge {
   position: absolute;
@@ -281,7 +307,7 @@ body{
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ</h2><span style="font-size:10.5px;color:var(--muted);">टॉप 3 रैंक ➔</span></div>
+    <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ (3D सर्कल)</h2><span style="font-size:10.5px;color:var(--muted);">रैंक #1 सेंटर ➔</span></div>
     <div class="category-slider" id="achieversSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">मेधावी छात्र लोड हो रहे हैं...</div>
     </div>
@@ -429,8 +455,9 @@ body{
         let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
         let badgeText = medals[index] || `रंक #${index+1}`;
         let totalLikes = ach.likes || 0;
+        let isTopCenter = index === 0 ? 'active-center' : '';
         html += `
-          <div class="achiever-card" onclick="openAchieverModal(${index})">
+          <div class="achiever-card ${isTopCenter}" onclick="openAchieverModal(${index})">
             <div class="achiever-badge">${badgeText}</div>
             <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
             <b style="font-size:12px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${ach.name || 'छात्र नाम'}</b>
@@ -440,6 +467,15 @@ body{
         `;
       });
       slider.innerHTML = html;
+      
+      // Scroll to center the Rank #1 card by default
+      setTimeout(() => {
+        let firstCard = slider.querySelector(".achiever-card");
+        if(firstCard) {
+          slider.scrollTo({ left: firstCard.offsetLeft - slider.clientWidth/2 + firstCard.clientWidth/2, behavior: 'smooth' });
+        }
+      }, 200);
+
     } catch(e) {
       slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">लोड करने में त्रुटि हुई।</div>`;
     }
@@ -814,7 +850,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Auto-slide functionality ONLY for business and vehicle banners (11 services are manual circular rotary wheel as requested)
+  // Auto-slide functionality ONLY for business and vehicle banners
   setInterval(() => {
     const bizSlider = document.getElementById("homeBusinessSlider");
     if(bizSlider && bizSlider.children.length > 1 && !bizSlider.matches(':hover') && !bizSlider.matches(':active')) {

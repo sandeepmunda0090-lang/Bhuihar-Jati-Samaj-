@@ -317,7 +317,23 @@ body{
     </div>
     
     <div class="section-title"><h2>समाज की सभी 11 सेवाएँ (3D रोटरी व्हील)</h2><span style="font-size:10.5px;color:var(--muted);">हाथ से घुमाएं ➔</span></div>
-    <div class="category-slider" id="servicesWheelSlider">
+    
+<style>
+.services-two-row {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 12px 14px;
+  overflow-x: auto;
+  padding: 10px 4px 20px 4px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+.services-two-row::-webkit-scrollbar { display: none; }
+.services-two-row:active { cursor: grabbing; }
+</style>
+<div class="services-two-row" id="servicesWheelSlider">
       <a href="family.html" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
       <a href="matrimonial.html" class="cat-card" style="position:relative;"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span><span id="badge-matrimonials" class="notification-badge">0</span></a>
       <a href="jobs.html" class="cat-card" style="position:relative;"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span><span id="badge-jobs" class="notification-badge">0</span></a>
@@ -329,9 +345,10 @@ body{
       <a href="condolence.html" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि पत्र</span></a>
       <a href="gallery.html" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>photo आयोजन</span></a>
       <a href="feedback.html" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत व सुझाव</span></a>
-    </div>
-
-    <div class="section-title"><h2>🏪 समाज की दुकानें एवं व्यवसाय</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
+      <a href="schemes.html" class="cat-card"><div class="ic">🏛️</div><b>सरकारी योजना</b><span>सहायता डेस्क</span></a>
+      <a href="women_schemes.html" class="cat-card"><div class="ic">👩‍👧‍👦</div><b>महिला एवं बाल</b><span>कल्याण योजनाएं</span></a>
+</div>
+<div class="section-title"><h2>🏪 समाज की दुकानें एवं व्यवसाय</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
     <div class="category-slider" id="homeBusinessSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">व्यवसाय लोड हो रहे हैं...</div>
     </div>
@@ -987,6 +1004,27 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
         }
       }
+    }
+  });
+</script>
+
+
+<script>
+  // Save scroll position before clicking any service card or navigating away
+  document.addEventListener('click', function(e) {
+    let card = e.target.closest('.cat-card, a');
+    if (card && card.getAttribute('href') && !card.getAttribute('href').startsWith('javascript')) {
+      localStorage.setItem('home_scroll_pos', window.scrollY);
+    }
+  });
+
+  // Restore scroll position when returning to home dashboard
+  window.addEventListener('DOMContentLoaded', function() {
+    let savedPos = localStorage.getItem('home_scroll_pos');
+    if (savedPos !== null) {
+      setTimeout(function() {
+        window.scrollTo({ top: parseInt(savedPos), behavior: 'smooth' });
+      }, 100);
     }
   });
 </script>

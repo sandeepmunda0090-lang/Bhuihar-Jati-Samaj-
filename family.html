@@ -527,6 +527,7 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
+
 function downloadDigitalCardPDF() {
   if (!loggedMobile) {
     showCustomAlert("⚠️ Suraksha Chetavni", "Digital parivar card download karne ke liye kripya pehle apne mobile number aur MPIN se login karein!", function(yes) {
@@ -542,14 +543,26 @@ function downloadDigitalCardPDF() {
     margin:       10,
     filename:     'Digital_Family_Card.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 3, useCORS: true, logging: false },
+    html2canvas:  { scale: 2.5, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   
-  html2pdf().from(element).set(opt).save().then(() => {
-    alert("✅ Digital parivar card HD quality mein download ho gaya hai!");
+  html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
+    let blobUrl = URL.createObjectURL(pdfBlob);
+    let link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = 'Digital_Family_Card.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    alert("✅ Digital parivar card PDF download ho gaya hai! Apne phone ka 'Downloads' folder ya notification bar check karein.");
   }).catch(err => {
-    alert("PDF download karne mein truti: " + err.message);
+    // Fallback to standard save if blob fails
+    html2pdf().from(element).set(opt).save().then(() => {
+      alert("✅ Digital parivar card download ho gaya hai!");
+    }).catch(e => {
+      alert("PDF download karne mein truti: " + err.message);
+    });
   });
 }
 
@@ -598,16 +611,28 @@ function downloadMasterDirectoryPDF() {
     margin:       10,
     filename:     'Master_Directory_Report.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 3, useCORS: true, logging: false },
+    html2canvas:  { scale: 2.5, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  html2pdf().from(element).set(opt).save().then(() => {
-    alert("✅ Master directory report HD quality mein download ho gayi hai!");
+  html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
+    let blobUrl = URL.createObjectURL(pdfBlob);
+    let link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = 'Master_Directory_Report.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    alert("✅ Master directory report PDF download ho gayi hai! Apne phone ka 'Downloads' folder check karein.");
   }).catch(err => {
-    alert("Master report download karne mein truti: " + err.message);
+    html2pdf().from(element).set(opt).save().then(() => {
+      alert("✅ Master directory report download ho gayi hai!");
+    }).catch(e => {
+      alert("Master report download karne mein truti: " + err.message);
+    });
   });
 }
+
 
 function openRegisterFamilyModal() {
   if(!loggedMobile) {

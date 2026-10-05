@@ -2,7 +2,6 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<!-- High-resolution aur sharp display ke liye viewport setting -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>Parivar Directory evam Prabandhan | Bhuihar Samaj Portal</title>
@@ -527,7 +526,6 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-
 function downloadDigitalCardPDF() {
   if (!loggedMobile) {
     showCustomAlert("⚠️ Suraksha Chetavni", "Digital parivar card download karne ke liye kripya pehle apne mobile number aur MPIN se login karein!", function(yes) {
@@ -543,7 +541,7 @@ function downloadDigitalCardPDF() {
     margin:       10,
     filename:     'Digital_Family_Card.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2.5, useCORS: true, logging: false },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   
@@ -555,14 +553,9 @@ function downloadDigitalCardPDF() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    alert("✅ Digital parivar card PDF download ho gaya hai! Apne phone ka 'Downloads' folder ya notification bar check karein.");
+    alert("✅ Digital parivar card PDF download ho gaya hai! Apne phone ka 'Downloads' folder check karein.");
   }).catch(err => {
-    // Fallback to standard save if blob fails
-    html2pdf().from(element).set(opt).save().then(() => {
-      alert("✅ Digital parivar card download ho gaya hai!");
-    }).catch(e => {
-      alert("PDF download karne mein truti: " + err.message);
-    });
+    window.print();
   });
 }
 
@@ -611,7 +604,7 @@ function downloadMasterDirectoryPDF() {
     margin:       10,
     filename:     'Master_Directory_Report.pdf',
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2.5, useCORS: true, logging: false },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
@@ -625,14 +618,9 @@ function downloadMasterDirectoryPDF() {
     document.body.removeChild(link);
     alert("✅ Master directory report PDF download ho gayi hai! Apne phone ka 'Downloads' folder check karein.");
   }).catch(err => {
-    html2pdf().from(element).set(opt).save().then(() => {
-      alert("✅ Master directory report download ho gayi hai!");
-    }).catch(e => {
-      alert("Master report download karne mein truti: " + err.message);
-    });
+    window.print();
   });
 }
-
 
 function openRegisterFamilyModal() {
   if(!loggedMobile) {

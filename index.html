@@ -403,7 +403,7 @@ body{
   <nav class="nav">
     <a href="index.html" class="active"><b>⌂</b>Home</a>
     <a href="search.html"><b>⌕</b>Search</a>
-    <a href="login.html" id="navProfileBtn"><b>👤</b>Profile</a>
+    <a href="javascript:void(0);" id="navProfileBtn" onclick="handleNavProfileClick()"><b>👤</b>Profile</a>
     <a href="blood.html"><b>🩸</b>Blood</a>
     <a href="admin.html"><b>🛡️</b>Admin</a>
   </nav>
@@ -1027,6 +1027,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 100);
     }
   });
+</script>
+
+
+<script>
+  function handleNavProfileClick() {
+    let loggedMobile = localStorage.getItem("userLoggedInMobile");
+    if (loggedMobile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.href = "login.html";
+    }
+  }
 </script>
 
 </body>

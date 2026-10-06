@@ -529,6 +529,7 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
+
 function downloadDigitalCardPDF() {
   if (!loggedMobile) {
     showCustomAlert("⚠️ Suraksha Chetavni", "Digital parivar card download karne ke liye kripya pehle apne mobile number aur MPIN se login karein!", function(yes) {
@@ -548,16 +549,16 @@ function downloadDigitalCardPDF() {
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   
-  html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
-    let blobUrl = URL.createObjectURL(pdfBlob);
+  html2pdf().from(element).set(opt).outputPdf('datauristring').then((pdfDataUri) => {
     let link = document.createElement('a');
-    link.href = blobUrl;
+    link.href = pdfDataUri;
     link.download = 'Digital_Family_Card.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     alert("✅ Digital parivar card PDF download ho gaya hai! Apne phone ka 'Downloads' folder check karein.");
   }).catch(err => {
+    console.error(err);
     window.print();
   });
 }
@@ -611,19 +612,20 @@ function downloadMasterDirectoryPDF() {
     jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  html2pdf().from(element).set(opt).outputPdf('blob').then((pdfBlob) => {
-    let blobUrl = URL.createObjectURL(pdfBlob);
+  html2pdf().from(element).set(opt).outputPdf('datauristring').then((pdfDataUri) => {
     let link = document.createElement('a');
-    link.href = blobUrl;
+    link.href = pdfDataUri;
     link.download = 'Master_Directory_Report.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     alert("✅ Master directory report PDF download ho gayi hai! Apne phone ka 'Downloads' folder check karein.");
   }).catch(err => {
+    console.error(err);
     window.print();
   });
 }
+
 
 function openRegisterFamilyModal() {
   if(!loggedMobile) {

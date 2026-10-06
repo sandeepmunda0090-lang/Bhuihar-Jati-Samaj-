@@ -300,7 +300,7 @@ body{
 /* ==================================================================== */
 
 .admin-note{font-size:11px;color:var(--muted);line-height:1.4}
-.chat-float-btn { position: fixed; bottom: 25px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; }
+.chat-float-btn { position: fixed; bottom: 85px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; }
 .chat-modal { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 480px; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
 .chat-header { background: var(--p); color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
 .chat-body { flex: 1; padding: 12px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column; gap: 8px; }
@@ -511,7 +511,7 @@ body{
 <div id="modernSidebar" class="modern-sidebar">
   <div class="ms-header">
     <button class="ms-close-btn" onclick="toggleModernSidebar()">✕</button>
-    <div class="ms-avatar" id="sidebarAvatarBox"><img id="sidebarUserPhoto" src="" alt="Profile" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.style.display='none'; if(document.getElementById('sidebarAvatarIcon')) document.getElementById('sidebarAvatarIcon').style.display='block';"><span id="sidebarAvatarIcon">👤</span></div>
+    <div class="ms-avatar" id="sidebarAvatarBox"><img id="sidebarUserPhoto" src="" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;"><span id="sidebarAvatarIcon">🌾</span></div>
     <h3 class="ms-user-name" id="sidebarUserName">भुईहर जाति समाज</h3>
     <span class="ms-user-sub" id="sidebarUserSub">डिजिटल पोर्टल • महाराजगंज</span>
   </div>
@@ -1046,56 +1046,27 @@ body{
         if (sbName) sbName.innerText = loggedNameVal;
         if (sbSub) sbSub.innerText = "पंजीकृत सदस्य • महाराजगंज";
         
-        // 1. Instant cache check (localStorage me pehle se photo ho to turant dikhaye)
-        let cachedPhoto = localStorage.getItem("userProfilePhoto") || localStorage.getItem("userPhotoUrl") || localStorage.getItem("userPhoto");
+        // Check if cached photo exists
+        let cachedPhoto = localStorage.getItem("userPhotoUrl");
         if (cachedPhoto && sbPhoto) {
           sbPhoto.src = cachedPhoto;
           sbPhoto.style.display = "block";
           if (sbAvatar) sbAvatar.style.display = "none";
         }
-
-        // 2. Comprehensive Firestore fetch (Doc ID = Mobile AND Query by Mobile field)
-        async function loadUserPhotoFromDB() {
-          try {
-            let photoFound = null;
-
-            // Tareeqa A: Direct Document ID check
-            let docRef = await db.collection("users").doc(loggedMob).get();
-            if (docRef.exists) {
-              let d = docRef.data();
-              photoFound = d.photo || d.photoUrl || d.profilePhoto || d.image || d.profilePic || d.avatar || d.img;
-            }
-
-            // Tareeqa B: Query check agar doc id auto-generated ho
-            if (!photoFound) {
-              let qSnap = await db.collection("users").where("mobile", "==", loggedMob).limit(1).get();
-              if (!qSnap.empty) {
-                let d = qSnap.docs[0].data();
-                photoFound = d.photo || d.photoUrl || d.profilePhoto || d.image || d.profilePic || d.avatar || d.img;
-              }
-            }
-
-            // Tareeqa C: Phone field check (e.g. phone instead of mobile)
-            if (!photoFound) {
-              let qSnap2 = await db.collection("users").where("phone", "==", loggedMob).limit(1).get();
-              if (!qSnap2.empty) {
-                let d = qSnap2.docs[0].data();
-                photoFound = d.photo || d.photoUrl || d.profilePhoto || d.image || d.profilePic || d.avatar || d.img;
-              }
-            }
-
-            if (photoFound && sbPhoto) {
-              sbPhoto.src = photoFound;
+        
+        // Fetch fresh photo from Firestore
+        db.collection("users").where("mobile", "==", loggedMob).limit(1).get().then(snap => {
+          if (!snap.empty) {
+            let uData = snap.docs[0].data();
+            let photoUrl = uData.photo || uData.photoUrl || uData.profilePhoto || uData.avatar;
+            if (photoUrl && sbPhoto) {
+              sbPhoto.src = photoUrl;
               sbPhoto.style.display = "block";
               if (sbAvatar) sbAvatar.style.display = "none";
-              localStorage.setItem("userProfilePhoto", photoFound);
-              localStorage.setItem("userPhotoUrl", photoFound);
+              localStorage.setItem("userPhotoUrl", photoUrl);
             }
-          } catch(err) {
-            console.error("Profile photo load error:", err);
           }
-        }
-        loadUserPhotoFromDB();
+        }).catch(err => console.log(err));
       }
 
     } else {

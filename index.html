@@ -53,7 +53,7 @@ body{
   z-index: 10;
 }
 
-.brand{display:flex;align-items:center;gap:12px; margin-top: 36px;}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.brand{display:flex;align-items:center;gap:12px; margin-top: 15px;}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
 .hero-title{font-size:18px;line-height:1.25;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:11.5px;line-height:1.4;opacity:.88}.container{padding:12px}
 
 .top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:10}
@@ -107,20 +107,195 @@ body{
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
-/* ======== SIDE NAVIGATION DRAWER (NEW) ======== */
-.nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 998; display: none; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(3px); }
-.nav-overlay.open { display: block; opacity: 1; }
+/* ======== MODERN FLOATING COLLAPSIBLE SIDEBAR (RIGHT SIDE) ======== */
+.modern-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.modern-sidebar-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-.side-nav { position: fixed; top: 0; left: -280px; width: 260px; height: 100vh; background: #ffffff; box-shadow: 4px 0 25px rgba(0,0,0,0.2); z-index: 999; transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: flex; flex-direction: column; overflow-y: auto; }
-.side-nav.open { left: 0; }
-.side-nav-header { background: rgba(8, 43, 84, 0.7); color: #fff; backdrop-filter: blur(10px); padding: 35px 20px 25px; font-size: 18px; font-weight: 800; display:flex; flex-direction: column; gap:10px; }
-.side-nav-header span.sub { font-size: 11px; opacity: 0.8; font-weight: normal; }
-.side-nav a { padding: 15px 20px; text-decoration: none; color: var(--text); font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; transition: background 0.2s; }
-.side-nav a span.ic { font-size: 18px; width: 24px; text-align: center; color: var(--muted); }
-.side-nav a:hover, .side-nav a:active { background: #f8fafc; }
-.side-nav a.active { color: var(--p); background: #eff6ff; border-left: 4px solid var(--p); }
-.side-nav a.active span.ic { color: var(--p); }
-/* ============================================== */
+.modern-sidebar {
+  position: fixed;
+  top: 18px;
+  right: -320px;
+  width: min(290px, 78vw);
+  max-height: calc(100vh - 36px);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22), 0 4px 12px rgba(7, 87, 163, 0.08);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s ease;
+  transform: scale(0.96);
+}
+.modern-sidebar.open {
+  right: 14px;
+  transform: scale(1);
+}
+
+/* Sidebar Top Profile Card */
+.ms-header {
+  padding: 18px 18px 14px;
+  background: linear-gradient(145deg, rgba(8, 43, 84, 0.06), rgba(7, 87, 163, 0.02));
+  border-bottom: 1px solid rgba(229, 235, 243, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+}
+.ms-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  color: #475569;
+  font-size: 13px;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.ms-close-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  transform: rotate(90deg);
+}
+
+.ms-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--p), var(--navy));
+  color: #fff;
+  font-size: 26px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 16px rgba(7, 87, 163, 0.28);
+  border: 2.5px solid #fff;
+  margin-bottom: 8px;
+}
+.ms-user-name {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0;
+  line-height: 1.2;
+}
+.ms-user-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* Sidebar Body & Nav Links */
+.ms-body {
+  padding: 12px 14px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scrollbar-width: none;
+}
+.ms-body::-webkit-scrollbar { display: none; }
+
+.ms-section-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.6px;
+  padding: 8px 10px 4px;
+}
+
+.ms-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  color: #334155;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.22s ease;
+  background: transparent;
+}
+.ms-link span.ic {
+  font-size: 18px;
+  width: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: transform 0.2s, color 0.2s;
+}
+.ms-link:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--navy);
+  transform: translateX(-3px);
+  box-shadow: 0 4px 12px rgba(7, 87, 163, 0.06);
+}
+.ms-link:hover span.ic {
+  color: var(--p);
+  transform: scale(1.15);
+}
+
+.ms-link.active {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: var(--p);
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 4px 14px rgba(7, 87, 163, 0.1);
+}
+.ms-link.active span.ic {
+  color: var(--p);
+  transform: scale(1.1);
+}
+
+/* Header Hamburger Trigger Button */
+.header-toggle-btn {
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  border-radius: 12px;
+  width: 36px;
+  height: 34px;
+  font-size: 18px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s;
+}
+.header-toggle-btn:active {
+  transform: scale(0.92);
+}
+/* ==================================================================== */
 
 .admin-note{font-size:11px;color:var(--muted);line-height:1.4}
 .chat-float-btn { position: fixed; bottom: 25px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; }
@@ -172,7 +347,10 @@ body{
 <div id="app">
   <div class="hero">
     
-    <div class="top-right-bar"><a href="javascript:void(0);" onclick="openAppPage('login.html')" id="topAuthBtn" class="top-profile-btn">👤 लॉगिन</a><button style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; border-radius: 8px; width: 34px; height: 34px; font-size: 18px; cursor: pointer; backdrop-filter: blur(4px);" onclick="toggleSideNav()">☰</button></div>
+    <div class="top-right-bar" style="position: absolute; top: 16px; right: 16px; display: flex; gap: 8px; align-items: center; z-index: 10;">
+      <a href="javascript:void(0);" onclick="openAppPage('login.html')" id="topAuthBtn" class="top-profile-btn">👤 लॉगिन</a>
+      <button class="header-toggle-btn" onclick="toggleModernSidebar()" title="मेनू खोलें">☰</button>
+    </div>
     
     <div class="brand">
       <div class="logo">🌾</div>
@@ -326,37 +504,37 @@ body{
 </div> <!-- End of #app -->
 
 <!-- HAMBURGER BUTTON & RIGHT SIDEBAR MENU -->
-<div id="navOverlay" class="nav-overlay" onclick="toggleSideNav()"></div>
-<div id="sideNav" class="side-nav">
-  <div class="side-nav-header">
-    <span style="position: absolute; right: 15px; top: 15px; cursor: pointer; background: rgba(255,255,255,0.2); width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px;" onclick="toggleSideNav()">✕</span>
-    🌾 भुईहर जाति समाज
-    <span class="sub">डिजिटल पोर्टल • महाराजगंज</span>
+<!-- MODERN COLLAPSIBLE SIDEBAR (RIGHT SIDE) -->
+<div id="modernNavOverlay" class="modern-sidebar-overlay" onclick="toggleModernSidebar()"></div>
+<div id="modernSidebar" class="modern-sidebar">
+  <div class="ms-header">
+    <button class="ms-close-btn" onclick="toggleModernSidebar()">✕</button>
+    <div class="ms-avatar" id="sidebarAvatarIcon">🌾</div>
+    <h3 class="ms-user-name" id="sidebarUserName">भुईहर जाति समाज</h3>
+    <span class="ms-user-sub" id="sidebarUserSub">डिजिटल पोर्टल • महाराजगंज</span>
   </div>
-  <a href="index.html" class="active"><span class="ic">⌂</span> होम</a>
-  <a href="javascript:void(0);" onclick="openAppPage('search.html'); toggleSideNav();"><span class="ic">⌕</span> खोजें</a>
-  <a href="javascript:void(0);" id="sideProfileBtn" onclick="handleNavProfileClick(); toggleSideNav();"><span class="ic">👤</span> प्रोफाइल</a>
-  <a href="javascript:void(0);" onclick="openAppPage('blood.html'); toggleSideNav();"><span class="ic">🩸</span> रक्तदान</a>
-  <a href="javascript:void(0);" onclick="openAppPage('admin.html'); toggleSideNav();"><span class="ic">🛡️</span> एडमिन</a>
+  <div class="ms-body">
+    <div class="ms-section-label">मुख्य मेनू</div>
+    <a href="index.html" class="ms-link active"><span class="ic">⌂</span> <span>होम</span></a>
+    <a href="javascript:void(0);" onclick="openAppPage('search.html'); toggleModernSidebar();" class="ms-link"><span class="ic">⌕</span> <span>खोजें</span></a>
+    <a href="javascript:void(0);" id="sideProfileBtn" onclick="handleNavProfileClick(); toggleModernSidebar();" class="ms-link"><span class="ic">👤</span> <span>मेरी प्रोफाइल</span></a>
+    
+    <div class="ms-section-label" style="margin-top: 6px;">सेवाएँ व सुरक्षा</div>
+    <a href="javascript:void(0);" onclick="openAppPage('blood.html'); toggleModernSidebar();" class="ms-link"><span class="ic">🩸</span> <span>रक्तदान सेवा</span></a>
+    <a href="javascript:void(0);" onclick="openAppPage('family.html'); toggleModernSidebar();" class="ms-link"><span class="ic">👨‍👩‍👧‍👦</span> <span>परिवार पंजीका</span></a>
+    <a href="javascript:void(0);" onclick="openAppPage('admin.html'); toggleModernSidebar();" class="ms-link"><span class="ic">🛡️</span> <span>एडमिन पैनल</span></a>
+  </div>
 </div>
-
-
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-    // ================= SIDE NAVIGATION SCRIPT (RIGHT SIDE) =================
-  function toggleSideNav() {
-    const nav = document.getElementById('sideNav');
-    const overlay = document.getElementById('navOverlay');
-    nav.classList.toggle('open');
-    if (nav.classList.contains('open')) {
-      overlay.style.display = 'block';
-      setTimeout(() => overlay.style.opacity = '1', 10);
-    } else {
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.style.display = 'none', 300);
-    }
+    // ================= MODERN RIGHT SIDEBAR SCRIPT =================
+  function toggleModernSidebar() {
+    const sidebar = document.getElementById('modernSidebar');
+    const overlay = document.getElementById('modernNavOverlay');
+    if (!sidebar || !overlay) return;
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
   }
 
   // ================= AD BRIDGE SCRIPT =================
@@ -808,6 +986,17 @@ body{
       regBtn.style.display = "none";
 
       checkUnreadNotifications();
+      let loggedMob = localStorage.getItem("userLoggedInMobile");
+      let loggedNameVal = localStorage.getItem("userName");
+      if (loggedMob && loggedNameVal) {
+        let sbName = document.getElementById("sidebarUserName");
+        let sbSub = document.getElementById("sidebarUserSub");
+        let sbAvatar = document.getElementById("sidebarAvatarIcon");
+        if (sbName) sbName.innerText = loggedNameVal;
+        if (sbSub) sbSub.innerText = "पंजीकृत सदस्य • महाराजगंज";
+        if (sbAvatar) sbAvatar.innerText = "👤";
+      }
+
     } else {
       document.getElementById("meetingSectionTitle").style.display = "none";
       document.getElementById("meetingCardBox").style.display = "none";

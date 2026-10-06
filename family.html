@@ -18,7 +18,7 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;}
 
 .hero{background:linear-gradient(135deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 18px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 20px rgba(7,87,163,0.15);}
 
@@ -79,7 +79,7 @@ body{
 <div id="app">
   <div class="hero">
     <div class="back-btn-wrap">
-      <a href="index.html" class="custom-back-btn">
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn">
         <span style="font-size:16px;">←</span> Mukhya Prishth (Wapas Jayein)
       </a>
     </div>
@@ -162,13 +162,7 @@ body{
     </div>
   </div>
 
-  <nav class="nav">
-    <a href="index.html"><b>⌂</b>Home</a>
-    <a href="search.html"><b>⌕</b>Search</a>
-    <a href="login.html" class="active"><b>👤</b>Profile</a>
-    <a href="blood.html"><b>🩸</b>Blood</a>
-    <a href="admin.html"><b>🛡️</b>Admin</a>
-  </nav>
+  
 </div>
 
 <div id="addMemberModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.75); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; padding:14px;">
@@ -274,6 +268,15 @@ body{
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
+
+function goBackHome() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+
 
 let allFamilies = [];
 let modalCallback = null;

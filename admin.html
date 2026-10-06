@@ -60,7 +60,7 @@
   <!-- एडमिन लॉगिन स्क्रीन -->
   <div id="adminLoginCard" class="card" style="border-left-color: var(--navy); max-width: 400px; margin: 40px auto; text-align: center;">
     <div style="text-align: left; margin-bottom: 10px;">
-      <a href="index.html" class="custom-back-btn">← मुख्य पृष्ठ (वापस जाएं)</a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn">← मुख्य पृष्ठ (वापस जाएं)</a>
     </div>
     <h3>🔐 एडमिन लॉगिन</h3>
     <p style="font-size: 11.5px; color: var(--muted); margin-bottom: 12px;">पैनल एक्सेस करने के लिए अपना Firebase एडमिन ईमेल व पासवर्ड डालें</p>
@@ -77,8 +77,11 @@
 
   <!-- मुख्य एडमिन डैशबोर्ड -->
   <div id="adminDashboardContent" style="display:none;">
-    <header>
-      <a href="index.html" class="custom-back-btn">← मुख्य पृष्ठ (वापस जाएं)</a>
+        <header style="position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn" style="margin-bottom: 0;">← मुख्य पृष्ठ (वापस जाएं)</a>
+        <button onclick="logoutAdmin()" class="badge-btn" style="background: var(--red); color: white; padding: 6px 12px; border-radius: 20px; font-size: 11px;">🚪 एडमिन लॉगआउट</button>
+      </div>
       <h1>🛡️ भुईहर जाति समाज</h1>
       <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल - सभी 11 सेवाएँ (पूर्ण नियंत्रण)</p>
     </header>
@@ -286,6 +289,49 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // Data Caches to prevent quotes breaking inline onclick functions
+  const adminCache = {
+    jobs: {},
+    officials: {},
+    meetings: {},
+    achievers: {},
+    funds: {},
+    condolences: {},
+    businesses: {},
+    travel: {},
+    gallery: {},
+    polls: {}
+  };
+
+  function goBackHome() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  }
+
+  // Auto-login persistence
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById("adminLoginCard").style.display = "none";
+      document.getElementById("adminDashboardContent").style.display = "block";
+      loadAllAdminData();
+    } else {
+      document.getElementById("adminLoginCard").style.display = "block";
+      document.getElementById("adminDashboardContent").style.display = "none";
+    }
+  });
+
+  function logoutAdmin() {
+    if(confirm("क्या आप एडमिन पैनल से लॉगआउट करना चाहते हैं?")) {
+      auth.signOut().then(() => {
+        alert("सफलतापूर्वक लॉगआउट हो गए!");
+      });
+    }
+  }
+
+
   let acc = document.getElementsByClassName("accordion-header");
   for (let i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function() {
@@ -308,21 +354,53 @@
     }).catch((err) => { alert("❌ लॉगिन असफल: " + err.message); });
   }
 
-  function loadAllAdminData() {
+    function loadAllAdminData() {
     loadPendingApprovals();
-    loadAdminTable("jobs", "adminJobsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.company || d.dept || ''} [${d.category === 'private' ? 'प्राइवेट' : 'सरकारी'}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}', '${d.category || 'government'}', '${d.title || ''}', '${d.company || ''}', '${d.location || ''}', '${d.salary || ''}', '${d.qualification || ''}', '${d.applyLink || ''}', '${d.mobile || ''}', '${d.tag || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("officials", "adminOfficialsTable", (d, id) => `<tr><td><b>${d.name}</b> (${d.role}) - ${d.gender === 'female' ? 'महिला' : 'पुरुष'}</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}', '${d.name}', '${d.role}', '${d.gender || 'male'}', '${d.mobile}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("meetings", "adminMeetingsTable", (d, id) => `<tr><td><b>${d.title}</b><br><span style="color:var(--muted);">${d.message}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}', '${d.title}', '${d.message}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
     
-    loadAdminTable("achievers", "adminAchTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.detail || ''} | राशि: ${d.reward || 'घोषित'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}', '${d.name}', '${d.fatherName || ''}', '${d.motherName || ''}', '${d.detail || ''}', '${d.reward || ''}', '${d.photo || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("jobs", "adminJobsTable", (d, id) => {
+      adminCache.jobs[id] = d;
+      return `<tr><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.company || d.dept || ''} [${d.category === 'private' ? 'प्राइवेट' : 'सरकारी'}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
+
+    loadAdminTable("officials", "adminOfficialsTable", (d, id) => {
+      adminCache.officials[id] = d;
+      return `<tr><td><b>${d.name || ''}</b> (${d.role || ''}) - ${d.gender === 'female' ? 'महिला' : 'पुरुष'}</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
+
+    loadAdminTable("meetings", "adminMeetingsTable", (d, id) => {
+      adminCache.meetings[id] = d;
+      return `<tr><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.message || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
     
-    loadAdminTable("funds", "adminFundTable", (d, id) => `<tr><td><b>${d.donorName}</b> - ₹${d.amount} (${d.type})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}', '${d.donorName}', '${d.amount}', '${d.type}', '${d.description}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("condolences", "adminCondTable", (d, id) => `<tr><td><b>${d.name}</b><br><span style="color:var(--muted);">${d.description}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}', '${d.name}', '${d.description}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("achievers", "adminAchTable", (d, id) => {
+      adminCache.achievers[id] = d;
+      return `<tr><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''} | राशि: ${d.reward || 'घोषित'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
     
-    loadAdminTable("businesses", "adminBizTable", (d, id) => `<tr><td><b>${d.bizName}</b> (${d.owner})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'} | 📍 ${d.address || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}', '${d.bizName || ''}', '${d.owner || ''}', '${d.mobile || ''}', '${d.address || ''}', '${d.mapLink || ''}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("funds", "adminFundTable", (d, id) => {
+      adminCache.funds[id] = d;
+      return `<tr><td><b>${d.donorName || ''}</b> - ₹${d.amount || 0} (${d.type || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
+
+    loadAdminTable("condolences", "adminCondTable", (d, id) => {
+      adminCache.condolences[id] = d;
+      return `<tr><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.description || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
     
-    loadAdminTable("gallery", "adminGalTable", (d, id) => `<tr><td><b>${d.title}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}', '${d.title}', '${d.photo}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
-    loadAdminTable("polls", "adminPollTable", (d, id) => `<tr><td><b>${d.question}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}', '${d.question}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`);
+    loadAdminTable("businesses", "adminBizTable", (d, id) => {
+      adminCache.businesses[id] = d;
+      return `<tr><td><b>${d.bizName || ''}</b> (${d.owner || ''})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'} | 📍 ${d.address || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
+    
+    loadAdminTable("gallery", "adminGalTable", (d, id) => {
+      adminCache.gallery[id] = d;
+      return `<tr><td><b>${d.title || ''}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
+
+    loadAdminTable("polls", "adminPollTable", (d, id) => {
+      adminCache.polls[id] = d;
+      return `<tr><td><b>${d.question || ''}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+    });
     
     loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा");
     loadPendingTravelApprovals();
@@ -370,13 +448,14 @@
     } catch(e) { document.getElementById(tableId).innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`; }
   }
 
-  async function loadPendingTravelApprovals() {
+    async function loadPendingTravelApprovals() {
     try {
       let snap = await db.collection("travel").get();
       let html = "";
       snap.forEach(doc => {
         let d = doc.data();
-        let status = d.status || "pending";
+        adminCache.travel[doc.id] = d;
+        let status = (d.status || "pending").toLowerCase();
         let tName = d.title || d.vehicleName || 'वाहन सेवा';
         let driver = d.driver || d.driverName || '-';
         let mobile = d.mobile || '-';
@@ -387,7 +466,7 @@
             <td><b>${tName}</b> (${driver})<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
             <td>
               <button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}', '${d.category || 'agri'}')">✏️</button>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}')">✏️</button>
               <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
             </td>
           </tr>`;
@@ -395,7 +474,7 @@
           html += `<tr>
             <td><b>${tName}</b> (${driver}) [स्वीकृत]<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
             <td>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}', '${tName}', '${driver}', '${mobile}', '${address}', '${d.mapLink || ''}', '${d.category || 'agri'}')">✏️</button>
+              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}')">✏️</button>
               <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
             </td>
           </tr>`;
@@ -458,18 +537,7 @@
     loadAllAdminData();
   }
 
-  function editJob(id, cat, t, c, l, sal, q, a, mob, tg) { 
-    document.getElementById("editJobId").value=id; 
-    document.getElementById("jobCategory").value=cat; 
-    document.getElementById("jobTitle").value=t; 
-    document.getElementById("jobCompany").value=c; 
-    document.getElementById("jobLoc").value=l; 
-    document.getElementById("jobSalary").value=sal; 
-    document.getElementById("jobQuali").value=q; 
-    document.getElementById("jobApplyLink").value=a; 
-    document.getElementById("jobMobile").value=mob; 
-    document.getElementById("jobTag").value=tg; 
-  }
+  
 
   async function saveOrUpdateOfficial() {
     let id = document.getElementById("editOfficialId").value;
@@ -482,61 +550,10 @@
     document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value=""; document.getElementById("offGender").value="male";
     loadAllAdminData();
   }
-  function editOfficial(id, n, r, g, m, p) { document.getElementById("editOfficialId").value=id; document.getElementById("offName").value=n; document.getElementById("offRole").value=r; document.getElementById("offGender").value=g || 'male'; document.getElementById("offMobile").value=m; document.getElementById("offPhoto").value=p; }
-
-  async function saveOrUpdateMeeting() {
-    let id = document.getElementById("editMeetingId").value;
-    let title = document.getElementById("meetTitle").value.trim();
-    let message = document.getElementById("meetDesc").value.trim();
-    let data = { title, message, timestamp: Date.now() };
-    if(!title) { alert("⚠️ शीर्षक भरें!"); return; }
-    if(id) { await db.collection("meetings").doc(id).update(data); document.getElementById("editMeetingId").value=""; }
-    else { await db.collection("meetings").add(data); }
-    alert("सूचना सुरक्षित हो गई!");
-    document.getElementById("meetTitle").value=""; document.getElementById("meetDesc").value="";
-    loadAllAdminData();
-  }
-  function editMeeting(id, t, m) { document.getElementById("editMeetingId").value=id; document.getElementById("meetTitle").value=t; document.getElementById("meetDesc").value=m; }
-
-  async function saveOrUpdateAchiever() {
-    let id = document.getElementById("editAchId").value;
-    let name = document.getElementById("achName").value.trim();
-    let fatherName = document.getElementById("achFather").value.trim();
-    let motherName = document.getElementById("achMother").value.trim();
-    let detail = document.getElementById("achDetail").value.trim();
-    let reward = document.getElementById("achReward").value.trim();
-    let photo = document.getElementById("achPhoto").value.trim();
-    
-    let data = { name, fatherName, motherName, detail, reward, photo, timestamp: Date.now() };
-    if(!name) { alert("⚠️ छात्र का नाम भरें!"); return; }
-    
-    if(id) { 
-      await db.collection("achievers").doc(id).update(data); 
-      document.getElementById("editAchId").value=""; 
-    } else { 
-      data.likes = 0; 
-      await db.collection("achievers").add(data); 
-    }
-    
-    alert("मेधावी छात्र सुरक्षित हो गया!");
-    document.getElementById("achName").value=""; 
-    document.getElementById("achFather").value=""; 
-    document.getElementById("achMother").value=""; 
-    document.getElementById("achDetail").value=""; 
-    document.getElementById("achReward").value=""; 
-    document.getElementById("achPhoto").value="";
-    loadAllAdminData();
-  }
   
-  function editAch(id, n, f, m, dt, rw, p) { 
-    document.getElementById("editAchId").value = id; 
-    document.getElementById("achName").value = n; 
-    document.getElementById("achFather").value = f; 
-    document.getElementById("achMother").value = m; 
-    document.getElementById("achDetail").value = dt; 
-    document.getElementById("achReward").value = rw; 
-    document.getElementById("achPhoto").value = p; 
-  }
+  
+  
+  
 
   async function saveOrUpdateFund() {
     let id = document.getElementById("editFundId").value;
@@ -550,67 +567,10 @@
     document.getElementById("donName").value=""; document.getElementById("donAmount").value=""; document.getElementById("donDesc").value="";
     loadAllAdminData();
   }
-  function editFund(id, dn, amt, tp, desc) { document.getElementById("editFundId").value=id; document.getElementById("donName").value=dn; document.getElementById("donAmount").value=amt; document.getElementById("donType").value=tp; document.getElementById("donDesc").value=desc; }
-
-  async function saveOrUpdateCondolence() {
-    let id = document.getElementById("editCondId").value;
-    let name = document.getElementById("condName").value.trim();
-    let data = { name, description: document.getElementById("condDesc").value.trim(), photo: document.getElementById("condPhoto").value.trim(), timestamp: Date.now() };
-    if(!name) { alert("⚠️ नाम भरें!"); return; }
-    if(id) { await db.collection("condolences").doc(id).update(data); document.getElementById("editCondId").value=""; }
-    else { await db.collection("condolences").add(data); }
-    alert("शोक संदेश सुरक्षित हो गया!");
-    document.getElementById("condName").value=""; document.getElementById("condDesc").value=""; document.getElementById("condPhoto").value="";
-    loadAllAdminData();
-  }
-  function editCond(id, n, desc, p) { document.getElementById("editCondId").value=id; document.getElementById("condName").value=n; document.getElementById("condDesc").value=desc; document.getElementById("condPhoto").value=p; }
-
-  async function saveOrUpdateBusiness() {
-    let id = document.getElementById("editBizId").value;
-    let bizName = document.getElementById("bizName").value.trim();
-    let owner = document.getElementById("bizOwner").value.trim();
-    let mobile = document.getElementById("bizMobile").value.trim();
-    let address = document.getElementById("bizAddress").value.trim();
-    let mapLink = document.getElementById("bizMapLink").value.trim();
-
-    if(!bizName || !mobile || !address) { 
-      alert("⚠️️ दुकान का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!"); 
-      return; 
-    }
-
-    let data = { 
-      bizName: bizName, 
-      owner: owner || 'संचालक', 
-      mobile: mobile, 
-      address: address, 
-      mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`, 
-      status: "approved" 
-    };
-
-    if(id) { 
-      await db.collection("businesses").doc(id).update(data); 
-      document.getElementById("editBizId").value=""; 
-    } else { 
-      await db.collection("businesses").add(data); 
-    }
-    
-    alert("व्यवसाय सुरक्षित हो गया!");
-    document.getElementById("bizName").value=""; 
-    document.getElementById("bizOwner").value=""; 
-    document.getElementById("bizMobile").value=""; 
-    document.getElementById("bizAddress").value=""; 
-    document.getElementById("bizMapLink").value="";
-    loadAllAdminData();
-  }
   
-  function editBiz(id, bn, ow, mob, addr, map) { 
-    document.getElementById("editBizId").value = id; 
-    document.getElementById("bizName").value = bn; 
-    document.getElementById("bizOwner").value = ow; 
-    document.getElementById("bizMobile").value = mob; 
-    document.getElementById("bizAddress").value = addr; 
-    document.getElementById("bizMapLink").value = map; 
-  }
+  
+  
+  
 
   async function saveOrUpdateTravelAdmin() {
     let id = document.getElementById("editTravelId").value;
@@ -653,17 +613,7 @@
     loadAllAdminData();
   }
 
-  function editTravelAdminData(id, t, dr, mob, addr, map, cat) {
-    document.getElementById("editTravelId").value = id;
-    document.getElementById("travelTitleInput").value = t;
-    document.getElementById("travelDriverInput").value = dr;
-    document.getElementById("travelMobileInput").value = mob;
-    document.getElementById("travelAddressInput").value = addr;
-    document.getElementById("travelMapInput").value = map;
-    if(document.getElementById("travelCategoryInput")) {
-      document.getElementById("travelCategoryInput").value = cat || 'agri';
-    }
-  }
+  
 
   async function saveOrUpdateGallery() {
     let id = document.getElementById("editGalId").value;
@@ -676,28 +626,8 @@
     document.getElementById("galTitle").value=""; document.getElementById("galPhoto").value="";
     loadAllAdminData();
   }
-  function editGal(id, t, p) { document.getElementById("editGalId").value=id; document.getElementById("galTitle").value=t; document.getElementById("galPhoto").value=p; }
-
-  async function saveOrUpdatePoll() {
-    let id = document.getElementById("editPollId").value;
-    let question = document.getElementById("pollQue").value.trim();
-    let data = { question, timestamp: Date.now() };
-    if(!question) { alert("⚠️ सवाल भरें!"); return; }
-    if(id) { await db.collection("polls").doc(id).update(data); document.getElementById("editPollId").value=""; }
-    else { await db.collection("polls").add(data); }
-    alert("पोल सुरक्षित हो गया!");
-    document.getElementById("pollQue").value="";
-    loadAllAdminData();
-  }
-  function editPoll(id, q) { document.getElementById("editPollId").value=id; document.getElementById("pollQue").value=q; }
-
-  async function deleteDoc(col, id, callback) {
-    if(confirm("⚠️ क्या आप वाकई इसे डिलीट करना चाहते हैं?")) {
-      await db.collection(col).doc(id).delete();
-      alert("सफलतापूर्वक डिलीट हो गया!");
-      callback();
-    }
-  }
+  
+  
 </script>
 
 <script>

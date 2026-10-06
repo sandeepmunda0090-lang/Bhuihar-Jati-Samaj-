@@ -187,8 +187,8 @@ body{
 }
 
 .ms-avatar {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--p), var(--navy));
   color: #fff;
@@ -198,6 +198,8 @@ body{
   box-shadow: 0 6px 16px rgba(7, 87, 163, 0.28);
   border: 2.5px solid #fff;
   margin-bottom: 8px;
+  overflow: hidden;
+  position: relative;
 }
 .ms-user-name {
   font-size: 14.5px;
@@ -509,7 +511,7 @@ body{
 <div id="modernSidebar" class="modern-sidebar">
   <div class="ms-header">
     <button class="ms-close-btn" onclick="toggleModernSidebar()">✕</button>
-    <div class="ms-avatar" id="sidebarAvatarIcon">🌾</div>
+    <div class="ms-avatar" id="sidebarAvatarBox"><img id="sidebarUserPhoto" src="" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;"><span id="sidebarAvatarIcon">🌾</span></div>
     <h3 class="ms-user-name" id="sidebarUserName">भुईहर जाति समाज</h3>
     <span class="ms-user-sub" id="sidebarUserSub">डिजिटल पोर्टल • महाराजगंज</span>
   </div>
@@ -1040,9 +1042,31 @@ body{
         let sbName = document.getElementById("sidebarUserName");
         let sbSub = document.getElementById("sidebarUserSub");
         let sbAvatar = document.getElementById("sidebarAvatarIcon");
+        let sbPhoto = document.getElementById("sidebarUserPhoto");
         if (sbName) sbName.innerText = loggedNameVal;
         if (sbSub) sbSub.innerText = "पंजीकृत सदस्य • महाराजगंज";
-        if (sbAvatar) sbAvatar.innerText = "👤";
+        
+        // Check if cached photo exists
+        let cachedPhoto = localStorage.getItem("userPhotoUrl");
+        if (cachedPhoto && sbPhoto) {
+          sbPhoto.src = cachedPhoto;
+          sbPhoto.style.display = "block";
+          if (sbAvatar) sbAvatar.style.display = "none";
+        }
+        
+        // Fetch fresh photo from Firestore
+        db.collection("users").where("mobile", "==", loggedMob).limit(1).get().then(snap => {
+          if (!snap.empty) {
+            let uData = snap.docs[0].data();
+            let photoUrl = uData.photo || uData.photoUrl || uData.profilePhoto || uData.avatar;
+            if (photoUrl && sbPhoto) {
+              sbPhoto.src = photoUrl;
+              sbPhoto.style.display = "block";
+              if (sbAvatar) sbAvatar.style.display = "none";
+              localStorage.setItem("userPhotoUrl", photoUrl);
+            }
+          }
+        }).catch(err => console.log(err));
       }
 
     } else {

@@ -25,7 +25,7 @@ body{
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;animation: zoomInDrop 0.7s ease-out forwards;}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;animation: zoomInDrop 0.7s ease-out forwards;}
 
 .header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 22px 22px}
 .header h1{margin:0;font-size:18px;font-weight:800}
@@ -59,7 +59,7 @@ body{
 <div id="app">
   <div class="header">
     <div class="back-btn-wrap">
-      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
     </div>
     <h1>📜 समाज का इतिहास व संस्कृति</h1>
     <p>महाराजगंज व वंशावली गाथा</p>
@@ -76,14 +76,19 @@ body{
   </div>
 
   <!-- बॉटम नेविगेशन -->
-  <nav class="nav">
-    <a href="index.html"><b>⌂</b>Home</a>
-    <a href="search.html"><b>⌕</b>Search</a>
-    <a href="login.html"><b>👤</b>Profile</a>
-    <a href="blood.html"><b>🩸</b>Blood</a>
-    <a href="admin.html"><b>🛡️</b>Admin</a>
-  </nav>
+  
 </div>
+
+
+<script>
+function goBackHome() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+</script>
 
 <script>
 window.addEventListener('popstate', function (event) {

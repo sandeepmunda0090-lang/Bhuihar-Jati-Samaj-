@@ -2,11 +2,11 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
-<title>डिजिटल जनमत पोल | भुईहर समाज पोर्टल</title>
+<title>एडवांस्ड सुझाव एवं शिकायत हेल्पडेस्क | भुईहर समाज पोर्टल</title>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 12px 32px rgba(20,42,72,0.08)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 10px 30px rgba(20,42,72,0.08)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
@@ -18,106 +18,52 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:85px;}
+#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;}
 
-.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 16px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 25px rgba(7,87,163,0.2);}
+.hero{background:linear-gradient(135deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 18px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 20px rgba(7,87,163,0.15);}
 
 .back-btn-wrap{padding:4px 0 12px 0;}
 .custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px)}
 
 .brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.brand h1{margin:0;font-size:17.5px;font-weight:800}.brand p{margin:2px 0 0;font-size:11px;opacity:.9}
+.brand h1{margin:0;font-size:17.5px;font-weight:800}.brand p{margin:2px 0 0;font-size:11.5px;opacity:.9}
 
-.container{padding:16px 12px}
+.container{padding:16px 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
 
-/* --- डुअल 3D सर्कुलर कार्ड्स (नया डिज़ाइन) --- */
-.dual-stats-wrapper {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-}
+.tab-container{display:flex;background:#e2e8f0;border-radius:12px;padding:3px;margin-bottom:14px}
+.tab-btn{flex:1;border:0;background:none;padding:10px;font:700 12.5px inherit;color:var(--muted);cursor:pointer;border-radius:10px;transition:all 0.2s;text-align:center}
+.tab-btn.active{background:#fff;color:var(--p);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 
-.stat-box-3d {
-  flex: 1;
-  background: linear-gradient(135deg, #082b54, #0757a3);
-  border: 1.5px solid rgba(255,255,255,0.3);
-  border-radius: 18px;
-  padding: 14px 10px;
-  text-align: center;
-  box-shadow: 0 8px 22px rgba(8,43,84,0.2);
-  color: #fff;
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
+.form-control:focus{border-color:var(--p);background:#fff}
+
+.btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:4px}
+.btn:active{transform:scale(0.98)}
+
+.feedback-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--p);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
-
-.stat-box-3d .active-pin {
-  position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
-  box-shadow: 0 0 8px #22c55e; animation: pulsePin 1.5s infinite;
+.feedback-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #eff6ff;
+  color: var(--p);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 8px;
 }
-@keyframes pulsePin { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
-
-.circle-badge-3d {
-  width: 58px;
-  height: 58px;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  border: 3px solid #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 15px rgba(217,119,6,0.5), inset 0 2px 4px rgba(255,255,255,0.6);
-  margin-bottom: 6px;
-}
-
-.circle-badge-3d span {
-  font-size: 14px;
-  font-weight: 900;
-  color: #fff;
-}
-
-.stat-box-3d p {
-  margin: 0;
-  font-size: 11px;
-  font-weight: 700;
-  opacity: 0.9;
-}
-
-/* पोल कार्ड्स */
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);position:relative}
-.poll-question{font-size:15.5px;color:var(--navy);font-weight:800;margin:0 0 10px;line-height:1.45}
-
-.poll-options-grid {display: flex; gap: 10px; margin-top: 12px;}
-.poll-yes-btn {
-  flex: 1; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 14px;
-  padding: 13px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 6px 16px rgba(16,185,129,0.3); transition: transform 0.2s;
-}
-.poll-yes-btn:active { transform: scale(0.96); }
-
-.poll-no-btn {
-  flex: 1; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border: none; border-radius: 14px;
-  padding: 13px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  box-shadow: 0 6px 16px rgba(239,68,68,0.3); transition: transform 0.2s;
-}
-.poll-no-btn:active { transform: scale(0.96); }
-
-.poll-other-btn {
-  width: 100%; background: #f8fafc; color: var(--navy); border: 1px solid var(--line); border-radius: 14px;
-  padding: 11px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-
-.result-bar-wrap{margin-bottom:12px}
-.result-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.progress-bg{background:#e2e8f0;border-radius:10px;height:12px;width:100%;overflow:hidden}
-.progress-fill{background:linear-gradient(90deg,var(--p),var(--p2));height:100%;width:0%;transition:width 0.8s cubic-bezier(0.4, 0, 0.2, 1)}
-
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 4px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
-.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:6px 2px;cursor:pointer;text-align:center;text-decoration:none}
-.nav b{display:block;font-size:16px;margin-bottom:2px}
-.nav a.active{color:var(--p);font-weight:800}
 </style>
 </head>
 <body>
@@ -125,51 +71,82 @@ body{
 <div id="app">
   <div class="hero">
     <div class="back-btn-wrap">
-      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn">
+        <span style="font-size:16px;">←</span> मुख्य पृष्ठ (वापस जाएं)
+      </a>
     </div>
+
     <div class="brand">
-      <div class="logo">🗳️️</div>
-      <div><h1>डिजिटल जनमत पोल</h1><p>समाज के महत्वपूर्ण निर्णयों पर आपकी राय</p></div>
+      <div class="logo">💡</div>
+      <div><h1>एडवांस्ड हेल्पडेस्क एवं सुझाव</h1><p>समाज के विकास हेतु अपने विचार व शिकायतें साझा करें</p></div>
     </div>
   </div>
 
   <div class="container">
     
-    <!-- डुअल 3D सर्कुलर स्टैट्स कार्ड्स -->
-    <div class="dual-stats-wrapper">
-      <!-- पहला कार्ड: कुल समाज सदस्य संख्या -->
-      <div class="stat-box-3d">
-        <div class="active-pin"></div>
-        <div class="circle-badge-3d">
-          <span id="totalMembersCount">0</span>
-        </div>
-        <p>कुल समाज सदस्य</p>
-      </div>
-
-      <!-- दूसरा कार्ड: डाले गए कुल वोट्स अनुपात (मिले वोट्स / कुल) -->
-      <div class="stat-box-3d">
-        <div class="active-pin"></div>
-        <div class="circle-badge-3d">
-          <span id="totalRatioCount">0</span>
-        </div>
-        <p>कुल डाले गए वोट्स</p>
-      </div>
+    <!-- टैब्स: नया सुझाव भेजें / सार्वजनिक सुझाव बोर्ड देखें -->
+    <div class="tab-container">
+      <button class="tab-btn active" id="tabForm" onclick="switchFeedbackTab('form')">✍️ सुझाव / शिकायत भेजें</button>
+      <button class="tab-btn" id="tabBoard" onclick="switchFeedbackTab('board')">📋 सार्वजनिक सुझाव बोर्ड</button>
     </div>
 
-    <!-- पोल लोड होने का मुख्य कंटेनर -->
-    <div id="pollsContainer">
-      <div class="card" style="text-align:center;color:var(--muted);font-size:13px;padding:24px;">पोल लोड हो रहे हैं...</div>
+    <!-- 1. फॉर्म सेक्शन -->
+    <div id="formSection" class="card">
+      <h3 style="margin:0 0 4px;font-size:15px;color:var(--navy);">📝 अपना संदेश या सुझाव दर्ज करें</h3>
+      <p style="margin:0 0 14px;font-size:11.5px;color:var(--muted);line-height:1.4;">लॉगिन यूजर सीधे अपने नाम और मोबाइल नंबर से सुझाव भेज सकते हैं।</p>
+      
+      <div class="form-group">
+        <label>श्रेणी चुनें (Category) *</label>
+        <select id="feedCategory" class="form-control">
+          <option value="सुझाव (Suggestion)">💡 सुझाव (Suggestion)</option>
+          <option value="शिकायत (Grievance)">⚠️ शिकायत / समस्या (Grievance)</option>
+          <option value="सामुदायिक विकास (Community Development)">🏗️ सामुदायिक विकास कार्य (Community Development)</option>
+          <option value="तकनीकी समस्या (Technical Support)">🛠️ पोर्टल तकनीकी सहायता (Technical Support)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>महत्व स्तर (Priority)</label>
+        <select id="feedPriority" class="form-control">
+          <option value="सामान्य (Normal)">🟢 सामान्य (Normal)</option>
+          <option value="महत्वपूर्ण (Important)">🟡 महत्वपूर्ण (Important)</option>
+          <option value="अति आवश्यक (Urgent)">🔴 अति आवश्यक (Urgent)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>आपका पूरा नाम व मोबाइल नंबर *</label>
+        <input type="text" id="senderName" class="form-control" placeholder="नाम और 10 अंकों का मोबाइल नंबर">
+      </div>
+
+      <div class="form-group">
+        <label>विषय (Subject) *</label>
+        <input type="text" id="senderSubject" class="form-control" placeholder="जैसे: समाज भवन निर्माण हेतु विशेष प्रस्ताव">
+      </div>
+
+      <div class="form-group">
+        <label>विस्तृत विवरण (Message) *</label>
+        <textarea id="senderMessage" class="form-control" rows="4" placeholder="यहाँ अपना संदेश विस्तार से लिखें..."></textarea>
+      </div>
+
+      <button class="btn" onclick="submitAdvancedFeedback()">🚀 एडमिन को सुरक्षित भेजें</button>
+    </div>
+
+    <!-- 2. सार्वजनिक सुझाव बोर्ड सेक्शन -->
+    <div id="boardSection" style="display:none;">
+      <div class="card" style="background:#eff6ff; border-color:#bfdbfe; margin-bottom:12px;">
+        <h4 style="margin:0 0 4px; color:#1e40af; font-size:13.5px;">🌟 समाज सुझाव एवं चर्चा मंच</h4>
+        <p style="font-size:11.5px; color:#1e3a8a; margin:0; line-height:1.4;">यहाँ सजातीय बंधुओं द्वारा साझा किए गए स्वीकृत सुझाव और विकास प्रस्ताव प्रदर्शित होते हैं।</p>
+      </div>
+
+      <div id="publicFeedbackContainer">
+        <div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">
+          सुझाव लोड हो रहे हैं...
+        </div>
+      </div>
     </div>
 
   </div>
-
-  <nav class="nav">
-    <a href="index.html"><b>⌂</b>Home</a>
-    <a href="search.html"><b>⌕</b>Search</a>
-    <a href="login.html"><b>👤</b>Profile</a>
-    <a href="blood.html"><b>🩸</b>Blood</a>
-    <a href="admin.html"><b>🛡️</b>Admin</a>
-  </nav>
 </div>
 
 <!-- प्रीमियम पॉप-अप मॉडल -->
@@ -195,7 +172,13 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-localStorage.setItem("last_seen_polls", Date.now());
+function goBackHome() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = 'index.html';
+  }
+}
 
 let modalCallback = null;
 
@@ -238,136 +221,25 @@ window.alert = function(message) {
     showCustomAlert("सूचना", message, function(yes) {});
 };
 
-// स्मूथ काउंटर एनीमेशन फंक्शन
-function animateElementValue(elementId, targetValue, isRatio = false, totalVal = 0) {
-    let el = document.getElementById(elementId);
-    if (!el) return;
-    if (isRatio) {
-        el.innerText = `${targetValue}/${totalVal}`;
-        return;
-    }
-    let startVal = 0;
-    let duration = 1000;
-    let startTime = null;
-
-    function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        let progress = Math.min((timestamp - startTime) / duration, 1);
-        let currentVal = Math.floor(progress * (targetValue - startVal) + startVal);
-        el.innerText = currentVal;
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        } else {
-            el.innerText = targetValue;
-        }
-    }
-    window.requestAnimationFrame(step);
-}
-
-async function loadPolls() {
-  let container = document.getElementById("pollsContainer");
-  try {
-    let [pollSnap, userSnap] = await Promise.all([
-      db.collection("polls").get(),
-      db.collection("users").get()
-    ]);
-
-    let totalMembers = userSnap.size > 0 ? userSnap.size : 150; // अगर डेटाबेस खाली हो तो डिफ़ॉल्ट मान
-    let polls = [];
-    let globalTotalVotes = 0;
-
-    pollSnap.forEach(doc => {
-      let p = doc.data();
-      if(!p.status || p.status === "active") {
-        let pollVotesTotal = p.totalVotes || (p.votes ? p.votes.reduce((a, b) => a + b, 0) : 0);
-        polls.push({ id: doc.id, computedTotal: pollVotesTotal, ...p });
-        globalTotalVotes += pollVotesTotal;
-      }
-    });
-
-    if(polls.length === 0) {
-      polls = [
-        {
-          id: "demo_poll_1",
-          question: "प्रश्न: क्या इस वर्ष समाज का वार्षिक मिलन समारोह महाराजगंज में आयोजित किया जाना चाहिए?",
-          options: ["हाँ, बिल्कुल", "नहीं", "विचारणीय / अन्य स्थान"],
-          votes: [45, 5, 10],
-          computedTotal: 60
-        }
-      ];
-      globalTotalVotes = 60;
-    }
-
-    // दोनों 3D सर्कल्स अपडेट करें
-    animateElementValue("totalMembersCount", totalMembers);
-    animateElementValue("totalRatioCount", globalTotalVotes, true, totalMembers);
-
-    let html = "";
-    let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
-
-    polls.forEach(p => {
-      let hasVoted = userVotedData[p.id] !== undefined;
-      let total = p.computedTotal || 1;
-
-      if(!hasVoted) {
-        let optionsHtml = `
-          <div class="poll-options-grid">
-            <button class="poll-yes-btn" onclick="castVote('${p.id}', 0)">👍 हाँ</button>
-            <button class="poll-no-btn" onclick="castVote('${p.id}', 1)">👎 ना</button>
-          </div>
-        `;
-        if(p.options && p.options.length > 2) {
-          optionsHtml += `<button class="poll-other-btn" onclick="castVote('${p.id}', 2)">💬 ${p.options[2] || 'अन्य'}</button>`;
-        }
-
-        html += `
-          <div class="card">
-            <div class="poll-question">${p.question || 'जनमत पोल'}</div>
-            <div style="background:#f1f5f9; color:var(--navy); padding:5px 10px; border-radius:8px; display:inline-block; font-size:11.5px; font-weight:700; margin-bottom:12px;">📊 इस पोल पर कुल मतदान: ${total} सदस्य</div>
-            ${optionsHtml}
-          </div>
-        `;
-      } else {
-        let resultsHtml = "";
-        let defaultOpts = ["हाँ", "नहीं", "अन्य"];
-        let opts = p.options || defaultOpts;
-        
-        opts.forEach((opt, idx) => {
-          let count = (p.votes && p.votes[idx]) || 0;
-          let percent = Math.round((count / total) * 100) || 0;
-          let icon = idx === 0 ? "👍" : idx === 1 ? "👎" : "💬";
-          resultsHtml += `
-            <div class="result-bar-wrap">
-              <div class="result-label"><span>${icon} ${opt}</span> <span>${count} वोट (${percent}%)</span></div>
-              <div class="progress-bg"><div class="progress-fill" style="width: ${percent}%;"></div></div>
-            </div>
-          `;
-        });
-
-        html += `
-          <div class="card">
-            <div class="poll-question">${p.question || 'जनमत पोल'}</div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span style="background:#fef3c7;color:#d97706;font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;">✅ आपने मत दे दिया है</span>
-              <span style="font-size:11.5px;color:var(--muted);font-weight:700;">📊 इस पोल पर कुल मतदान: ${total} सदस्य</span>
-            </div>
-            ${resultsHtml}
-          </div>
-        `;
-      }
-    });
-
-    container.innerHTML = html;
-
-  } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;">पोल लोड करने में असमर्थ।</div>`;
+function switchFeedbackTab(tab) {
+  if(tab === 'form') {
+    document.getElementById("tabForm").classList.add("active");
+    document.getElementById("tabBoard").classList.remove("active");
+    document.getElementById("formSection").style.display = "block";
+    document.getElementById("boardSection").style.display = "none";
+  } else {
+    document.getElementById("tabBoard").classList.add("active");
+    document.getElementById("tabForm").classList.remove("active");
+    document.getElementById("boardSection").style.display = "block";
+    document.getElementById("formSection").style.display = "none";
+    loadPublicFeedbacks();
   }
 }
 
-async function castVote(pollId, optionIndex) {
+async function submitAdvancedFeedback() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "मतदान करने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
+    showCustomAlert("⚠️ सुरक्षा चेतावनी", "सुझाव या शिकायत भेजने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
       if(yes) {
         window.location.href = "login.html";
       }
@@ -375,42 +247,79 @@ async function castVote(pollId, optionIndex) {
     return;
   }
 
+  let category = document.getElementById("feedCategory").value;
+  let priority = document.getElementById("feedPriority").value;
+  let name = document.getElementById("senderName").value.trim();
+  let subject = document.getElementById("senderSubject").value.trim();
+  let message = document.getElementById("senderMessage").value.trim();
+
+  if(!name || !subject || !message) {
+    alert("⚠️ कृपया नाम, विषय और संदेश का विस्तृत विवरण अवश्य भरें!");
+    return;
+  }
+
   try {
-    let pollRef = db.collection("polls").doc(pollId);
-    let doc = await pollRef.get();
+    await db.collection("feedbacks").add({
+      name: name,
+      mobile: loggedMobile,
+      category: category,
+      priority: priority,
+      subject: subject,
+      message: message,
+      status: "approved", // Advanced: Auto-live on board or reviewable by admin
+      timestamp: Date.now()
+    });
+
+    alert("✨ आपका सुझाव/संदेश सफलतापूर्वक दर्ज कर लिया गया है और 'सार्वजनिक सुझाव बोर्ड' पर भेज दिया गया है। धन्यवाद!");
     
-    if(doc.exists) {
-      let data = doc.data();
-      let votes = data.votes || [0, 0, 0];
-      votes[optionIndex] = (votes[optionIndex] || 0) + 1;
-      let totalVotes = (data.totalVotes || 0) + 1;
-
-      await pollRef.update({ votes: votes, totalVotes: totalVotes });
-
-      let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
-      userVotedData[pollId] = optionIndex;
-      localStorage.setItem("voted_polls", JSON.stringify(userVotedData));
-
-      alert("आपका मत सफलतापूर्वक दर्ज कर लिया गया है!");
-      loadPolls();
-    } else {
-      let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
-      userVotedData[pollId] = optionIndex;
-      localStorage.setItem("voted_polls", JSON.stringify(userVotedData));
-
-      alert("आपका मत सफलतापूर्वक दर्ज कर लिया गया है!");
-      loadPolls();
-    }
+    document.getElementById("senderName").value = "";
+    document.getElementById("senderSubject").value = "";
+    document.getElementById("senderMessage").value = "";
+    
+    switchFeedbackTab('board');
   } catch(e) {
-    let userVotedData = JSON.parse(localStorage.getItem("voted_polls") || "{}");
-    userVotedData[pollId] = optionIndex;
-    localStorage.setItem("voted_polls", JSON.stringify(userVotedData));
-    alert("आपका मत सफलतापूर्वक दर्ज हो गया!");
-    loadPolls();
+    alert("❌ संदेश भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
   }
 }
 
-loadPolls();
+async function loadPublicFeedbacks() {
+  let container = document.getElementById("publicFeedbackContainer");
+  try {
+    let snapshot = await db.collection("feedbacks").orderBy("timestamp", "desc").limit(20).get();
+    let feedbacks = [];
+    snapshot.forEach(doc => {
+      let f = doc.data();
+      if(!f.status || f.status === "approved" || f.status === "unread") {
+        feedbacks.push({ id: doc.id, ...f });
+      }
+    });
+
+    if(feedbacks.length === 0) {
+      container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">अभी कोई सुझाव सार्वजनिक रूप से उपलब्ध नहीं है। पहला सुझाव आप भेजें!</div>`;
+      return;
+    }
+
+    let html = "";
+    feedbacks.forEach(f => {
+      let badgeColor = f.priority && f.priority.includes("अति") ? "#ef4444" : "#2563eb";
+      html += `
+        <div class="feedback-item">
+          <div class="feedback-badge" style="background:${badgeColor}20; color:${badgeColor};">${f.category || 'सुझाव'}</div>
+          <b style="font-size:15px; color:var(--navy); margin-bottom:4px; display:block;">📌 ${f.subject || 'सामान्य विषय'}</b>
+          <p style="font-size:12.5px; color:var(--text); line-height:1.5; margin:0 0 10px;">${f.message || ''}</p>
+          <div style="font-size:11px; color:var(--muted); display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:6px;">
+            <span>👤 प्रेषक: <b>${f.name || 'सजातीय सदस्य'}</b></span>
+            <span>⭐ प्राथमिकता: ${f.priority || 'सामान्य'}</span>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">सुझाव लोड करने में त्रुटि हुई।</div>`;
+  }
+}
 </script>
 </body>
 </html>

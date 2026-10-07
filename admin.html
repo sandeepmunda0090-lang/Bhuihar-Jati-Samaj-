@@ -326,7 +326,17 @@
   function logoutAdmin() {
     if(confirm("क्या आप एडमिन पैनल से लॉगआउट करना चाहते हैं?")) {
       auth.signOut().then(() => {
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("userLoggedInMobile");
+        localStorage.removeItem("userName");
         alert("सफलतापूर्वक लॉगआउट हो गए!");
+        window.location.href = "login.html";
+      }).catch((err) => {
+        // Fallback if auth signout fails
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("userLoggedInMobile");
+        localStorage.removeItem("userName");
+        window.location.href = "login.html";
       });
     }
   }

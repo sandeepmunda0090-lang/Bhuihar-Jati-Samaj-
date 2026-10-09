@@ -154,6 +154,9 @@ function goBackHome() {
   let nextActionType = "login";
 
   function showSuccessModal(title, desc, actionType) {
+    // अगर आप डिफ़ॉल्ट अलर्ट भी चाहते हैं, तो यह लाइन काम करेगी
+    alert(title + "\n" + desc);
+    
     document.getElementById("modalTitle").innerText = title;
     document.getElementById("modalDesc").innerText = desc;
     nextActionType = actionType;
@@ -208,7 +211,7 @@ function goBackHome() {
       let userData = userDoc.data();
 
       if (userData.mpin !== mpin) {
-        alert("⚠️ गलत MPIN! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
+        alert("⚠️ गलत MPIN (पासवर्ड)! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
         btn.disabled = false;
         btn.innerText = "🚀 सुरक्षित लॉगिन करें";
         return;
@@ -241,7 +244,7 @@ function goBackHome() {
       btn.disabled = false;
       btn.innerText = "🚀 सुरक्षित लॉगिन करें";
 
-      showSuccessModal("सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
+      showSuccessModal("✨ सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
 
     } catch (error) {
       alert("❌ सर्वर त्रुटि: " + error.message);
@@ -303,7 +306,7 @@ function goBackHome() {
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
 
-      showSuccessModal("MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
+      showSuccessModal("✨ MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
 
     } catch (error) {
       alert("❌ त्रुटि: " + error.message);

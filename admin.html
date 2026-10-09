@@ -318,7 +318,7 @@
     }
   });
 
-  // पक्का और सुरक्षित लॉगआउट फ़ंक्शन
+  // पक्का और सुरक्षित लॉगआउट फ़ंक्शन (अपडेटेड पॉप-अप और एड्स सिग्नल के साथ)
   function logoutAdmin() {
     if(confirm("क्या आप एडमिन पैनल से लॉगआउट करना चाहते हैं?")) {
       // तुरंत सारा लोकल डेटा साफ़ करें
@@ -334,7 +334,14 @@
         console.log(err);
       }
       
-      alert("सफलतापूर्वक लॉगआउट हो गए!");
+      // सक्सेसफुल लॉग-आउट का पॉप-अप
+      alert("आप सफलतापूर्वक लॉग आउट हो गए हैं!");
+      
+      // एंड्रॉइड ऐप को ऐड्स वापस चालू करने का सिग्नल
+      if (typeof Android !== "undefined") {
+          Android.showAds();
+      }
+      
       // तुरंत लॉगिन पेज पर भेज दें
       window.location.replace("login.html");
     }
@@ -350,16 +357,22 @@
     });
   }
 
+  // अपडेटेड लॉगिन फंक्शन (नए पॉप-अप के साथ)
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
     if(!email || !pass){ alert("⚠️ कृपया ईमेल और पासवर्ड भरें!"); return; }
+    
     auth.signInWithEmailAndPassword(email, pass).then(() => {
-      alert("✨ एडमिन लॉगिन सफल!");
+      // सक्सेसफुल लॉग-इन का पॉप-अप
+      alert("✨ लॉग इन सफल रहा! आपका स्वागत है।");
       document.getElementById("adminLoginCard").style.display = "none";
       document.getElementById("adminDashboardContent").style.display = "block";
       loadAllAdminData();
-    }).catch((err) => { alert("❌ लॉगिन असफल: " + err.message); });
+    }).catch((err) => { 
+      // फेल होने या गलत पासवर्ड का पॉप-अप
+      alert("❌ लॉग इन फेल: ईमेल या पासवर्ड गलत है। कृपया दोबारा चेक करें!"); 
+    });
   }
 
   function loadAllAdminData() {

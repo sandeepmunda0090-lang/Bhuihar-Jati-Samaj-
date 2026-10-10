@@ -2,10 +2,11 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>सदस्य पंजीकरण | भुईहर जाति समाज</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--danger:#dc2626;--success:#16a34a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -59,15 +60,6 @@ body{
 .login-link-row{text-align:center;margin-top:14px;font-size:12.5px}
 .login-link-row a{color:var(--p);text-decoration:none;font-weight:700}
 
-/* सुंदर सक्सेस पॉप-अप मॉडल स्टाइल */
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(3px);}
-.modal-box{background:#fff;width:90%;max-width:340px;border-radius:20px;padding:24px 20px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.2);animation:popIn 0.3s ease-out;}
-@keyframes popIn{0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
-.success-icon-circle{width:70px;height:70px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 0 0 8px #f0fdf4;}
-.modal-title{font-size:18px;font-weight:800;color:var(--navy);margin:0 0 8px;}
-.modal-desc{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
-.modal-btn{background:var(--success);color:#fff;border:0;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:700;width:100%;cursor:pointer;}
-
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
@@ -97,7 +89,6 @@ body{
       <div class="form-group"><label>मोबाइल नंबर (जिससे लॉगिन होगा)</label><input type="tel" id="regMobile" class="form-control" placeholder="10 अंकों का सक्रिय मोबाइल नंबर" maxlength="10"></div>
       <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="regDob" class="form-control"></div>
       
-      <!-- वैवाहिक स्थिति ड्रॉप-डाउन (अनिवार्य) -->
       <div class="form-group">
         <label>वैवाहिक स्थिति (Marital Status)</label>
         <select id="regMaritalStatus" class="form-control">
@@ -106,7 +97,6 @@ body{
         </select>
       </div>
 
-      <!-- रक्त समूह / ब्लड ग्रुप (वैकल्पिक / Optional) -->
       <div class="form-group">
         <label>रक्त समूह (Blood Group - वैकल्पिक)</label>
         <select id="regBloodGroup" class="form-control">
@@ -123,7 +113,7 @@ body{
       </div>
 
       <div class="form-group"><label>गोत्र</label><input type="text" id="regGotra" class="form-control" placeholder="अपना गोत्र लिखें (जैसे- कश्यप, वत्स आदि)"></div>
-      <div class="form-group"><label>निवास / ग्राम (पता)</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span)"></div>
+      <div class="form-group"><label>निवास / ग्राम (पता)</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम"></div>
 
       <hr style="border:0;border-top:1px solid var(--line);margin:16px 0;">
       <h4 style="margin:0 0 8px 0;color:var(--navy);font-size:13.5px;">🔐 खाता सुरक्षा (6-अंकों का MPIN)</h4>
@@ -136,21 +126,9 @@ body{
       <div class="login-link-row"><span>पहले से खाता मौजूद है?</span> <a href="login.html">यहाँ लॉगिन करें</a></div>
     </div>
   </div>
-
-  
 </div>
 
-<!-- सफलता पॉप-अप विंडो (Modal) -->
-<div id="successModal" class="modal-overlay">
-  <div class="modal-box">
-    <div class="success-icon-circle">✓</div>
-    <h3 class="modal-title" id="modalTitle">सफलतापूर्वक पंजीकरण!</h3>
-    <p class="modal-desc" id="modalDesc">आपका आवेदन जमा हो गया है। एडमिन सत्यापन के बाद खाता सक्रिय होगा।</p>
-    <button class="modal-btn" onclick="closeModalAndRedirect()">ठीक है (OK)</button>
-  </div>
-</div>
-
-<!-- Firebase SDKs (App, Firestore और Messaging शामिल किए गए हैं) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
@@ -158,26 +136,11 @@ body{
 const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
-
-function goBackHome() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = 'index.html';
-  }
-}
-
 const messaging = firebase.messaging();
 
-function showSuccessModal(title, desc) {
-  document.getElementById("modalTitle").innerText = title;
-  document.getElementById("modalDesc").innerText = desc;
-  document.getElementById("successModal").style.display = "flex";
-}
-
-function closeModalAndRedirect() {
-  document.getElementById("successModal").style.display = "none";
-  window.location.href = "login.html";
+function goBackHome() {
+  if (window.history.length > 1) { window.history.back(); } 
+  else { window.location.href = 'index.html'; }
 }
 
 async function handleRegister() {
@@ -194,19 +157,19 @@ async function handleRegister() {
   let btn = document.getElementById("regSubmitBtn");
 
   if(!fullName || !mobile || !mpin || !confirmMpin) {
-    alert("⚠️ कृपया सभी आवश्यक और सुरक्षा (MPIN) से जुड़े कॉलम भरें।");
+    Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी आवश्यक और सुरक्षा (MPIN) से जुड़े कॉलम भरें।', confirmButtonColor: '#f4b63f' });
     return;
   }
   if(mobile.length !== 10) {
-    alert("⚠️ कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
+    Swal.fire({ icon: 'warning', title: 'गलत नंबर', text: 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।', confirmButtonColor: '#f4b63f' });
     return;
   }
   if(mpin.length !== 6) {
-    alert("⚠️️ सुरक्षा के लिए MPIN ठीक 6 अंकों का होना चाहिए।");
+    Swal.fire({ icon: 'warning', title: 'अमान्य MPIN', text: 'सुरक्षा के लिए MPIN ठीक 6 अंकों का होना चाहिए।', confirmButtonColor: '#f4b63f' });
     return;
   }
   if(mpin !== confirmMpin) {
-    alert("⚠️ नया MPIN और पुष्टि MPIN आपस में मेल नहीं खा रहे हैं!");
+    Swal.fire({ icon: 'error', title: 'MPIN मैच नहीं हुआ', text: 'नया MPIN और पुष्टि MPIN आपस में मेल नहीं खा रहे हैं!', confirmButtonColor: '#d33' });
     return;
   }
 
@@ -216,35 +179,26 @@ async function handleRegister() {
   try {
     let mobileCheck = await db.collection("users").where("mobileNumber", "==", mobile).get();
     if(!mobileCheck.empty) {
-      alert("⚠️ यह मोबाइल नंबर पहले से ही रजिस्टर्ड है! कृपया सीधे लॉगिन करें।");
-      btn.disabled = false;
-      btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
-      window.location.href = "login.html";
+      Swal.fire({ icon: 'info', title: 'नंबर रजिस्टर्ड है', text: 'यह मोबाइल नंबर पहले से ही रजिस्टर्ड है! कृपया सीधे लॉगिन करें।', confirmButtonColor: '#0757a3' }).then(() => {
+        window.location.href = "login.html";
+      });
+      btn.disabled = false; btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
       return;
     }
 
-    let duplicateCheck = await db.collection("users")
-      .where("FullName", "==", fullName)
-      .where("dateOfBirth", "==", dob)
-      .where("village", "==", address)
-      .get();
+    let duplicateCheck = await db.collection("users").where("FullName", "==", fullName).where("dateOfBirth", "==", dob).where("village", "==", address).get();
 
     if(!duplicateCheck.empty) {
-      alert("⚠️ इस नाम, जन्म तिथि और पते के साथ एक सदस्य पहले ही पंजीकृत है!");
-      btn.disabled = false;
-      btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
+      Swal.fire({ icon: 'info', title: 'खाता मौजूद है', text: 'इस नाम, जन्म तिथि और पते के साथ एक सदस्य पहले ही पंजीकृत है!', confirmButtonColor: '#0757a3' });
+      btn.disabled = false; btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
       return;
     }
 
     let fcmToken = "";
     try {
       const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        fcmToken = await messaging.getToken();
-      }
-    } catch (err) {
-      console.log("FCM Token प्राप्त करने में त्रुटि (वैकल्पिक):", err);
-    }
+      if (permission === 'granted') { fcmToken = await messaging.getToken(); }
+    } catch (err) {}
 
     await db.collection("users").add({
       FullName: fullName,
@@ -262,12 +216,19 @@ async function handleRegister() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    showSuccessModal("सफलतापूर्वक पंजीकरण!", "बधाई हो! आपका आवेदन जमा हो गया है। एडमिन द्वारा सत्यापन के बाद खाता सक्रिय होगा।");
+    Swal.fire({
+      icon: 'success',
+      title: 'सफलतापूर्वक पंजीकरण!',
+      text: 'बधाई हो! आपका आवेदन जमा हो गया है। एडमिन द्वारा सत्यापन के बाद खाता सक्रिय होगा।',
+      confirmButtonColor: '#16a34a',
+      confirmButtonText: 'लॉगिन करें'
+    }).then((result) => {
+      if (result.isConfirmed) { window.location.href = "login.html"; }
+    });
 
   } catch(e) {
-    alert("❌ त्रुटि: " + e.message);
-    btn.disabled = false;
-    btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: e.message, confirmButtonColor: '#d33' });
+    btn.disabled = false; btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
   }
 }
 </script>

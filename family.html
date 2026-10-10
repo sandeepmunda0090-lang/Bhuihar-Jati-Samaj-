@@ -75,6 +75,7 @@ body{
 
     <div id="userFamilySection" class="card" style="display:none; background:#f0fdf4; border-color:#bbf7d0;">
       
+      <!-- नया टेबल फॉर्मेट: डिजिटल परिवार कार्ड -->
       <div id="printableArea" style="background:#fff; padding:15px; border:2px solid #166534; border-radius:0;">
         <h2 style="text-align:center; color:#166534; margin:0 0 10px 0; font-size:18px; border-bottom:2px solid #166534; padding-bottom:10px;">
           🌾 भुईहर जाति समाज - डिजिटल परिवार कार्ड
@@ -94,7 +95,6 @@ body{
 
       <button class="btn" style="background:#16a34a; font-size:13px; padding:11px; margin-top:12px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
       
-      <!-- प्रीमियम पर्सनल ID और फैमिली कार्ड डाउनलोड बटन -->
       <div style="display:flex; gap:8px; margin-top:6px;">
         <button class="btn" style="background:#f59e0b; font-size:12px; padding:10px; flex:1;" onclick="downloadPersonalIDCard()">💳 मेरा पर्सनल ID</button>
         <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; flex:1;" onclick="downloadDigitalCardPDF()">👨‍👩‍👧‍👦 परिवार कार्ड</button>
@@ -309,7 +309,7 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// ⭐ नया प्रीमियम फैमिली कार्ड (A4 Landscape)
+// A4 लैंडस्केप वाला परिवार कार्ड
 async function downloadDigitalCardPDF() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 
@@ -427,29 +427,73 @@ async function downloadDigitalCardPDF() {
   } catch(e) { Swal.fire({icon: 'error', text: 'डेटा लोड करने में त्रुटि: ' + e.message}); }
 }
 
-// ⭐ नया पर्सनल ID कार्ड (Pocket Size)
+// ⭐ नया पैन कार्ड साइज़ (Horizontal) पर्सनल ID कार्ड 
 function downloadPersonalIDCard() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
   Swal.fire({ title: 'ID कार्ड बन रहा है...', html: 'कृपया प्रतीक्षा करें।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
   let idHtml = `
-  <div id="tempPersonalID" style="width:400px; background:#fff; border-radius:16px; font-family:sans-serif; position:relative; overflow:hidden; border:2px solid #cbd5e1; box-shadow:0 15px 35px rgba(0,0,0,0.2);">
-    <div style="background:linear-gradient(135deg, #1e5b96, #0f3d6b); padding:20px; text-align:center; position:relative;">
-       <div style="width:70px; height:70px; background:#fff; border-radius:50%; margin:0 auto 10px; display:grid; place-items:center; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.2); border:3px solid #f59e0b;">🌾</div>
-       <h2 style="margin:0; color:#fff; font-size:24px; font-weight:900; letter-spacing:1px;">भुईहर जाति समाज</h2>
-       <p style="margin:4px 0 0; color:#fde68a; font-size:13px; font-weight:bold; letter-spacing:2px;">IDENTITY CARD</p>
-    </div>
-    <div style="padding:25px 20px; text-align:center; background:url('https://www.transparenttextures.com/patterns/cubes.png');">
-       <div style="width:110px; height:110px; border-radius:16px; background:#f1f5f9; border:3px solid #1e5b96; margin:-60px auto 15px; display:grid; place-items:center; font-size:50px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; z-index:5;">👤</div>
-       <h3 style="margin:0 0 5px; font-size:26px; font-weight:900; color:#0f172a;">${loggedName}</h3>
-       <p style="margin:0 0 20px; font-size:14px; color:#1e5b96; font-weight:bold;">पंजीकृत सदस्य</p>
-       <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:15px; text-align:left; font-size:14px; color:#334155; line-height:2;">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>📱 मोबाइल:</span> <b>${loggedMobile}</b></div>
-          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>📍 जिला:</span> <b>बलरामपुर</b></div>
-          <div style="display:flex; justify-content:space-between;"><span>🩸 ब्लड ग्रुप:</span> <b>-</b></div>
+  <div id="tempPersonalID" style="width:600px; height:360px; background:linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%); border:2px solid #94a3b8; border-radius:12px; font-family:sans-serif; position:relative; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.15); display:flex; flex-direction:column; box-sizing:border-box;">
+    
+    <!-- Watermark Logo -->
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:180px; opacity:0.04; pointer-events:none; z-index:0;">🌾</div>
+
+    <!-- Header Strip -->
+    <div style="background:linear-gradient(90deg, #1e5b96, #0f3d6b); padding:12px 20px; display:flex; align-items:center; gap:15px; border-bottom:4px solid #f59e0b; position:relative; z-index:1;">
+       <div style="width:45px; height:45px; background:#fff; border-radius:50%; display:grid; place-items:center; font-size:24px; border:2px solid #f59e0b; flex-shrink:0;">🌾</div>
+       <div style="flex:1; text-align:left;">
+          <h2 style="margin:0; color:#fff; font-size:24px; font-weight:900; letter-spacing:1px; text-shadow:1px 1px 2px rgba(0,0,0,0.5);">भुईहर जाति समाज, महाराजगंज</h2>
+          <p style="margin:2px 0 0; color:#fde68a; font-size:12px; font-weight:bold; letter-spacing:2px;">IDENTITY CARD / पहचान पत्र</p>
        </div>
     </div>
-    <div style="background:#f59e0b; color:#78350f; text-align:center; padding:12px; font-weight:900; font-size:14px; letter-spacing:1px;">
+    
+    <!-- Main Body Area -->
+    <div style="display:flex; flex:1; padding:20px; align-items:center; gap:25px; position:relative; z-index:1;">
+       
+       <!-- Left Side: Photo -->
+       <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+          <div style="width:100px; height:120px; background:#e2e8f0; border:2px solid #94a3b8; border-radius:8px; display:grid; place-items:center; font-size:50px; color:#94a3b8; box-shadow:0 4px 8px rgba(0,0,0,0.1);">👤</div>
+          <div style="background:#1e5b96; color:#fff; padding:4px 12px; border-radius:12px; font-size:11px; font-weight:bold;">पंजीकृत सदस्य</div>
+       </div>
+
+       <!-- Middle Side: User Details -->
+       <div style="flex:1; border-left:2px dashed #cbd5e1; padding-left:25px;">
+          <div style="margin-bottom:8px;">
+             <div style="font-size:11px; color:#64748b; font-weight:bold; text-transform:uppercase;">नाम / Name</div>
+             <div style="font-size:24px; font-weight:900; color:#0f172a; line-height:1.2;">${loggedName}</div>
+          </div>
+          
+          <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;">
+             <tr>
+                <td style="padding:5px 0; color:#475569; font-weight:bold; width:45%;">मोबाइल / Mobile</td>
+                <td style="padding:5px 0; font-weight:800; color:#1e293b;">: ${loggedMobile}</td>
+             </tr>
+             <tr>
+                <td style="padding:5px 0; color:#475569; font-weight:bold;">जिला / District</td>
+                <td style="padding:5px 0; font-weight:800; color:#1e293b;">: बलरामपुर</td>
+             </tr>
+             <tr>
+                <td style="padding:5px 0; color:#475569; font-weight:bold;">ब्लड ग्रुप / Blood Gr.</td>
+                <td style="padding:5px 0; font-weight:900; color:#dc2626;">: -</td>
+             </tr>
+          </table>
+       </div>
+
+       <!-- Right Side: Badge & Auth -->
+       <div style="display:flex; flex-direction:column; align-items:center; justify-content:space-between; height:100%;">
+          <div style="width:60px; height:60px; border:2px solid #1e5b96; border-radius:8px; background:#eff6ff; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+             <span style="font-size:20px;">🛡️</span>
+             <span style="font-size:8px; font-weight:bold; color:#1e5b96; margin-top:2px;">VERIFIED</span>
+          </div>
+          <div style="text-align:center; margin-top:auto;">
+             <div style="border-bottom:2px solid #0f172a; width:60px; margin:0 auto 4px;"></div>
+             <span style="font-size:10px; font-weight:bold; color:#0f172a;">हस्ताक्षर</span>
+          </div>
+       </div>
+    </div>
+
+    <!-- Footer Strip -->
+    <div style="background:#f59e0b; text-align:center; padding:6px; color:#78350f; font-size:13px; font-weight:900; letter-spacing:2px; border-top:2px solid #d97706; position:relative; z-index:1;">
        || एकता - सहयोग - विकास ||
     </div>
   </div>`;
@@ -463,16 +507,16 @@ function downloadPersonalIDCard() {
     let imgData = canvas.toDataURL('image/jpeg', 0.98);
     document.body.removeChild(tempDiv);
     Swal.fire({
-      title: '✨ ID कार्ड तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Personal ID',
+      title: '✨ ID कार्ड तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Personal PAN Style ID',
       showCancelButton: true, confirmButtonText: 'बंद करें', confirmButtonColor: '#64748b',
       cancelButtonText: '📲 शेयर करें', cancelButtonColor: '#25D366', reverseButtons: true
     }).then(async (result) => {
       if (result.dismiss === Swal.DismissReason.cancel) {
         try {
           let blob = await (await fetch(imgData)).blob();
-          let file = new File([blob], 'Personal_ID.jpg', { type: 'image/jpeg' });
+          let file = new File([blob], 'Personal_ID_PAN_Style.jpg', { type: 'image/jpeg' });
           if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ title: 'ID कार्ड', text: 'मेरा पर्सनल ID कार्ड।', files: [file] }); } 
-          else { let link = document.createElement('a'); link.href = imgData; link.download = 'Personal_ID.jpg'; link.click(); }
+          else { let link = document.createElement('a'); link.href = imgData; link.download = 'Personal_ID_PAN_Style.jpg'; link.click(); }
         } catch(e) {}
       }
     });

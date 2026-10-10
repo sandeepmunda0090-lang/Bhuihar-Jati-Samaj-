@@ -20,7 +20,26 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;}
+/* ⭐ Page Premium Pop-up Animation ⭐ */
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,0.1);
+  padding-bottom:25px;
+  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+/* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
+.swal2-container { z-index: 100000 !important; }
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 20px;border-radius:0 0 24px 24px;position:relative;}
 
@@ -59,11 +78,6 @@ body{
 
 .login-link-row{text-align:center;margin-top:14px;font-size:12.5px}
 .login-link-row a{color:var(--p);text-decoration:none;font-weight:700}
-
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
-.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
-.nav b{display:block;font-size:16px}
-.nav a.active{color:var(--p);font-weight:800}
 </style>
 </head>
 <body>
@@ -82,11 +96,11 @@ body{
   <div class="container">
     <div class="card">
       <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">📝 अपनी पारिवारिक जानकारी दर्ज करें</h3>
-      <p style="font-size:11px;color:var(--muted);margin-top:0;margin-bottom:14px;">समाज से जुड़ने और डिजिटल पहचान पत्र प्राप्त करने के लिए नीचे दिए गए फॉर्म को भरें।</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:0;margin-bottom:14px;">समाज से जुड़ने और डिजिटल पहचान पत्र प्राप्त करने के लिए नीचे दिए गए फॉर्म को भरें[span_4](start_span)[span_4](end_span)。</p>
       
       <div class="form-group"><label>पूरा नाम (सदस्य का) *</label><input type="text" id="regName" class="form-control" placeholder="अपना पूरा नाम लिखें"></div>
       
-      <!-- ⭐ नया पिता/पति ड्रॉप-डाउन सेक्शन -->
+      <!-- पिता/पति ड्रॉप-डाउन सेक्शन -->
       <div class="form-group">
         <label>अभिभावक (पिता या पति) का नाम *</label>
         <div style="display: flex; gap: 8px;">
@@ -157,11 +171,9 @@ function goBackHome() {
 
 async function handleRegister() {
   let fullName = document.getElementById("regName").value.trim();
-  
-  // ⭐ नया लॉजिक: ड्रॉप-डाउन और इनपुट बॉक्स की वैल्यू को जोड़ना
   let relationType = document.getElementById("regRelationType").value;
   let fatherNameInput = document.getElementById("regFatherInput").value.trim();
-  let fatherNameFinal = relationType + ": " + fatherNameInput; // उदाहरण: "पिता: राम प्रसाद"
+  let fatherNameFinal = relationType + ": " + fatherNameInput;
 
   let mobile = document.getElementById("regMobile").value.trim();
   let dob = document.getElementById("regDob").value.trim();
@@ -173,7 +185,6 @@ async function handleRegister() {
   let confirmMpin = document.getElementById("regConfirmMpin").value.trim();
   let btn = document.getElementById("regSubmitBtn");
 
-  // वैलिडेशन में fatherNameInput चेक किया
   if(!fullName || !fatherNameInput || !mobile || !dob || !gotra || !address || !mpin || !confirmMpin) {
     Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी आवश्यक (*) और सुरक्षा (MPIN) से जुड़े कॉलम भरें।', confirmButtonColor: '#f4b63f' });
     return;
@@ -220,7 +231,7 @@ async function handleRegister() {
 
     await db.collection("users").add({
       FullName: fullName,
-      fatherName: fatherNameFinal, // ड्रॉपडाउन वाली वैल्यू यहाँ जा रही है
+      fatherName: fatherNameFinal,
       mobileNumber: mobile,
       dateOfBirth: dob,
       maritalStatus: maritalStatus,
@@ -250,7 +261,6 @@ async function handleRegister() {
   }
 }
 
-// मोबाइल नंबर में सिर्फ नंबर्स की अनुमति देने के लिए स्क्रिप्ट
 document.addEventListener('input', function(e) {
   let t = e.target;
   if (t && t.id === 'regMobile') {

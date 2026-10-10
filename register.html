@@ -84,10 +84,22 @@ body{
       <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">📝 अपनी पारिवारिक जानकारी दर्ज करें</h3>
       <p style="font-size:11px;color:var(--muted);margin-top:0;margin-bottom:14px;">समाज से जुड़ने और डिजिटल पहचान पत्र प्राप्त करने के लिए नीचे दिए गए फॉर्म को भरें।</p>
       
-      <div class="form-group"><label>पूरा नाम (सदस्य का)</label><input type="text" id="regName" class="form-control" placeholder="अपना पूरा नाम लिखें"></div>
-      <div class="form-group"><label>पिता / पति का नाम</label><input type="text" id="regFather" class="form-control" placeholder="पिता या पति का नाम लिखें"></div>
-      <div class="form-group"><label>मोबाइल नंबर (जिससे लॉगिन होगा)</label><input type="tel" id="regMobile" class="form-control" placeholder="10 अंकों का सक्रिय मोबाइल नंबर" maxlength="10"></div>
-      <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="regDob" class="form-control"></div>
+      <div class="form-group"><label>पूरा नाम (सदस्य का) *</label><input type="text" id="regName" class="form-control" placeholder="अपना पूरा नाम लिखें"></div>
+      
+      <!-- ⭐ नया पिता/पति ड्रॉप-डाउन सेक्शन -->
+      <div class="form-group">
+        <label>अभिभावक (पिता या पति) का नाम *</label>
+        <div style="display: flex; gap: 8px;">
+          <select id="regRelationType" class="form-control" style="width: 35%; padding: 11px 8px;">
+            <option value="पिता">पिता</option>
+            <option value="पति">पति</option>
+          </select>
+          <input type="text" id="regFatherInput" class="form-control" style="width: 65%;" placeholder="पूरा नाम लिखें">
+        </div>
+      </div>
+
+      <div class="form-group"><label>मोबाइल नंबर (जिससे लॉगिन होगा) *</label><input type="tel" id="regMobile" class="form-control" placeholder="10 अंकों का सक्रिय मोबाइल नंबर" maxlength="10"></div>
+      <div class="form-group"><label>जन्म तिथि (DOB) *</label><input type="date" id="regDob" class="form-control"></div>
       
       <div class="form-group">
         <label>वैवाहिक स्थिति (Marital Status)</label>
@@ -112,14 +124,14 @@ body{
         </select>
       </div>
 
-      <div class="form-group"><label>गोत्र</label><input type="text" id="regGotra" class="form-control" placeholder="अपना गोत्र लिखें (जैसे- कश्यप, वत्स आदि)"></div>
-      <div class="form-group"><label>निवास / ग्राम (पता)</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम"></div>
+      <div class="form-group"><label>गोत्र *</label><input type="text" id="regGotra" class="form-control" placeholder="अपना गोत्र लिखें (जैसे- कश्यप, वत्स आदि)"></div>
+      <div class="form-group"><label>निवास / ग्राम (पता) *</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम"></div>
 
       <hr style="border:0;border-top:1px solid var(--line);margin:16px 0;">
       <h4 style="margin:0 0 8px 0;color:var(--navy);font-size:13.5px;">🔐 खाता सुरक्षा (6-अंकों का MPIN)</h4>
       
-      <div class="form-group"><label>नया 6-अंकों का MPIN बनाएं</label><input type="password" id="regMpin" class="form-control" placeholder="6 अंकों का गुप्त पिन" maxlength="6"></div>
-      <div class="form-group"><label>MPIN की पुष्टि करें</label><input type="password" id="regConfirmMpin" class="form-control" placeholder="वही 6 अंक दोबारा दर्ज करें" maxlength="6"></div>
+      <div class="form-group"><label>नया 6-अंकों का MPIN बनाएं *</label><input type="password" id="regMpin" class="form-control" placeholder="6 अंकों का गुप्त पिन" maxlength="6"></div>
+      <div class="form-group"><label>MPIN की पुष्टि करें *</label><input type="password" id="regConfirmMpin" class="form-control" placeholder="वही 6 अंक दोबारा दर्ज करें" maxlength="6"></div>
       
       <button id="regSubmitBtn" class="btn gold" onclick="handleRegister()">✨ पंजीकरण फॉर्म जमा करें</button>
 
@@ -145,7 +157,12 @@ function goBackHome() {
 
 async function handleRegister() {
   let fullName = document.getElementById("regName").value.trim();
-  let fatherName = document.getElementById("regFather").value.trim();
+  
+  // ⭐ नया लॉजिक: ड्रॉप-डाउन और इनपुट बॉक्स की वैल्यू को जोड़ना
+  let relationType = document.getElementById("regRelationType").value;
+  let fatherNameInput = document.getElementById("regFatherInput").value.trim();
+  let fatherNameFinal = relationType + ": " + fatherNameInput; // उदाहरण: "पिता: राम प्रसाद"
+
   let mobile = document.getElementById("regMobile").value.trim();
   let dob = document.getElementById("regDob").value.trim();
   let maritalStatus = document.getElementById("regMaritalStatus").value;
@@ -156,8 +173,9 @@ async function handleRegister() {
   let confirmMpin = document.getElementById("regConfirmMpin").value.trim();
   let btn = document.getElementById("regSubmitBtn");
 
-  if(!fullName || !mobile || !mpin || !confirmMpin) {
-    Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी आवश्यक और सुरक्षा (MPIN) से जुड़े कॉलम भरें।', confirmButtonColor: '#f4b63f' });
+  // वैलिडेशन में fatherNameInput चेक किया
+  if(!fullName || !fatherNameInput || !mobile || !dob || !gotra || !address || !mpin || !confirmMpin) {
+    Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी आवश्यक (*) और सुरक्षा (MPIN) से जुड़े कॉलम भरें।', confirmButtonColor: '#f4b63f' });
     return;
   }
   if(mobile.length !== 10) {
@@ -202,7 +220,7 @@ async function handleRegister() {
 
     await db.collection("users").add({
       FullName: fullName,
-      fatherName: fatherName,
+      fatherName: fatherNameFinal, // ड्रॉपडाउन वाली वैल्यू यहाँ जा रही है
       mobileNumber: mobile,
       dateOfBirth: dob,
       maritalStatus: maritalStatus,
@@ -231,6 +249,17 @@ async function handleRegister() {
     btn.disabled = false; btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
   }
 }
+
+// मोबाइल नंबर में सिर्फ नंबर्स की अनुमति देने के लिए स्क्रिप्ट
+document.addEventListener('input', function(e) {
+  let t = e.target;
+  if (t && t.id === 'regMobile') {
+    let cleaned = t.value.replace(/[^0-9]/g, '').slice(0, 10);
+    if (t.value !== cleaned) {
+      t.value = cleaned;
+    }
+  }
+});
 </script>
 </body>
 </html>

@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>लॉगिन / MPIN रीसेट | भुईहर जाति समाज</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--danger:#dc2626;--success:#16a34a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -60,15 +62,6 @@ body{
 .link-row{text-align:center;margin-top:14px;font-size:12.5px}
 .link-row a{color:var(--p);text-decoration:none;font-weight:700;cursor:pointer}
 
-/* सुंदर सक्सेस पॉप-अप मॉडल स्टाइल */
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:1000;backdrop-filter:blur(3px);}
-.modal-box{background:#fff;width:90%;max-width:340px;border-radius:20px;padding:24px 20px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.2);animation:popIn 0.3s ease-out;}
-@keyframes popIn{0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
-.success-icon-circle{width:70px;height:70px;background:#dcfce7;color:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 0 0 8px #f0fdf4;}
-.modal-title{font-size:18px;font-weight:800;color:var(--navy);margin:0 0 8px;}
-.modal-desc{font-size:13px;color:var(--muted);margin:0 0 20px;line-height:1.5;}
-.modal-btn{background:var(--success);color:#fff;border:0;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:700;width:100%;cursor:pointer;}
-
 .nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
 .nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
 .nav b{display:block;font-size:16px}
@@ -118,21 +111,9 @@ body{
     </div>
 
   </div>
-
-  
 </div>
 
-<!-- सफलता पॉप-अप विंडो (Modal) -->
-<div id="successModal" class="modal-overlay">
-  <div class="modal-box">
-    <div class="success-icon-circle">✓</div>
-    <h3 class="modal-title" id="modalTitle">सफलता!</h3>
-    <p class="modal-desc" id="modalDesc">आपकी प्रक्रिया सफलतापूर्वक पूरी हो गई है।</p>
-    <button class="modal-btn" onclick="handleModalAction()">आगे बढ़ें (OK)</button>
-  </div>
-</div>
-
-<!-- Firebase SDKs (App, Firestore और Messaging शामिल किए गए हैं) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
@@ -140,35 +121,13 @@ body{
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
-
-function goBackHome() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = 'index.html';
-  }
-}
-
   const messaging = firebase.messaging();
 
-  let nextActionType = "login";
-
-  function showSuccessModal(title, desc, actionType) {
-    // अगर आप डिफ़ॉल्ट अलर्ट भी चाहते हैं, तो यह लाइन काम करेगी
-    alert(title + "\n" + desc);
-    
-    document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalDesc").innerText = desc;
-    nextActionType = actionType;
-    document.getElementById("successModal").style.display = "flex";
-  }
-
-  function handleModalAction() {
-    document.getElementById("successModal").style.display = "none";
-    if(nextActionType === "login") {
-      window.location.href = "index.html";
-    } else if(nextActionType === "reset") {
-      showLoginSection();
+  function goBackHome() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html';
     }
   }
 
@@ -190,7 +149,7 @@ function goBackHome() {
     let btn = document.getElementById("loginBtn");
 
     if (!mobile || !mpin) {
-      alert("⚠️ कृपया मोबाइल नंबर और MPIN दोनों दर्ज करें!");
+      Swal.fire({ icon: 'warning', title: 'खाली जानकारी', text: 'कृपया मोबाइल नंबर और MPIN दोनों दर्ज करें!', confirmButtonColor: '#0757a3' });
       return;
     }
 
@@ -201,7 +160,7 @@ function goBackHome() {
       let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
 
       if (querySnapshot.empty) {
-        alert("⚠️ यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।");
+        Swal.fire({ icon: 'error', title: 'अकाउंट नहीं मिला', text: 'यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।', confirmButtonColor: '#d33' });
         btn.disabled = false;
         btn.innerText = "🚀 सुरक्षित लॉगिन करें";
         return;
@@ -211,14 +170,14 @@ function goBackHome() {
       let userData = userDoc.data();
 
       if (userData.mpin !== mpin) {
-        alert("⚠️ गलत MPIN (पासवर्ड)! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।");
+        Swal.fire({ icon: 'error', title: 'गलत MPIN', text: 'गलत MPIN (पासवर्ड)! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।', confirmButtonColor: '#d33' });
         btn.disabled = false;
         btn.innerText = "🚀 सुरक्षित लॉगिन करें";
         return;
       }
 
       if (userData.status === "pending") {
-        alert("⏳ आपका खाता अभी एडमिन द्वारा स्वीकृत (Pending) होना बाकी है। कृपया प्रतीक्षा करें!");
+        Swal.fire({ icon: 'info', title: 'पेंडिंग अप्रूवल', text: 'आपका खाता अभी एडमिन द्वारा स्वीकृत (Pending) होना बाकी है। कृपया प्रतीक्षा करें!', confirmButtonColor: '#0757a3' });
         btn.disabled = false;
         btn.innerText = "🚀 सुरक्षित लॉगिन करें";
         return;
@@ -230,9 +189,7 @@ function goBackHome() {
         if (permission === 'granted') {
           fcmToken = await messaging.getToken();
         }
-      } catch (err) {
-        console.log("FCM Token अपडेट करने में त्रुटि (वैकल्पिक):", err);
-      }
+      } catch (err) {}
 
       await db.collection("users").doc(userDoc.id).update({
         fcmToken: fcmToken || userData.fcmToken || ""
@@ -244,10 +201,18 @@ function goBackHome() {
       btn.disabled = false;
       btn.innerText = "🚀 सुरक्षित लॉगिन करें";
 
-      showSuccessModal("✨ सफलतापूर्वक लॉगिन!", "स्वागत है " + (userData.FullName || "सदस्य") + "! आपका पोर्टल पर लॉगिन सफल रहा।", "login");
+      Swal.fire({
+        icon: 'success',
+        title: 'सफलतापूर्वक लॉगिन!',
+        text: 'स्वागत है ' + (userData.FullName || "सदस्य") + '! आपका पोर्टल पर लॉगिन सफल रहा।',
+        confirmButtonColor: '#16a34a',
+        confirmButtonText: 'आगे बढ़ें'
+      }).then((result) => {
+        if (result.isConfirmed) { window.location.href = "index.html"; }
+      });
 
     } catch (error) {
-      alert("❌ सर्वर त्रुटि: " + error.message);
+      Swal.fire({ icon: 'error', title: 'सर्वर त्रुटि', text: error.message, confirmButtonColor: '#d33' });
       btn.disabled = false;
       btn.innerText = "🚀 सुरक्षित लॉगिन करें";
     }
@@ -260,12 +225,12 @@ function goBackHome() {
     let btn = document.getElementById("resetBtn");
 
     if (!mobile || !dob) {
-      alert("⚠️ कृपया अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि (DOB) दोनों भरें!");
+      Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि (DOB) दोनों भरें!', confirmButtonColor: '#f4b63f' });
       return;
     }
 
     if (mobile.length !== 10) {
-      alert("⚠️ कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।");
+      Swal.fire({ icon: 'warning', title: 'गलत नंबर', text: 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।', confirmButtonColor: '#f4b63f' });
       return;
     }
 
@@ -276,7 +241,7 @@ function goBackHome() {
       let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
 
       if (querySnapshot.empty) {
-        alert("⚠️ यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।");
+        Swal.fire({ icon: 'error', title: 'अकाउंट नहीं मिला', text: 'यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।', confirmButtonColor: '#d33' });
         btn.disabled = false;
         btn.innerText = "✨ नया MPIN सेट करें";
         return;
@@ -286,14 +251,14 @@ function goBackHome() {
       let userData = userDoc.data();
 
       if (userData.dateOfBirth !== dob) {
-        alert("⚠️ दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!");
+        Swal.fire({ icon: 'error', title: 'डेटा मेल नहीं खाया', text: 'दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!', confirmButtonColor: '#d33' });
         btn.disabled = false;
         btn.innerText = "✨ नया MPIN सेट करें";
         return;
       }
 
       if (!newMpin || newMpin.length !== 6) {
-        alert("⚠️ कृपया नया 6 अंकों का गुप्त MPIN दर्ज करें।");
+        Swal.fire({ icon: 'warning', title: 'अमान्य MPIN', text: 'कृपया नया 6 अंकों का गुप्त MPIN दर्ज करें।', confirmButtonColor: '#f4b63f' });
         btn.disabled = false;
         btn.innerText = "✨ नया MPIN सेट करें";
         return;
@@ -306,10 +271,18 @@ function goBackHome() {
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
 
-      showSuccessModal("✨ MPIN सफलतापूर्वक रीसेट!", "आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।", "reset");
+      Swal.fire({
+        icon: 'success',
+        title: 'MPIN रीसेट सफल!',
+        text: 'आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।',
+        confirmButtonColor: '#16a34a',
+        confirmButtonText: 'लॉगिन करें'
+      }).then((result) => {
+        if (result.isConfirmed) { showLoginSection(); }
+      });
 
     } catch (error) {
-      alert("❌ त्रुटि: " + error.message);
+      Swal.fire({ icon: 'error', title: 'त्रुटि', text: error.message, confirmButtonColor: '#d33' });
       btn.disabled = false;
       btn.innerText = "✨ नया MPIN सेट करें";
     }

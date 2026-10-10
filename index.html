@@ -32,7 +32,6 @@ body{
   animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
 }
 
-/* ⭐ Page Premium Pop-up Animation ⭐ */
 @keyframes pagePop {
   0% { opacity: 0; transform: scale(0.92) translateY(20px); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -85,6 +84,51 @@ body{
 .donation-circle-badge { width: 90px; height: 90px; background: linear-gradient(135deg, #f59e0b, #d97706); border: 3.5px solid #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; box-shadow: 0 8px 22px rgba(217, 119, 6, 0.65), inset 0 2px 4px rgba(255,255,255,0.7); text-align: center; padding: 4px; flex-shrink: 0; animation: iconBounce 2s infinite ease-in-out; }
 .donation-circle-badge span.title { font-size: 10px; font-weight: 800; line-height: 1; opacity: 0.95; }
 .donation-circle-badge span.amount { font-size: 13px; font-weight: 900; line-height: 1.2; margin-top: 4px; white-space: nowrap; }
+
+/* 🌟 3D Flip Quick Donate Widget Styles */
+.quick-donate-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  margin: 14px 0;
+  cursor: pointer;
+}
+.quick-donate-card {
+  width: 100%;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(7,87,163,0.12);
+}
+.quick-donate-card.flipped {
+  transform: rotateY(180deg);
+}
+.donate-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border: 1.5px solid var(--line);
+}
+.donate-front {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(217,119,6,0.3);
+}
+.donate-back {
+  background: #ffffff;
+  color: var(--text);
+  transform: rotateY(180deg);
+  text-align: center;
+}
 
 .category-slider { display: flex; gap: 15px; overflow-x: auto; padding: 20px 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; perspective: 1200px; cursor: grab; }
 .category-slider::-webkit-scrollbar { display: none; } .category-slider:active { cursor: grabbing; }
@@ -360,6 +404,24 @@ body{
 
   <div class="container">
     
+    <!-- 🌟 नया 3D फ्लिप क्विक डोनेशन विजेट (यहाँ सुरक्षित फॉलबैक के साथ जोड़ा गया है) -->
+    <div class="quick-donate-wrapper" onclick="toggleDonateFlip(this)">
+      <div class="quick-donate-card" id="donateFlipCard">
+        <!-- सामने का हिस्सा -->
+        <div class="donate-face donate-front">
+          <div style="font-size: 30px; margin-bottom: 4px;">🤝</div>
+          <h3 style="margin: 0; font-size: 15px; font-weight: 900;">समाज सहयोग करें (त्वरित दान)</h3>
+          <p style="margin: 3px 0 0; font-size: 11px; opacity: 0.9;">क्लिक करके QR कोड देखें और तुरंत भुगतान करें</p>
+        </div>
+        <!-- पीछे का हिस्सा (QR कोड वाला) -->
+        <div class="donate-face donate-back">
+          <h4 style="margin: 0 0 2px; font-size: 12.5px; color: var(--navy);">📲 स्कैन करके सहयोग करें</h4>
+          <div id="quickQrDisplay" style="font-size: 11px; color: var(--muted);">QR लोड हो रहा है...</div>
+          <div id="quickUpiText" style="font-size: 10px; font-weight: bold; color: var(--p); margin-top: 2px;">UPI: लोड हो रहा है</div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-title" id="meetingSectionTitle" style="margin-top:6px; display:none;"><h2>समाज सूचना</h2></div>
     <div class="card" id="meetingCardBox" style="display:none;">
       <h3 id="homeMeetingTitle" style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
@@ -469,6 +531,7 @@ body{
     <a href="javascript:void(0);" id="sideProfileBtn" onclick="handleNavProfileClick(); toggleModernSidebar();" class="ms-link"><span class="ic">👤</span> <span>मेरी प्रोफाइल</span></a>
     
     <div class="ms-section-label" style="margin-top: 6px;">सेवाएँ व सुरक्षा</div>
+    <a href="javascript:void(0);" onclick="openAppPage('donation.html', 'srv-donation'); toggleModernSidebar();" class="ms-link"><span class="ic">🤝</span> <span>समाज सहयोग कोष</span></a>
     <a href="javascript:void(0);" onclick="openAppPage('vehicles.html', 'srv-vehicles'); toggleModernSidebar();" class="ms-link"><span class="ic">🚗</span> <span>वाहन / यात्रा</span></a>
     <a href="javascript:void(0);" onclick="openAppPage('schemes.html', 'srv-schemes'); toggleModernSidebar();" class="ms-link"><span class="ic">🏛️</span> <span>सरकारी योजना</span></a>
     <a href="javascript:void(0);" onclick="openAppPage('blood.html', 'srv-blood'); toggleModernSidebar();" class="ms-link"><span class="ic">🩸</span> <span>रक्तदान सेवा</span></a>
@@ -496,9 +559,40 @@ body{
     }
   }
 
+  // 3D Flip Quick Donate Toggle
+  function toggleDonateFlip(element) {
+    let card = element.querySelector(".quick-donate-card");
+    card.classList.toggle("flipped");
+  }
+
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
+
+  // सुरक्षित लोडर: यदि यूपीआई सेट न हो तो भी एरर नहीं, सुंदर मैसेज दिखेगा
+  async function loadQuickDonateWidget() {
+    try {
+      let doc = await db.collection("settings").doc("donationConfig").get();
+      if(doc.exists && doc.data().upiId) {
+        let data = doc.data();
+        let upiId = data.upiId;
+        document.getElementById("quickUpiText").innerText = "UPI ID: " + upiId;
+        
+        if(data.qrImageUrl) {
+          document.getElementById("quickQrDisplay").innerHTML = `<img src="${data.qrImageUrl}" alt="QR" style="width:70px;height:70px;border-radius:6px;object-fit:cover;">`;
+        } else {
+          document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:10.5px; color:var(--navy); font-weight:bold;">📷 QR जल्द आएगा</span>`;
+        }
+      } else {
+        document.getElementById("quickUpiText").innerText = "🙏 सहयोग के लिए धन्यवाद";
+        document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:11px; color:#d97706; font-weight:bold;">समाज सहयोग QR<br>जल्द अपडेट होगा</span>`;
+      }
+    } catch(e) {
+      document.getElementById("quickUpiText").innerText = "🤝 समाज विकास सहयोग";
+      document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:11px; color:var(--muted);">शीघ्र उपलब्ध होगा</span>`;
+    }
+  }
+  loadQuickDonateWidget();
 
   const softPalettes = [
     { bg: "#f4f7fb" },
@@ -730,86 +824,6 @@ body{
   }
   loadOfficialsToSlider();
 
-  async function loadHomeBusinesses() {
-    let slider = document.getElementById("homeBusinessSlider");
-    try {
-      let snap = await db.collection("businesses").where("status", "==", "approved").limit(10).get();
-      if(snap.empty) {
-        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई व्यवसाय दर्ज नहीं है।</div>`;
-        return;
-      }
-      let html = "";
-      snap.forEach(doc => {
-        let b = doc.data();
-        let name = b.bizName || b.title || b.name || 'व्यवसाय नाम';
-        let owner = b.owner || 'संचालक';
-        let mobile = b.mobile || '9876543210';
-        let address = b.address || 'महाराजगंज, छत्तीसगढ़';
-
-        html += `
-          <div class="banner-3d-card">
-            <h3 style="font-size:15px; margin:0 0 6px; color:var(--navy); font-weight:900;">🏪 ${name}</h3>
-            <p style="font-size:11.5px; color:var(--muted); margin:0 0 3px;"><b>संचालक:</b> ${owner}</p>
-            <p style="font-size:11.5px; color:var(--text); margin:0 0 10px;">📍 <b>पता:</b> ${address}</p>
-            <div class="banner-actions">
-              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
-              <a href="https://wa.me/91${mobile}?text=Namaste,%20mujhe%20aapki%20business%20service%20chahiye." target="_blank" class="banner-btn-whatsapp">💬 व्हाट्सएप</a>
-            </div>
-          </div>
-        `;
-      });
-      slider.innerHTML = html;
-    } catch(e) {
-      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">व्यवसाय लोड करने में त्रुटि हुई।</div>`;
-    }
-  }
-  loadHomeBusinesses();
-
-  async function loadHomeVehicles() {
-    let slider = document.getElementById("homeVehicleSlider");
-    try {
-      let [vehSnap, travSnap] = await Promise.all([
-        db.collection("vehicles").where("status", "==", "approved").limit(5).get(),
-        db.collection("travel").where("status", "==", "approved").limit(5).get()
-      ]);
-
-      let allVehiclesList = [];
-      vehSnap.forEach(doc => { allVehiclesList.push(doc.data()); });
-      travSnap.forEach(doc => { allVehiclesList.push(doc.data()); });
-
-      if(allVehiclesList.length === 0) {
-        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई वाहन या यात्रा सेवा दर्ज नहीं है।</div>`;
-        return;
-      }
-
-      let html = "";
-      allVehiclesList.forEach(v => {
-        let vName = v.vehicleName || v.title || 'कार / वाहन सेवा';
-        let driver = v.driverName || v.driver || v.owner || 'चालक';
-        let mobile = v.mobile || '9876543210';
-        let address = v.address || v.details || 'महाराजगंज';
-        let catBadge = v.category === 'car' ? '🚗 ट्रैवल कार' : v.category === 'commercial' ? '🚚 मालवाहक' : '🚜 वाहन सेवा';
-
-        html += `
-          <div class="banner-3d-card" style="border-left-color: #f59e0b; position:relative;">
-            <div style="position:absolute; top:14px; right:14px; background:#eff6ff; color:var(--p); font-size:10px; font-weight:900; padding:3px 8px; border-radius:8px; border:1px solid #bfdbfe;">${catBadge}</div>
-            <h3 style="font-size:16px; margin:0 0 6px; color:var(--navy); font-weight:900;">🚘 ${vName}</h3>
-            <p style="font-size:12px; color:var(--muted); margin:0 0 4px;">👤 <b>चालक/मालिक:</b> ${driver}</p>
-            <p style="font-size:12px; color:var(--text); margin:0 0 14px;">📍 <b>रूट/पता:</b> ${address}</p>
-            <div class="banner-actions">
-              <a href="tel:${mobile}" class="banner-btn-call">📞 कॉल करें</a>
-              <a href="https://wa.me/91${mobile}?text=Namaste,%20mujhe%20aapki%20vehicle%20service%20chahiye." target="_blank" class="banner-btn-whatsapp">💬 व्हाट्सएप</a>
-            </div>
-          </div>
-        `;
-      });
-      slider.innerHTML = html;
-    } catch(e) {
-      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">वाहन सेवा लोड करने में त्रुटि हुई।</div>`;
-    }
-  }
-  loadHomeVehicles();
-
   async function checkUnreadNotifications() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if (!loggedMobile) return;
@@ -994,91 +1008,7 @@ body{
     }catch(e){}
   }
   loadHomeStats();
-</script>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const sliders = document.querySelectorAll(".category-slider");
-  
-  sliders.forEach(slider => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    slider.addEventListener("mousedown", (e) => {
-      isDown = true;
-      slider.classList.add("active");
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
-    
-    slider.addEventListener("mouseleave", () => {
-      isDown = false;
-      slider.classList.remove("active");
-    });
-    
-    slider.addEventListener("mouseup", () => {
-      isDown = false;
-      slider.classList.remove("active");
-    });
-    
-    slider.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 2.0;
-      slider.scrollLeft = scrollLeft - walk;
-      updateCenterCard(slider);
-    });
-
-    slider.addEventListener("scroll", () => {
-      updateCenterCard(slider);
-    });
-
-    updateCenterCard(slider);
-  });
-
-  function updateCenterCard(slider) {
-    const cards = slider.querySelectorAll(".banner-3d-card, .achiever-card, .official-card, .cat-card");
-    if(cards.length === 0) return;
-    const sliderRect = slider.getBoundingClientRect();
-    const sliderCenter = sliderRect.left + sliderRect.width / 2;
-
-    cards.forEach(card => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      
-      if (Math.abs(sliderCenter - cardCenter) < cardRect.width / 1.5) {
-        card.classList.add("active-center");
-      } else {
-        card.classList.remove("active-center");
-      }
-    });
-  }
-
-  setInterval(() => {
-    const bizSlider = document.getElementById("homeBusinessSlider");
-    if(bizSlider && bizSlider.children.length > 1 && !bizSlider.matches(':hover') && !bizSlider.matches(':active')) {
-      if(bizSlider.scrollLeft + bizSlider.clientWidth >= bizSlider.scrollWidth - 10) {
-        bizSlider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        bizSlider.scrollBy({ left: 220, behavior: 'smooth' });
-      }
-    }
-
-    const vehSlider = document.getElementById("homeVehicleSlider");
-    if(vehSlider && vehSlider.children.length > 1 && !vehSlider.matches(':hover') && !vehSlider.matches(':active')) {
-      if(vehSlider.scrollLeft + vehSlider.clientWidth >= vehSlider.scrollWidth - 10) {
-        vehSlider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        vehSlider.scrollBy({ left: 220, behavior: 'smooth' });
-      }
-    }
-  }, 4500);
-});
-</script>
-
-<script>
   function handleNavProfileClick() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if (loggedMobile) {
@@ -1087,47 +1017,6 @@ document.addEventListener("DOMContentLoaded", () => {
       openAppPage("login.html");
     }
   }
-</script>
-
-<script>
-  function updateAchiever3D() {
-    const slider = document.getElementById("achieversSlider");
-    if(!slider) return;
-    const cards = slider.querySelectorAll(".achiever-card");
-    const sliderRect = slider.getBoundingClientRect();
-    const sliderCenter = sliderRect.left + sliderRect.width / 2;
-
-    cards.forEach(card => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      const offset = cardCenter - sliderCenter;
-      
-      let rotAngle = - (offset / 130) * 18;
-      if (rotAngle > 18) rotAngle = 18;
-      if (rotAngle < -18) rotAngle = -18;
-
-      const isCenter = Math.abs(offset) < cardRect.width / 1.6;
-      
-      if (isCenter) {
-        card.classList.add("active-center");
-        card.style.transform = "perspective(800px) rotateY(0deg) scale(1.1) translateY(-6px)";
-        card.style.opacity = "1";
-      } else {
-        card.classList.remove("active-center");
-        card.style.transform = `perspective(800px) rotateY(${rotAngle}deg) scale(0.9)`;
-        card.style.opacity = "0.8";
-      }
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const achSlider = document.getElementById("achieversSlider");
-    if(achSlider) {
-      achSlider.addEventListener("scroll", updateAchiever3D);
-      window.addEventListener("resize", updateAchiever3D);
-      setTimeout(updateAchiever3D, 300);
-    }
-  });
 </script>
 </body>
 </html>

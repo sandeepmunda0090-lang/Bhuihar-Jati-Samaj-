@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>वाहन एवं ढुलाई सेवाएं | भुईहर समाज पोर्टल</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -20,7 +22,27 @@ body{
   min-height: 100vh;
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:rgba(244, 247, 251, 0.95);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.25);padding-bottom:25px;backdrop-filter: blur(10px);}
+/* ⭐ Page Premium Pop-up Animation ⭐ */
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:rgba(244, 247, 251, 0.95);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,0.25);
+  padding-bottom:25px;
+  backdrop-filter: blur(10px);
+  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+/* SweetAlert2 को सबसे ऊपर रखने के लिए */
+.swal2-container { z-index: 100000 !important; }
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 
@@ -64,10 +86,6 @@ body{
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
 .btn:active{transform:scale(0.98)}
 
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
-.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
-.nav b{display:block;font-size:16px}
-.nav a.active{color:var(--p);font-weight:800}
 </style>
 </head>
 <body>
@@ -100,7 +118,7 @@ body{
       <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद यह सेवा पोर्टल पर लाइव होगी।</p>
       
       <div class="form-group">
-        <label>वाहन का नाम / प्रकार</label>
+        <label>वाहन का नाम / प्रकार *</label>
         <input type="text" id="vehicleNameInput" class="form-control" placeholder="जैसे: स्वराज ट्रैक्टर / पिकअप वाहन">
       </div>
       <div class="form-group">
@@ -108,11 +126,11 @@ body{
         <input type="text" id="driverNameInput" class="form-control" placeholder="श्री रामलाल">
       </div>
       <div class="form-group">
-        <label>मोबाइल नंबर (कॉल व WhatsApp हेतु)</label>
+        <label>मोबाइल नंबर (कॉल व WhatsApp हेतु) *</label>
         <input type="tel" id="mobileInput" class="form-control" placeholder="9876543210" maxlength="10">
       </div>
       <div class="form-group">
-        <label>पूरा पता / क्षेत्र</label>
+        <label>पूरा पता / क्षेत्र *</label>
         <input type="text" id="addressInput" class="form-control" placeholder="मुख्य मार्ग, महाराजगंज">
       </div>
       <div class="form-group">
@@ -128,7 +146,6 @@ body{
 
   </div>
 
-  
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -145,7 +162,6 @@ function goBackHome() {
     window.location.href = 'index.html';
   }
 }
-
 
 let currentVehicleCat = 'agri';
 let allVehicles = [];
@@ -226,10 +242,22 @@ function renderVehicles() {
 async function submitVehicleRequest() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    alert("⚠️ वाहन जोड़ने के लिए कृपया पहले लॉगिन करें!");
-    window.location.href = "login.html";
+    Swal.fire({
+      icon: 'warning',
+      title: 'लॉगिन आवश्यक है',
+      text: 'वाहन जोड़ने के लिए कृपया पहले लॉगिन करें!',
+      showCancelButton: true,
+      confirmButtonText: 'लॉगिन करें',
+      cancelButtonText: 'रद्द करें',
+      confirmButtonColor: '#f4b63f'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "login.html";
+      }
+    });
     return;
   }
+
   let vehicleName = document.getElementById("vehicleNameInput").value.trim();
   let driverName = document.getElementById("driverNameInput").value.trim();
   let mobile = document.getElementById("mobileInput").value.trim();
@@ -237,13 +265,15 @@ async function submitVehicleRequest() {
   let category = document.getElementById("vehicleCategory").value;
 
   if(!vehicleName || !mobile || !address) {
-    alert("कृपया वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!");
+    Swal.fire({ icon: 'warning', title: 'जानकारी अधूरी है', text: 'कृपया वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!', confirmButtonColor: '#1e3a8a' });
     return;
   }
   if(mobile.length !== 10) {
-    alert("कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!");
+    Swal.fire({ icon: 'error', title: 'अमान्य मोबाइल नंबर', text: 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें!', confirmButtonColor: '#dc2626' });
     return;
   }
+
+  Swal.fire({ title: 'अनुरोध भेजा जा रहा है...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
   try {
     await db.collection("vehicles").add({
@@ -255,13 +285,21 @@ async function submitVehicleRequest() {
       status: "pending",
       timestamp: Date.now()
     });
-    alert("आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है! सत्यापन के बाद यह लाइव हो जाएगा।");
-    document.getElementById("vehicleNameInput").value = "";
-    document.getElementById("driverNameInput").value = "";
-    document.getElementById("mobileInput").value = "";
-    document.getElementById("addressInput").value = "";
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'अनुरोध भेजा गया!',
+      text: 'आपका वाहन पंजीयन अनुरोध एडमिन के पास भेज दिया गया है! सत्यापन के बाद यह लाइव हो जाएगा।',
+      confirmButtonColor: '#16a34a'
+    }).then(() => {
+      document.getElementById("vehicleNameInput").value = "";
+      document.getElementById("driverNameInput").value = "";
+      document.getElementById("mobileInput").value = "";
+      document.getElementById("addressInput").value = "";
+    });
+
   } catch(e) {
-    alert("अनुरोध भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'अनुरोध भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।', confirmButtonColor: '#dc2626' });
   }
 }
 

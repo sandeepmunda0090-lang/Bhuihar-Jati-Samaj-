@@ -104,15 +104,16 @@ body{
         </div>
       </div>
 
-      <button class="btn" style="background:#16a34a; font-size:13px; padding:11px; margin-top:10px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
-      <button class="btn" style="background:#0284c7; font-size:13px; padding:11px; margin-top:6px;" onclick="downloadDigitalCardPDF()">📥 डिजिटल परिवार कार्ड (HD Table Photo) प्राप्त करें</button>
+      <button class="btn" style="background:#16a34a; font-size:13px; padding:11px; margin-top:12px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
+      
+      <!-- नया पर्सनल ID और फैमिली कार्ड डाउनलोड बटन -->
+      <div style="display:flex; gap:8px; margin-top:6px;">
+        <button class="btn" style="background:#f59e0b; font-size:12px; padding:10px; flex:1;" onclick="downloadPersonalIDCard()">💳 मेरा पर्सनल ID</button>
+        <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; flex:1;" onclick="downloadDigitalCardPDF()">👨‍👩‍👧‍👦 परिवार कार्ड</button>
+      </div>
     </div>
 
-    <div class="card" style="background:#eff6ff; border-color:#bfdbfe; text-align:center;">
-      <h4 style="margin:0 0 6px; color:#1e40af; font-size:14px;">📊 All-Family Master Directory Report</h4>
-      <p style="font-size:11.5px; color:#1e3a8a; margin:0 0 12px; line-height:1.4;">समाज के सभी पंजीकृत परिवारों की संपूर्ण सूची टेबल फॉर्मेट में देखें।</p>
-      <button class="btn" style="background:#2563eb; font-size:13px; padding:10px;" onclick="downloadMasterDirectoryPDF()">📥 मास्टर डायरेक्टरी (HD Table Photo) प्राप्त करें</button>
-    </div>
+    <!-- मास्टर डायरेक्टरी सेक्शन हटा दिया गया है -->
 
     <h4 style="margin:16px 2px 10px; font-size:14px; color:var(--navy);">पंजीकृत परिवार सूची:</h4>
     <div id="familyListContainer">
@@ -258,7 +259,6 @@ function renderFamilies(list) {
   container.innerHTML = html;
 }
 
-// नया टेबल फॉर्मेट: सदस्यों की सूची
 async function loadMyFamilyMembers() {
   let tableContainer = document.getElementById("myFamilyTableContainer");
   try {
@@ -325,7 +325,7 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// डाउनलोड डिजिटल कार्ड (HD Table Photo on Screen)
+// नया: डायरेक्ट WhatsApp शेयर बटन वाला डिजिटल परिवार कार्ड
 function downloadDigitalCardPDF() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 
@@ -342,74 +342,98 @@ function downloadDigitalCardPDF() {
     let imgData = canvas.toDataURL('image/jpeg', 0.98);
     Swal.fire({
       title: '✨ आपका कार्ड तैयार है!',
-      text: 'कार्ड को भेजने के लिए नीचे दी गई फोटो पर थोड़ी देर उंगली दबा कर रखें (Long Press) और "Share Image" चुनें।',
       imageUrl: imgData,
       imageWidth: '100%',
       imageAlt: 'Digital Family Card Table',
-      confirmButtonText: 'ठीक है (बंद करें)',
-      confirmButtonColor: '#16a34a'
+      showCancelButton: true,
+      confirmButtonText: 'बंद करें',
+      confirmButtonColor: '#64748b',
+      cancelButtonText: '📲 शेयर करें',
+      cancelButtonColor: '#25D366', 
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        try {
+          let blob = await (await fetch(imgData)).blob();
+          let file = new File([blob], 'Digital_Family_Card.jpg', { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: 'डिजिटल परिवार कार्ड',
+              text: 'यह रहा मेरा भुईहर समाज डिजिटल परिवार कार्ड।',
+              files: [file]
+            });
+          } else {
+            let link = document.createElement('a');
+            link.href = imgData; link.download = 'Digital_Family_Card.jpg'; link.click();
+          }
+        } catch(e) { console.log(e); }
+      }
     });
   }).catch(err => {
     Swal.fire({icon: 'error', title: 'त्रुटि', text: 'कार्ड बनाने में समस्या आई।'});
   });
 }
 
-// नया टेबल फॉर्मेट: मास्टर डायरेक्टरी रिपोर्ट डाउनलोड (HD Photo on Screen)
-function downloadMasterDirectoryPDF() {
+// नया: पर्सनल ID कार्ड जनरेट और शेयर करने वाला फंक्शन
+function downloadPersonalIDCard() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 
-  Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+  Swal.fire({ title: 'ID कार्ड बन रहा है...', html: 'कृपया प्रतीक्षा करें।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
-  let masterHtml = `<div id="tempMaster" style="padding:20px; font-family:sans-serif; background:#fff; width:900px; border: 3px solid #0757a3;">
-    <h2 style="color:#0757a3; text-align:center; margin-bottom:5px; text-transform:uppercase; font-size:24px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी</h2>
-    <p style="text-align:center; font-size:16px; color:#1e293b; margin-top:0; font-weight:bold;">महाराजगंज एवं बलरामपुर क्षेत्र</p>
-    <hr style="border:1px solid #0757a3; margin:15px 0;">
-    <table style="width:100%; border-collapse:collapse; font-size:14px; text-align:left; border: 1px solid #000;" border="1">
-      <thead>
-        <tr style="background:#0757a3; color:#fff;">
-          <th style="padding:10px; border:1px solid #000; text-align:center;">क्रम</th>
-          <th style="padding:10px; border:1px solid #000;">परिवार मुखिया</th>
-          <th style="padding:10px; border:1px solid #000; text-align:center;">कुल सदस्य</th>
-          <th style="padding:10px; border:1px solid #000;">गोत्र</th>
-          <th style="padding:10px; border:1px solid #000;">निवास / पता</th>
-          <th style="padding:10px; border:1px solid #000; text-align:center;">मोबाइल नंबर</th>
-        </tr>
-      </thead>
-      <tbody>`;
-  
-  allFamilies.forEach((f, idx) => {
-    masterHtml += `<tr>
-      <td style="padding:8px; border:1px solid #000; text-align:center; font-weight:bold;">${idx+1}</td>
-      <td style="padding:8px; border:1px solid #000; font-weight:bold;">${f.headName}</td>
-      <td style="padding:8px; border:1px solid #000; text-align:center;">${f.membersCount || 1}</td>
-      <td style="padding:8px; border:1px solid #000;">${f.gotra || 'सामान्य'}</td>
-      <td style="padding:8px; border:1px solid #000;">${f.address || 'महाराजगंज'}</td>
-      <td style="padding:8px; border:1px solid #000; text-align:center; font-weight:bold;">${f.mobile || '9876543210'}</td>
-    </tr>`;
-  });
-  masterHtml += `</tbody></table></div>`;
+  // ID कार्ड का HTML डिज़ाइन
+  let idHtml = `
+  <div id="tempPersonalID" style="width: 320px; padding: 15px; background: linear-gradient(135deg, #ffffff, #f0fdf4); border: 2px solid #166534; border-radius: 12px; font-family: sans-serif; color: #1e293b;">
+    <div style="text-align: center; border-bottom: 2px dashed #166534; padding-bottom: 10px; margin-bottom: 10px;">
+      <h3 style="margin: 0; color: #166534; font-size: 18px; font-weight: bold;">🌾 भुईहर जाति समाज</h3>
+      <p style="margin: 2px 0 0; font-size: 12px;">डिजिटल पहचान पत्र (ID Card)</p>
+    </div>
+    <div style="font-size: 14px; line-height: 1.8;">
+      <p style="margin: 4px 0;"><b>नाम:</b> ${loggedName}</p>
+      <p style="margin: 4px 0;"><b>मोबाइल नंबर:</b> ${loggedMobile}</p>
+      <p style="margin: 4px 0;"><b>पद / रोल:</b> पंजीकृत सदस्य</p>
+    </div>
+    <div style="text-align: center; margin-top: 12px; background: #16a34a; color: #fff; padding: 6px; border-radius: 6px; font-size: 12px; font-weight: bold;">
+      ✔ Verified Samaj Member
+    </div>
+  </div>`;
 
   let tempDiv = document.createElement('div');
-  tempDiv.innerHTML = masterHtml;
+  tempDiv.innerHTML = idHtml;
   tempDiv.style.position = 'absolute';
   tempDiv.style.left = '-9999px';
   document.body.appendChild(tempDiv);
 
-  html2canvas(document.getElementById('tempMaster'), { scale: 2, useCORS: true }).then(canvas => {
+  html2canvas(document.getElementById('tempPersonalID'), { scale: 3, useCORS: true }).then(canvas => {
     let imgData = canvas.toDataURL('image/jpeg', 0.98);
     document.body.removeChild(tempDiv);
+    
     Swal.fire({
-      title: '✨ टेबल रिपोर्ट तैयार है!',
-      text: 'रिपोर्ट भेजने के लिए फोटो पर थोड़ी देर उंगली दबा कर रखें (Long Press) और "Share Image" चुनें।',
+      title: '✨ आपका ID कार्ड तैयार है!',
       imageUrl: imgData,
       imageWidth: '100%',
-      imageAlt: 'Master Directory Table Report',
-      confirmButtonText: 'ठीक है (बंद करें)',
-      confirmButtonColor: '#16a34a'
+      imageAlt: 'Personal ID Card',
+      showCancelButton: true,
+      confirmButtonText: 'बंद करें',
+      confirmButtonColor: '#64748b',
+      cancelButtonText: '📲 शेयर करें',
+      cancelButtonColor: '#25D366',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        try {
+          let blob = await (await fetch(imgData)).blob();
+          let file = new File([blob], 'Personal_ID_Card.jpg', { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: 'पर्सनल ID कार्ड', text: 'यह रहा मेरा भुईहर समाज पर्सनल ID कार्ड।', files: [file] });
+          } else {
+            let link = document.createElement('a'); link.href = imgData; link.download = 'Personal_ID_Card.jpg'; link.click();
+          }
+        } catch(e) { console.log(e); }
+      }
     });
   }).catch(err => {
     if(document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
-    Swal.fire({icon: 'error', title: 'त्रुटि', text: 'रिपोर्ट बनाने में समस्या आई।'});
+    Swal.fire({icon: 'error', title: 'त्रुटि', text: 'कार्ड बनाने में समस्या आई।'});
   });
 }
 

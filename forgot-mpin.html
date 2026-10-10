@@ -23,7 +23,28 @@
       -moz-osx-font-smoothing:grayscale;
       text-rendering:optimizeLegibility;
     }
-    .box { background: var(--card); padding: 24px 20px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: var(--shadow); border: 1px solid var(--line); text-align: center; }
+
+    /* ⭐ Page Premium Pop-up Animation ⭐ */
+    @keyframes pagePop {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .box { 
+      background: var(--card); 
+      padding: 24px 20px; 
+      border-radius: 20px; 
+      width: 100%; 
+      max-width: 400px; 
+      box-shadow: var(--shadow); 
+      border: 1px solid var(--line); 
+      text-align: center; 
+      animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+    }
+
+    /* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
+    .swal2-container { z-index: 100000 !important; }
+
     h2 { color: var(--navy); font-size: 20px; margin-top: 0; margin-bottom: 6px; }
     p.sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
     .form-group { text-align: left; margin-bottom: 12px; }
@@ -34,12 +55,14 @@
     button:active { transform: scale(0.98); }
     .back-link { display: inline-block; margin-top: 16px; font-size: 12.5px; color: var(--p); text-decoration: none; font-weight: 700; }
   </style>
+  <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
   <div class="box">
     <h2>🔑 MPIN रीसेट करें</h2>
-    <p class="sub">पंजीकृत मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN बनाएं</p>
+    <p class="sub">पंजीकृत मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN बनाएं[span_1](start_span)[span_1](end_span)</p>
     
     <div class="form-group">
       <label>पंजीकृत मोबाइल नंबर</label>
@@ -62,22 +85,6 @@
     </div>
   </div>
 
-  <!-- प्रीमियम पॉप-अप मॉडल -->
-  <div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
-      <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
-          <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
-          <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
-              <span style="font-size:28px;">🔐</span>
-          </div>
-          <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सूचना</h3>
-          <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ें।</p>
-          <div style="display:flex; gap:10px;">
-              <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">ठीक है</button>
-              <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">आगे बढ़ें</button>
-          </div>
-      </div>
-  </div>
-
   <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -86,59 +93,18 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    let modalCallback = null;
-
-    function showCustomAlert(title, message, callback, showAction = false) {
-        document.getElementById('customModalTitle').innerText = title;
-        document.getElementById('customModalMessage').innerText = message;
-        modalCallback = callback;
-
-        let actionBtn = document.getElementById('customModalActionBtn');
-        if(showAction) {
-            actionBtn.style.display = 'block';
-        } else {
-            actionBtn.style.display = 'none';
-        }
-
-        let overlay = document.getElementById('customModalOverlay');
-        let box = document.getElementById('customModalBox');
-        overlay.style.display = 'flex';
-        setTimeout(() => {
-            overlay.style.opacity = '1';
-            box.style.transform = 'scale(1)';
-        }, 10);
-    }
-
-    function closeCustomModal(isYes) {
-        let overlay = document.getElementById('customModalOverlay');
-        let box = document.getElementById('customModalBox');
-        overlay.style.opacity = '0';
-        box.style.transform = 'scale(0.8)';
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            if (modalCallback) {
-                modalCallback(isYes);
-                modalCallback = null;
-            }
-        }, 300);
-    }
-
-    window.alert = function(message) {
-        showCustomAlert("सूचना", message, function(yes) {});
-    };
-
     async function resetMpinAction() {
       let mob = document.getElementById("resetMob").value.trim();
       let dob = document.getElementById("resetDob").value;
       let newMpin = document.getElementById("newMpin").value.trim();
 
       if(!mob || !dob || !newMpin) {
-        alert("कृपया सभी जानकारी (मोबाइल, जन्मतिथि और नया MPIN) भरें!");
+        Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी जानकारी (मोबाइल, जन्मतिथि और नया MPIN) भरें!', confirmButtonColor: '#0757a3' });
         return;
       }
 
       if(newMpin.length < 4) {
-        alert("नया MPIN कम से कम 4 से 6 अंकों का होना चाहिए!");
+        Swal.fire({ icon: 'warning', title: 'अमान्य MPIN', text: 'नया MPIN कम से कम 4 से 6 अंकों का होना चाहिए!', confirmButtonColor: '#0757a3' });
         return;
       }
 
@@ -146,7 +112,7 @@
         let snapshot = await db.collection("users").where("mobile", "==", mob).where("dob", "==", dob).get();
         
         if(snapshot.empty) {
-          alert("दर्ज किया गया मोबाइल नंबर या जन्मतिथि रिकॉर्ड से मैच नहीं हो रहा है!");
+          Swal.fire({ icon: 'error', title: 'रिकॉर्ड नहीं मिला', text: 'दर्ज किया गया मोबाइल नंबर या जन्मतिथि रिकॉर्ड से मैच नहीं हो रहा है!', confirmButtonColor: '#dc2626' });
           return;
         }
 
@@ -156,12 +122,20 @@
           });
         });
 
-        showCustomAlert("✨ सफलता", "आपका MPIN सफलतापूर्वक बदल दिया गया है! अब आप नए MPIN से लॉगिन कर सकते हैं।", function(yes) {
-          window.location.href = "login.html";
-        }, false);
+        Swal.fire({
+          icon: 'success',
+          title: '✨ सफलता',
+          text: 'आपका MPIN सफलतापूर्वक बदल दिया गया है! अब आप नए MPIN से लॉगिन कर सकते हैं।',
+          confirmButtonColor: '#16a34a',
+          confirmButtonText: 'लॉगिन करें'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "login.html";
+          }
+        });
 
       } catch(err) {
-        alert("त्रुटि: " + err.message);
+        Swal.fire({ icon: 'error', title: 'त्रुटि', text: err.message, confirmButtonColor: '#dc2626' });
       }
     }
   </script>

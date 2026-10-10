@@ -179,8 +179,9 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
+// ⭐ फिक्स: मुख्य पृष्ठ बटन अब 100% index.html पर ही जाएगा
 function goBackHome() {
-  if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
+  window.location.href = 'index.html'; 
 }
 
 let allFamilies = [];
@@ -323,7 +324,7 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// ⭐ अपडेटेड: डायरेक्ट WhatsApp शेयर बटन वाला डिजिटल परिवार कार्ड (A4 साइज़ के लिए परफेक्ट)
+// डायरेक्ट WhatsApp शेयर बटन वाला डिजिटल परिवार कार्ड (A4 साइज़ के लिए परफेक्ट)
 function downloadDigitalCardPDF() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 
@@ -334,9 +335,8 @@ function downloadDigitalCardPDF() {
     didOpen: () => { Swal.showLoading(); }
   });
 
-  // कार्ड का साइज़ बड़ा करने के लिए एक टेम्परेरी बॉक्स बनाते हैं
   let printElement = document.getElementById('printableArea').cloneNode(true);
-  printElement.style.width = "800px"; // A4 के लिए परफेक्ट चौड़ाई
+  printElement.style.width = "800px"; 
   printElement.style.position = "absolute";
   printElement.style.left = "-9999px";
   document.body.appendChild(printElement);
@@ -378,7 +378,7 @@ function downloadDigitalCardPDF() {
   });
 }
 
-// नया: पर्सनल ID कार्ड जनरेट और शेयर करने वाला फंक्शन
+// पर्सनल ID कार्ड जनरेट और शेयर करने वाला फंक्शन
 function downloadPersonalIDCard() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 

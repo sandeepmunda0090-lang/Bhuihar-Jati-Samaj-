@@ -21,38 +21,27 @@ body{
   -moz-osx-font-smoothing:grayscale;
   text-rendering:optimizeLegibility;
 }
-
 #app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;}
-
 .hero{background:linear-gradient(135deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 18px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 20px rgba(7,87,163,0.15);}
-
 .back-btn-wrap{padding:4px 0 12px 0;}
 .custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px)}
-
 .brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .brand h1{margin:0;font-size:17.5px;font-weight:800}.brand p{margin:2px 0 0;font-size:11.5px;opacity:.9}
-
 .container{padding:16px 14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-
 .search-box{display:flex;gap:8px;margin-bottom:14px}
 .search-input{flex:1;padding:12px 16px;border:1px solid var(--line);border-radius:14px;font:13.5px inherit;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.02);outline:none}
 .search-input:focus{border-color:var(--p)}
-
 .family-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);position:relative}
 .family-card b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:3px}
 .family-card span{display:block;font-size:12px;color:var(--muted);line-height:1.5}
 .family-badge{position:absolute;top:14px;right:16px;background:#eff6ff;color:var(--p);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:10px}
-
 .btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
 .btn:active{transform:scale(0.98)}
-
 .form-group { margin-bottom: 12px; text-align: left; }
 .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
 .form-control { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; font: 13.5px inherit; background: #fafbfc; box-sizing: border-box; outline: none; }
 .form-control:focus { border-color: var(--p); background: #fff; }
-
-/* नया टेबल फॉर्मेट स्टाइलिंग */
 .formal-table { width: 100%; border-collapse: collapse; font-size: 13px; color: #1e293b; text-align: left; }
 .formal-table th, .formal-table td { border: 1px solid #166534; padding: 8px 10px; }
 .formal-table th { background: #dcfce7; color: #166534; font-weight: bold; }
@@ -86,7 +75,6 @@ body{
 
     <div id="userFamilySection" class="card" style="display:none; background:#f0fdf4; border-color:#bbf7d0;">
       
-      <!-- नया टेबल फॉर्मेट: डिजिटल परिवार कार्ड -->
       <div id="printableArea" style="background:#fff; padding:15px; border:2px solid #166534; border-radius:0;">
         <h2 style="text-align:center; color:#166534; margin:0 0 10px 0; font-size:18px; border-bottom:2px solid #166534; padding-bottom:10px;">
           🌾 भुईहर जाति समाज - डिजिटल परिवार कार्ड
@@ -106,14 +94,12 @@ body{
 
       <button class="btn" style="background:#16a34a; font-size:13px; padding:11px; margin-top:12px;" onclick="openAddMemberModal()">➕ परिवार का नया सदस्य जोड़ें</button>
       
-      <!-- नया पर्सनल ID और फैमिली कार्ड डाउनलोड बटन -->
+      <!-- प्रीमियम पर्सनल ID और फैमिली कार्ड डाउनलोड बटन -->
       <div style="display:flex; gap:8px; margin-top:6px;">
         <button class="btn" style="background:#f59e0b; font-size:12px; padding:10px; flex:1;" onclick="downloadPersonalIDCard()">💳 मेरा पर्सनल ID</button>
         <button class="btn" style="background:#0284c7; font-size:12px; padding:10px; flex:1;" onclick="downloadDigitalCardPDF()">👨‍👩‍👧‍👦 परिवार कार्ड</button>
       </div>
     </div>
-
-    <!-- मास्टर डायरेक्टरी सेक्शन हटा दिया गया है -->
 
     <h4 style="margin:16px 2px 10px; font-size:14px; color:var(--navy);">पंजीकृत परिवार सूची:</h4>
     <div id="familyListContainer">
@@ -181,9 +167,7 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
-function goBackHome() {
-  if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
-}
+function goBackHome() { window.location.href = 'index.html'; }
 
 let allFamilies = [];
 let loggedMobile = localStorage.getItem("userLoggedInMobile");
@@ -325,115 +309,173 @@ function filterFamilies() {
   renderFamilies(filtered);
 }
 
-// नया: डायरेक्ट WhatsApp शेयर बटन वाला डिजिटल परिवार कार्ड
-function downloadDigitalCardPDF() {
+// ⭐ नया प्रीमियम फैमिली कार्ड (A4 Landscape)
+async function downloadDigitalCardPDF() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
 
-  let element = document.getElementById('printableArea');
-  
-  Swal.fire({
-    title: 'टेबल कार्ड बन रहा है...',
-    html: 'कृपया थोड़ी देर प्रतीक्षा करें।',
-    allowOutsideClick: false,
-    didOpen: () => { Swal.showLoading(); }
-  });
+  Swal.fire({ title: 'HD कार्ड बन रहा है...', html: 'कृपया प्रतीक्षा करें।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
-  html2canvas(element, { scale: 3, useCORS: true }).then(canvas => {
-    let imgData = canvas.toDataURL('image/jpeg', 0.98);
-    Swal.fire({
-      title: '✨ आपका कार्ड तैयार है!',
-      imageUrl: imgData,
-      imageWidth: '100%',
-      imageAlt: 'Digital Family Card Table',
-      showCancelButton: true,
-      confirmButtonText: 'बंद करें',
-      confirmButtonColor: '#64748b',
-      cancelButtonText: '📲 शेयर करें',
-      cancelButtonColor: '#25D366', 
-      reverseButtons: true
-    }).then(async (result) => {
-      if (result.dismiss === Swal.DismissReason.cancel) {
-        try {
-          let blob = await (await fetch(imgData)).blob();
-          let file = new File([blob], 'Digital_Family_Card.jpg', { type: 'image/jpeg' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: 'डिजिटल परिवार कार्ड',
-              text: 'यह रहा मेरा भुईहर समाज डिजिटल परिवार कार्ड।',
-              files: [file]
-            });
-          } else {
-            let link = document.createElement('a');
-            link.href = imgData; link.download = 'Digital_Family_Card.jpg'; link.click();
-          }
-        } catch(e) { console.log(e); }
-      }
+  try {
+    let snap = await db.collection("family_members").where("userMobile", "==", loggedMobile).get();
+    let members = [];
+    snap.forEach(doc => { members.push(doc.data()); });
+
+    let today = new Date();
+    let dateStr = today.getDate() + "-" + (today.getMonth()+1) + "-" + today.getFullYear();
+
+    let tableRows = `<tr>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">1</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; font-weight:bold; color:#1e5b96; display:flex; align-items:center; gap:10px;"><div style="width:35px; height:35px; background:#e2e8f0; border-radius:50%; display:grid; place-items:center;">👤</div> ${loggedName}</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;"><span style="background:#3b82f6; color:#fff; padding:4px 12px; border-radius:15px; font-size:12px; font-weight:bold;">स्वयं</span></td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">-</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">-</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">मुख्य सदस्य</td>
+      </tr>`;
+
+    members.forEach((m, idx) => {
+      let relColor = m.relation.includes("पत्नी") ? "#ec4899" : m.relation.includes("पुत्र") ? "#22c55e" : m.relation.includes("पिता") ? "#f59e0b" : "#8b5cf6";
+      tableRows += `<tr>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">${idx+2}</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; font-weight:bold; display:flex; align-items:center; gap:10px;"><div style="width:35px; height:35px; background:#e2e8f0; border-radius:50%; display:grid; place-items:center;">👤</div> ${m.name}</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;"><span style="background:${relColor}; color:#fff; padding:4px 12px; border-radius:15px; font-size:12px; font-weight:bold;">${m.relation}</span></td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${m.age || '-'}</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${m.bloodGroup || '-'}</td>
+        <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${m.workStatus || '-'}</td>
+      </tr>`;
     });
-  }).catch(err => {
-    Swal.fire({icon: 'error', title: 'त्रुटि', text: 'कार्ड बनाने में समस्या आई।'});
-  });
+
+    let premiumHtml = `
+    <div id="tempPremiumFamily" style="width:1200px; padding:25px; background:#f8fafc; border:6px solid #1e5b96; border-radius:20px; font-family:sans-serif; position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #f59e0b; padding-bottom:15px; margin-bottom:20px;">
+         <div style="width:180px; text-align:center;"><div style="width:110px; height:110px; background:#1e5b96; border-radius:50%; color:#fff; display:grid; place-items:center; font-size:45px; margin:auto; border:4px solid #f59e0b;">🌾</div></div>
+         <div style="flex:1; text-align:center;">
+            <h1 style="color:#1e5b96; font-size:48px; margin:0; font-weight:900;">भुईहर जाति समाज</h1>
+            <h2 style="color:#1e5b96; font-size:28px; margin:5px 0;">महाराजगंज</h2>
+            <p style="color:#f59e0b; font-size:20px; margin:5px 0; font-weight:bold;">|| एकता - सहयोग - विकास ||</p>
+         </div>
+         <div style="width:300px; font-size:15px; color:#1e293b; line-height:1.8; background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border:1px solid #e2e8f0;">
+            <div style="display:flex; justify-content:space-between;"><span>👤 <b>सदस्य:</b></span> <span>${loggedName}</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>📞 <b>मोबाइल:</b></span> <span>${loggedMobile}</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>📍 <b>जिला:</b></span> <span>महाराजगंज</span></div>
+         </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; background:#1e5b96; color:#fff; padding:12px 25px; border-radius:10px; margin-bottom:15px;">
+         <h3 style="margin:0; font-size:22px; display:flex; align-items:center; gap:10px;">👥 परिवार विवरण</h3>
+         <span style="font-weight:bold; font-size:16px;">हमारा परिवार | हमारी पहचान | भुईहर समाज की ताकत</span>
+         <div style="background:#0f3d6b; padding:8px 20px; border-radius:25px; font-weight:bold; font-size:16px; border:2px solid #3b82f6;">कुल सदस्य : ${members.length + 1}</div>
+      </div>
+      <table style="width:100%; border-collapse:collapse; font-size:15px; background:#fff; border:2px solid #1e5b96; box-shadow:0 10px 20px rgba(0,0,0,0.05);">
+        <thead>
+          <tr style="background:#1e5b96; color:#fff;">
+            <th style="padding:15px; border:1px solid #cbd5e1; width:8%;">क्रम सं.</th>
+            <th style="padding:15px; border:1px solid #cbd5e1; width:30%; text-align:left;">फोटो व नाम</th>
+            <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">संबंध</th>
+            <th style="padding:15px; border:1px solid #cbd5e1; width:12%;">आयु</th>
+            <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">ब्लड ग्रुप</th>
+            <th style="padding:15px; border:1px solid #cbd5e1; width:20%;">स्थिति / व्यवसाय</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+      <div style="display:flex; justify-content:space-between; margin-top:25px; gap:25px;">
+         <div style="flex:1; background:#e0f2fe; border:1px solid #bae6fd; border-radius:12px; padding:20px;">
+            <h4 style="margin:0 0 10px 0; color:#0369a1; display:flex; align-items:center; gap:8px;">📍 परिवार का पता</h4>
+            <div style="font-size:15px; color:#0f172a; line-height:1.6;">
+               <div style="display:flex; justify-content:space-between;"><span>ग्राम:</span> <b>महाराजगंज</b></div>
+               <div style="display:flex; justify-content:space-between;"><span>जिला:</span> <b>बलरामपुर</b></div>
+               <div style="display:flex; justify-content:space-between;"><span>राज्य:</span> <b>छत्तीसगढ़</b></div>
+            </div>
+         </div>
+         <div style="flex:1; text-align:center; display:flex; flex-direction:column; justify-content:center;">
+            <p style="color:#1e5b96; font-size:20px; font-weight:bold; font-style:italic; line-height:1.5;">"भुईहर समाज की एकजुटता ही<br>हमारी असली ताकत है"</p>
+         </div>
+         <div style="flex:1; background:#fff; border:2px dashed #cbd5e1; border-radius:12px; padding:20px; text-align:center; display:flex; flex-direction:column; justify-content:flex-end;">
+            <div style="font-family:'Brush Script MT', cursive; font-size:32px; color:#1e3a8a; margin-bottom:5px;">Approved</div>
+            <div style="border-bottom:2px solid #000; width:70%; margin:0 auto 8px;"></div>
+            <b style="font-size:15px; color:#333;">डिजिटल सत्यापन (System)</b>
+            <span style="font-size:12px; color:#64748b; margin-top:4px;">Date: ${dateStr}</span>
+         </div>
+      </div>
+    </div>`;
+
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = premiumHtml;
+    tempDiv.style.position = 'absolute'; tempDiv.style.left = '-9999px';
+    document.body.appendChild(tempDiv);
+
+    html2canvas(document.getElementById('tempPremiumFamily'), { scale: 2, useCORS: true }).then(canvas => {
+      let imgData = canvas.toDataURL('image/jpeg', 0.98);
+      document.body.removeChild(tempDiv);
+      Swal.fire({
+        title: '✨ आपका कार्ड तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Premium Family Card',
+        showCancelButton: true, confirmButtonText: 'बंद करें', confirmButtonColor: '#64748b',
+        cancelButtonText: '📲 शेयर करें', cancelButtonColor: '#25D366', reverseButtons: true
+      }).then(async (result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          try {
+            let blob = await (await fetch(imgData)).blob();
+            let file = new File([blob], 'Premium_Family_Card.jpg', { type: 'image/jpeg' });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({ title: 'परिवार कार्ड', text: 'यह रहा मेरा भुईहर समाज परिवार कार्ड।', files: [file] });
+            } else {
+              let link = document.createElement('a'); link.href = imgData; link.download = 'Premium_Family_Card.jpg'; link.click();
+            }
+          } catch(e) { console.log(e); }
+        }
+      });
+    });
+  } catch(e) { Swal.fire({icon: 'error', text: 'डेटा लोड करने में त्रुटि: ' + e.message}); }
 }
 
-// नया: पर्सनल ID कार्ड जनरेट और शेयर करने वाला फंक्शन
+// ⭐ नया पर्सनल ID कार्ड (Pocket Size)
 function downloadPersonalIDCard() {
   if (!loggedMobile) { promptLoginForFamily(); return; }
-
   Swal.fire({ title: 'ID कार्ड बन रहा है...', html: 'कृपया प्रतीक्षा करें।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
-  // ID कार्ड का HTML डिज़ाइन
   let idHtml = `
-  <div id="tempPersonalID" style="width: 320px; padding: 15px; background: linear-gradient(135deg, #ffffff, #f0fdf4); border: 2px solid #166534; border-radius: 12px; font-family: sans-serif; color: #1e293b;">
-    <div style="text-align: center; border-bottom: 2px dashed #166534; padding-bottom: 10px; margin-bottom: 10px;">
-      <h3 style="margin: 0; color: #166534; font-size: 18px; font-weight: bold;">🌾 भुईहर जाति समाज</h3>
-      <p style="margin: 2px 0 0; font-size: 12px;">डिजिटल पहचान पत्र (ID Card)</p>
+  <div id="tempPersonalID" style="width:400px; background:#fff; border-radius:16px; font-family:sans-serif; position:relative; overflow:hidden; border:2px solid #cbd5e1; box-shadow:0 15px 35px rgba(0,0,0,0.2);">
+    <div style="background:linear-gradient(135deg, #1e5b96, #0f3d6b); padding:20px; text-align:center; position:relative;">
+       <div style="width:70px; height:70px; background:#fff; border-radius:50%; margin:0 auto 10px; display:grid; place-items:center; font-size:30px; box-shadow:0 4px 10px rgba(0,0,0,0.2); border:3px solid #f59e0b;">🌾</div>
+       <h2 style="margin:0; color:#fff; font-size:24px; font-weight:900; letter-spacing:1px;">भुईहर जाति समाज</h2>
+       <p style="margin:4px 0 0; color:#fde68a; font-size:13px; font-weight:bold; letter-spacing:2px;">IDENTITY CARD</p>
     </div>
-    <div style="font-size: 14px; line-height: 1.8;">
-      <p style="margin: 4px 0;"><b>नाम:</b> ${loggedName}</p>
-      <p style="margin: 4px 0;"><b>मोबाइल नंबर:</b> ${loggedMobile}</p>
-      <p style="margin: 4px 0;"><b>पद / रोल:</b> पंजीकृत सदस्य</p>
+    <div style="padding:25px 20px; text-align:center; background:url('https://www.transparenttextures.com/patterns/cubes.png');">
+       <div style="width:110px; height:110px; border-radius:16px; background:#f1f5f9; border:3px solid #1e5b96; margin:-60px auto 15px; display:grid; place-items:center; font-size:50px; box-shadow:0 8px 20px rgba(0,0,0,0.15); position:relative; z-index:5;">👤</div>
+       <h3 style="margin:0 0 5px; font-size:26px; font-weight:900; color:#0f172a;">${loggedName}</h3>
+       <p style="margin:0 0 20px; font-size:14px; color:#1e5b96; font-weight:bold;">पंजीकृत सदस्य</p>
+       <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:15px; text-align:left; font-size:14px; color:#334155; line-height:2;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>📱 मोबाइल:</span> <b>${loggedMobile}</b></div>
+          <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>📍 जिला:</span> <b>बलरामपुर</b></div>
+          <div style="display:flex; justify-content:space-between;"><span>🩸 ब्लड ग्रुप:</span> <b>-</b></div>
+       </div>
     </div>
-    <div style="text-align: center; margin-top: 12px; background: #16a34a; color: #fff; padding: 6px; border-radius: 6px; font-size: 12px; font-weight: bold;">
-      ✔ Verified Samaj Member
+    <div style="background:#f59e0b; color:#78350f; text-align:center; padding:12px; font-weight:900; font-size:14px; letter-spacing:1px;">
+       || एकता - सहयोग - विकास ||
     </div>
   </div>`;
 
   let tempDiv = document.createElement('div');
   tempDiv.innerHTML = idHtml;
-  tempDiv.style.position = 'absolute';
-  tempDiv.style.left = '-9999px';
+  tempDiv.style.position = 'absolute'; tempDiv.style.left = '-9999px';
   document.body.appendChild(tempDiv);
 
   html2canvas(document.getElementById('tempPersonalID'), { scale: 3, useCORS: true }).then(canvas => {
     let imgData = canvas.toDataURL('image/jpeg', 0.98);
     document.body.removeChild(tempDiv);
-    
     Swal.fire({
-      title: '✨ आपका ID कार्ड तैयार है!',
-      imageUrl: imgData,
-      imageWidth: '100%',
-      imageAlt: 'Personal ID Card',
-      showCancelButton: true,
-      confirmButtonText: 'बंद करें',
-      confirmButtonColor: '#64748b',
-      cancelButtonText: '📲 शेयर करें',
-      cancelButtonColor: '#25D366',
-      reverseButtons: true
+      title: '✨ ID कार्ड तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Personal ID',
+      showCancelButton: true, confirmButtonText: 'बंद करें', confirmButtonColor: '#64748b',
+      cancelButtonText: '📲 शेयर करें', cancelButtonColor: '#25D366', reverseButtons: true
     }).then(async (result) => {
       if (result.dismiss === Swal.DismissReason.cancel) {
         try {
           let blob = await (await fetch(imgData)).blob();
-          let file = new File([blob], 'Personal_ID_Card.jpg', { type: 'image/jpeg' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({ title: 'पर्सनल ID कार्ड', text: 'यह रहा मेरा भुईहर समाज पर्सनल ID कार्ड।', files: [file] });
-          } else {
-            let link = document.createElement('a'); link.href = imgData; link.download = 'Personal_ID_Card.jpg'; link.click();
-          }
-        } catch(e) { console.log(e); }
+          let file = new File([blob], 'Personal_ID.jpg', { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ title: 'ID कार्ड', text: 'मेरा पर्सनल ID कार्ड।', files: [file] }); } 
+          else { let link = document.createElement('a'); link.href = imgData; link.download = 'Personal_ID.jpg'; link.click(); }
+        } catch(e) {}
       }
     });
-  }).catch(err => {
-    if(document.body.contains(tempDiv)) document.body.removeChild(tempDiv);
-    Swal.fire({icon: 'error', title: 'त्रुटि', text: 'कार्ड बनाने में समस्या आई।'});
   });
 }
 

@@ -104,7 +104,7 @@ body{
 
     <div class="card" style="text-align:center;">
       <h3 style="margin:0 0 8px;font-size:14px;color:var(--navy);">📲 डिजिटल सहयोग (UPI QR Code)</h3>
-      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px;">नीचे दिए गए क्यूआर कोड को Google Pay, PhonePe या Paytm से स्कैन करके सहयोग राशि भेजें[span_1](start_span)[span_1](end_span):</p>
+      <p style="font-size:11.5px;color:var(--muted);margin:0 0 12px;">नीचे दिए गए क्यूआर कोड को Google Pay, PhonePe या Paytm से स्कैन करके सहयोग राशि भेजें:</p>
       
       <div style="background:#f8fafc;padding:12px;border:1px dashed var(--line);border-radius:12px;display:inline-block;margin-bottom:10px;">
         <div id="qrCodeDisplay" style="font-size:12px;color:var(--muted);">QR कोड लोड हो रहा है...</div>
@@ -126,7 +126,7 @@ body{
 
     <div class="card">
       <h3 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📋 सहयोग रसीद हेतु जानकारी भेजें</h3>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 12px;">भुगतान करने के बाद यहाँ अपनी डिटेल भरें ताकि एडमिन इसे सत्यापित करके डोनर सूची में आपका नाम जोड़ सकें[span_2](start_span)[span_2](end_span)。</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 12px;">भुगतान करने के बाद यहाँ अपनी डिटेल भरें ताकि एडमिन इसे सत्यापित करके डोनर सूची में आपका नाम जोड़ सकें।</p>
       
       <div class="form-group">
         <label>आपका पूरा नाम व गोत्र</label>
@@ -259,7 +259,7 @@ async function submitDonationProof() {
     Swal.fire({
       icon: 'success',
       title: 'सफलतापूर्वक भेजा गया!',
-      text: 'धन्यवाद! आपका सहयोग विवरण एडमिन के पास सत्यापन हेतु भेज दिया गया है। जाँच के बाद आपका नाम डोनर सूची में जोड़ दिया जाएगा[span_3](start_span)[span_3](end_span)。',
+      text: 'धन्यवाद! आपका सहयोग विवरण एडमिन के पास सत्यापन हेतु भेज दिया गया है। जाँच के बाद आपका नाम डोनर सूची में जोड़ दिया जाएगा।',
       confirmButtonColor: '#16a34a'
     }).then(() => {
       document.getElementById("donorName").value = "";

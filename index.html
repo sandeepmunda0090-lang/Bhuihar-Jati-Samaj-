@@ -31,6 +31,9 @@ body{
   transition: background 1.2s ease, color 0.5s ease;
 }
 
+/* ⭐ SweetAlert2 पॉप-अप को हमेशा सबसे ऊपर रखने का फिक्स */
+.swal2-container { z-index: 100000 !important; }
+
 @keyframes bounceDrop { 0% { transform: translateY(-30px); opacity: 0; } 60% { transform: translateY(6px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 @keyframes iconBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.05); } }
 
@@ -406,7 +409,7 @@ body{
     </div>
   </div>
 
-  <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
+  <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:9999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
       <div id="achieverModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:24px; padding:20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
           <button onclick="closeAchieverModal()" style="position:absolute; top:12px; right:12px; background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; font-size:13px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
           <img id="modalAchPhoto" src="" style="width:75px; height:90px; border-radius:12px; object-fit:cover; border:2.5px solid var(--gold); margin:5px auto 10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
@@ -414,7 +417,7 @@ body{
           <p id="modalAchDetail" style="font-size:12px; font-weight:700; color:var(--p); margin:0 0 10px;"></p>
           <div style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:10px; text-align:left; font-size:11.5px; color:var(--text); line-height:1.5;">
               <div><b>पिता का नाम:</b> <span id="modalAchFather">-</span></div>
-              <div><b>माता का মেরামত:</b> <span id="modalAchMother">-</span></div>
+              <div><b>माता का नाम:</b> <span id="modalAchMother">-</span></div>
               <div style="margin-top:8px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:6px 8px; color:#065f46; font-weight:bold; font-size:12px; text-align:center;">
                 🎁 प्रोत्साहन / सम्मान राशि: <span id="modalAchReward">घोषित</span>
               </div>

@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>वैवाहिक परिचय (Matrimonial) | भुईहर समाज पोर्टल</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -19,7 +21,26 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;}
+/* ⭐ Page Premium Pop-up Animation ⭐ */
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,0.1);
+  padding-bottom:25px;
+  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+/* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
+.swal2-container { z-index: 100000 !important; }
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 
@@ -53,11 +74,6 @@ body{
 .form-control:focus{border-color:var(--p)}
 .btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13.5px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:6px}
 .btn:active{transform:scale(0.98)}
-
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
-.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
-.nav b{display:block;font-size:16px}
-.nav a.active{color:var(--p);font-weight:800}
 </style>
 </head>
 <body>
@@ -87,7 +103,7 @@ body{
     <!-- प्रोफेशनल फॉर्म विथ ऑटो एज कैलकुलेटर -->
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना वैवाहिक बायोडाटा भेजें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी।</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी[span_4](start_span)[span_4](end_span)。</p>
       
       <div class="form-group">
         <label>श्रेणी चुनें</label>
@@ -141,24 +157,6 @@ body{
     </div>
 
   </div>
-
-  
-</div>
-
-<!-- प्रीमियम पॉप-अप मॉडल -->
-<div id="customModalOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
-    <div id="customModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:28px; padding:24px 20px 20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
-        <button onclick="closeCustomModal(false)" style="position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:30px; height:30px; border-radius:50%; font-size:14px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
-        <div style="position:relative; width:64px; height:64px; margin:-50px auto 16px; background:linear-gradient(135deg, #2563eb, #a855f7); border-radius:50%; display:grid; place-items:center; box-shadow:0 10px 20px rgba(37,99,235,0.4); border:4px solid #fff;">
-            <span style="font-size:28px;">⚠️</span>
-        </div>
-        <h3 id="customModalTitle" style="font-size:17px; font-weight:800; color:#1e293b; margin:0 0 8px;">सुरक्षा चेतावनी</h3>
-        <p id="customModalMessage" style="font-size:13px; color:#64748b; margin:0 0 24px; line-height:1.5;">कृपया आगे बढ़ने के लिए लॉगिन करें।</p>
-        <div style="display:flex; gap:10px;">
-            <button onclick="closeCustomModal(false)" style="flex:1; padding:12px; background:#f1f5f9; color:#475569; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px;">बंद करें</button>
-            <button id="customModalActionBtn" onclick="closeCustomModal(true)" style="flex:1; padding:12px; background:linear-gradient(135deg, #2563eb, #d946ef); color:#fff; font-weight:700; border:none; border-radius:16px; cursor:pointer; font-size:14px; box-shadow:0 4px 12px rgba(37,99,235,0.3); display:none;">लॉगिन करें</button>
-        </div>
-    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -176,49 +174,8 @@ function goBackHome() {
   }
 }
 
-
 let currentCategory = 'bride';
 let allProfiles = [];
-let modalCallback = null;
-
-function showCustomAlert(title, message, callback, showLoginBtn = false) {
-    document.getElementById('customModalTitle').innerText = title;
-    document.getElementById('customModalMessage').innerText = message;
-    modalCallback = callback;
-
-    let actionBtn = document.getElementById('customModalActionBtn');
-    if(showLoginBtn) {
-        actionBtn.style.display = 'block';
-    } else {
-        actionBtn.style.display = 'none';
-    }
-
-    let overlay = document.getElementById('customModalOverlay');
-    let box = document.getElementById('customModalBox');
-    overlay.style.display = 'flex';
-    setTimeout(() => {
-        overlay.style.opacity = '1';
-        box.style.transform = 'scale(1)';
-    }, 10);
-}
-
-function closeCustomModal(isYes) {
-    let overlay = document.getElementById('customModalOverlay');
-    let box = document.getElementById('customModalBox');
-    overlay.style.opacity = '0';
-    box.style.transform = 'scale(0.8)';
-    setTimeout(() => {
-        overlay.style.display = 'none';
-        if (modalCallback) {
-            modalCallback(isYes);
-            modalCallback = null;
-        }
-    }, 300);
-}
-
-window.alert = function(message) {
-    showCustomAlert("सूचना", message, function(yes) {});
-};
 
 function switchTab(cat) {
   currentCategory = cat;
@@ -317,21 +274,37 @@ function renderProfiles() {
 }
 
 function promptLoginForMatrimonial() {
-  showCustomAlert("⚠️ सुरक्षा चेतावनी", "वैवाहिक प्रोफाइल का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर और MPIN से लॉगिन करें!", function(yes) {
-    if(yes) {
+  Swal.fire({
+    icon: 'warning',
+    title: 'सुरक्षा चेतावनी',
+    text: 'वैवाहिक प्रोफाइल का संपर्क नंबर देखने के लिए कृपया पहले अपने मोबाइल नंबर से लॉगिन करें!',
+    showCancelButton: true,
+    confirmButtonText: 'लॉगिन करें',
+    cancelButtonText: 'रद्द करें',
+    confirmButtonColor: '#0757a3'
+  }).then((result) => {
+    if (result.isConfirmed) {
       window.location.href = "login.html";
     }
-  }, true);
+  });
 }
 
 async function submitMatrimonialRequest() {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
-    showCustomAlert("⚠️ सुरक्षा चेतावनी", "बायोडाटा भेजने के लिए कृपया पहले लॉगिन करें!", function(yes) {
-      if(yes) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'सुरक्षा चेतावनी',
+      text: 'बायोडाटा भेजने के लिए कृपया पहले लॉगिन करें!',
+      showCancelButton: true,
+      confirmButtonText: 'लॉगिन करें',
+      cancelButtonText: 'रद्द करें',
+      confirmButtonColor: '#0757a3'
+    }).then((result) => {
+      if (result.isConfirmed) {
         window.location.href = "login.html";
       }
-    }, true);
+    });
     return;
   }
 
@@ -346,9 +319,11 @@ async function submitMatrimonialRequest() {
   let category = document.getElementById("bioCategory").value;
 
   if(!name || !education || !gotra || !dob || !mobile) {
-    alert("कृपया नाम, शिक्षा, गोत्र, जन्म तिथि और मोबाइल नंबर अनिवार्य रूप से भरें!");
+    Swal.fire({ icon: 'warning', title: 'जानकारी अधूरी है', text: 'कृपया नाम, शिक्षा, गोत्र, जन्म तिथि और मोबाइल नंबर अनिवार्य रूप से भरें!', confirmButtonColor: '#0757a3' });
     return;
   }
+
+  Swal.fire({ title: 'बायोडाटा भेजा जा रहा है...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
   try {
     await db.collection("matrimonial").add({
@@ -364,19 +339,24 @@ async function submitMatrimonialRequest() {
       timestamp: Date.now()
     });
 
-    alert("आपका वैवाहिक बायोडाटा सफलतापूर्वक एडमिन के पास भेज दिया गया है। एडमिन के सत्यापन के बाद यह होमपेज पर लाइव हो जाएगा।");
-    
-    document.getElementById("bioName").value = "";
-    document.getElementById("bioEducation").value = "";
-    document.getElementById("bioGotra").value = "";
-    document.getElementById("bioDob").value = "";
-    document.getElementById("bioAge").value = "";
-    document.getElementById("bioAddress").value = "";
-    document.getElementById("bioMobileInput").value = "";
-    document.getElementById("bioDetails").value = "";
+    Swal.fire({
+      icon: 'success',
+      title: 'सफलतापूर्वक भेजा गया!',
+      text: 'आपका वैवाहिक बायोडाटा सफलतापूर्वक एडमिन के पास भेज दिया गया है। एडमिन के सत्यापन के बाद यह पोर्टल पर लाइव हो जाएगा।',
+      confirmButtonColor: '#16a34a'
+    }).then(() => {
+      document.getElementById("bioName").value = "";
+      document.getElementById("bioEducation").value = "";
+      document.getElementById("bioGotra").value = "";
+      document.getElementById("bioDob").value = "";
+      document.getElementById("bioAge").value = "";
+      document.getElementById("bioAddress").value = "";
+      document.getElementById("bioMobileInput").value = "";
+      document.getElementById("bioDetails").value = "";
+    });
 
   } catch(e) {
-    alert("बायोडाटा भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।");
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'बायोडाटा भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।', confirmButtonColor: '#dc2626' });
   }
 }
 

@@ -2,9 +2,10 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
   <title>मास्टर एडमिन पैनल - भुईहर जाति समाज</title>
+  <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
       --navy: #1e3a8a;
@@ -81,7 +82,6 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn" style="margin-bottom: 0;">← मुख्य पृष्ठ (वापस जाएं)</a>
         
-        <!-- क्लिक एरिया को 100% लॉक करने के लिए बटन को एक inline-block में रखा गया है -->
         <div style="display: inline-block; padding: 0; margin: 0; line-height: 0;">
           <button type="button" onclick="logoutAdmin()" style="background: var(--red); color: white; border: none; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; display: block; margin: 0; outline: none; box-sizing: border-box;">🚪 एडमिन लॉगआउट</button>
         </div>
@@ -106,7 +106,6 @@
     <div class="accordion-content">
       <div class="card" style="border-left-color: #0284c7;">
         <input type="hidden" id="editJobId" value="">
-        
         <div class="form-group">
           <label>जॉब श्रेणी (सरकारी या प्राइवेट)</label>
           <select id="jobCategory" class="form-control">
@@ -114,7 +113,6 @@
             <option value="private">🏢 प्राइवेट नौकरी (Telecom / Operator / Field)</option>
           </select>
         </div>
-
         <div class="form-group"><label>जॉब शीर्षक / पद का नाम</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर / CG Vyapam ASI"></div>
         <div class="form-group"><label>कंपनी / विभाग का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स / छत्तीसगढ़ व्यापम"></div>
         <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="अंबिकापुर / महाराजगंज"></div>
@@ -293,20 +291,12 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
-  // Data Caches 
-  const adminCache = {
-    jobs: {}, officials: {}, meetings: {}, achievers: {}, funds: {}, condolences: {}, businesses: {}, travel: {}, gallery: {}, polls: {}
-  };
+  const adminCache = { jobs: {}, officials: {}, meetings: {}, achievers: {}, funds: {}, condolences: {}, businesses: {}, travel: {}, gallery: {}, polls: {} };
 
   function goBackHome() {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = 'index.html';
-    }
+    if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
   }
 
-  // Auto-login persistence
   auth.onAuthStateChanged(user => {
     if (user) {
       document.getElementById("adminLoginCard").style.display = "none";
@@ -318,33 +308,27 @@
     }
   });
 
-  // पक्का और सुरक्षित लॉगआउट फ़ंक्शन (अपडेटेड पॉप-अप और एड्स सिग्नल के साथ)
+  // पक्का और सुरक्षित लॉगआउट फ़ंक्शन (SweetAlert2 के साथ)
   function logoutAdmin() {
-    if(confirm("क्या आप एडमिन पैनल से लॉगआउट करना चाहते हैं?")) {
-      // तुरंत सारा लोकल डेटा साफ़ करें
-      localStorage.clear();
-      sessionStorage.clear();
-      
-      // Firebase साइन आउट
-      try {
-        if(typeof auth !== 'undefined' && auth.signOut) {
-          auth.signOut().catch(e => console.log(e));
-        }
-      } catch(err) {
-        console.log(err);
+    Swal.fire({
+      title: 'लॉगआउट?',
+      text: "क्या आप एडमिन पैनल से बाहर जाना चाहते हैं?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'हाँ, लॉगआउट करें!',
+      cancelButtonText: 'रद्द करें'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear(); sessionStorage.clear();
+        try { if(typeof auth !== 'undefined' && auth.signOut) { auth.signOut().catch(e => console.log(e)); } } catch(err) { console.log(err); }
+        if (typeof Android !== "undefined") { Android.showAds(); }
+        Swal.fire({ icon: 'success', title: 'लॉग आउट!', text: 'आप सफलतापूर्वक लॉग आउट हो गए हैं।', confirmButtonColor: '#16a34a' }).then(() => {
+          window.location.replace("login.html");
+        });
       }
-      
-      // सक्सेसफुल लॉग-आउट का पॉप-अप
-      alert("आप सफलतापूर्वक लॉग आउट हो गए हैं!");
-      
-      // एंड्रॉइड ऐप को ऐड्स वापस चालू करने का सिग्नल
-      if (typeof Android !== "undefined") {
-          Android.showAds();
-      }
-      
-      // तुरंत लॉगिन पेज पर भेज दें
-      window.location.replace("login.html");
-    }
+    });
   }
 
   let acc = document.getElementsByClassName("accordion-header");
@@ -357,21 +341,19 @@
     });
   }
 
-  // अपडेटेड लॉगिन फंक्शन (नए पॉप-अप के साथ)
+  // एडमिन लॉगिन (SweetAlert2 के साथ)
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
-    if(!email || !pass){ alert("⚠️ कृपया ईमेल और पासवर्ड भरें!"); return; }
+    if(!email || !pass){ Swal.fire({ icon: 'warning', title: 'जानकारी भरें', text: 'कृपया ईमेल और पासवर्ड भरें!', confirmButtonColor: '#1e3a8a' }); return; }
     
     auth.signInWithEmailAndPassword(email, pass).then(() => {
-      // सक्सेसफुल लॉग-इन का पॉप-अप
-      alert("✨ लॉग इन सफल रहा! आपका स्वागत है।");
+      Swal.fire({ icon: 'success', title: 'लॉग इन सफल!', text: 'आपका स्वागत है।', confirmButtonColor: '#16a34a', timer: 2000 });
       document.getElementById("adminLoginCard").style.display = "none";
       document.getElementById("adminDashboardContent").style.display = "block";
       loadAllAdminData();
     }).catch((err) => { 
-      // फेल होने या गलत पासवर्ड का पॉप-अप
-      alert("❌ लॉग इन फेल: ईमेल या पासवर्ड गलत है। कृपया दोबारा चेक करें!"); 
+      Swal.fire({ icon: 'error', title: 'लॉग इन फेल', text: 'ईमेल या पासवर्ड गलत है। कृपया दोबारा चेक करें!', confirmButtonColor: '#dc2626' });
     });
   }
 
@@ -443,7 +425,7 @@
 
   async function approveUser(id) {
     await db.collection("users").doc(id).update({ status: "approved" });
-    alert("खाता स्वीकृत कर दिया गया!");
+    Swal.fire({ icon: 'success', title: 'स्वीकृत', text: 'खाता स्वीकृत कर दिया गया!', confirmButtonColor: '#16a34a' });
     loadPendingApprovals();
   }
 
@@ -510,15 +492,13 @@
   async function approveDynamicDoc(col, id) {
     try {
       await db.collection(col).doc(id).update({ status: "approved" });
-      alert("सफलतापूर्वक स्वीकृत कर दिया गया!");
+      Swal.fire({ icon: 'success', title: 'स्वीकृत', text: 'सफलतापूर्वक स्वीकृत कर दिया गया!', confirmButtonColor: '#16a34a' });
       loadAllAdminData();
     } catch (error) {
-      console.error("अप्रूवल में एरर:", error);
-      alert("स्वीकृत करने में त्रुटि आई!");
+      Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'स्वीकृत करने में त्रुटि आई!' });
     }
   }
 
-  // जॉब सेव करने का फंक्शन
   async function saveOrUpdateJob() {
     let id = document.getElementById("editJobId").value;
     let category = document.getElementById("jobCategory").value;
@@ -531,14 +511,14 @@
     let mobile = document.getElementById("jobMobile").value.trim();
     let tag = document.getElementById("jobTag").value.trim();
 
-    if(!title || !company) { alert("⚠️ जॉब शीर्षक और कंपनी/विभाग का नाम भरें!"); return; }
+    if(!title || !company) { Swal.fire({ icon: 'warning', text: 'जॉब शीर्षक और कंपनी/विभाग का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
 
     let data = { category, title, company, location, salary, qualification, applyLink, mobile, tag, timestamp: Date.now() };
 
     if(id) { await db.collection("jobs").doc(id).update(data); document.getElementById("editJobId").value=""; }
     else { await db.collection("jobs").add(data); }
     
-    alert("जॉब सुरक्षित हो गई!");
+    Swal.fire({ icon: 'success', text: 'जॉब सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
     document.getElementById("jobTitle").value=""; document.getElementById("jobCompany").value=""; document.getElementById("jobLoc").value=""; document.getElementById("jobSalary").value=""; document.getElementById("jobQuali").value=""; document.getElementById("jobApplyLink").value=""; document.getElementById("jobMobile").value=""; document.getElementById("jobTag").value="";
     loadAllAdminData();
   }
@@ -547,10 +527,10 @@
     let id = document.getElementById("editOfficialId").value;
     let name = document.getElementById("offName").value.trim();
     let data = { name, role: document.getElementById("offRole").value, gender: document.getElementById("offGender").value, mobile: document.getElementById("offMobile").value.trim(), photo: document.getElementById("offPhoto").value.trim() };
-    if(!name) { alert("⚠️ नाम भरें!"); return; }
+    if(!name) { Swal.fire({ icon: 'warning', text: 'नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
     if(id) { await db.collection("officials").doc(id).update(data); document.getElementById("editOfficialId").value=""; }
     else { await db.collection("officials").add(data); }
-    alert("पदाधिकारी सुरक्षित हो गया!");
+    Swal.fire({ icon: 'success', text: 'पदाधिकारी सुरक्षित हो गया!', confirmButtonColor: '#16a34a' });
     document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value=""; document.getElementById("offGender").value="male";
     loadAllAdminData();
   }
@@ -560,10 +540,10 @@
     let donorName = document.getElementById("donName").value.trim();
     let amount = document.getElementById("donAmount").value.trim();
     let data = { donorName, amount: parseFloat(amount)||0, type: document.getElementById("donType").value, description: document.getElementById("donDesc").value.trim(), timestamp: Date.now() };
-    if(!donorName) { alert("⚠️ नाम भरें!"); return; }
+    if(!donorName) { Swal.fire({ icon: 'warning', text: 'नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
     if(id) { await db.collection("funds").doc(id).update(data); document.getElementById("editFundId").value=""; }
     else { await db.collection("funds").add(data); }
-    alert("कोष प्रविष्टि सुरक्षित हो गई!");
+    Swal.fire({ icon: 'success', text: 'कोष प्रविष्टि सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
     document.getElementById("donName").value=""; document.getElementById("donAmount").value=""; document.getElementById("donDesc").value="";
     loadAllAdminData();
   }
@@ -577,20 +557,15 @@
     let mapLink = document.getElementById("travelMapInput").value.trim();
 
     if(!title || !mobile || !address) {
-      alert("⚠️ वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!");
+      Swal.fire({ icon: 'warning', text: 'वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!', confirmButtonColor: '#1e3a8a' });
       return;
     }
 
     let category = document.getElementById("travelCategoryInput").value;
     let data = {
-      title: title,
-      driver: driver || 'चालक',
-      mobile: mobile,
-      address: address,
+      title: title, driver: driver || 'चालक', mobile: mobile, address: address,
       mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`,
-      category: category,
-      status: "approved",
-      timestamp: Date.now()
+      category: category, status: "approved", timestamp: Date.now()
     };
 
     if(id) {
@@ -600,12 +575,8 @@
       await db.collection("travel").add(data);
     }
 
-    alert("वाहन सेवा सुरक्षित हो गई!");
-    document.getElementById("travelTitleInput").value = "";
-    document.getElementById("travelDriverInput").value = "";
-    document.getElementById("travelMobileInput").value = "";
-    document.getElementById("travelAddressInput").value = "";
-    document.getElementById("travelMapInput").value = "";
+    Swal.fire({ icon: 'success', text: 'वाहन सेवा सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
+    document.getElementById("travelTitleInput").value = ""; document.getElementById("travelDriverInput").value = ""; document.getElementById("travelMobileInput").value = ""; document.getElementById("travelAddressInput").value = ""; document.getElementById("travelMapInput").value = "";
     loadAllAdminData();
   }
 
@@ -613,20 +584,63 @@
     let id = document.getElementById("editGalId").value;
     let title = document.getElementById("galTitle").value.trim();
     let data = { title, photo: document.getElementById("galPhoto").value.trim(), timestamp: Date.now() };
-    if(!title) { alert("⚠️ शीर्षक भरें!"); return; }
+    if(!title) { Swal.fire({ icon: 'warning', text: 'शीर्षक भरें!', confirmButtonColor: '#1e3a8a' }); return; }
     if(id) { await db.collection("gallery").doc(id).update(data); document.getElementById("editGalId").value=""; }
     else { await db.collection("gallery").add(data); }
-    alert("गैलरी सुरक्षित हो गई!");
+    Swal.fire({ icon: 'success', text: 'गैलरी सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
     document.getElementById("galTitle").value=""; document.getElementById("galPhoto").value="";
     loadAllAdminData();
   }
   
-  // डिलीट फ़ंक्शन (सभी के लिए)
+  // डिलीट फ़ंक्शन (SweetAlert2 के साथ)
   async function deleteDoc(col, id, callback) {
-    if(confirm("क्या आप इसे सच में हटाना चाहते हैं?")) {
-      await db.collection(col).doc(id).delete();
-      alert("हटा दिया गया!");
-      if(callback) callback();
+    Swal.fire({
+      title: 'क्या आप इसे सच में हटाना चाहते हैं?',
+      text: 'यह डेटा हमेशा के लिए मिटा दिया जाएगा!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'हाँ, हटाएँ!',
+      cancelButtonText: 'रद्द करें'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await db.collection(col).doc(id).delete();
+        Swal.fire({ icon: 'success', title: 'हटा दिया गया!', text: 'डेटा सफलतापूर्वक मिटा दिया गया है।', confirmButtonColor: '#16a34a' });
+        if(callback) callback();
+      }
+    });
+  }
+
+  // भविष्य में PDF डाउनलोड/शेयर करने के लिए एडवांस फंक्शन (WhatsApp Direct Share)
+  function downloadAndSharePDF(base64Data) {
+    try {
+        let parts = base64Data.split(',');
+        let byteString = atob(parts[1]);
+        let ab = new ArrayBuffer(byteString.length);
+        let ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        let blob = new Blob([ab], { type: 'application/pdf' });
+        let file = new File([blob], "Bhuihar_Samaj_Report.pdf", { type: 'application/pdf' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+                title: 'Bhuihar Samaj',
+                text: 'यह रही आपकी पीडीएफ फाइल',
+                files: [file]
+            }).catch(function(error) {
+                console.log('Error sharing:', error);
+            });
+        } else {
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "Bhuihar_Samaj_Report.pdf";
+            link.click();
+        }
+    } catch (err) {
+        Swal.fire({icon: 'error', title: 'त्रुटि', text: 'PDF शेयर करने में समस्या आई।'});
     }
   }
 </script>
@@ -657,26 +671,20 @@
                           (t.placeholder && t.placeholder.includes('मोबाइल')) ||
                           (t.type === 'tel');
       if (isMobileField) {
-        if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
-          return;
-        }
-        if (e.ctrlKey || e.metaKey) {
-          return;
-        }
-        if (!/^[0-9]$/.test(e.key) || t.value.length >= 10) {
-          e.preventDefault();
-        }
+        if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) { return; }
+        if (e.ctrlKey || e.metaKey) { return; }
+        if (!/^[0-9]$/.test(e.key) || t.value.length >= 10) { e.preventDefault(); }
       }
     }
   });
 </script>
-  <script>
-        window.onload = function() {
-            if (typeof Android !== "undefined") {
-                Android.hideAds();
-            }
-        };
-    </script>
+<script>
+    window.onload = function() {
+        if (typeof Android !== "undefined") {
+            Android.hideAds();
+        }
+    };
+</script>
 
 </body>
 </html>

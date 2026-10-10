@@ -6,6 +6,8 @@
   <title>मास्टर एडमिन पैनल - भुईहर जाति समाज</title>
   <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Image (Photo) बनाने के लिए लाइब्रेरी (Master Directory के लिए) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       --navy: #1e3a8a;
@@ -89,6 +91,13 @@
       <h1>🛡️ भुईहर जाति समाज</h1>
       <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल - सभी 11 सेवाएँ (पूर्ण नियंत्रण)</p>
     </header>
+
+    <!-- 0. नया सेक्शन: मास्टर डायरेक्टरी डाउनलोड (प्रीमियम A4 लैंडस्केप) -->
+    <div class="card" style="border-left-color: #0757a3; text-align: center; background:#eff6ff;">
+      <h3 style="margin-top:0; border-bottom:none;">📊 मास्टर परिवार डायरेक्टरी (सम्पूर्ण सूची)</h3>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">समाज के सभी पंजीकृत परिवारों की पूरी सूची एकदम प्रीमियम A4 टेबल फॉर्मेट में प्राप्त करें।</p>
+      <button class="btn" style="background:#2563eb;" onclick="downloadAdminMasterDirectory()">📥 मास्टर डायरेक्टरी (HD Photo) प्राप्त करें</button>
+    </div>
 
     <!-- 1. नए सदस्य पेंडिंग अप्रूवल -->
     <div class="card" style="border-left-color: var(--red);">
@@ -612,37 +621,112 @@
     });
   }
 
-  // भविष्य में PDF डाउनलोड/शेयर करने के लिए एडवांस फंक्शन (WhatsApp Direct Share)
-  function downloadAndSharePDF(base64Data) {
-    try {
-        let parts = base64Data.split(',');
-        let byteString = atob(parts[1]);
-        let ab = new ArrayBuffer(byteString.length);
-        let ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        let blob = new Blob([ab], { type: 'application/pdf' });
-        let file = new File([blob], "Bhuihar_Samaj_Report.pdf", { type: 'application/pdf' });
+  // ⭐ नया: मास्टर डायरेक्टरी को डेटाबेस से निकाल कर HD प्रीमियम टेबल फोटो में शेयर करने का फ़ंक्शन
+  async function downloadAdminMasterDirectory() {
+    Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें, डेटाबेस से परिवार सूची निकाली जा रही है।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
 
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({
-                title: 'Bhuihar Samaj',
-                text: 'यह रही आपकी पीडीएफ फाइल',
-                files: [file]
-            }).catch(function(error) {
-                console.log('Error sharing:', error);
-            });
-        } else {
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = "Bhuihar_Samaj_Report.pdf";
-            link.click();
-        }
-    } catch (err) {
-        Swal.fire({icon: 'error', title: 'त्रुटि', text: 'PDF शेयर करने में समस्या आई।'});
-    }
+    try {
+      let snap = await db.collection("families").get();
+      let allFamilies = [];
+      snap.forEach(doc => { allFamilies.push(doc.data()); });
+
+      if(allFamilies.length === 0) {
+        Swal.fire({icon: 'info', title: 'डेटा नहीं मिला', text: 'डायरेक्टरी में कोई परिवार नहीं है।'}); return;
+      }
+
+      let today = new Date();
+      let dateStr = today.getDate() + "-" + (today.getMonth()+1) + "-" + today.getFullYear();
+
+      let tableRows = "";
+      allFamilies.forEach((f, idx) => {
+        tableRows += `<tr>
+          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">${idx+1}</td>
+          <td style="padding:12px; border:1px solid #cbd5e1; font-weight:bold; color:#1e5b96; display:flex; align-items:center; gap:10px;"><div style="width:30px; height:30px; background:#e2e8f0; border-radius:50%; display:grid; place-items:center; font-size:14px;">👤</div> ${f.headName || '-'}</td>
+          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center;"><span style="background:#3b82f6; color:#fff; padding:4px 12px; border-radius:15px; font-size:13px; font-weight:bold;">${f.membersCount || 1}</span></td>
+          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center;">${f.gotra || 'सामान्य'}</td>
+          <td style="padding:12px; border:1px solid #cbd5e1;">${f.address || 'महाराजगंज'}</td>
+          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">${f.mobile || '9876543210'}</td>
+        </tr>`;
+      });
+
+      let premiumHtml = `
+      <div id="tempAdminMaster" style="width:1200px; padding:25px; background:#f8fafc; border:6px solid #1e5b96; border-radius:20px; font-family:sans-serif; position:relative;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #f59e0b; padding-bottom:15px; margin-bottom:20px;">
+           <div style="width:180px; text-align:center;"><div style="width:110px; height:110px; background:#1e5b96; border-radius:50%; color:#fff; display:grid; place-items:center; font-size:45px; margin:auto; border:4px solid #f59e0b;">🌾</div></div>
+           <div style="flex:1; text-align:center;">
+              <h1 style="color:#1e5b96; font-size:48px; margin:0; font-weight:900;">भुईहर जाति समाज</h1>
+              <h2 style="color:#1e5b96; font-size:28px; margin:5px 0;">मास्टर परिवार डायरेक्टरी</h2>
+              <p style="color:#f59e0b; font-size:20px; margin:5px 0; font-weight:bold;">|| सम्पूर्ण क्षेत्र: महाराजगंज एवं बलरामपुर ||</p>
+           </div>
+           <div style="width:300px; font-size:15px; color:#1e293b; line-height:1.8; background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border:1px solid #e2e8f0;">
+              <div style="display:flex; justify-content:space-between;"><span>🛡️ <b>जारीकर्ता:</b></span> <span>मास्टर एडमिन</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>📅 <b>दिनांक:</b></span> <span>${dateStr}</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>📈 <b>कुल परिवार:</b></span> <span>${allFamilies.length}</span></div>
+           </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#1e5b96; color:#fff; padding:12px 25px; border-radius:10px; margin-bottom:15px;">
+           <h3 style="margin:0; font-size:22px; display:flex; align-items:center; gap:10px;">📊 सभी पंजीकृत परिवारों की सूची</h3>
+           <span style="font-weight:bold; font-size:16px;">एकता | सहयोग | विकास</span>
+        </div>
+
+        <table style="width:100%; border-collapse:collapse; font-size:15px; background:#fff; border:2px solid #1e5b96; box-shadow:0 10px 20px rgba(0,0,0,0.05);">
+          <thead>
+            <tr style="background:#1e5b96; color:#fff;">
+              <th style="padding:15px; border:1px solid #cbd5e1; width:8%;">क्रम सं.</th>
+              <th style="padding:15px; border:1px solid #cbd5e1; width:25%; text-align:left;">परिवार मुखिया का नाम</th>
+              <th style="padding:15px; border:1px solid #cbd5e1; width:12%;">कुल सदस्य</th>
+              <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">गोत्र</th>
+              <th style="padding:15px; border:1px solid #cbd5e1; width:25%; text-align:left;">निवास / पता</th>
+              <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">मोबाइल नंबर</th>
+            </tr>
+          </thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+
+        <div style="display:flex; justify-content:space-between; margin-top:25px; gap:25px;">
+           <div style="flex:1; background:#e0f2fe; border:1px solid #bae6fd; border-radius:12px; padding:20px; display:flex; flex-direction:column; justify-content:center;">
+              <h4 style="margin:0 0 5px 0; color:#0369a1;">सुरक्षा एवं गोपनीयता</h4>
+              <p style="margin:0; font-size:13px; color:#475569; line-height:1.5;">यह सूची केवल समाज के आधिकारिक उपयोग हेतु है। कृपया इसे सार्वजनिक प्लेटफार्म पर बिना अनुमति के साझा न करें।</p>
+           </div>
+           <div style="flex:1; text-align:center; display:flex; flex-direction:column; justify-content:center;">
+              <p style="color:#1e5b96; font-size:20px; font-weight:bold; font-style:italic; line-height:1.5;">"भुईहर समाज की एकजुटता ही<br>हमारी असली ताकत है"</p>
+           </div>
+           <div style="flex:1; background:#fff; border:2px dashed #cbd5e1; border-radius:12px; padding:20px; text-align:center; display:flex; flex-direction:column; justify-content:flex-end;">
+              <div style="font-family:'Brush Script MT', cursive; font-size:32px; color:#1e3a8a; margin-bottom:5px;">System Admin</div>
+              <div style="border-bottom:2px solid #000; width:70%; margin:0 auto 8px;"></div>
+              <b style="font-size:15px; color:#333;">अधिकृत हस्ताक्षर</b>
+           </div>
+        </div>
+      </div>`;
+
+      let tempDiv = document.createElement('div');
+      tempDiv.innerHTML = premiumHtml;
+      tempDiv.style.position = 'absolute'; tempDiv.style.left = '-9999px';
+      document.body.appendChild(tempDiv);
+
+      html2canvas(document.getElementById('tempAdminMaster'), { scale: 2, useCORS: true }).then(canvas => {
+        let imgData = canvas.toDataURL('image/jpeg', 0.98);
+        document.body.removeChild(tempDiv);
+        Swal.fire({
+          title: '✨ डायरेक्टरी तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Premium Master Directory',
+          showCancelButton: true, confirmButtonText: 'बंद करें', confirmButtonColor: '#64748b',
+          cancelButtonText: '📲 शेयर करें', cancelButtonColor: '#25D366', reverseButtons: true
+        }).then(async (result) => {
+          if (result.dismiss === Swal.DismissReason.cancel) {
+            try {
+              let blob = await (await fetch(imgData)).blob();
+              let file = new File([blob], 'Admin_Master_Directory.jpg', { type: 'image/jpeg' });
+              if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ title: 'मास्टर डायरेक्टरी', text: 'एडमिन मास्टर परिवार सूची।', files: [file] }); } 
+              else { let link = document.createElement('a'); link.href = imgData; link.download = 'Admin_Master_Directory.jpg'; link.click(); }
+            } catch(e) {}
+          }
+        });
+      });
+    } catch(e) { Swal.fire({icon: 'error', text: 'डेटाबेस से सूची नहीं मिल पाई: ' + e.message}); }
   }
+
 </script>
 
 <script>

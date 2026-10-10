@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>समाज इतिहास | भुईहर जाति समाज</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -19,13 +21,26 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-@keyframes zoomInDrop {
-  0% { transform: translateY(-30px) scale(0.96); opacity: 0; }
-  60% { transform: translateY(4px) scale(1.005); opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
+/* ⭐ Page Premium Pop-up Animation ⭐ */
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-#app{max-width:500px;min-height:100vh;margin:auto;background:var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 40px rgba(0,0,0,0.1);padding-bottom:25px;animation: zoomInDrop 0.7s ease-out forwards;}
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,0.1);
+  padding-bottom:25px;
+  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+/* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
+.swal2-container { z-index: 100000 !important; }
 
 .header{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px;border-radius:0 0 22px 22px}
 .header h1{margin:0;font-size:18px;font-weight:800}
@@ -47,11 +62,6 @@ body{
 
 .hist-info h3{margin:0 0 6px;font-size:15px;font-weight:800;color:var(--navy)}
 .hist-info p{margin:4px 0;font-size:12px;color:var(--muted);line-height:1.5}
-
-.nav{position:fixed;z-index:50;bottom:0;left:50%;transform:translateX(-50%);width:min(500px,100%);background:var(--card);border-top:1px solid var(--line);display:flex;padding:6px 3px;box-shadow:0 -4px 20px rgba(0,0,0,0.05)}
-.nav a{flex:1;border:0;background:none;color:var(--muted);font:11px inherit;padding:4px 2px;cursor:pointer;text-align:center;text-decoration:none}
-.nav b{display:block;font-size:16px}
-.nav a.active{color:var(--p);font-weight:800}
 </style>
 </head>
 <body>
@@ -69,16 +79,12 @@ body{
     <div class="card">
       <div class="hist-info">
         <h3>भुईहर समाज की ऐतिहासिक पृष्ठभूमि</h3>
-        <p>भुईहर जाति समाज अपनी भूमि से जुड़ाव, श्रमशीलता और समृद्ध सांस्कृतिक परंपराओं के लिए जाना जाता है। महाराजगंज और आसपास के अंचल में समाज के पूर्वजों ने अपनी मेहनत से समाज की नींव को मजबूत किया है[span_2](start_span)[span_2](end_span)।</p>
-        <p>यह डिजिटल पोर्टल हमारी उसी पुरानी परंपरा और संस्कृति को आधुनिक तकनीक से जोड़कर आने वाली पीढ़ियों के लिए संरक्षित करने का एक प्रयास है[span_3](start_span)[span_3](end_span)।</p>
+        <p>भुईहर जाति समाज अपनी भूमि से जुड़ाव, श्रमशीलता और समृद्ध सांस्कृतिक परंपराओं के लिए जाना जाता है। महाराजगंज और आसपास के अंचल में समाज के पूर्वजों ने अपनी मेहनत से समाज की नींव को मजबूत किया है[span_0](start_span)[span_0](end_span)।</p>
+        <p>यह डिजिटल पोर्टल हमारी उसी पुरानी परंपरा और संस्कृति को आधुनिक तकनीक से जोड़कर आने वाली पीढ़ियों के लिए संरक्षित करने का एक प्रयास है[span_1](start_span)[span_1](end_span)。</p>
       </div>
     </div>
   </div>
-
-  <!-- बॉटम नेविगेशन -->
-  
 </div>
-
 
 <script>
 function goBackHome() {
@@ -88,12 +94,6 @@ function goBackHome() {
     window.location.href = 'index.html';
   }
 }
-</script>
-
-<script>
-window.addEventListener('popstate', function (event) {
-  history.pushState(null, null, location.href);
-});
 </script>
 </body>
 </html>

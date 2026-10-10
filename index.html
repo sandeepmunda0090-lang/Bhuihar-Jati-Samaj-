@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>भुईहर जाति समाज | महाराजगंज</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e5ebf3;--green:#168c50;--red:#d93025;--shadow:0 10px 28px rgba(20,42,72,.09)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -25,7 +27,7 @@ body{
   position:relative;
   overflow-x:hidden;
   box-shadow:0 0 50px rgba(0,0,0,0.15);
-  padding-bottom:20px; /* Reduced padding since bottom nav is gone */
+  padding-bottom:20px; 
   transition: background 1.2s ease, color 0.5s ease;
 }
 
@@ -53,7 +55,9 @@ body{
   z-index: 10;
 }
 
-.brand{display:flex;align-items:center;gap:12px; margin-top: 15px;}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.brand{display:flex;align-items:center;gap:12px; margin-top: 15px;}
+.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}
+.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
 .hero-title{font-size:18px;line-height:1.25;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:11.5px;line-height:1.4;opacity:.88}.container{padding:12px}
 
 .top-right-bar{position:absolute;top:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:10}
@@ -406,35 +410,6 @@ body{
 .services-two-row::-webkit-scrollbar { display: none; }
 .services-two-row:active { cursor: grabbing; }
 
-/* ======== FLOATING BOTTOM MENU (LIKE LIVE CHAT) ======== */
-.menu-float-btn { position: fixed; bottom: 25px; left: 16px; background: linear-gradient(135deg, var(--navy), var(--p)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; }
-.menu-card { display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 16px; padding: 14px 18px; margin-bottom: 12px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--line); transition: transform 0.2s; }
-.menu-card:active { transform: scale(0.96); }
-.menu-card.active { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: var(--p); color: var(--p); }
-.menu-card span.ic { font-size: 20px; width: 30px; text-align: center; color: var(--p); }
-
-
-/* ======== SIDE NAVIGATION DRAWER (RIGHT SIDE) ======== */
-.side-nav { 
-  position: fixed; top: 0; right: -25vw; width: 25vw; min-width: 85px; height: 100vh; 
-  background: rgba(255, 255, 255, 0.4); 
-  box-shadow: -10px 0 30px rgba(0,0,0,0.15); 
-  z-index: 999; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
-  display: flex; flex-direction: column; overflow-y: auto; 
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
-  border-left: 1.5px solid rgba(255, 255, 255, 0.6); 
-}
-.side-nav.open { right: 0; }
-.side-nav-header { background: rgba(8, 43, 84, 0.7); color: #fff; backdrop-filter: blur(10px); padding: 25px 4px 15px; font-size: 13px; font-weight: 800; text-align: center; display:flex; flex-direction: column; align-items: center; gap:6px; border-bottom: 2px solid var(--gold); }
-.side-nav-header span.sub { font-size: 11px; opacity: 0.8; font-weight: normal; }
-.side-nav a { padding: 14px 5px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; transition: all 0.2s; line-height: 1.2; }
-.side-nav a span.ic { font-size: 22px; width: 100%; text-align: center; color: var(--muted); transition: all 0.2s; }
-.side-nav a:hover, .side-nav a:active { background: rgba(7, 87, 163, 0.05); transform: scale(1.05); }
-.side-nav a.active { color: var(--navy); background: rgba(255, 255, 255, 0.6); border-right: 4px solid var(--navy); font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-.side-nav a.active span.ic { color: var(--p); }
-.nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); z-index: 998; display: none; opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(3px); }
-.nav-overlay.open { display: block; opacity: 1; }
-
 </style>
 <div class="services-two-row" id="servicesWheelSlider">
       <!-- AD BRIDGE LINKS INTEGRATED HERE -->
@@ -503,9 +478,8 @@ body{
       <button onclick="sendChatMessage()">भेजें</button>
     </div>
   </div>
-</div> <!-- End of #app -->
+</div> 
 
-<!-- HAMBURGER BUTTON & RIGHT SIDEBAR MENU -->
 <!-- MODERN COLLAPSIBLE SIDEBAR (RIGHT SIDE) -->
 <div id="modernNavOverlay" class="modern-sidebar-overlay" onclick="toggleModernSidebar()"></div>
 <div id="modernSidebar" class="modern-sidebar">
@@ -532,7 +506,6 @@ body{
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-    // ================= MODERN RIGHT SIDEBAR SCRIPT =================
   function toggleModernSidebar() {
     const sidebar = document.getElementById('modernSidebar');
     const overlay = document.getElementById('modernNavOverlay');
@@ -541,7 +514,6 @@ body{
     overlay.classList.toggle('open');
   }
 
-  // ================= SCROLL MEMORY & RESTORATION =================
   function saveCurrentScrollState(targetId) {
     sessionStorage.setItem('return_scroll_pos', window.scrollY);
     if (targetId) {
@@ -550,7 +522,6 @@ body{
     sessionStorage.setItem('has_navigated_away', 'true');
   }
 
-  // Intercept openAppPage to save scroll position before navigating
   function openAppPage(pageUrl, serviceId) {
     saveCurrentScrollState(serviceId);
     if (typeof AndroidBridge !== "undefined") {
@@ -566,28 +537,21 @@ body{
     const returnTargetId = sessionStorage.getItem('return_target_id');
 
     if (hasNavigatedAway === 'true' && returnScrollPos !== null) {
-      // User wapas aaya hai (Back navigation) -> Usi service/position par le jao
       setTimeout(function() {
         if (returnTargetId) {
           const el = document.getElementById(returnTargetId);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          } else {
-            window.scrollTo({ top: parseInt(returnScrollPos), behavior: 'smooth' });
-          }
+          if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+          else { window.scrollTo({ top: parseInt(returnScrollPos), behavior: 'smooth' }); }
         } else {
           window.scrollTo({ top: parseInt(returnScrollPos), behavior: 'smooth' });
         }
-        // Ek baar restore hone ke baad flag clear karein
         sessionStorage.removeItem('has_navigated_away');
       }, 180);
     } else {
-      // Fresh app start -> Hamesha Dashboard ke Top par khule
       window.scrollTo(0, 0);
     }
   });
 
-  // Track clicks on all service cards and anchors
   document.addEventListener('click', function(e) {
     let card = e.target.closest('.cat-card, .banner-3d-card, .official-card, .stat, .ms-link');
     if (card) {
@@ -595,19 +559,13 @@ body{
       saveCurrentScrollState(targetId);
     }
   });
-  // ================================================================
 
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
   const softPalettes = [
-    { bg: "#f4f7fb" },
-    { bg: "#eef2f7" },
-    { bg: "#f0fdf4" },
-    { bg: "#fdf4f8" },
-    { bg: "#fefce8" },
-    { bg: "#f8fafc" }
+    { bg: "#f4f7fb" }, { bg: "#eef2f7" }, { bg: "#f0fdf4" }, { bg: "#fdf4f8" }, { bg: "#fefce8" }, { bg: "#f8fafc" }
   ];
   let colorIndex = 0;
   document.addEventListener("click", (e) => {
@@ -634,7 +592,7 @@ body{
   }
   loadHomeMeeting();
 
-    let achieversDataList = [];
+  let achieversDataList = [];
   let currentActiveAchieverId = null;
 
   function parseAchieverScore(ach) {
@@ -735,14 +693,13 @@ body{
   async function likeAchiever() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if (!loggedMobile) {
-      alert("⚠️ मेधावी छात्र को 'GOOD' (लाइक) देने के लिए कृपया पहले लॉगिन करें!");
-      openAppPage("login.html");
+      Swal.fire({icon: 'warning', title: 'लॉगिन आवश्यक', text: 'मेधावी छात्र को \'GOOD\' (लाइक) देने के लिए कृपया पहले लॉगिन करें!'}).then(() => { openAppPage("login.html"); });
       return;
     }
     if (!currentActiveAchieverId) return;
     let likedKey = "liked_achiever_" + currentActiveAchieverId + "_" + loggedMobile;
     if (localStorage.getItem(likedKey) === "yes") {
-      alert("ℹ️ आपने इस मेधावी छात्र को पहले ही 'GOOD' दे दिया है!");
+      Swal.fire({icon: 'info', text: 'आपने इस मेधावी छात्र को पहले ही \'GOOD\' दे दिया है!'});
       return;
     }
     let likeCountSpan = document.getElementById("modalLikeCount");
@@ -756,8 +713,8 @@ body{
       localStorage.setItem(likedKey, "yes");
       let achObj = achieversDataList.find(a => a.id === currentActiveAchieverId);
       if(achObj) achObj.likes = newLikes;
-      alert("✨ धन्यवाद! आपका 'GOOD' सफलतापूर्वक दर्ज हो गया है।");
-    } catch(e) { alert("लाइक अपडेट करने में त्रुटि हुई।"); }
+      Swal.fire({icon: 'success', title: 'धन्यवाद!', text: 'आपका \'GOOD\' सफलतापूर्वक दर्ज हो गया है।', confirmButtonColor: '#16a34a', timer: 2000});
+    } catch(e) { Swal.fire({icon: 'error', text: 'लाइक अपडेट करने में त्रुटि हुई।'}); }
   }
 
   function closeAchieverModal() {
@@ -767,13 +724,11 @@ body{
     box.style.transform = "scale(0.8)";
     setTimeout(() => { overlay.style.display = "none"; }, 300);
   }
-
     
   function checkLoginAndCall(mobile) {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if (!loggedMobile) {
-      alert("⚠️ पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें!");
-      openAppPage("login.html");
+      Swal.fire({icon: 'warning', text: 'पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें!'}).then(() => { openAppPage("login.html"); });
       return;
     }
     window.location.href = 'tel:' + mobile;
@@ -782,8 +737,7 @@ body{
   function checkLoginAndChat(mobile) {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if (!loggedMobile) {
-      alert("⚠️ पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें तालिका में!");
-      openAppPage("login.html");
+      Swal.fire({icon: 'warning', text: 'पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें!'}).then(() => { openAppPage("login.html"); });
       return;
     }
     window.open('https://wa.me/91' + mobile, '_blank');
@@ -968,8 +922,7 @@ body{
   async function sendChatMessage() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
     if(!loggedMobile) {
-      alert("⚠️ कम्युनिटी चैट में संदेश भेजने के लिए कृपया पहले लॉगिन करें!");
-      openAppPage("login.html");
+      Swal.fire({icon: 'warning', text: 'कम्युनिटी चैट में संदेश भेजने के लिए कृपया पहले लॉगिन करें!'}).then(() => { openAppPage("login.html"); });
       return;
     }
     let input = document.getElementById("chatInputMessage");
@@ -980,7 +933,7 @@ body{
       await db.collection("community_chats").add({ mobile: loggedMobile, name: loggedName, text: text, timestamp: Date.now() });
       input.value = "";
       loadChatMessages();
-    } catch(e) { alert("संदेश भेजने में विफल।"); }
+    } catch(e) { Swal.fire({icon: 'error', text: 'संदेश भेजने में विफल।'}); }
   }
 
   function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
@@ -996,10 +949,24 @@ body{
       document.getElementById("topAuthBtn").innerText = "🚪 लॉगआउट";
       document.getElementById("topAuthBtn").onclick = function(e) {
         e.preventDefault();
-        localStorage.removeItem("userLoggedInMobile");
-        localStorage.removeItem("userName");
-        alert("सफलतापूर्वक लॉगआउट हो गए!");
-        window.location.reload();
+        Swal.fire({
+          title: 'लॉगआउट?',
+          text: "क्या आप वाकई लॉगआउट करना चाहते हैं?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#dc2626',
+          cancelButtonColor: '#64748b',
+          confirmButtonText: 'हाँ, लॉगआउट करें!',
+          cancelButtonText: 'रद्द करें'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem("userLoggedInMobile");
+            localStorage.removeItem("userName");
+            Swal.fire({ icon: 'success', title: 'लॉगआउट सफल', text: 'सफलतापूर्वक लॉगआउट हो गए!', confirmButtonColor: '#16a34a' }).then(() => {
+              window.location.reload();
+            });
+          }
+        });
       };
       
       document.getElementById("heroSubText").style.display = "none";
@@ -1085,6 +1052,42 @@ body{
     }catch(e){}
   }
   loadHomeStats();
+
+  // भविष्य में PDF डाउनलोड/शेयर करने के लिए मास्टर फंक्शन (WhatsApp Direct Share)
+  function downloadAndSharePDF(base64Data) {
+      try {
+          let parts = base64Data.split(',');
+          let byteString = atob(parts[1]);
+          let ab = new ArrayBuffer(byteString.length);
+          let ia = new Uint8Array(ab);
+          for (let i = 0; i < byteString.length; i++) {
+              ia[i] = byteString.charCodeAt(i);
+          }
+          let blob = new Blob([ab], { type: 'application/pdf' });
+          let file = new File([blob], "Bhuihar_Samaj_Card.pdf", { type: 'application/pdf' });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              navigator.share({
+                  title: 'Bhuihar Samaj Card',
+                  text: 'यह रहा आपका डिजिटल परिवार कार्ड',
+                  files: [file]
+              }).catch(function(error) {
+                  console.log('Error sharing:', error);
+              });
+          } else {
+              let link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = "Bhuihar_Samaj_Card.pdf";
+              link.click();
+          }
+      } catch (err) {
+          if(typeof Swal !== 'undefined') {
+              Swal.fire({icon: 'error', title: 'त्रुटि', text: 'PDF शेयर करने में समस्या आई।'});
+          } else {
+              alert("PDF शेयर करने में समस्या आई।");
+          }
+      }
+  }
 </script>
 
 <script>
@@ -1206,10 +1209,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-</script>
-
-<script>
-
 </script>
 
 <script>

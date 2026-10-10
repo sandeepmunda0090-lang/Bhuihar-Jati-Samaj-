@@ -37,32 +37,12 @@ body{
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* SweetAlert2 पॉप-अप को हमेशा सबसे ऊपर रखने का फिक्स */
 .swal2-container { z-index: 100000 !important; }
 
 @keyframes bounceDrop { 0% { transform: translateY(-30px); opacity: 0; } 60% { transform: translateY(6px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 @keyframes iconBounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.05); } }
 
 .hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:18px 16px 24px;border-radius:0 0 24px 24px;position:relative;}
-
-/* Hamburger Menu Button */
-.menu-btn {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.4);
-  color: #fff;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  font-size: 20px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-  z-index: 10;
-}
 
 .brand{display:flex;align-items:center;gap:12px; margin-top: 15px;}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#fff,#d9ecff);display:grid;place-items:center;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.15);animation: iconBounce 1.8s infinite ease-in-out}.brand h1{margin:0;font-size:18px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
 .hero-title{font-size:18px;line-height:1.25;margin:12px 0 4px;font-weight:800}.hero-sub{font-size:11.5px;line-height:1.4;opacity:.88}.container{padding:12px}
@@ -85,273 +65,39 @@ body{
 .donation-circle-badge span.title { font-size: 10px; font-weight: 800; line-height: 1; opacity: 0.95; }
 .donation-circle-badge span.amount { font-size: 13px; font-weight: 900; line-height: 1.2; margin-top: 4px; white-space: nowrap; }
 
-/* 🌟 3D Flip Quick Donate Widget Styles */
-.quick-donate-wrapper {
-  perspective: 1000px;
-  width: 100%;
-  margin: 14px 0;
-  cursor: pointer;
-}
-.quick-donate-card {
-  width: 100%;
-  height: 150px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(7,87,163,0.12);
-}
-.quick-donate-card.flipped {
-  transform: rotateY(180deg);
-}
-.donate-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
-  border: 1.5px solid var(--line);
-}
-.donate-front {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(217,119,6,0.3);
-}
-.donate-back {
-  background: #ffffff;
-  color: var(--text);
-  transform: rotateY(180deg);
-  text-align: center;
-}
-
 .category-slider { display: flex; gap: 15px; overflow-x: auto; padding: 20px 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; perspective: 1200px; cursor: grab; }
-.category-slider::-webkit-scrollbar { display: none; } .category-slider:active { cursor: grabbing; }
+.category-slider::-webkit-scrollbar { display: none; }
 
 .cat-card{min-width:115px;max-width:115px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;box-shadow:0 4px 15px rgba(7,87,163,0.08);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-decoration:none;flex-shrink:0;transition:transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);position:relative;}
-.cat-card:active{transform:scale(0.95)}
 .cat-card .ic{width:56px;height:56px;border-radius:14px;background:rgba(7,87,163,0.1);display:grid;place-items:center;font-size:26px;margin-bottom:8px;animation: iconBounce 1.5s infinite ease-in-out}
 .cat-card b{display:block;font-size:12px;font-weight:800;margin-bottom:2px;color:var(--navy)}
 .cat-card span{display:block;font-size:9.5px;color:var(--muted);line-height:1.2}
+.notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; display: none; }
 
-.cat-card.active-center { transform: scale(1.12) translateY(-4px); background: linear-gradient(135deg, #ffffff, #eff6ff); border-color: var(--p); box-shadow: 0 15px 35px rgba(7,87,163,0.22); z-index: 5; }
-
-.notification-badge { position: absolute; top: 6px; right: 8px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: none; }
-
-.official-card{min-width:155px;max-width:155px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
-.official-card img{width:95px;height:112px;border-radius:12px;object-fit:cover;border:2.5px solid var(--gold);margin-bottom:8px;box-shadow:0 4px 10px rgba(0,0,0,0.15);}
+.official-card{min-width:155px;max-width:155px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.official-card img{width:95px;height:112px;border-radius:12px;object-fit:cover;border:2.5px solid var(--gold);margin-bottom:8px;}
 .contact-btns{display:flex;gap:6px;margin-top:10px;width:100%}
-.contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;text-align:center;}
+.contact-btns button{flex:1;background:var(--bg);border:1px solid var(--line);padding:6px 2px;border-radius:8px;font:inherit;font-size:10px;cursor:pointer;color:var(--navy);font-weight:bold;}
 
-#achieversSlider { display: flex; gap: 20px; overflow-x: auto; padding: 25px calc(50% - 85px); scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; scroll-behavior: smooth; perspective: 1200px; cursor: grab; align-items: center; }
-#achieversSlider::-webkit-scrollbar { display: none; }
-
-.achiever-card { min-width: 170px; max-width: 170px; background: linear-gradient(145deg, #ffffff, #f0f4f8); border: 2px solid #cbd5e1; border-top: 4px solid var(--gold); border-radius: 20px; padding: 24px 10px 18px 10px; text-align: center; flex-shrink: 0; scroll-snap-align: center; position: relative; cursor: pointer; box-shadow: 0 12px 25px rgba(15, 23, 42, 0.12); display: flex; flex-direction: column; align-items: center; transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, opacity 0.4s ease; }
-.achiever-card.active-center { transform: perspective(800px) rotateY(0deg) scale(1.1) translateY(-6px); opacity: 1; box-shadow: 0 20px 40px rgba(7,87,163,0.25); border-color: var(--p); z-index: 10; }
-.achiever-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4); border: 1.5px solid #fff; white-space: nowrap; }
-.achiever-img { width: 95px; height: 112px; border-radius: 12px; object-fit: cover; border: 2.5px solid var(--gold); margin: 6px auto 6px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
-
-.banner-3d-card { min-width: 290px; max-width: 290px; background: linear-gradient(135deg, #ffffff, #f8fafc); border: 2px solid var(--line); border-left: 6px solid var(--p); border-radius: 20px; padding: 18px; box-shadow: -10px 15px 30px rgba(7,87,163,0.12); flex-shrink: 0; scroll-snap-align: center; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, opacity 0.5s ease; transform: perspective(800px) rotateY(12deg) scale(0.93); opacity: 0.85; }
-.banner-actions { display: flex; gap: 10px; margin-top: 12px; }
-.banner-btn-call { flex: 1; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 10px; padding: 8px 12px; font-size: 12px; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 10px rgba(16,185,129,0.3); }
-.banner-btn-whatsapp { flex: 1; background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; border: none; border-radius: 10px; padding: 8px 12px; font-size: 12px; font-weight: bold; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
+#achieversSlider { display: flex; gap: 20px; overflow-x: auto; padding: 25px calc(50% - 85px); scrollbar-width: none; scroll-snap-type: x mandatory; align-items: center; }
+.achiever-card { min-width: 170px; max-width: 170px; background: linear-gradient(145deg, #ffffff, #f0f4f8); border: 2px solid #cbd5e1; border-top: 4px solid var(--gold); border-radius: 20px; padding: 24px 10px 18px 10px; text-align: center; flex-shrink: 0; scroll-snap-align: center; position: relative; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.achiever-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px; }
+.achiever-img { width: 95px; height: 112px; border-radius: 12px; object-fit: cover; border: 2.5px solid var(--gold); margin: 6px auto; }
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;box-shadow:var(--shadow)}.stat b{display:block;font-size:16px;color:var(--p);font-weight:900}.stat span{font-size:9.5px;color:var(--muted)}
 
-/* ======== MODERN FLOATING COLLAPSIBLE SIDEBAR (RIGHT SIDE) ======== */
-.modern-sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 998;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-.modern-sidebar-overlay.open {
-  opacity: 1;
-  pointer-events: auto;
-}
+.modern-sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+.modern-sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+.modern-sidebar { position: fixed; top: 18px; right: -320px; width: min(290px, 78vw); max-height: calc(100vh - 36px); background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(28px); border: 1.5px solid rgba(255, 255, 255, 0.9); border-radius: 28px; z-index: 999; display: flex; flex-direction: column; overflow: hidden; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+.modern-sidebar.open { right: 14px; }
+.ms-header { padding: 18px; text-align: center; position: relative; border-bottom: 1px solid rgba(229, 235, 243, 0.8); }
+.ms-close-btn { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%; border: none; background: #f1f5f9; cursor: pointer; }
+.ms-body { padding: 12px 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.ms-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; color: #334155; text-decoration: none; font-weight: 700; font-size: 13px; }
+.header-toggle-btn { background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.45); color: #fff; border-radius: 12px; width: 36px; height: 34px; font-size: 18px; cursor: pointer; display: grid; place-items: center; }
 
-.modern-sidebar {
-  position: fixed;
-  top: 18px;
-  right: -320px;
-  width: min(290px, 78vw);
-  max-height: calc(100vh - 36px);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22), 0 4px 12px rgba(7, 87, 163, 0.08);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s ease;
-  transform: scale(0.96);
-}
-.modern-sidebar.open {
-  right: 14px;
-  transform: scale(1);
-}
-
-.ms-header {
-  padding: 18px 18px 14px;
-  background: linear-gradient(145deg, rgba(8, 43, 84, 0.06), rgba(7, 87, 163, 0.02));
-  border-bottom: 1px solid rgba(229, 235, 243, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  text-align: center;
-}
-.ms-close-btn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.85);
-  color: #475569;
-  font-size: 13px;
-  font-weight: bold;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-.ms-close-btn:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-  transform: rotate(90deg);
-}
-
-.ms-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--p), var(--navy));
-  color: #fff;
-  font-size: 26px;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 6px 16px rgba(7, 87, 163, 0.28);
-  border: 2.5px solid #fff;
-  margin-bottom: 8px;
-  overflow: hidden;
-  position: relative;
-}
-.ms-user-name {
-  font-size: 14.5px;
-  font-weight: 800;
-  color: var(--navy);
-  margin: 0;
-  line-height: 1.2;
-}
-.ms-user-sub {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 600;
-  margin-top: 3px;
-}
-
-.ms-body {
-  padding: 12px 14px 16px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  scrollbar-width: none;
-}
-.ms-body::-webkit-scrollbar { display: none; }
-
-.ms-section-label {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #94a3b8;
-  letter-spacing: 0.6px;
-  padding: 8px 10px 4px;
-}
-
-.ms-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 14px;
-  color: #334155;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 13px;
-  transition: all 0.22s ease;
-  background: transparent;
-}
-.ms-link span.ic {
-  font-size: 18px;
-  width: 24px;
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-  transition: transform 0.2s, color 0.2s;
-}
-.ms-link:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--navy);
-  transform: translateX(-3px);
-  box-shadow: 0 4px 12px rgba(7, 87, 163, 0.06);
-}
-.ms-link:hover span.ic {
-  color: var(--p);
-  transform: scale(1.15);
-}
-
-.ms-link.active {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  color: var(--p);
-  border: 1px solid #bfdbfe;
-  box-shadow: 0 4px 14px rgba(7, 87, 163, 0.1);
-}
-.ms-link.active span.ic {
-  color: var(--p);
-  transform: scale(1.1);
-}
-
-.header-toggle-btn {
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  color: #fff;
-  border-radius: 12px;
-  width: 36px;
-  height: 34px;
-  font-size: 18px;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transition: all 0.2s;
-}
-.header-toggle-btn:active {
-  transform: scale(0.92);
-}
-
-.admin-note{font-size:11px;color:var(--muted);line-height:1.4}
+.services-two-row { display: grid; grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 12px 14px; overflow-x: auto; padding: 10px 4px 20px 4px; scrollbar-width: none; }
+.services-two-row::-webkit-scrollbar { display: none; }
 .chat-float-btn { position: fixed; bottom: 85px; right: 16px; background: linear-gradient(135deg, var(--p), var(--p2)); color: #fff; border-radius: 50px; padding: 10px 16px; box-shadow: 0 4px 20px rgba(7,87,163,0.4); display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 99; font-weight: 700; font-size: 13px; text-decoration: none; }
 .chat-modal { position: fixed; bottom: 0; right: 0; width: 100%; max-width: 400px; height: 480px; background: #fff; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; display: none; flex-direction: column; overflow: hidden; }
 .chat-header { background: var(--p); color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
@@ -362,30 +108,12 @@ body{
 .msg-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; font-size: 12.5px; line-height: 1.4; word-break: break-word; }
 .msg-incoming { background: #fff; color: var(--text); align-self: flex-start; border: 1px solid var(--line); }
 .msg-outgoing { background: var(--p); color: #fff; align-self: flex-end; }
-
-.banner-3d-card.active-center, .banner-3d-card:hover { transform: perspective(800px) rotateY(0deg) scale(1) translateY(-4px); opacity: 1; box-shadow: 0 20px 40px rgba(7,87,163,0.22); border-left-color: #f59e0b; z-index: 10; }
-
-.services-two-row {
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  grid-auto-flow: column;
-  gap: 12px 14px;
-  overflow-x: auto;
-  padding: 10px 4px 20px 4px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  cursor: grab;
-}
-.services-two-row::-webkit-scrollbar { display: none; }
-.services-two-row:active { cursor: grabbing; }
-
 </style>
 </head>
 <body>
 
 <div id="app">
   <div class="hero">
-    
     <div class="top-right-bar" style="position: absolute; top: 16px; right: 16px; display: flex; gap: 8px; align-items: center; z-index: 10;">
       <a href="javascript:void(0);" onclick="openAppPage('login.html')" id="topAuthBtn" class="top-profile-btn">👤 लॉगिन</a>
       <button class="header-toggle-btn" onclick="toggleModernSidebar()" title="मेनू खोलें">☰</button>
@@ -403,29 +131,10 @@ body{
   </div>
 
   <div class="container">
-    
-    <!-- 🌟 नया 3D फ्लिप क्विक डोनेशन विजेट (यहाँ सुरक्षित फॉलबैक के साथ जोड़ा गया है) -->
-    <div class="quick-donate-wrapper" onclick="toggleDonateFlip(this)">
-      <div class="quick-donate-card" id="donateFlipCard">
-        <!-- सामने का हिस्सा -->
-        <div class="donate-face donate-front">
-          <div style="font-size: 30px; margin-bottom: 4px;">🤝</div>
-          <h3 style="margin: 0; font-size: 15px; font-weight: 900;">समाज सहयोग करें (त्वरित दान)</h3>
-          <p style="margin: 3px 0 0; font-size: 11px; opacity: 0.9;">क्लिक करके QR कोड देखें और तुरंत भुगतान करें</p>
-        </div>
-        <!-- पीछे का हिस्सा (QR कोड वाला) -->
-        <div class="donate-face donate-back">
-          <h4 style="margin: 0 0 2px; font-size: 12.5px; color: var(--navy);">📲 स्कैन करके सहयोग करें</h4>
-          <div id="quickQrDisplay" style="font-size: 11px; color: var(--muted);">QR लोड हो रहा है...</div>
-          <div id="quickUpiText" style="font-size: 10px; font-weight: bold; color: var(--p); margin-top: 2px;">UPI: लोड हो रहा है</div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-title" id="meetingSectionTitle" style="margin-top:6px; display:none;"><h2>समाज सूचना</h2></div>
     <div class="card" id="meetingCardBox" style="display:none;">
       <h3 id="homeMeetingTitle" style="font-size:14px;margin-bottom:4px">📢 आगामी बैठक</h3>
-      <p class="admin-note" id="homeMeetingDesc">सूचना लोड हो रही है...</p>
+      <p style="font-size:11px;color:var(--muted);line-height:1.4" id="homeMeetingDesc">सूचना लोड हो रही है...</p>
     </div>
 
     <div class="stats">
@@ -434,7 +143,7 @@ body{
       <div class="stat"><b id="stApproved">0</b><span>स्वीकृत</span></div>
     </div>
 
-    <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ (3D सर्कल)</h2><span style="font-size:10.5px;color:var(--muted);">रैंक #1 सेंटर ➔</span></div>
+    <div class="section-title"><h2>🏆 समाज की मेधावी प्रतिभाएँ (3D सर्कल केंद्रांतरित)</h2><span style="font-size:10.5px;color:var(--muted);">रैंक #1 सेंटर ➔</span></div>
     <div class="category-slider" id="achieversSlider">
       <div style="padding:10px; color:var(--muted); font-size:12px;">मेधावी छात्र लोड हो रहे हैं...</div>
     </div>
@@ -444,67 +153,30 @@ body{
       <div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड हो रहे हैं...</div>
     </div>
     
-    <div class="section-title"><h2>समाज की सभी 13 सेवाएँ (3D रोटरी व्हील)</h2><span style="font-size:10.5px;color:var(--muted);">हाथ से घुमाएं ➔</span></div>
+    <div class="section-title"><h2>समाज की सभी सेवाएँ (3D रोटरी व्हील)</h2><span style="font-size:10.5px;color:var(--muted);">हाथ से घुमाएं ➔</span></div>
     
     <div class="services-two-row" id="servicesWheelSlider">
-          <a href="javascript:void(0);" id="srv-family" onclick="openAppPage('family.html', 'srv-family')" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
-          <a href="javascript:void(0);" id="srv-matrimonial" onclick="openAppPage('matrimonial.html', 'srv-matrimonial')" class="cat-card" style="position:relative;"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span><span id="badge-matrimonials" class="notification-badge">0</span></a>
-          <a href="javascript:void(0);" id="srv-jobs" onclick="openAppPage('jobs.html', 'srv-jobs')" class="cat-card" style="position:relative;"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span><span id="badge-jobs" class="notification-badge">0</span></a>
-          <a href="javascript:void(0);" id="srv-business" onclick="openAppPage('business.html', 'srv-business')" class="cat-card" style="position:relative;"><div class="ic">🏪</div><b>व्यवसाय</b><span>दुकानें व डायरेक्टरी</span><span id="badge-businesses" class="notification-badge">0</span></a>
-          <a href="javascript:void(0);" id="srv-vehicles" onclick="openAppPage('vehicles.html', 'srv-vehicles')" class="cat-card" style="position:relative;"><div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग</span><span id="badge-vehicles" class="notification-badge">0</span></a>
-          <a href="javascript:void(0);" id="srv-blood" onclick="openAppPage('blood.html', 'srv-blood')" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>डोनर सूची</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('family.html')" class="cat-card"><div class="ic">👨‍👩‍👧‍👦</div><b>परिवार पंजीका</b><span>परिवार डायरेक्टरी</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('matrimonial.html')" class="cat-card" style="position:relative;"><div class="ic">💍</div><b>वैवाहिक</b><span>वर-वधू बायोडाटा</span><span id="badge-matrimonials" class="notification-badge">0</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('jobs.html')" class="cat-card" style="position:relative;"><div class="ic">💼</div><b>रोज़गार शिक्षा</b><span>नौकरी व छात्र</span><span id="badge-jobs" class="notification-badge">0</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('business.html')" class="cat-card" style="position:relative;"><div class="ic">🏪</div><b>व्यवसाय</b><span>दुकानें व डायरेक्टरी</span><span id="badge-businesses" class="notification-badge">0</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('vehicles.html')" class="cat-card" style="position:relative;"><div class="ic">🚗</div><b>यात्रा / वाहन</b><span>वाहन बुकिंग</span><span id="badge-vehicles" class="notification-badge">0</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('blood.html')" class="cat-card"><div class="ic">🩸</div><b>रक्तदान सेवा</b><span>डोनर सूची</span></a>
           <a href="javascript:void(0);" onclick="toggleChatWindow()" class="cat-card"><div class="ic">💬</div><b>चैट रूम</b><span>कम्युनिटी चैट</span></a>
-          <a href="javascript:void(0);" id="srv-voting" onclick="openAppPage('voting.html', 'srv-voting')" class="cat-card" style="position:relative;"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की राय</span><span id="badge-voting" class="notification-badge">0</span></a>
-          <a href="javascript:void(0);" id="srv-condolence" onclick="openAppPage('condolence.html', 'srv-condolence')" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि पत्र</span></a>
-          <a href="javascript:void(0);" id="srv-gallery" onclick="openAppPage('gallery.html', 'srv-gallery')" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>photo आयोजन</span></a>
-          <a href="javascript:void(0);" id="srv-feedback" onclick="openAppPage('feedback.html', 'srv-feedback')" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत व सुझाव</span></a>
-          <a href="javascript:void(0);" id="srv-schemes" onclick="openAppPage('schemes.html', 'srv-schemes')" class="cat-card"><div class="ic">🏛️</div><b>सरकारी योजना</b><span>सहायता डेस्क</span></a>
-          <a href="javascript:void(0);" id="srv-women_schemes" onclick="openAppPage('women_schemes.html', 'srv-women_schemes')" class="cat-card"><div class="ic">👩‍👧‍👦</div><b>महिला एवं बाल</b><span>कल्याण योजनाएं</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('voting.html')" class="cat-card" style="position:relative;"><div class="ic">📊</div><b>जनमत पोल</b><span>समाज की राय</span><span id="badge-voting" class="notification-badge">0</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('condolence.html')" class="cat-card"><div class="ic">🕯️</div><b>शोक संदेश</b><span>श्रद्धांजलि पत्र</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('gallery.html')" class="cat-card"><div class="ic">🖼️</div><b>समाज गैलरी</b><span>photo आयोजन</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('feedback.html')" class="cat-card"><div class="ic">🛠️</div><b>हेल्प डेस्क</b><span>शिकायत व सुझाव</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('schemes.html')" class="cat-card"><div class="ic">🏛️</div><b>सरकारी योजना</b><span>सहायता डेस्क</span></a>
+          <a href="javascript:void(0);" onclick="openAppPage('women_schemes.html')" class="cat-card"><div class="ic">👩‍👧‍👦</div><b>महिला एवं बाल</b><span>कल्याण योजनाएं</span></a>
     </div>
-
-    <div class="section-title"><h2>🏪 समाज की दुकानें एवं व्यवसाय</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
-    <div class="category-slider" id="homeBusinessSlider">
-      <div style="padding:10px; color:var(--muted); font-size:12px;">व्यवसाय लोड हो रहे हैं...</div>
-    </div>
-
-    <div class="section-title" style="margin-top:16px;"><h2>🚗 वाहन एवं कार बुकिंग सेवा</h2><span style="font-size:10.5px;color:var(--muted);">3D बैनर ➔</span></div>
-    <div class="category-slider" id="homeVehicleSlider">
-      <div style="padding:10px; color:var(--muted); font-size:12px;">वाहन सेवा लोड हो रही है...</div>
-    </div>
-
-    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1e40af; margin-top:16px;">
-      <h3 style="margin:0 0 4px;font-size:13px">📜 समाज विरासत सुविचार</h3>
-      <p style="margin:0;font-size:11px;line-height:1.4">"भूमि से जुड़े रहना और अपनी संस्कृति को आगे बढ़ाना ही भुईहर समाज की सच्ची पहचान है।"</p>
-    </div>
-  </div>
-
-  <div id="achieverModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.7); backdrop-filter:blur(6px); z-index:9999; display:none; align-items:center; justify-content:center; opacity:0; transition:opacity 0.3s ease;">
-      <div id="achieverModalBox" style="background:#ffffff; width:90%; max-width:330px; border-radius:24px; padding:20px; text-align:center; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.3); transform:scale(0.8); transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
-          <button onclick="closeAchieverModal()" style="position:absolute; top:12px; right:12px; background:#f1f5f9; border:none; width:28px; height:28px; border-radius:50%; font-size:13px; cursor:pointer; color:#64748b; display:grid; place-items:center;">✕</button>
-          <img id="modalAchPhoto" src="" style="width:75px; height:90px; border-radius:12px; object-fit:cover; border:2.5px solid var(--gold); margin:5px auto 10px; box-shadow:0 4px 10px rgba(0,0,0,0.15);">
-          <h3 id="modalAchName" style="font-size:16px; font-weight:800; color:var(--navy); margin:0 0 4px;">छात्र नाम</h3>
-          <p id="modalAchDetail" style="font-size:12px; font-weight:700; color:var(--p); margin:0 0 10px;"></p>
-          <div style="background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:10px; text-align:left; font-size:11.5px; color:var(--text); line-height:1.5;">
-              <div><b>पिता का नाम:</b> <span id="modalAchFather">-</span></div>
-              <div><b>माता का नाम:</b> <span id="modalAchMother">-</span></div>
-              <div style="margin-top:8px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:6px 8px; color:#065f46; font-weight:bold; font-size:12px; text-align:center;">
-                🎁 प्रोत्साहन / सम्मान राशि: <span id="modalAchReward">घोषित</span>
-              </div>
-          </div>
-          <div style="margin-top:14px; display:flex; align-items:center; justify-content:center; gap:10px;">
-              <button onclick="likeAchiever()" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:none; border-radius:20px; padding:8px 16px; font-size:13px; font-weight:bold; cursor:pointer; box-shadow:0 4px 12px rgba(16,185,129,0.3); display:flex; align-items:center; gap:6px;">
-                  👍 GOOD <span id="modalLikeCount" style="background:rgba(255,255,255,0.3); padding:2px 6px; border-radius:10px; font-size:11px;">0</span>
-              </button>
-          </div>
-          <button onclick="closeAchieverModal()" class="btn" style="margin-top:14px; padding:10px; font-size:12.5px;">बंद करें</button>
-      </div>
   </div>
 
   <div class="chat-float-btn" onclick="toggleChatWindow()"><span>💬 लाइव चैट</span></div>
   <div id="chatModalWindow" class="chat-modal">
     <div class="chat-header">
       <span>कम्युनिटी लाइव चैट</span>
-      <span id="chatMessageCounter" style="font-size:11px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:10px;">कुल संदेश: 0</span>
+      <span id="chatMessageCounter" style="font-size:11px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:10px;">कुल: 0</span>
       <span style="cursor:pointer;" onclick="toggleChatWindow()">✕</span>
     </div>
     <div class="chat-body" id="chatMessagesContainer"></div>
@@ -515,28 +187,18 @@ body{
   </div>
 </div>
 
-<!-- MODERN COLLAPSIBLE SIDEBAR (RIGHT SIDE) -->
+<!-- SIDEBAR -->
 <div id="modernNavOverlay" class="modern-sidebar-overlay" onclick="toggleModernSidebar()"></div>
 <div id="modernSidebar" class="modern-sidebar">
   <div class="ms-header">
     <button class="ms-close-btn" onclick="toggleModernSidebar()">✕</button>
-    <div class="ms-avatar" id="sidebarAvatarBox"><img id="sidebarUserPhoto" src="" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;"><span id="sidebarAvatarIcon">🌾</span></div>
-    <h3 class="ms-user-name" id="sidebarUserName">भुईहर जाति समाज</h3>
-    <span class="ms-user-sub" id="sidebarUserSub">डिजिटल पोर्टल • महाराजगंज</span>
+    <h3 style="margin:0; color:var(--navy); font-size:15px;">डिजिटल पोर्टल</h3>
   </div>
   <div class="ms-body">
-    <div class="ms-section-label">मुख्य मेनू</div>
-    <a href="index.html" class="ms-link active"><span class="ic">⌂</span> <span>होम</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('search.html'); toggleModernSidebar();" class="ms-link"><span class="ic">⌕</span> <span>खोजें</span></a>
-    <a href="javascript:void(0);" id="sideProfileBtn" onclick="handleNavProfileClick(); toggleModernSidebar();" class="ms-link"><span class="ic">👤</span> <span>मेरी प्रोफाइल</span></a>
-    
-    <div class="ms-section-label" style="margin-top: 6px;">सेवाएँ व सुरक्षा</div>
-    <a href="javascript:void(0);" onclick="openAppPage('donation.html', 'srv-donation'); toggleModernSidebar();" class="ms-link"><span class="ic">🤝</span> <span>समाज सहयोग कोष</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('vehicles.html', 'srv-vehicles'); toggleModernSidebar();" class="ms-link"><span class="ic">🚗</span> <span>वाहन / यात्रा</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('schemes.html', 'srv-schemes'); toggleModernSidebar();" class="ms-link"><span class="ic">🏛️</span> <span>सरकारी योजना</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('blood.html', 'srv-blood'); toggleModernSidebar();" class="ms-link"><span class="ic">🩸</span> <span>रक्तदान सेवा</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('family.html', 'srv-family'); toggleModernSidebar();" class="ms-link"><span class="ic">👨‍👩‍👧‍👦</span> <span>परिवार पंजीका</span></a>
-    <a href="javascript:void(0);" onclick="openAppPage('admin.html'); toggleModernSidebar();" class="ms-link"><span class="ic">🛡️</span> <span>एडमिन पैनल</span></a>
+    <a href="index.html" class="ms-link">⌂ होम</a>
+    <a href="donation.html" class="ms-link">🤝 समाज सहयोग कोष</a>
+    <a href="family.html" class="ms-link">👨‍👩‍👧‍👦 परिवार पंजीका</a>
+    <a href="login.html" class="ms-link">👤 लॉगिन</a>
   </div>
 </div>
 
@@ -544,24 +206,17 @@ body{
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
   function toggleModernSidebar() {
-    const sidebar = document.getElementById('modernSidebar');
-    const overlay = document.getElementById('modernNavOverlay');
-    if (!sidebar || !overlay) return;
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('open');
+    document.getElementById('modernSidebar').classList.toggle('open');
+    document.getElementById('modernNavOverlay').classList.toggle('open');
   }
 
-  function openAppPage(pageUrl, serviceId) {
-    if (typeof AndroidBridge !== "undefined") {
-      AndroidBridge.showAdAndNavigate(pageUrl);
-    } else {
-      window.location.href = pageUrl;
-    }
+  function openAppPage(pageUrl) {
+    window.location.href = pageUrl;
   }
 
-  // 3D Flip Quick Donate Toggle
+  // 3D Flip Toggle for Quick Donate Circle
   function toggleDonateFlip(element) {
-    let card = element.querySelector(".quick-donate-card");
+    let card = element.querySelector(".quick-donate-circle-card");
     card.classList.toggle("flipped");
   }
 
@@ -569,334 +224,26 @@ body{
   firebase.initializeApp(firebaseConfig);
   const db=firebase.firestore();
 
-  // सुरक्षित लोडर: यदि यूपीआई सेट न हो तो भी एरर नहीं, सुंदर मैसेज दिखेगा
-  async function loadQuickDonateWidget() {
+  async function loadQuickDonateWidgetForDashboard() {
     try {
       let doc = await db.collection("settings").doc("donationConfig").get();
       if(doc.exists && doc.data().upiId) {
         let data = doc.data();
-        let upiId = data.upiId;
-        document.getElementById("quickUpiText").innerText = "UPI ID: " + upiId;
-        
+        document.getElementById("quickUpiText").innerText = data.upiId;
         if(data.qrImageUrl) {
-          document.getElementById("quickQrDisplay").innerHTML = `<img src="${data.qrImageUrl}" alt="QR" style="width:70px;height:70px;border-radius:6px;object-fit:cover;">`;
+          document.getElementById("quickQrDisplay").innerHTML = `<img src="${data.qrImageUrl}" alt="QR" style="width:55px;height:55px;border-radius:4px;object-fit:cover;">`;
         } else {
-          document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:10.5px; color:var(--navy); font-weight:bold;">📷 QR जल्द आएगा</span>`;
+          document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:8px; color:var(--navy); font-weight:bold;">QR जल्द</span>`;
         }
       } else {
-        document.getElementById("quickUpiText").innerText = "🙏 सहयोग के लिए धन्यवाद";
-        document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:11px; color:#d97706; font-weight:bold;">समाज सहयोग QR<br>जल्द अपडेट होगा</span>`;
+        document.getElementById("quickUpiText").innerText = "सहयोग";
+        document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:8.5px; color:#d97706; font-weight:bold;">जल्द आएगा</span>`;
       }
     } catch(e) {
-      document.getElementById("quickUpiText").innerText = "🤝 समाज विकास सहयोग";
-      document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:11px; color:var(--muted);">शीघ्र उपलब्ध होगा</span>`;
+      document.getElementById("quickUpiText").innerText = "डेटा त्रुटि";
+      document.getElementById("quickQrDisplay").innerHTML = `<span style="font-size:8.5px; color:red;">त्रुटि</span>`;
     }
   }
-  loadQuickDonateWidget();
-
-  const softPalettes = [
-    { bg: "#f4f7fb" },
-    { bg: "#eef2f7" },
-    { bg: "#f0fdf4" },
-    { bg: "#fdf4f8" },
-    { bg: "#fefce8" },
-    { bg: "#f8fafc" }
-  ];
-  let colorIndex = 0;
-  document.addEventListener("click", (e) => {
-    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || e.target.closest('select') || e.target.closest('.card') || e.target.closest('.cat-card') || e.target.closest('.banner-3d-card') || e.target.closest('.achiever-card') || e.target.closest('.official-card')) {
-      return;
-    }
-    colorIndex = (colorIndex + 1) % softPalettes.length;
-    document.getElementById("app").style.background = softPalettes[colorIndex].bg;
-  });
-
-  async function loadHomeMeeting() {
-    try {
-      let snap = await db.collection("meetings").orderBy("timestamp", "desc").limit(1).get();
-      if(!snap.empty) {
-        let m = snap.docs[0].data();
-        document.getElementById("homeMeetingTitle").innerText = "📢 " + (m.title || "आगामी बैठक");
-        document.getElementById("homeMeetingDesc").innerText = m.message || "महाराजगंज में आगामी विशेष बैठक रखी गई है।";
-      } else {
-        document.getElementById("homeMeetingDesc").innerText = "महाराजगंज में आगामी रविवार को समाज की विशेष बैठक रखी गई है। सभी बन्धु सादर आमंत्रित हैं।";
-      }
-    } catch(e) {
-      document.getElementById("homeMeetingDesc").innerText = "महाराजगंज में आगामी रविवार को समाज की विशेष बैठक रखी गई है। सभी बन्धु सादर आमंत्रित हैं।";
-    }
-  }
-  loadHomeMeeting();
-
-  let achieversDataList = [];
-  let currentActiveAchieverId = null;
-
-  function parseAchieverScore(ach) {
-    if (ach.percentage !== undefined && ach.percentage !== null && ach.percentage !== "") {
-      let v = parseFloat(String(ach.percentage).replace(/[^0-9.]/g, ''));
-      if (!isNaN(v)) return v;
-    }
-    if (ach.score !== undefined && ach.score !== null && ach.score !== "") {
-      let v = parseFloat(String(ach.score).replace(/[^0-9.]/g, ''));
-      if (!isNaN(v)) return v;
-    }
-    if (ach.detail) {
-      let v = parseFloat(String(ach.detail).replace(/[^0-9.]/g, ''));
-      if (!isNaN(v)) return v;
-    }
-    return 0;
-  }
-
-  async function loadAchieversToSlider() {
-    let slider = document.getElementById("achieversSlider");
-    try {
-      let snap = await db.collection("achievers").limit(10).get();
-      if(snap.empty) {
-        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई मेधावी छात्र दर्ज नहीं है।</div>`;
-        return;
-      }
-      let list = [];
-      snap.forEach(doc => { let d = doc.data(); d.id = doc.id; list.push(d); });
-      
-      list.sort((a, b) => parseAchieverScore(b) - parseAchieverScore(a));
-      let top3 = list.slice(0, 3);
-      achieversDataList = top3;
-
-      let orderedList = [];
-      let originalIndices = [];
-      if(top3.length >= 3) {
-        orderedList = [top3[1], top3[0], top3[2]];
-        originalIndices = [1, 0, 2];
-      } else if(top3.length === 2) {
-        orderedList = [top3[1], top3[0]];
-        originalIndices = [1, 0];
-      } else {
-        orderedList = top3;
-        originalIndices = [0];
-      }
-
-      let medalsMap = ["🥈 रैंक #2", "🥇 रैंक #1", "🥉 रैंक #3"];
-      let html = "";
-      orderedList.forEach((ach, renderIdx) => {
-        let origIdx = originalIndices[renderIdx];
-        let photo = ach.photo && ach.photo.startsWith('http') ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
-        let badgeText = medalsMap[renderIdx] || `रैंक #${origIdx+1}`;
-        let totalLikes = ach.likes || 0;
-        let isTopCenter = origIdx === 0 ? 'active-center' : '';
-        html += `
-          <div class="achiever-card ${isTopCenter}" onclick="openAchieverModal(${origIdx})">
-            <div class="achiever-badge">${badgeText}</div>
-            <img src="${photo}" class="achiever-img" alt="छात्र फोटो">
-            <b style="font-size:12px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${ach.name || 'छात्र नाम'}</b>
-            <div style="font-size:10px; color:var(--muted); margin-bottom:4px;">👍 <span id="card-likes-${ach.id}">${totalLikes}</span> Likes</div>
-            <div style="background:#fef3c7; color:#92400e; font-size:9.5px; font-weight:800; padding:3px 6px; border-radius:6px; border:1px solid #fde68a; display:inline-block; margin-top:auto;">🎁 सम्मान राशि</div>
-          </div>
-        `;
-      });
-      slider.innerHTML = html;
-      
-      setTimeout(() => {
-        let centerCard = slider.querySelectorAll(".achiever-card")[1];
-        if(centerCard) {
-          slider.scrollTo({ left: centerCard.offsetLeft - slider.clientWidth / 2 + centerCard.clientWidth / 2, behavior: 'smooth' });
-        }
-      }, 250);
-
-    } catch(e) {
-      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">लोड करने में त्रुटि हुई।</div>`;
-    }
-  }
-  loadAchieversToSlider();
-
-  function openAchieverModal(index) {
-    let ach = achieversDataList[index];
-    if(!ach) return;
-    currentActiveAchieverId = ach.id;
-    document.getElementById("modalAchName").innerText = ach.name || "छात्र नाम";
-    document.getElementById("modalAchDetail").innerText = ach.detail || "";
-    document.getElementById("modalAchFather").innerText = ach.fatherName || "निर्धारित नहीं";
-    document.getElementById("modalAchMother").innerText = ach.motherName || "निर्धारित नहीं";
-    document.getElementById("modalAchReward").innerText = ach.reward || "समाज की ओर से घोषित";
-    document.getElementById("modalLikeCount").innerText = ach.likes || 0;
-    document.getElementById("modalAchPhoto").src = (ach.photo && ach.photo.startsWith('http')) ? ach.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
-    let overlay = document.getElementById("achieverModal");
-    let box = document.getElementById("achieverModalBox");
-    overlay.style.display = "flex";
-    setTimeout(() => { overlay.style.opacity = "1"; box.style.transform = "scale(1)"; }, 10);
-  }
-
-  async function likeAchiever() {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (!loggedMobile) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'लॉगिन आवश्यक है',
-        text: 'मेधावी छात्र को लाइक देने के लिए कृपया पहले लॉगिन करें।',
-        confirmButtonColor: '#f4b63f',
-        confirmButtonText: 'लॉगिन करें'
-      }).then(() => { openAppPage("login.html"); });
-      return;
-    }
-    if (!currentActiveAchieverId) return;
-    let likedKey = "liked_achiever_" + currentActiveAchieverId + "_" + loggedMobile;
-    if (localStorage.getItem(likedKey) === "yes") {
-      Swal.fire({ icon: 'info', title: 'पहले ही लाइक किया है', text: 'आपने इस छात्र को पहले ही GOOD दे दिया है!', confirmButtonColor: '#0757a3' });
-      return;
-    }
-    let likeCountSpan = document.getElementById("modalLikeCount");
-    let currentLikes = parseInt(likeCountSpan.innerText) || 0;
-    let newLikes = currentLikes + 1;
-    likeCountSpan.innerText = newLikes;
-    let cardLikeSpan = document.getElementById("card-likes-" + currentActiveAchieverId);
-    if(cardLikeSpan) { cardLikeSpan.innerText = newLikes; }
-    try {
-      await db.collection("achievers").doc(currentActiveAchieverId).update({ likes: newLikes });
-      localStorage.setItem(likedKey, "yes");
-      let achObj = achieversDataList.find(a => a.id === currentActiveAchieverId);
-      if(achObj) achObj.likes = newLikes;
-      Swal.fire({ icon: 'success', title: 'धन्यवाद!', text: 'आपका GOOD सफलतापूर्वक दर्ज हो गया है।', confirmButtonColor: '#16a34a', timer: 2000 });
-    } catch(e) { Swal.fire({ icon: 'error', text: 'लाइक अपडेट करने में त्रुटि हुई।' }); }
-  }
-
-  function closeAchieverModal() {
-    let overlay = document.getElementById("achieverModal");
-    let box = document.getElementById("achieverModalBox");
-    overlay.style.opacity = "0";
-    box.style.transform = "scale(0.8)";
-    setTimeout(() => { overlay.style.display = "none"; }, 300);
-  }
-
-  function checkLoginAndCall(mobile) {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (!loggedMobile) {
-      Swal.fire({ icon: 'warning', title: 'लॉगिन आवश्यक है', text: 'पदाधिकारियों से संपर्क करने के लिए कृपया पहले लॉगिन करें!', confirmButtonColor: '#f4b63f', confirmButtonText: 'लॉगिन करें' }).then(() => { openAppPage("login.html"); });
-      return;
-    }
-    window.location.href = 'tel:' + mobile;
-  }
-
-  function checkLoginAndChat(mobile) {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (!loggedMobile) {
-      Swal.fire({ icon: 'warning', title: 'लॉगिन आवश्यक है', text: 'पदाधिकारियों से चैट करने के लिए कृपया पहले लॉगिन करें!', confirmButtonColor: '#f4b63f', confirmButtonText: 'लॉगिन करें' }).then(() => { openAppPage("login.html"); });
-      return;
-    }
-    window.open('https://wa.me/91' + mobile, '_blank');
-  }
-
-  async function loadOfficialsToSlider() {
-    let slider = document.getElementById("officialsSlider");
-    try {
-      let snap = await db.collection("officials").limit(20).get();
-      if(snap.empty) {
-        slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">कोई पदाधिकारी दर्ज नहीं है।</div>`;
-        return;
-      }
-      let list = [];
-      snap.forEach(doc => { let d = doc.data(); d.id = doc.id; list.push(d); });
-      
-      const rolePriority = { "महतो": 1, "कहतो": 2, "अध्यक्ष": 3, "उपाध्यक्ष": 4, "सचिव": 5, "कोषाध्यक्ष": 6 };
-
-      list.sort((a, b) => {
-        let pA = rolePriority[a.role] || 99;
-        let pB = rolePriority[b.role] || 99;
-        return pA - pB;
-      });
-
-      let html = "";
-      list.forEach(o => {
-        let photo = o.photo && o.photo.startsWith('http') ? o.photo : "https://images.unsplash.com/photo-1534528741775-53994a69daeb";
-        html += `
-          <div class="official-card">
-            <img src="${photo}" alt="पदाधिकारी फोटो">
-            <b style="font-size:13.5px; color:var(--navy); display:block; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.role || 'पद'}</b>
-            <span style="font-size:11px; color:var(--muted); display:block; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%;">${o.name || 'पदाधिकारी'}</span>
-            <div class="contact-btns">
-              <button onclick="checkLoginAndCall('${o.mobile || '9876543210'}')">📞 कॉल</button>
-              <button onclick="checkLoginAndChat('${o.mobile || '9876543210'}')">💬 चैट</button>
-            </div>
-          </div>
-        `;
-      });
-      slider.innerHTML = html;
-    } catch(e) {
-      slider.innerHTML = `<div style="padding:10px; color:var(--muted); font-size:12px;">पदाधिकारी लोड करने में त्रुटि हुई।</div>`;
-    }
-  }
-  loadOfficialsToSlider();
-
-  async function checkUnreadNotifications() {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (!loggedMobile) return;
-    checkCollectionBadge("jobs", "badge-jobs");
-    checkCollectionBadge("matrimonial", "badge-matrimonials");
-    checkCollectionBadge("businesses", "badge-businesses");
-    checkCollectionBadge("vehicles", "badge-vehicles");
-    checkCollectionBadge("polls", "badge-voting");
-  }
-
-  async function checkCollectionBadge(colName, badgeId) {
-    try {
-      let snap = await db.collection(colName).get();
-      let lastSeen = localStorage.getItem("last_seen_" + colName) || 0;
-      let newCount = 0;
-      snap.forEach(doc => {
-        let d = doc.data();
-        if ((d.status || "approved") === "approved" && d.timestamp && d.timestamp > lastSeen) { newCount++; }
-      });
-      if (newCount > 0) {
-        let badge = document.getElementById(badgeId);
-        if (badge) { badge.style.display = "block"; badge.innerText = newCount; }
-      }
-    } catch (e) {}
-  }
-
-  function toggleChatWindow() {
-    let modal = document.getElementById("chatModalWindow");
-    modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
-    if(modal.style.display === "flex") loadChatMessages();
-  }
-
-  async function loadChatMessages() {
-    let container = document.getElementById("chatMessagesContainer");
-    let counterBadge = document.getElementById("chatMessageCounter");
-    container.innerHTML = "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>मैसेज लोड हो रहे हैं...</div>";
-    try {
-      let snap = await db.collection("community_chats").orderBy("timestamp", "asc").limit(50).get();
-      let html = "";
-      let totalMsgs = snap.size;
-      let loggedMob = localStorage.getItem("userLoggedInMobile");
-      snap.forEach(doc => {
-        let d = doc.data();
-        let isMe = d.mobile === loggedMob;
-        html += `<div class="msg-bubble ${isMe ? 'msg-outgoing' : 'msg-incoming'}">
-          <div style="font-size:9.5px; opacity:0.8; font-weight:bold;">${d.name || 'सदस्य'}</div>
-          <div>${d.text || ''}</div>
-        </div>`;
-      });
-      container.innerHTML = html || "<div style='text-align:center; color:var(--muted); font-size:12px; margin-top:20px;'>कोई चैट नहीं है।</div>";
-      counterBadge.innerText = "कुल संदेश: " + totalMsgs;
-      container.scrollTop = container.scrollHeight;
-    } catch(e) { container.innerHTML = "<div style='text-align:center; color:red; font-size:12px;'>लोड त्रुटि</div>"; }
-  }
-
-  async function sendChatMessage() {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if(!loggedMobile) {
-      Swal.fire({ icon: 'warning', title: 'लॉगिन आवश्यक है', text: 'कम्युनिटी चैट में संदेश भेजने के लिए कृपया पहले लॉगिन करें!', confirmButtonColor: '#f4b63f', confirmButtonText: 'लॉगिन करें' }).then(() => { openAppPage("login.html"); });
-      return;
-    }
-    let input = document.getElementById("chatInputMessage");
-    let text = input.value.trim();
-    let loggedName = localStorage.getItem("userName") || "सदस्य";
-    if(!text) return;
-    try {
-      await db.collection("community_chats").add({ mobile: loggedMobile, name: loggedName, text: text, timestamp: Date.now() });
-      input.value = "";
-      loadChatMessages();
-    } catch(e) { Swal.fire({ icon: 'error', text: 'संदेश भेजने में विफल।' }); }
-  }
-
-  function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
 
   async function checkLoginSession() {
     let loggedMobile = localStorage.getItem("userLoggedInMobile");
@@ -915,14 +262,12 @@ body{
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#dc2626',
-          cancelButtonColor: '#64748b',
-          confirmButtonText: 'हाँ, लॉगआउट करें!',
-          cancelButtonText: 'रद्द करें'
+          confirmButtonText: 'हाँ, लॉगआउट करें!'
         }).then((result) => {
           if (result.isConfirmed) {
             localStorage.removeItem("userLoggedInMobile");
             localStorage.removeItem("userName");
-            Swal.fire({ icon: 'success', title: 'लॉग आउट!', text: 'सफलतापूर्वक लॉगआउट हो गए!', confirmButtonColor: '#16a34a' }).then(() => { window.location.reload(); });
+            window.location.reload();
           }
         });
       };
@@ -935,10 +280,7 @@ body{
       try {
         let donSnap = await db.collection("donations").get();
         let sum = 0;
-        donSnap.forEach(doc => {
-          let amt = parseFloat(doc.data().amount || doc.data().donationAmount || 0);
-          sum += amt;
-        });
+        donSnap.forEach(doc => { sum += parseFloat(doc.data().amount || 0); });
         if(sum > 0) totalDonationAmount = "₹" + sum.toLocaleString('en-IN');
       } catch(e) {}
 
@@ -948,74 +290,48 @@ body{
             <div class="welcome-text-side">
               👋 स्वागत, <b>${loggedName || 'सदस्य'}</b>
             </div>
-            <a href="javascript:void(0);" id="srv-family" onclick="openAppPage('family.html', 'srv-family')" class="welcome-link-family">📋 मेरा परिवार देखें</a>
+            <a href="javascript:void(0);" onclick="openAppPage('family.html')" class="welcome-link-family">📋 मेरा परिवार देखें</a>
           </div>
-          <div class="donation-circle-badge">
-            <span class="title">🙏 दान कोष</span>
-            <span class="amount">${totalDonationAmount}</span>
+          
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <!-- दान कोष गोल बैज -->
+            <div class="donation-circle-badge">
+              <span class="title">🙏 दान कोष</span>
+              <span class="amount">${totalDonationAmount}</span>
+            </div>
+
+            <!-- 🌟 कॉम्पैक्ट 3D फ्लिप क्विक डोनेशन बटन (दान कोष के साइज का) -->
+            <div class="quick-donate-circle-wrapper" onclick="toggleDonateFlip(this)" style="perspective: 1000px; cursor: pointer;">
+              <div class="quick-donate-circle-card" id="donateFlipCard" style="width: 90px; height: 90px; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);">
+                
+                <!-- सामने का हिस्सा -->
+                <div class="donate-face donate-front" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); border: 3.5px solid #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; box-shadow: 0 8px 22px rgba(16,185,129,0.5), inset 0 2px 4px rgba(255,255,255,0.7); text-align: center; padding: 4px;">
+                  <span style="font-size: 20px; line-height: 1;">📷</span>
+                  <span style="font-size: 9.5px; font-weight: 800; line-height: 1.1; margin-top: 2px;">त्वरित दान</span>
+                  <span style="font-size: 8.5px; opacity: 0.9; line-height: 1;">(QR देखें)</span>
+                </div>
+
+                <!-- पीछे का हिस्सा (QR कोड वाला) -->
+                <div class="donate-face donate-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; background: #ffffff; border: 3.5px solid #fff; transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text); box-shadow: 0 8px 22px rgba(0,0,0,0.2); text-align: center; padding: 2px;">
+                  <div id="quickQrDisplay" style="font-size: 9px; color: var(--muted); display: grid; place-items: center;">QR लोड...</div>
+                  <div id="quickUpiText" style="font-size: 7.5px; font-weight: bold; color: var(--p); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px;">UPI</div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       `;
 
-      let regBtn = document.getElementById("registerBannerBtn");
-      regBtn.style.display = "none";
-
-      checkUnreadNotifications();
-      let loggedMob = localStorage.getItem("userLoggedInMobile");
-      let loggedNameVal = localStorage.getItem("userName");
-      if (loggedMob && loggedNameVal) {
-        let sbName = document.getElementById("sidebarUserName");
-        let sbSub = document.getElementById("sidebarUserSub");
-        let sbAvatar = document.getElementById("sidebarAvatarIcon");
-        let sbPhoto = document.getElementById("sidebarUserPhoto");
-        if (sbName) sbName.innerText = loggedNameVal;
-        if (sbSub) sbSub.innerText = "पंजीकृत सदस्य • महाराजगंज";
-        
-        let cachedPhoto = localStorage.getItem("userPhotoUrl");
-        if (cachedPhoto && sbPhoto) {
-          sbPhoto.src = cachedPhoto;
-          sbPhoto.style.display = "block";
-          if (sbAvatar) sbAvatar.style.display = "none";
-        }
-        
-        db.collection("users").where("mobile", "==", loggedMob).limit(1).get().then(snap => {
-          if (!snap.empty) {
-            let uData = snap.docs[0].data();
-            let photoUrl = uData.photo || uData.photoUrl || uData.profilePhoto || uData.avatar;
-            if (photoUrl && sbPhoto) {
-              sbPhoto.src = photoUrl;
-              sbPhoto.style.display = "block";
-              if (sbAvatar) sbAvatar.style.display = "none";
-              localStorage.setItem("userPhotoUrl", photoUrl);
-            }
-          }
-        }).catch(err => console.log(err));
-      }
-
-    } else {
-      document.getElementById("meetingSectionTitle").style.display = "none";
-      document.getElementById("meetingCardBox").style.display = "none";
+      loadQuickDonateWidgetForDashboard();
+      document.getElementById("registerBannerBtn").style.display = "none";
     }
   }
   checkLoginSession();
 
-  async function loadHomeStats(){
-    try{
-      let [u,f] = await Promise.all([db.collection("users").get(), db.collection("families").get()]);
-      document.getElementById("stMembers").textContent = u.size;
-      document.getElementById("stFamilies").textContent = f.size;
-      document.getElementById("stApproved").textContent = u.docs.filter(d=>d.data().status==="approved").length;
-    }catch(e){}
-  }
-  loadHomeStats();
-
-  function handleNavProfileClick() {
-    let loggedMobile = localStorage.getItem("userLoggedInMobile");
-    if (loggedMobile) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      openAppPage("login.html");
-    }
+  function toggleChatWindow() {
+    let modal = document.getElementById("chatModalWindow");
+    modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
   }
 </script>
 </body>

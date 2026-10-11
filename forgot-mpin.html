@@ -2,7 +2,6 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
   <meta name="theme-color" content="#0757a3">
   <title>MPIN रीसेट करें | भुईहर जाति समाज</title>
@@ -24,7 +23,6 @@
       text-rendering:optimizeLegibility;
     }
 
-    /* ⭐ Page Premium Pop-up Animation ⭐ */
     @keyframes pagePop {
       0% { opacity: 0; transform: scale(0.92) translateY(20px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -42,7 +40,6 @@
       animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
     }
 
-    /* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
     .swal2-container { z-index: 100000 !important; }
 
     h2 { color: var(--navy); font-size: 20px; margin-top: 0; margin-bottom: 6px; }
@@ -55,14 +52,13 @@
     button:active { transform: scale(0.98); }
     .back-link { display: inline-block; margin-top: 16px; font-size: 12.5px; color: var(--p); text-decoration: none; font-weight: 700; }
   </style>
-  <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
   <div class="box">
     <h2>🔑 MPIN रीसेट करें</h2>
-    <p class="sub">पंजीकृत मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN बनाएं[span_1](start_span)[span_1](end_span)</p>
+    <p class="sub">पंजीकृत मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN बनाएं[span_2](start_span)[span_2](end_span)</p>
     
     <div class="form-group">
       <label>पंजीकृत मोबाइल नंबर</label>
@@ -85,7 +81,6 @@
     </div>
   </div>
 
-  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script>
@@ -109,8 +104,12 @@
       }
 
       try {
-        let snapshot = await db.collection("users").where("mobile", "==", mob).where("dob", "==", dob).get();
+        let snapshot = await db.collection("users").where("mobileNumber", "==", mob).where("dateOfBirth", "==", dob).get();
         
+        if(snapshot.empty) {
+          snapshot = await db.collection("users").where("mobile", "==", mob).where("dob", "==", dob).get();
+        }
+
         if(snapshot.empty) {
           Swal.fire({ icon: 'error', title: 'रिकॉर्ड नहीं मिला', text: 'दर्ज किया गया मोबाइल नंबर या जन्मतिथि रिकॉर्ड से मैच नहीं हो रहा है!', confirmButtonColor: '#dc2626' });
           return;

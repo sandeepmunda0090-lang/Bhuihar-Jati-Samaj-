@@ -2,13 +2,12 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
-<title>एडवांस्ड सुझाव एवं शिकायत हेल्पडेस्क | भुईहर समाज पोर्टल</title>
-<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<title>जनमत पोल | भुईहर समाज पोर्टल</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 10px 30px rgba(20,42,72,0.08)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#fff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
@@ -16,16 +15,9 @@ body{
   font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
   color:var(--text);
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  text-rendering:optimizeLegibility;
+  min-height:100vh;
 }
-
-/* ⭐ Page Premium Pop-up Animation ⭐ */
-@keyframes pagePop {
-  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-#app {
+#app{
   max-width:500px;
   min-height:100vh;
   margin:auto;
@@ -34,56 +26,23 @@ body{
   overflow-x:hidden;
   box-shadow:0 0 40px rgba(0,0,0,0.1);
   padding-bottom:25px;
-  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+  animation: pagePop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
 }
-
-/* SweetAlert2 को सबसे ऊपर रखने के लिए */
-.swal2-container { z-index: 100000 !important; }
-
-.hero{background:linear-gradient(135deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 18px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 20px rgba(7,87,163,0.15);}
-
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.94) translateY(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
 .back-btn-wrap{padding:4px 0 12px 0;}
 .custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px)}
-
-.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.brand h1{margin:0;font-size:17.5px;font-weight:800}.brand p{margin:2px 0 0;font-size:11.5px;opacity:.9}
-
-.container{padding:16px 14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-
-.tab-container{display:flex;background:#e2e8f0;border-radius:12px;padding:3px;margin-bottom:14px}
-.tab-btn{flex:1;border:0;background:none;padding:10px;font:700 12.5px inherit;color:var(--muted);cursor:pointer;border-radius:10px;transition:all 0.2s;text-align:center}
-.tab-btn.active{background:#fff;color:var(--p);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
-
-.form-group{margin-bottom:12px}
-.form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:5px}
-.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
-.form-control:focus{border-color:var(--p);background:#fff}
-
-.btn{border:0;border-radius:14px;padding:12px 16px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:4px}
-.btn:active{transform:scale(0.98)}
-
-.feedback-item {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-left: 6px solid var(--p);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-  position: relative;
-}
-.feedback-badge {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: #eff6ff;
-  color: var(--p);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 8px;
-}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
+.container{padding:16px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.poll-title{font-size:15px;color:var(--navy);font-weight:900;margin:0 0 8px}
+.option-btn{display:block;width:100%;padding:12px;margin:8px 0;border:1.5px solid var(--line);border-radius:12px;background:#f8fafc;font:700 13px inherit;color:var(--navy);cursor:pointer;text-align:left;transition:all 0.2s;}
+.option-btn:hover{border-color:var(--p);background:#eff6ff;}
+.swal2-container { z-index: 100000 !important; }
 </style>
 </head>
 <body>
@@ -91,81 +50,18 @@ body{
 <div id="app">
   <div class="hero">
     <div class="back-btn-wrap">
-      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn">
-        <span style="font-size:16px;">←</span> मुख्य पृष्ठ (वापस जाएं)
-      </a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
     </div>
-
     <div class="brand">
-      <div class="logo">💡</div>
-      <div><h1>एडवांस्ड हेल्पडेस्क एवं सुझाव</h1><p>समाज के विकास हेतु अपने विचार व शिकायतें साझा करें</p></div>
+      <div class="logo">📊</div>
+      <div><h1>जनमत पोल (Voting Poll)</h1><p>समाज के महत्वपूर्ण विषयों पर आपकी राय</p></div>
     </div>
   </div>
 
   <div class="container">
-    
-    <!-- टैब्स: नया सुझाव भेजें / सार्वजनिक सुझाव बोर्ड देखें -->
-    <div class="tab-container">
-      <button class="tab-btn active" id="tabForm" onclick="switchFeedbackTab('form')">✍️ सुझाव / शिकायत भेजें</button>
-      <button class="tab-btn" id="tabBoard" onclick="switchFeedbackTab('board')">📋 सार्वजनिक सुझाव बोर्ड</button>
+    <div id="pollContainer">
+      <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">लाइव पोल लोड हो रहे हैं...</div>
     </div>
-
-    <!-- 1. फॉर्म सेक्शन -->
-    <div id="formSection" class="card">
-      <h3 style="margin:0 0 4px;font-size:15px;color:var(--navy);">📝 अपना संदेश या सुझाव दर्ज करें</h3>
-      <p style="margin:0 0 14px;font-size:11.5px;color:var(--muted);line-height:1.4;">लॉगिन यूजर सीधे अपने नाम और मोबाइल नंबर से सुझाव भेज सकते हैं।</p>
-      
-      <div class="form-group">
-        <label>श्रेणी चुनें (Category) *</label>
-        <select id="feedCategory" class="form-control">
-          <option value="सुझाव (Suggestion)">💡 सुझाव (Suggestion)</option>
-          <option value="शिकायत (Grievance)">⚠️ शिकायत / समस्या (Grievance)</option>
-          <option value="सामुदायिक विकास (Community Development)">🏗️ सामुदायिक विकास कार्य (Community Development)</option>
-          <option value="तकनीकी समस्या (Technical Support)">🛠️ पोर्टल तकनीकी सहायता (Technical Support)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>महत्व स्तर (Priority)</label>
-        <select id="feedPriority" class="form-control">
-          <option value="सामान्य (Normal)">🟢 सामान्य (Normal)</option>
-          <option value="महत्वपूर्ण (Important)">🟡 महत्वपूर्ण (Important)</option>
-          <option value="अति आवश्यक (Urgent)">🔴 अति आवश्यक (Urgent)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>आपका पूरा नाम व मोबाइल नंबर *</label>
-        <input type="text" id="senderName" class="form-control" placeholder="नाम और 10 अंकों का मोबाइल नंबर">
-      </div>
-
-      <div class="form-group">
-        <label>विषय (Subject) *</label>
-        <input type="text" id="senderSubject" class="form-control" placeholder="जैसे: समाज भवन निर्माण हेतु विशेष प्रस्ताव">
-      </div>
-
-      <div class="form-group">
-        <label>विस्तृत विवरण (Message) *</label>
-        <textarea id="senderMessage" class="form-control" rows="4" placeholder="यहाँ अपना संदेश विस्तार से लिखें..."></textarea>
-      </div>
-
-      <button class="btn" onclick="submitAdvancedFeedback()">🚀 एडमिन को सुरक्षित भेजें</button>
-    </div>
-
-    <!-- 2. सार्वजनिक सुझाव बोर्ड सेक्शन -->
-    <div id="boardSection" style="display:none;">
-      <div class="card" style="background:#eff6ff; border-color:#bfdbfe; margin-bottom:12px;">
-        <h4 style="margin:0 0 4px; color:#1e40af; font-size:13.5px;">🌟 समाज सुझाव एवं चर्चा मंच</h4>
-        <p style="font-size:11.5px; color:#1e3a8a; margin:0; line-height:1.4;">यहाँ सजातीय बंधुओं द्वारा साझा किए गए स्वीकृत सुझाव और विकास प्रस्ताव प्रदर्शित होते हैं।</p>
-      </div>
-
-      <div id="publicFeedbackContainer">
-        <div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">
-          सुझाव लोड हो रहे हैं...
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -177,39 +73,76 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
 function goBackHome() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = 'index.html';
+  if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
+}
+
+async function loadActivePolls() {
+  let container = document.getElementById("pollContainer");
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
+
+  try {
+    let snap = await db.collection("polls").where("status", "==", "active").get();
+    if(snap.empty) {
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">फिलहाल कोई सक्रिय जनमत पोल उपलब्ध नहीं है।</div>`;
+      return;
+    }
+
+    let html = "";
+    snap.forEach(doc => {
+      let p = doc.data();
+      let pollId = doc.id;
+      let votes = p.votes || {}; 
+      let hasVoted = loggedMobile && votes[loggedMobile] !== undefined;
+
+      let optionsHtml = "";
+      let totalVotes = Object.keys(votes).length;
+
+      p.options.forEach((opt, index) => {
+        let count = 0;
+        Object.values(votes).forEach(val => { if(val === index) count++; });
+        let percent = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+
+        if(!hasVoted) {
+          optionsHtml += `<button class="option-btn" onclick="submitVote('${pollId}', ${index})">${opt}</button>`;
+        } else {
+          optionsHtml += `
+            <div style="margin:10px 0;">
+              <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; color:var(--navy); margin-bottom:4px;">
+                <span>${opt}</span><span>${count} वोट (${percent}%)</span>
+              </div>
+              <div style="background:#e2e8f0; border-radius:8px; height:10px; overflow:hidden;">
+                <div style="background:var(--p); width:${percent}%; height:100%; transition:width 0.4s;"></div>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      html += `
+        <div class="card">
+          <div style="font-size:10px; color:var(--p); font-weight:800; margin-bottom:4px;">📊 लाइव जनमत सर्वेक्षण</div>
+          <h3 class="poll-title">${p.question}</h3>
+          <p style="font-size:11px; color:var(--muted); margin:0 0 12px;">कुल मतदान: ${totalVotes} सदस्य</p>
+          ${optionsHtml}
+          ${hasVoted ? '<div style="margin-top:12px; text-align:center; font-size:11.5px; color:#16a34a; font-weight:bold;">✅ आपने इस पोल में अपना मत दे दिया है।</div>' : ''}
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = `<div class="card" style="text-align:center;color:red;font-size:12px;padding:20px;">पोल लोड करने में त्रुटि हुई।</div>`;
   }
 }
 
-function switchFeedbackTab(tab) {
-  if(tab === 'form') {
-    document.getElementById("tabForm").classList.add("active");
-    document.getElementById("tabBoard").classList.remove("active");
-    document.getElementById("formSection").style.display = "block";
-    document.getElementById("boardSection").style.display = "none";
-  } else {
-    document.getElementById("tabBoard").classList.add("active");
-    document.getElementById("tabForm").classList.remove("active");
-    document.getElementById("boardSection").style.display = "block";
-    document.getElementById("formSection").style.display = "none";
-    loadPublicFeedbacks();
-  }
-}
-
-async function submitAdvancedFeedback() {
+async function submitVote(pollId, optionIndex) {
   let loggedMobile = localStorage.getItem("userLoggedInMobile");
   if(!loggedMobile) {
     Swal.fire({
       icon: 'warning',
-      title: 'सुरक्षा चेतावनी',
-      text: 'सुझाव या शिकायत भेजने के लिए कृपया पहले अपने मोबाइल नंबर से लॉगिन करें!',
-      showCancelButton: true,
-      confirmButtonText: 'लॉगिन करें',
-      cancelButtonText: 'बंद करें',
-      confirmButtonColor: '#0757a3'
+      title: 'लॉगिन आवश्यक है',
+      text: 'जनमत पोल में वोट देने के लिए कृपया पहले अपने खाते में लॉगिन करें!',
+      confirmButtonColor: '#0757a3',
+      confirmButtonText: 'लॉगिन करें'
     }).then((result) => {
       if (result.isConfirmed) {
         window.location.href = "login.html";
@@ -218,94 +151,24 @@ async function submitAdvancedFeedback() {
     return;
   }
 
-  let category = document.getElementById("feedCategory").value;
-  let priority = document.getElementById("feedPriority").value;
-  let name = document.getElementById("senderName").value.trim();
-  let subject = document.getElementById("senderSubject").value.trim();
-  let message = document.getElementById("senderMessage").value.trim();
-
-  if(!name || !subject || !message) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'जानकारी अधूरी है',
-      text: 'कृपया नाम, विषय और संदेश का विस्तृत विवरण अवश्य भरें!',
-      confirmButtonColor: '#f4b63f'
-    });
-    return;
-  }
-
   try {
-    await db.collection("feedbacks").add({
-      name: name,
-      mobile: loggedMobile,
-      category: category,
-      priority: priority,
-      subject: subject,
-      message: message,
-      status: "approved",
-      timestamp: Date.now()
-    });
-
-    Swal.fire({
-      icon: 'success',
-      title: 'सुझाव दर्ज!',
-      text: "आपका सुझाव सफलतापूर्वक दर्ज कर लिया गया है और 'सार्वजनिक सुझाव बोर्ड' पर भेज दिया गया है। धन्यवाद!",
-      confirmButtonColor: '#16a34a'
-    }).then(() => {
-      document.getElementById("senderName").value = "";
-      document.getElementById("senderSubject").value = "";
-      document.getElementById("senderMessage").value = "";
-      switchFeedbackTab('board');
-    });
-
-  } catch(e) {
-    Swal.fire({
-      icon: 'error',
-      title: 'त्रुटि',
-      text: 'संदेश भेजने में त्रुटि आई। कृपया पुनः प्रयास करें।',
-      confirmButtonColor: '#dc2626'
-    });
-  }
-}
-
-async function loadPublicFeedbacks() {
-  let container = document.getElementById("publicFeedbackContainer");
-  try {
-    let snapshot = await db.collection("feedbacks").orderBy("timestamp", "desc").limit(20).get();
-    let feedbacks = [];
-    snapshot.forEach(doc => {
-      let f = doc.data();
-      if(!f.status || f.status === "approved" || f.status === "unread") {
-        feedbacks.push({ id: doc.id, ...f });
-      }
-    });
-
-    if(feedbacks.length === 0) {
-      container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">अभी कोई सुझाव सार्वजनिक रूप से उपलब्ध नहीं है। पहला सुझाव आप भेजें!</div>`;
-      return;
+    let docRef = db.collection("polls").doc(pollId);
+    let doc = await docRef.get();
+    if(doc.exists) {
+      let data = doc.data();
+      let votes = data.votes || {};
+      votes[loggedMobile] = optionIndex; 
+      
+      await docRef.update({ votes: votes });
+      Swal.fire({ icon: 'success', title: 'मतदान सफल!', text: 'आपका मत सफलतापूर्वक दर्ज कर लिया गया है।', timer: 1500, showConfirmButton: false });
+      loadActivePolls();
     }
-
-    let html = "";
-    feedbacks.forEach(f => {
-      let badgeColor = f.priority && f.priority.includes("अति") ? "#ef4444" : "#2563eb";
-      html += `
-        <div class="feedback-item">
-          <div class="feedback-badge" style="background:${badgeColor}20; color:${badgeColor};">${f.category || 'सुझाव'}</div>
-          <b style="font-size:15px; color:var(--navy); margin-bottom:4px; display:block;">📌 ${f.subject || 'सामान्य विषय'}</b>
-          <p style="font-size:12.5px; color:var(--text); line-height:1.5; margin:0 0 10px;">${f.message || ''}</p>
-          <div style="font-size:11px; color:var(--muted); display:flex; justify-content:space-between; border-top:1px solid var(--line); padding-top:6px;">
-            <span>👤 प्रेषक: <b>${f.name || 'सजातीय सदस्य'}</b></span>
-            <span>⭐ प्राथमिकता: ${f.priority || 'सामान्य'}</span>
-          </div>
-        </div>
-      `;
-    });
-
-    container.innerHTML = html;
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center; color:var(--muted); font-size:12.5px; padding:22px;">सुझाव लोड करने में त्रुटि हुई।</div>`;
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'मतदान दर्ज करने में समस्या आई।', confirmButtonColor: '#dc2626' });
   }
 }
+
+loadActivePolls();
 </script>
 </body>
 </html>

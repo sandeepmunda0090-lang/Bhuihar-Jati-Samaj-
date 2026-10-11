@@ -5,8 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>परिवार पंजीका एवं सदस्य सूची | भुईहर समाज पोर्टल</title>
+<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- html2canvas लाइब्रेरी डिजिटल कार्ड इमेज बनाने के लिए -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- jsPDF लाइब्रेरी हॉरिजॉन्टल पीडीएफ जनरेट करने के लिए -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
@@ -94,7 +97,7 @@ body{
     
     <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
       <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📋 डिजिटल परिवार डायरेक्टरी</h3>
-      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">समाज के सभी स्वीकृत परिवारों और सदस्यों की जानकारी यहाँ उपलब्ध है।</p>
+      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">समाज के सभी स्वीकृत परिवारों और सदस्यों की जानकारी यहाँ उपलब्ध है[span_1](start_span)[span_1](end_span).</p>
     </div>
 
     <!-- Horizontal PDF Preview & Share Box -->
@@ -242,7 +245,6 @@ async function previewAndShareHorizontalPdf() {
 
     Swal.close();
 
-    // यूजर को स्क्रीन पर पीडीएफ देखने (Preview) और शेयर करने का विकल्प देना
     Swal.fire({
       title: '📄 परिवार पीडीएफ तैयार है',
       text: 'आप चाहें तो इसे पहले देख सकते हैं या डायरेक्ट अपने व्हाट्सएप पर शेयर कर सकते हैं।',
@@ -340,7 +342,6 @@ async function previewAndShareDigitalCard(memberName, fatherName, village, mobil
 
     Swal.close();
 
-    // यूजर को कार्ड देखने, शेयर करने या डाउनलोड करने का विकल्प देना
     Swal.fire({
       title: '🪪 डिजिटल आईडी कार्ड तैयार है',
       text: 'आप इस कार्ड को देख सकते हैं या डायरेक्ट अपने नंबर पर व्हाट्सएप के जरिए शेयर कर सकते हैं।',

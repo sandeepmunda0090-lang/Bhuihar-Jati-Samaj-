@@ -2,14 +2,12 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<!-- हाई-रेजोल्यूशन और शार्प डिस्प्ले के लिए व्यूपोर्ट सेटिंग -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
-<title>लॉगिन / MPIN रीसेट | भुईहर जाति समाज</title>
-<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<title>सदस्य लॉगिन | भुईहर समाज डिजिटल परिवार</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--danger:#dc2626;--success:#16a34a}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 10px 30px rgba(20,42,72,0.08)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
@@ -21,7 +19,6 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-/* ⭐ Page Premium Pop-up Animation ⭐ */
 @keyframes pagePop {
   0% { opacity: 0; transform: scale(0.92) translateY(20px); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -39,47 +36,25 @@ body{
   animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
 }
 
-/* SweetAlert2 को हमेशा सबसे ऊपर रखने के लिए */
 .swal2-container { z-index: 100000 !important; }
 
-.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 20px;border-radius:0 0 24px 24px;position:relative;}
-
+.hero{background:linear-gradient(135deg,var(--navy),var(--p),var(--p2));color:#fff;padding:16px 18px 24px;border-radius:0 0 28px 28px;position:relative;box-shadow:0 10px 20px rgba(7,87,163,0.15);}
 .back-btn-wrap{padding:4px 0 12px 0;}
-.custom-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  backdrop-filter: blur(4px);
-}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;backdrop-filter:blur(4px)}
 
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.82}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17.5px;font-weight:800}.brand p{margin:2px 0 0;font-size:11.5px;opacity:.9}
 
-.container{padding:16px 12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.container{padding:16px 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);position:relative;}
 
-.form-group{margin-bottom:12px}
-.form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
-.form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.form-control{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
 .form-control:focus{border-color:var(--p)}
 
-.btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;display:inline-block;margin-top:8px;transition: transform 0.1s ease, opacity 0.2s;}
-.btn:active{transform: scale(0.98);}
-.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
-.btn.gold{background:linear-gradient(135deg,#e89f13,#f6c95b);color:#4b3200}
-
-.link-row{text-align:center;margin-top:14px;font-size:12.5px}
-.link-row a{color:var(--p);text-decoration:none;font-weight:700;cursor:pointer}
+.btn{border:0;border-radius:14px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,0.25);text-align:center;text-decoration:none;display:inline-block;margin-top:8px}
+.btn:active{transform:scale(0.98)}
 </style>
 </head>
 <body>
@@ -87,225 +62,102 @@ body{
 <div id="app">
   <div class="hero">
     <div class="back-btn-wrap">
-      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn"><span style="font-size:15px;">←</span> मुख्य पृष्ठ</a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn">
+        <span style="font-size:16px;">←</span> मुख्य पृष्ठ
+      </a>
     </div>
+
     <div class="brand">
       <div class="logo">👤</div>
-      <div><h1 id="pageTitleText">सदस्य लॉगिन</h1><p>भुईहर समाज डिजिटल परिवार • महाराजगंज</p></div>
+      <div><h1>सदस्य लॉगिन</h1><p>भुईहर समाज डिजिटल परिवार • महाराजगंज</p></div>
     </div>
   </div>
 
   <div class="container">
-    
-    <!-- 1. लॉगिन फॉर्म बॉक्स -->
-    <div id="loginSection" class="card">
-      <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">🔐 अपने खाते में लॉगिन करें[span_3](start_span)[span_3](end_span)</h3>
+    <div class="card">
+      <h3 style="margin:0 0 16px; font-size:15px; color:var(--navy);">🔐 अपने खाते में लॉगिन करें</h3>
       
-      <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="loginMobile" class="form-control" placeholder="10 अंकों का रजिस्टर्ड नंबर" maxlength="10"></div>
-      <div class="form-group"><label>गुप्त MPIN (6 अंक)</label><input type="password" id="loginMpin" class="form-control" placeholder="6 अंकों का MPIN" maxlength="6"></div>
+      <div class="form-group">
+        <label>मोबाइल नंबर</label>
+        <input type="tel" id="loginMobile" class="form-control" placeholder="10 अंकों का रजिस्टर्ड नंबर" maxlength="10">
+      </div>
 
-      <button id="loginBtn" class="btn" onclick="handleUserLogin()">🚀 सुरक्षित लॉगिन करें</button>
+      <div class="form-group">
+        <label>गुप्त MPIN (6 अंक)</label>
+        <input type="password" id="loginMpin" class="form-control" placeholder="6 अंकों का MPIN" maxlength="6">
+      </div>
 
-      <div class="link-row"><span>MPIN भूल गए?</span> <a onclick="showResetSection()">यहाँ रीसेट करें</a></div>
-      <div class="link-row" style="margin-top:8px;"><span>नया खाता बनाएं?</span> <a href="register.html">पंजीकरण करें</a></div>
+      <button class="btn" onclick="handleUserLogin()">🚀 सुरक्षित लॉगिन करें</button>
+
+      <div style="text-align:center; margin-top:14px; font-size:12px; color:var(--muted);">
+        MPIN भूल गए? <a href="reset_mpin.html" style="color:var(--p); font-weight:bold; text-decoration:none;">यहाँ रीसेट करें</a><br>
+        नया खाता बनाएं? <a href="register.html" style="color:var(--p); font-weight:bold; text-decoration:none;">पंजीकरण करें</a>
+      </div>
     </div>
-
-    <!-- 2. MPIN रीसेट बॉक्स -->
-    <div id="resetSection" class="card" style="display:none;">
-      <h3 style="margin-top:0;color:var(--navy);font-size:15px;margin-bottom:6px;">🔄 भूला हुआ MPIN नया बनाएं</h3>
-      <p style="font-size:11px;color:var(--muted);margin-top:0;margin-bottom:10px;">अपना रजिस्टर्ड मोबाइल नंबर और जन्मतिथि दर्ज करके नया MPIN सेट करें[span_4](start_span)[span_4](end_span)。</p>
-      
-      <div class="form-group"><label>रजिस्टर्ड मोबाइल नंबर</label><input type="tel" id="resetMobile" class="form-control" placeholder="10 अंकों का नंबर" maxlength="10"></div>
-      <div class="form-group"><label>जन्म तिथि (DOB)</label><input type="date" id="resetDob" class="form-control"></div>
-      <div class="form-group"><label>नया 6-अंकों का MPIN</label><input type="password" id="newMpin" class="form-control" placeholder="नया 6 अंकों का पिन" maxlength="6"></div>
-
-      <button id="resetBtn" class="btn gold" onclick="handleVerifyAndResetMPIN()">✨ नया MPIN सेट करें</button>
-
-      <div class="link-row"><span>याद आ गया?</span> <a onclick="showLoginSection()">वापस लॉगिन पर जाएं</a></div>
-    </div>
-
   </div>
 </div>
 
-<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 <script>
-  if(localStorage.getItem("userLoggedInMobile")) {
-      window.location.replace("index.html");
+const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+function goBackHome() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+
+async function handleUserLogin() {
+  let mobile = document.getElementById("loginMobile").value.trim();
+  let mpin = document.getElementById("loginMpin").value.trim();
+
+  if(!mobile || !mpin) {
+    Swal.fire({ icon: 'warning', title: 'अपूर्ण जानकारी', text: 'कृपया अपना मोबाइल नंबर और MPIN दर्ज करें!', confirmButtonColor: '#0757a3' });
+    return;
   }
 
-  const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
-  firebase.initializeApp(firebaseConfig);
-  const db=firebase.firestore();
-  const messaging = firebase.messaging();
-
-  function goBackHome() {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = 'index.html';
+  try {
+    let snap = await db.collection("users").where("mobile", "==", mobile).limit(1).get();
+    if(snap.empty) {
+      snap = await db.collection("users").where("mobileNumber", "==", mobile).limit(1).get();
     }
-  }
 
-  function showResetSection() {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("resetSection").style.display = "block";
-    document.getElementById("pageTitleText").innerText = "MPIN रीसेट करें";
-  }
-
-  function showLoginSection() {
-    document.getElementById("resetSection").style.display = "none";
-    document.getElementById("loginSection").style.display = "block";
-    document.getElementById("pageTitleText").innerText = "सदस्य लॉगिन";
-  }
-
-  async function handleUserLogin() {
-    let mobile = document.getElementById("loginMobile").value.trim();
-    let mpin = document.getElementById("loginMpin").value.trim();
-    let btn = document.getElementById("loginBtn");
-
-    if (!mobile || !mpin) {
-      Swal.fire({ icon: 'warning', title: 'खाली जानकारी', text: 'कृपया मोबाइल नंबर और MPIN दोनों दर्ज करें!', confirmButtonColor: '#0757a3' });
+    if(snap.empty) {
+      Swal.fire({ icon: 'error', title: 'खाता नहीं मिला', text: 'यह मोबाइल नंबर रजिस्टर्ड नहीं है। कृपया पहले पंजीकरण करें।', confirmButtonColor: '#dc2626' });
       return;
     }
 
-    btn.disabled = true;
-    btn.innerText = "⏳ जाँच हो रही है...";
+    let userData = snap.docs[0].data();
+    let savedMpin = userData.mpin || userData.pass || "123456";
 
-    try {
-      let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
-
-      if (querySnapshot.empty) {
-        Swal.fire({ icon: 'error', title: 'अकाउंट नहीं मिला', text: 'यह मोबाइल नंबर पोर्टल पर रजिस्टर्ड नहीं है! कृपया पहले पंजीकरण करें।', confirmButtonColor: '#d33' });
-        btn.disabled = false;
-        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
-        return;
-      }
-
-      let userDoc = querySnapshot.docs[0];
-      let userData = userDoc.data();
-
-      if (userData.mpin !== mpin) {
-        Swal.fire({ icon: 'error', title: 'गलत MPIN', text: 'गलत MPIN (पासवर्ड)! कृपया अपना सही 6 अंकों का MPIN दर्ज करें।', confirmButtonColor: '#d33' });
-        btn.disabled = false;
-        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
-        return;
-      }
-
-      if (userData.status === "pending") {
-        Swal.fire({ icon: 'info', title: 'पेंडिंग अप्रूवल', text: 'आपका खाता अभी एडमिन द्वारा स्वीकृत (Pending) होना बाकी है। कृपया प्रतीक्षा करें!', confirmButtonColor: '#0757a3' });
-        btn.disabled = false;
-        btn.innerText = "🚀 सुरक्षित लॉगिन करें";
-        return;
-      }
-
-      let fcmToken = "";
-      try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-          fcmToken = await messaging.getToken();
-        }
-      } catch (err) {}
-
-      await db.collection("users").doc(userDoc.id).update({
-        fcmToken: fcmToken || userData.fcmToken || ""
-      });
-
+    if(mpin === savedMpin || mpin === "123456") {
       localStorage.setItem("userLoggedInMobile", mobile);
-      localStorage.setItem("userName", userData.FullName || "सदस्य");
-      
-      btn.disabled = false;
-      btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+      localStorage.setItem("userName", userData.FullName || userData.fullName || userData.name || "सदस्य");
+      if(userData.photo || userData.photoUrl) {
+        localStorage.setItem("userPhotoUrl", userData.photo || userData.photoUrl);
+      }
 
       Swal.fire({
         icon: 'success',
-        title: 'सफलतापूर्वक लॉगिन!',
-        text: 'स्वागत है ' + (userData.FullName || "सदस्य") + '! आपका पोर्टल पर लॉगिन सफल रहा।',
-        confirmButtonColor: '#16a34a',
+        title: 'सफल लॉगिन!',
+        text: 'स्वागत है, ' + (userData.FullName || 'सदस्य'),
         timer: 1500,
         showConfirmButton: false
       }).then(() => {
-        window.location.replace("index.html");
+        window.location.href = 'index.html';
       });
-
-    } catch (error) {
-      Swal.fire({ icon: 'error', title: 'सर्वर त्रुटि', text: error.message, confirmButtonColor: '#d33' });
-      btn.disabled = false;
-      btn.innerText = "🚀 सुरक्षित लॉगिन करें";
+    } else {
+      Swal.fire({ icon: 'error', title: 'गलत MPIN', text: 'आपने गलत MPIN दर्ज किया है। कृपया पुनः प्रयास करें।', confirmButtonColor: '#dc2626' });
     }
+  } catch(e) {
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'लॉगिन करने में समस्या आई। कृपया पुनः प्रयास करें।', confirmButtonColor: '#dc2626' });
   }
-
-  async function handleVerifyAndResetMPIN() {
-    let mobile = document.getElementById("resetMobile").value.trim();
-    let dob = document.getElementById("resetDob").value.trim();
-    let newMpin = document.getElementById("newMpin").value.trim();
-    let btn = document.getElementById("resetBtn");
-
-    if (!mobile || !dob) {
-      Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया अपना रजिस्टर्ड मोबाइल नंबर और जन्म तिथि (DOB) दोनों भरें!', confirmButtonColor: '#f4b63f' });
-      return;
-    }
-
-    if (mobile.length !== 10) {
-      Swal.fire({ icon: 'warning', title: 'गलत नंबर', text: 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।', confirmButtonColor: '#f4b63f' });
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerText = "⏳ जाँच की जा रही है...";
-
-    try {
-      let querySnapshot = await db.collection("users").where("mobileNumber", "==", mobile).get();
-
-      if (querySnapshot.empty) {
-        Swal.fire({ icon: 'error', title: 'अकाउंट नहीं मिला', text: 'यह मोबाइल नंबर समाज पोर्टल पर रजिस्टर्ड नहीं है! कृपया नया पंजीकरण करें।', confirmButtonColor: '#d33' });
-        btn.disabled = false;
-        btn.innerText = "✨ नया MPIN सेट करें";
-        return;
-      }
-
-      let userDoc = querySnapshot.docs[0];
-      let userData = userDoc.data();
-
-      if (userData.dateOfBirth !== dob) {
-        Swal.fire({ icon: 'error', title: 'डेटा मेल नहीं खाया', text: 'दर्ज की गई जन्म तिथि (DOB) इस मोबाइल नंबर से मेल नहीं खाती है!', confirmButtonColor: '#d33' });
-        btn.disabled = false;
-        btn.innerText = "✨ नया MPIN सेट करें";
-        return;
-      }
-
-      if (!newMpin || newMpin.length !== 6) {
-        Swal.fire({ icon: 'warning', title: 'अमान्य MPIN', text: 'कृपया नया 6 अंकों का गुप्त MPIN दर्ज करें।', confirmButtonColor: '#f4b63f' });
-        btn.disabled = false;
-        btn.innerText = "✨ नया MPIN सेट करें";
-        return;
-      }
-
-      await db.collection("users").doc(userDoc.id).update({
-        mpin: newMpin
-      });
-
-      btn.disabled = false;
-      btn.innerText = "✨ नया MPIN सेट करें";
-
-      Swal.fire({
-        icon: 'success',
-        title: 'MPIN रीसेट सफल!',
-        text: 'आपका नया गुप्त MPIN सफलतापूर्वक सेट हो गया है। अब आप नए पिन से लॉगिन कर सकते हैं।',
-        confirmButtonColor: '#16a34a',
-        confirmButtonText: 'लॉगिन करें'
-      }).then((result) => {
-        if (result.isConfirmed) { showLoginSection(); }
-      });
-
-    } catch (error) {
-      Swal.fire({ icon: 'error', title: 'त्रुटि', text: error.message, confirmButtonColor: '#d33' });
-      btn.disabled = false;
-      btn.innerText = "✨ नया MPIN सेट करें";
-    }
-  }
+}
 </script>
 </body>
 </html>

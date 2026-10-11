@@ -6,7 +6,7 @@
   <title>मास्टर एडमिन पैनल - भुईहर जाति समाज</title>
   <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- Image (Photo) बनाने के लिए लाइब्रेरी (Master Directory के लिए) -->
+  <!-- Image (Photo) बनाने के लिए लाइब्रेरी -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
@@ -89,10 +89,10 @@
         </div>
       </div>
       <h1>🛡️ भुईहर जाति समाज</h1>
-      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल - सभी 11 सेवाएँ (पूर्ण नियंत्रण)</p>
+      <p class="sub">मास्टर एडमिनिस्ट्रेशन पैनल - सभी सेवाएँ (पूर्ण नियंत्रण)</p>
     </header>
 
-    <!-- 0. नया सेक्शन: मास्टर डायरेक्टरी डाउनलोड (प्रीमियम A4 लैंडस्केप) -->
+    <!-- मास्टर डायरेक्टरी डाउनलोड -->
     <div class="card" style="border-left-color: #0757a3; text-align: center; background:#eff6ff;">
       <h3 style="margin-top:0; border-bottom:none;">📊 मास्टर परिवार डायरेक्टरी (सम्पूर्ण सूची)</h3>
       <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">समाज के सभी पंजीकृत परिवारों की पूरी सूची एकदम प्रीमियम A4 टेबल फॉर्मेट में प्राप्त करें।</p>
@@ -118,18 +118,18 @@
         <div class="form-group">
           <label>जॉब श्रेणी (सरकारी या प्राइवेट)</label>
           <select id="jobCategory" class="form-control">
-            <option value="government">🏛️ सरकारी नौकरी (CG Vyapam / All India)</option>
-            <option value="private">🏢 प्राइवेट नौकरी (Telecom / Operator / Field)</option>
+            <option value="government">🏛️ सरकारी नौकरी</option>
+            <option value="private">🏢 प्राइवेट नौकरी</option>
           </select>
         </div>
-        <div class="form-group"><label>जॉब शीर्षक / पद का नाम</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर / CG Vyapam ASI"></div>
-        <div class="form-group"><label>कंपनी / विभाग का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स / छत्तीसगढ़ व्यापम"></div>
-        <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="अंबिकापुर / महाराजगंज"></div>
+        <div class="form-group"><label>जॉब शीर्षक / पद का नाम</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर"></div>
+        <div class="form-group"><label>कंपनी / विभाग का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स"></div>
+        <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="महाराजगंज"></div>
         <div class="form-group"><label>वेतन / सैलरी</label><input type="text" id="jobSalary" class="form-control" placeholder="₹15,000 - ₹20,000 / माह"></div>
         <div class="form-group"><label>योग्यता</label><input type="text" id="jobQuali" class="form-control" placeholder="12वीं पास / स्नातक"></div>
         <div class="form-group"><label>ऑनलाइन अप्लाई लिंक</label><input type="text" id="jobApplyLink" class="form-control" placeholder="https://..."></div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="jobMobile" class="form-control" placeholder="9876543210"></div>
-        <div class="form-group"><label>विशेष टैग</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert या 💼 Private Telecom Job"></div>
+        <div class="form-group"><label>विशेष टैग</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert"></div>
 
         <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateJob()">जॉब सुरक्षित / पोस्ट करें</button>
         <div class="table-responsive"><table><thead><tr><th>शीर्षक / कंपनी / प्रकार</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
@@ -147,11 +147,9 @@
             <option value="महतो">महतो</option><option value="कहतो">कहतो</option><option value="अध्यक्ष">अध्यक्ष</option><option value="उपाध्यक्ष">उपाध्यक्ष</option><option value="सचिव">सचिव</option><option value="कोषाध्यक्ष">कोषाध्यक्ष</option>
           </select>
         </div>
-
         <div class="form-group"><label>लिंग (Gender)</label>
           <select id="offGender" class="form-control">
-            <option value="male">पुरुष (Male)</option>
-            <option value="female">महिला (Female)</option>
+            <option value="male">पुरुष (Male)</option><option value="female">महिला (Female)</option>
           </select>
         </div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="offMobile" class="form-control" placeholder="9876543210"></div>
@@ -182,8 +180,8 @@
         <div class="form-group"><label>पिता का नाम</label><input type="text" id="achFather" class="form-control" placeholder="श्री सोहन मुंडा"></div>
         <div class="form-group"><label>माता का नाम</label><input type="text" id="achMother" class="form-control" placeholder="श्रीमती गीता मुंडा"></div>
         <div class="form-group"><label>प्रतिशत / स्कोर</label><input type="text" id="achDetail" class="form-control" placeholder="94.5% (12वीं बोर्ड)"></div>
-        <div class="form-group"><label>प्रोत्साहन / सम्मान राशि (₹)</label><input type="text" id="achReward" class="form-control" placeholder="₹5,100 या स्वर्ण पदक"></div>
-        <div class="form-group"><label>फोटो URL (पोर्ट्रेट फोटो)</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
+        <div class="form-group"><label>प्रोत्साहन / सम्मान राशि (₹)</label><input type="text" id="achReward" class="form-control" placeholder="₹5,100"></div>
+        <div class="form-group"><label>फोटो URL</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:#2563eb;" onclick="saveOrUpdateAchiever()">मेधावी छात्र सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
       </div>
@@ -225,7 +223,6 @@
         <div class="form-group"><label>संचालक का नाम</label><input type="text" id="bizOwner" class="form-control" placeholder="श्री राम कुमार"></div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="bizMobile" class="form-control" placeholder="9876543210" maxlength="10"></div>
         <div class="form-group"><label>पूरा पता / स्थान</label><input type="text" id="bizAddress" class="form-control" placeholder="मुख्य मार्ग, महाराजगंज"></div>
-        <div class="form-group"><label>Google Map लोकेशन लिंक</label><input type="text" id="bizMapLink" class="form-control" placeholder="https://maps.google.com/?q=..."></div>
         <button class="btn" onclick="saveOrUpdateBusiness()">व्यवसाय सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>दुकान व संचालक</th><th>कार्रवाई</th></tr></thead><tbody id="adminBizTable"></tbody></table></div>
       </div>
@@ -249,12 +246,11 @@
     <div class="accordion-content">
       <div class="card" style="border-left-color: #0284c7;">
         <input type="hidden" id="editTravelId" value="">
-        <div class="form-group"><label>वाहन का नाम / सेवा प्रकार</label><input type="text" id="travelTitleInput" class="form-control" placeholder="स्वराज ट्रैक्टर / ट्रैवलर"></div>
+        <div class="form-group"><label>वाहन का नाम / सेवा प्रकार</label><input type="text" id="travelTitleInput" class="form-control" placeholder="स्वराज ट्रैक्टर"></div>
         <div class="form-group"><label>चालक / मालिक का नाम</label><input type="text" id="travelDriverInput" class="form-control" placeholder="श्री रामलाल"></div>
         <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="travelMobileInput" class="form-control" placeholder="9876543210" maxlength="10"></div>
-        <div class="form-group"><label>वाहन श्रेणी</label><select id="travelCategoryInput" class="form-control"><option value="agri">कृषि वाहन (Agri Tractor)</option><option value="commercial">कमर्शियल / ढुलाई (Commercial Transport)</option><option value="car">ट्रैवल कार / टैक्सी (Travel Car / Taxi)</option></select></div>
+        <div class="form-group"><label>वाहन श्रेणी</label><select id="travelCategoryInput" class="form-control"><option value="agri">कृषि वाहन</option><option value="commercial">कमर्शियल / ढुलाई</option><option value="car">ट्रैवल कार / टैक्सी</option></select></div>
         <div class="form-group"><label>रूट / पूरा पता</label><input type="text" id="travelAddressInput" class="form-control" placeholder="महाराजगंज से अंबिकापुर"></div>
-        <div class="form-group"><label>Google Map लोकेशन लिंक</label><input type="text" id="travelMapInput" class="form-control" placeholder="https://maps.google.com/?q=..."></div>
         <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateTravelAdmin()">वाहन सेवा सुरक्षित करें</button>
         <div class="table-responsive">
           <table>
@@ -277,14 +273,17 @@
       </div>
     </div>
 
-    <!-- 12. जनमत पोल -->
-    <button class="accordion-header">📊 11. जनमत पोल <span>▼</span></button>
+    <!-- 12. जनमत पोल (Live Poll Management) -->
+    <button class="accordion-header">📊 11. जनमत पोल (Live Poll) <span>▼</span></button>
     <div class="accordion-content">
-      <div class="card">
+      <div class="card" style="border-left-color: var(--navy);">
         <input type="hidden" id="editPollId" value="">
-        <div class="form-group"><label>पोल का सवाल</label><input type="text" id="pollQue" class="form-control" placeholder="सामूहिक विवाह होना चाहिए?"></div>
-        <button class="btn" onclick="saveOrUpdatePoll()">पोल सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th>सवाल</th><th>कार्रवाई</th></tr></thead><tbody id="adminPollTable"></tbody></table></div>
+        <div class="form-group"><label>पोल का सवाल (Question) *</label><input type="text" id="pollQue" class="form-control" placeholder="जैसे: क्या समाज का आगामी सम्मेलन महाराजगंज में होना चाहिए?"></div>
+        <div class="form-group"><label>विकल्प 1 (Option 1) *</label><input type="text" id="pollOpt1" class="form-control" placeholder="हाँ"></div>
+        <div class="form-group"><label>विकल्प 2 (Option 2) *</label><input type="text" id="pollOpt2" class="form-control" placeholder="नहीं"></div>
+        <div class="form-group"><label>विकल्प 3 (Option 3 - वैकल्पिक)</label><input type="text" id="pollOpt3" class="form-control" placeholder="विचार करेंगे"></div>
+        <button class="btn" style="background:var(--navy);" onclick="saveOrUpdatePoll()">पोल लाइव / सुरक्षित करें</button>
+        <div class="table-responsive"><table><thead><tr><th>पोल सवाल व विकल्प</th><th>कार्रवाई</th></tr></thead><tbody id="adminPollTable"></tbody></table></div>
       </div>
     </div>
 
@@ -317,7 +316,6 @@
     }
   });
 
-  // पक्का और सुरक्षित लॉगआउट फ़ंक्शन (SweetAlert2 के साथ)
   function logoutAdmin() {
     Swal.fire({
       title: 'लॉगआउट?',
@@ -331,9 +329,8 @@
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear(); sessionStorage.clear();
-        try { if(typeof auth !== 'undefined' && auth.signOut) { auth.signOut().catch(e => console.log(e)); } } catch(err) { console.log(err); }
-        if (typeof Android !== "undefined") { Android.showAds(); }
-        Swal.fire({ icon: 'success', title: 'लॉग आउट!', text: 'आप सफलतापूर्वक लॉग आउट हो गए हैं।', confirmButtonColor: '#16a34a' }).then(() => {
+        try { if(typeof auth !== 'undefined' && auth.signOut) { auth.signOut().catch(e => console.log(e)); } } catch(err) {}
+        Swal.fire({ icon: 'success', title: 'लॉग आउट!', text: 'सफलतापूर्वक लॉग आउट हो गए हैं।', confirmButtonColor: '#16a34a' }).then(() => {
           window.location.replace("login.html");
         });
       }
@@ -350,7 +347,6 @@
     });
   }
 
-  // एडमिन लॉगिन (SweetAlert2 के साथ)
   function loginAdmin() {
     let email = document.getElementById("adminEmail").value.trim();
     let pass = document.getElementById("adminPassword").value.trim();
@@ -362,7 +358,7 @@
       document.getElementById("adminDashboardContent").style.display = "block";
       loadAllAdminData();
     }).catch((err) => { 
-      Swal.fire({ icon: 'error', title: 'लॉग इन फेल', text: 'ईमेल या पासवर्ड गलत है। कृपया दोबारा चेक करें!', confirmButtonColor: '#dc2626' });
+      Swal.fire({ icon: 'error', title: 'लॉग इन फेल', text: 'ईमेल या पासवर्ड गलत है!', confirmButtonColor: '#dc2626' });
     });
   }
 
@@ -371,12 +367,12 @@
     
     loadAdminTable("jobs", "adminJobsTable", (d, id) => {
       adminCache.jobs[id] = d;
-      return `<tr><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.company || d.dept || ''} [${d.category === 'private' ? 'प्राइवेट' : 'सरकारी'}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+      return `<tr><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.company || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
     });
 
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => {
       adminCache.officials[id] = d;
-      return `<tr><td><b>${d.name || ''}</b> (${d.role || ''}) - ${d.gender === 'female' ? 'महिला' : 'पुरुष'}</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+      return `<tr><td><b>${d.name || ''}</b> (${d.role || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
     });
 
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => {
@@ -386,7 +382,7 @@
     
     loadAdminTable("achievers", "adminAchTable", (d, id) => {
       adminCache.achievers[id] = d;
-      return `<tr><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''} | राशि: ${d.reward || 'घोषित'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+      return `<tr><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
     });
     
     loadAdminTable("funds", "adminFundTable", (d, id) => {
@@ -401,7 +397,7 @@
     
     loadAdminTable("businesses", "adminBizTable", (d, id) => {
       adminCache.businesses[id] = d;
-      return `<tr><td><b>${d.bizName || ''}</b> (${d.owner || ''})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'} | 📍 ${d.address || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+      return `<tr><td><b>${d.bizName || ''}</b> (${d.owner || ''})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
     });
     
     loadAdminTable("gallery", "adminGalTable", (d, id) => {
@@ -411,7 +407,8 @@
 
     loadAdminTable("polls", "adminPollTable", (d, id) => {
       adminCache.polls[id] = d;
-      return `<tr><td><b>${d.question || ''}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
+      let opts = (d.options || []).join(", ");
+      return `<tr><td><b>${d.question || ''}</b><br><span style="color:var(--muted); font-size:10.5px;">विकल्प: [${opts}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`;
     });
     
     loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा");
@@ -457,7 +454,7 @@
         }
       });
       document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई पेंडिंग ${labelName} नहीं है</td></tr>`;
-    } catch(e) { document.getElementById(tableId).innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`; }
+    } catch(e) {}
   }
 
   async function loadPendingTravelApprovals() {
@@ -466,48 +463,22 @@
       let html = "";
       snap.forEach(doc => {
         let d = doc.data();
-        adminCache.travel[doc.id] = d;
         let status = (d.status || "pending").toLowerCase();
-        let tName = d.title || d.vehicleName || 'वाहन सेवा';
-        let driver = d.driver || d.driverName || '-';
-        let mobile = d.mobile || '-';
-        let address = d.address || '-';
-        
         if(status === "pending") {
-          html += `<tr>
-            <td><b>${tName}</b> (${driver})<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
-            <td>
-              <button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}')">✏️</button>
-              <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
-            </td>
-          </tr>`;
-        } else {
-          html += `<tr>
-            <td><b>${tName}</b> (${driver}) [स्वीकृत]<br><span style="font-size:10px; color:var(--muted);">📞 ${mobile} | 📍 ${address}</span></td>
-            <td>
-              <button class="badge-btn" style="background:#2563eb; color:white;" onclick="editTravelAdminData('${doc.id}')">✏️</button>
-              <button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button>
-            </td>
-          </tr>`;
+          html += `<tr><td><b>${d.title || d.vehicleName || 'वाहन सेवा'}</b> (${d.driver || '-'})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
         }
       });
-      document.getElementById("adminVehicleTable").innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई वाहन सेवा उपलब्ध नहीं है</td></tr>`;
-    } catch(e) {
-      document.getElementById("adminVehicleTable").innerHTML = `<tr><td colspan="2" style="text-align:center;">लोड त्रुटि</td></tr>`;
-    }
+      document.getElementById("adminVehicleTable").innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई पेंडिंग वाहन सेवा नहीं है</td></tr>`;
+    } catch(e) {}
   }
 
   async function approveDynamicDoc(col, id) {
-    try {
-      await db.collection(col).doc(id).update({ status: "approved" });
-      Swal.fire({ icon: 'success', title: 'स्वीकृत', text: 'सफलतापूर्वक स्वीकृत कर दिया गया!', confirmButtonColor: '#16a34a' });
-      loadAllAdminData();
-    } catch (error) {
-      Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'स्वीकृत करने में त्रुटि आई!' });
-    }
+    await db.collection(col).doc(id).update({ status: "approved" });
+    Swal.fire({ icon: 'success', title: 'स्वीकृत', text: 'सफलतापूर्वक स्वीकृत कर दिया गया!', confirmButtonColor: '#16a34a' });
+    loadAllAdminData();
   }
 
+  // ⭐ जॉब सेव करने का फ़ंक्शन ⭐
   async function saveOrUpdateJob() {
     let id = document.getElementById("editJobId").value;
     let category = document.getElementById("jobCategory").value;
@@ -520,8 +491,7 @@
     let mobile = document.getElementById("jobMobile").value.trim();
     let tag = document.getElementById("jobTag").value.trim();
 
-    if(!title || !company) { Swal.fire({ icon: 'warning', text: 'जॉब शीर्षक और कंपनी/विभाग का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
-
+    if(!title || !company) { Swal.fire({ icon: 'warning', text: 'जॉब शीर्षक और कंपनी का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
     let data = { category, title, company, location, salary, qualification, applyLink, mobile, tag, timestamp: Date.now() };
 
     if(id) { await db.collection("jobs").doc(id).update(data); document.getElementById("editJobId").value=""; }
@@ -532,6 +502,23 @@
     loadAllAdminData();
   }
 
+  function editJob(id) {
+    let j = adminCache.jobs[id];
+    if(!j) return;
+    document.getElementById("editJobId").value = id;
+    document.getElementById("jobCategory").value = j.category || "government";
+    document.getElementById("jobTitle").value = j.title || "";
+    document.getElementById("jobCompany").value = j.company || "";
+    document.getElementById("jobLoc").value = j.location || "";
+    document.getElementById("jobSalary").value = j.salary || "";
+    document.getElementById("jobQuali").value = j.qualification || "";
+    document.getElementById("jobApplyLink").value = j.applyLink || "";
+    document.getElementById("jobMobile").value = j.mobile || "";
+    document.getElementById("jobTag").value = j.tag || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ पदाधिकारी सेव करने का फ़ंक्शन ⭐
   async function saveOrUpdateOfficial() {
     let id = document.getElementById("editOfficialId").value;
     let name = document.getElementById("offName").value.trim();
@@ -540,10 +527,78 @@
     if(id) { await db.collection("officials").doc(id).update(data); document.getElementById("editOfficialId").value=""; }
     else { await db.collection("officials").add(data); }
     Swal.fire({ icon: 'success', text: 'पदाधिकारी सुरक्षित हो गया!', confirmButtonColor: '#16a34a' });
-    document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value=""; document.getElementById("offGender").value="male";
+    document.getElementById("offName").value=""; document.getElementById("offMobile").value=""; document.getElementById("offPhoto").value="";
     loadAllAdminData();
   }
 
+  function editOfficial(id) {
+    let o = adminCache.officials[id];
+    if(!o) return;
+    document.getElementById("editOfficialId").value = id;
+    document.getElementById("offName").value = o.name || "";
+    document.getElementById("offRole").value = o.role || "महतो";
+    document.getElementById("offGender").value = o.gender || "male";
+    document.getElementById("offMobile").value = o.mobile || "";
+    document.getElementById("offPhoto").value = o.photo || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ आगामी बैठक सेव करने का फ़ंक्शन ⭐
+  async function saveOrUpdateMeeting() {
+    let id = document.getElementById("editMeetingId").value;
+    let title = document.getElementById("meetTitle").value.trim();
+    let message = document.getElementById("meetDesc").value.trim();
+    if(!title) { Swal.fire({ icon: 'warning', text: 'बैठक शीर्षक भरें!', confirmButtonColor: '#1e3a8a' }); return; }
+    let data = { title, message, timestamp: Date.now() };
+    if(id) { await db.collection("meetings").doc(id).update(data); document.getElementById("editMeetingId").value=""; }
+    else { await db.collection("meetings").add(data); }
+    Swal.fire({ icon: 'success', text: 'बैठक सूचना प्रकाशित हो गई!', confirmButtonColor: '#16a34a' });
+    document.getElementById("meetTitle").value=""; document.getElementById("meetDesc").value="";
+    loadAllAdminData();
+  }
+
+  function editMeeting(id) {
+    let m = adminCache.meetings[id];
+    if(!m) return;
+    document.getElementById("editMeetingId").value = id;
+    document.getElementById("meetTitle").value = m.title || "";
+    document.getElementById("meetDesc").value = m.message || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ मेधावी छात्र सेव करने का फ़ंक्शन ⭐
+  async function saveOrUpdateAchiever() {
+    let id = document.getElementById("editAchId").value;
+    let name = document.getElementById("achName").value.trim();
+    if(!name) { Swal.fire({ icon: 'warning', text: 'छात्र का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
+    let data = {
+      name, fatherName: document.getElementById("achFather").value.trim(),
+      motherName: document.getElementById("achMother").value.trim(),
+      detail: document.getElementById("achDetail").value.trim(),
+      reward: document.getElementById("achReward").value.trim(),
+      photo: document.getElementById("achPhoto").value.trim(), timestamp: Date.now()
+    };
+    if(id) { await db.collection("achievers").doc(id).update(data); document.getElementById("editAchId").value=""; }
+    else { await db.collection("achievers").add(data); }
+    Swal.fire({ icon: 'success', text: 'मेधावी छात्र सुरक्षित हो गया!', confirmButtonColor: '#16a34a' });
+    document.getElementById("achName").value=""; document.getElementById("achFather").value=""; document.getElementById("achMother").value=""; document.getElementById("achDetail").value=""; document.getElementById("achReward").value=""; document.getElementById("achPhoto").value="";
+    loadAllAdminData();
+  }
+
+  function editAch(id) {
+    let a = adminCache.achievers[id];
+    if(!a) return;
+    document.getElementById("editAchId").value = id;
+    document.getElementById("achName").value = a.name || "";
+    document.getElementById("achFather").value = a.fatherName || "";
+    document.getElementById("achMother").value = a.motherName || "";
+    document.getElementById("achDetail").value = a.detail || "";
+    document.getElementById("achReward").value = a.reward || "";
+    document.getElementById("achPhoto").value = a.photo || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ समाज दान कोष सेव करने का फ़ंक्शन ⭐
   async function saveOrUpdateFund() {
     let id = document.getElementById("editFundId").value;
     let donorName = document.getElementById("donName").value.trim();
@@ -557,38 +612,70 @@
     loadAllAdminData();
   }
 
-  async function saveOrUpdateTravelAdmin() {
-    let id = document.getElementById("editTravelId").value;
-    let title = document.getElementById("travelTitleInput").value.trim();
-    let driver = document.getElementById("travelDriverInput").value.trim();
-    let mobile = document.getElementById("travelMobileInput").value.trim();
-    let address = document.getElementById("travelAddressInput").value.trim();
-    let mapLink = document.getElementById("travelMapInput").value.trim();
+  function editFund(id) {
+    let f = adminCache.funds[id];
+    if(!f) return;
+    document.getElementById("editFundId").value = id;
+    document.getElementById("donName").value = f.donorName || "";
+    document.getElementById("donAmount").value = f.amount || "";
+    document.getElementById("donType").value = f.type || "credit";
+    document.getElementById("donDesc").value = f.description || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
 
-    if(!title || !mobile || !address) {
-      Swal.fire({ icon: 'warning', text: 'वाहन का नाम, मोबाइल नंबर और पता अनिवार्य रूप से भरें!', confirmButtonColor: '#1e3a8a' });
-      return;
-    }
-
-    let category = document.getElementById("travelCategoryInput").value;
-    let data = {
-      title: title, driver: driver || 'चालक', mobile: mobile, address: address,
-      mapLink: mapLink || `https://maps.google.com/?q=${encodeURIComponent(address)}`,
-      category: category, status: "approved", timestamp: Date.now()
-    };
-
-    if(id) {
-      await db.collection("travel").doc(id).update(data);
-      document.getElementById("editTravelId").value = "";
-    } else {
-      await db.collection("travel").add(data);
-    }
-
-    Swal.fire({ icon: 'success', text: 'वाहन सेवा सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
-    document.getElementById("travelTitleInput").value = ""; document.getElementById("travelDriverInput").value = ""; document.getElementById("travelMobileInput").value = ""; document.getElementById("travelAddressInput").value = ""; document.getElementById("travelMapInput").value = "";
+  // ⭐ शोक संदेश सेव करने का फ़ंक्शन ⭐
+  async function saveOrUpdateCondolence() {
+    let id = document.getElementById("editCondId").value;
+    let name = document.getElementById("condName").value.trim();
+    if(!name) { Swal.fire({ icon: 'warning', text: 'नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
+    let data = { name, description: document.getElementById("condDesc").value.trim(), photo: document.getElementById("condPhoto").value.trim(), timestamp: Date.now() };
+    if(id) { await db.collection("condolences").doc(id).update(data); document.getElementById("editCondId").value=""; }
+    else { await db.collection("condolences").add(data); }
+    Swal.fire({ icon: 'success', text: 'शोक संदेश सुरक्षित हो गया!', confirmButtonColor: '#16a34a' });
+    document.getElementById("condName").value=""; document.getElementById("condDesc").value=""; document.getElementById("condPhoto").value="";
     loadAllAdminData();
   }
 
+  function editCond(id) {
+    let c = adminCache.condolences[id];
+    if(!c) return;
+    document.getElementById("editCondId").value = id;
+    document.getElementById("condName").value = c.name || "";
+    document.getElementById("condDesc").value = c.description || "";
+    document.getElementById("condPhoto").value = c.photo || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ व्यवसाय सेव करने का फ़ंक्शन ⭐
+  async function saveOrUpdateBusiness() {
+    let id = document.getElementById("editBizId").value;
+    let bizName = document.getElementById("bizName").value.trim();
+    if(!bizName) { Swal.fire({ icon: 'warning', text: 'दुकान का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
+    let data = {
+      bizName, owner: document.getElementById("bizOwner").value.trim(),
+      mobile: document.getElementById("bizMobile").value.trim(),
+      address: document.getElementById("bizAddress").value.trim(),
+      status: "approved", timestamp: Date.now()
+    };
+    if(id) { await db.collection("businesses").doc(id).update(data); document.getElementById("editBizId").value=""; }
+    else { await db.collection("businesses").add(data); }
+    Swal.fire({ icon: 'success', text: 'व्यवसाय सुरक्षित हो गया!', confirmButtonColor: '#16a34a' });
+    document.getElementById("bizName").value=""; document.getElementById("bizOwner").value=""; document.getElementById("bizMobile").value=""; document.getElementById("bizAddress").value="";
+    loadAllAdminData();
+  }
+
+  function editBiz(id) {
+    let b = adminCache.businesses[id];
+    if(!b) return;
+    document.getElementById("editBizId").value = id;
+    document.getElementById("bizName").value = b.bizName || "";
+    document.getElementById("bizOwner").value = b.owner || "";
+    document.getElementById("bizMobile").value = b.mobile || "";
+    document.getElementById("bizAddress").value = b.address || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ गैलरी सेव करने का फ़ंक्शन ⭐
   async function saveOrUpdateGallery() {
     let id = document.getElementById("editGalId").value;
     let title = document.getElementById("galTitle").value.trim();
@@ -600,105 +687,110 @@
     document.getElementById("galTitle").value=""; document.getElementById("galPhoto").value="";
     loadAllAdminData();
   }
-  
-  // डिलीट फ़ंक्शन (SweetAlert2 के साथ)
+
+  function editGal(id) {
+    let g = adminCache.gallery[id];
+    if(!g) return;
+    document.getElementById("editGalId").value = id;
+    document.getElementById("galTitle").value = g.title || "";
+    document.getElementById("galPhoto").value = g.photo || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // ⭐ जनमत पोल सेव करने का फ़ंक्शन ⭐
+  async function saveOrUpdatePoll() {
+    let id = document.getElementById("editPollId").value;
+    let question = document.getElementById("pollQue").value.trim();
+    let opt1 = document.getElementById("pollOpt1").value.trim();
+    let opt2 = document.getElementById("pollOpt2").value.trim();
+    let opt3 = document.getElementById("pollOpt3").value.trim();
+
+    if(!question || !opt1 || !opt2) {
+      Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया पोल का सवाल और कम से कम दो विकल्प अवश्य भरें!', confirmButtonColor: '#1e3a8a' });
+      return;
+    }
+
+    let options = [opt1, opt2];
+    if(opt3) options.push(opt3);
+
+    let data = {
+      question: question,
+      options: options,
+      status: "active",
+      votes: {},
+      timestamp: Date.now()
+    };
+
+    if(id) {
+      await db.collection("polls").doc(id).update(data);
+      document.getElementById("editPollId").value = "";
+    } else {
+      await db.collection("polls").add(data);
+    }
+
+    Swal.fire({ icon: 'success', title: 'सफल!', text: 'जनमत पोल सफलतापर्वक लाइव कर दिया गया है!', confirmButtonColor: '#16a34a' });
+    document.getElementById("pollQue").value = "";
+    document.getElementById("pollOpt1").value = "";
+    document.getElementById("pollOpt2").value = "";
+    document.getElementById("pollOpt3").value = "";
+    loadAllAdminData();
+  }
+
+  function editPoll(id) {
+    let p = adminCache.polls[id];
+    if(!p) return;
+    document.getElementById("editPollId").value = id;
+    document.getElementById("pollQue").value = p.question || "";
+    let opts = p.options || [];
+    document.getElementById("pollOpt1").value = opts[0] || "";
+    document.getElementById("pollOpt2").value = opts[1] || "";
+    document.getElementById("pollOpt3").value = opts[2] || "";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
   async function deleteDoc(col, id, callback) {
     Swal.fire({
-      title: 'क्या आप इसे सच में हटाना चाहते हैं?',
-      text: 'यह डेटा हमेशा के लिए मिटा दिया जाएगा!',
+      title: 'क्या आप इसे हटाना चाहते हैं?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#dc2626',
       cancelButtonColor: '#64748b',
-      confirmButtonText: 'हाँ, हटाएँ!',
-      cancelButtonText: 'रद्द करें'
+      confirmButtonText: 'हाँ, हटाएँ!'
     }).then(async (result) => {
       if (result.isConfirmed) {
         await db.collection(col).doc(id).delete();
-        Swal.fire({ icon: 'success', title: 'हटा दिया गया!', text: 'डेटा सफलतापूर्वक मिटा दिया गया है।', confirmButtonColor: '#16a34a' });
+        Swal.fire({ icon: 'success', title: 'हटा दिया गया!', confirmButtonColor: '#16a34a' });
         if(callback) callback();
       }
     });
   }
 
-  // ⭐ नया: मास्टर डायरेक्टरी को डेटाबेस से निकाल कर HD प्रीमियम टेबल फोटो में शेयर करने का फ़ंक्शन
   async function downloadAdminMasterDirectory() {
-    Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें, डेटाबेस से परिवार सूची निकाली जा रही है।', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-
+    Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
     try {
       let snap = await db.collection("families").get();
       let allFamilies = [];
       snap.forEach(doc => { allFamilies.push(doc.data()); });
-
-      if(allFamilies.length === 0) {
-        Swal.fire({icon: 'info', title: 'डेटा नहीं मिला', text: 'डायरेक्टरी में कोई परिवार नहीं है।'}); return;
-      }
-
-      let today = new Date();
-      let dateStr = today.getDate() + "-" + (today.getMonth()+1) + "-" + today.getFullYear();
-
+      if(allFamilies.length === 0) { Swal.fire({icon: 'info', title: 'डेटा नहीं मिला'}); return; }
+      
       let tableRows = "";
       allFamilies.forEach((f, idx) => {
         tableRows += `<tr>
-          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">${idx+1}</td>
-          <td style="padding:12px; border:1px solid #cbd5e1; font-weight:bold; color:#1e5b96; display:flex; align-items:center; gap:10px;"><div style="width:30px; height:30px; background:#e2e8f0; border-radius:50%; display:grid; place-items:center; font-size:14px;">👤</div> ${f.headName || '-'}</td>
-          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center;"><span style="background:#3b82f6; color:#fff; padding:4px 12px; border-radius:15px; font-size:13px; font-weight:bold;">${f.membersCount || 1}</span></td>
-          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center;">${f.gotra || 'सामान्य'}</td>
-          <td style="padding:12px; border:1px solid #cbd5e1;">${f.address || 'महाराजगंज'}</td>
-          <td style="padding:12px; border:1px solid #cbd5e1; text-align:center; font-weight:bold;">${f.mobile || '9876543210'}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${idx+1}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1; font-weight:bold;">${f.headName || '-'}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${f.membersCount || 1}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${f.gotra || 'सामान्य'}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1;">${f.address || 'महाराजगंज'}</td>
+          <td style="padding:10px; border:1px solid #cbd5e1; text-align:center;">${f.mobile || '9876543210'}</td>
         </tr>`;
       });
 
-      let premiumHtml = `
-      <div id="tempAdminMaster" style="width:1200px; padding:25px; background:#f8fafc; border:6px solid #1e5b96; border-radius:20px; font-family:sans-serif; position:relative;">
-        
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid #f59e0b; padding-bottom:15px; margin-bottom:20px;">
-           <div style="width:180px; text-align:center;"><div style="width:110px; height:110px; background:#1e5b96; border-radius:50%; color:#fff; display:grid; place-items:center; font-size:45px; margin:auto; border:4px solid #f59e0b;">🌾</div></div>
-           <div style="flex:1; text-align:center;">
-              <h1 style="color:#1e5b96; font-size:48px; margin:0; font-weight:900;">भुईहर जाति समाज</h1>
-              <h2 style="color:#1e5b96; font-size:28px; margin:5px 0;">मास्टर परिवार डायरेक्टरी</h2>
-              <p style="color:#f59e0b; font-size:20px; margin:5px 0; font-weight:bold;">|| सम्पूर्ण क्षेत्र: महाराजगंज एवं बलरामपुर ||</p>
-           </div>
-           <div style="width:300px; font-size:15px; color:#1e293b; line-height:1.8; background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border:1px solid #e2e8f0;">
-              <div style="display:flex; justify-content:space-between;"><span>🛡️ <b>जारीकर्ता:</b></span> <span>मास्टर एडमिन</span></div>
-              <div style="display:flex; justify-content:space-between;"><span>📅 <b>दिनांक:</b></span> <span>${dateStr}</span></div>
-              <div style="display:flex; justify-content:space-between;"><span>📈 <b>कुल परिवार:</b></span> <span>${allFamilies.length}</span></div>
-           </div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; background:#1e5b96; color:#fff; padding:12px 25px; border-radius:10px; margin-bottom:15px;">
-           <h3 style="margin:0; font-size:22px; display:flex; align-items:center; gap:10px;">📊 सभी पंजीकृत परिवारों की सूची</h3>
-           <span style="font-weight:bold; font-size:16px;">एकता | सहयोग | विकास</span>
-        </div>
-
-        <table style="width:100%; border-collapse:collapse; font-size:15px; background:#fff; border:2px solid #1e5b96; box-shadow:0 10px 20px rgba(0,0,0,0.05);">
-          <thead>
-            <tr style="background:#1e5b96; color:#fff;">
-              <th style="padding:15px; border:1px solid #cbd5e1; width:8%;">क्रम सं.</th>
-              <th style="padding:15px; border:1px solid #cbd5e1; width:25%; text-align:left;">परिवार मुखिया का नाम</th>
-              <th style="padding:15px; border:1px solid #cbd5e1; width:12%;">कुल सदस्य</th>
-              <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">गोत्र</th>
-              <th style="padding:15px; border:1px solid #cbd5e1; width:25%; text-align:left;">निवास / पता</th>
-              <th style="padding:15px; border:1px solid #cbd5e1; width:15%;">मोबाइल नंबर</th>
-            </tr>
-          </thead>
+      let premiumHtml = `<div id="tempAdminMaster" style="width:1100px; padding:20px; background:#fff; border:4px solid #1e3a8a; font-family:sans-serif;">
+        <h2 style="color:#1e3a8a; text-align:center; margin:0 0 5px;">भुईहर जाति समाज - मास्टर परिवार डायरेक्टरी</h2>
+        <table style="width:100%; border-collapse:collapse; font-size:14px; margin-top:15px;">
+          <thead><tr style="background:#1e3a8a; color:#fff;"><th style="padding:10px; border:1px solid #cbd5e1;">क्रम</th><th style="padding:10px; border:1px solid #cbd5e1; text-align:left;">मुखिया</th><th style="padding:10px; border:1px solid #cbd5e1;">सदस्य</th><th style="padding:10px; border:1px solid #cbd5e1;">गोत्र</th><th style="padding:10px; border:1px solid #cbd5e1; text-align:left;">पता</th><th style="padding:10px; border:1px solid #cbd5e1;">मोबाइल</th></tr></thead>
           <tbody>${tableRows}</tbody>
         </table>
-
-        <div style="display:flex; justify-content:space-between; margin-top:25px; gap:25px;">
-           <div style="flex:1; background:#e0f2fe; border:1px solid #bae6fd; border-radius:12px; padding:20px; display:flex; flex-direction:column; justify-content:center;">
-              <h4 style="margin:0 0 5px 0; color:#0369a1;">सुरक्षा एवं गोपनीयता</h4>
-              <p style="margin:0; font-size:13px; color:#475569; line-height:1.5;">यह सूची केवल समाज के आधिकारिक उपयोग हेतु है। कृपया इसे सार्वजनिक प्लेटफार्म पर बिना अनुमति के साझा न करें।</p>
-           </div>
-           <div style="flex:1; text-align:center; display:flex; flex-direction:column; justify-content:center;">
-              <p style="color:#1e5b96; font-size:20px; font-weight:bold; font-style:italic; line-height:1.5;">"भुईहर समाज की एकजुटता ही<br>हमारी असली ताकत है"</p>
-           </div>
-           <div style="flex:1; background:#fff; border:2px dashed #cbd5e1; border-radius:12px; padding:20px; text-align:center; display:flex; flex-direction:column; justify-content:flex-end;">
-              <div style="font-family:'Brush Script MT', cursive; font-size:32px; color:#1e3a8a; margin-bottom:5px;">System Admin</div>
-              <div style="border-bottom:2px solid #000; width:70%; margin:0 auto 8px;"></div>
-              <b style="font-size:15px; color:#333;">अधिकृत हस्ताक्षर</b>
-           </div>
-        </div>
       </div>`;
 
       let tempDiv = document.createElement('div');
@@ -706,69 +798,13 @@
       tempDiv.style.position = 'absolute'; tempDiv.style.left = '-9999px';
       document.body.appendChild(tempDiv);
 
-      html2canvas(document.getElementById('tempAdminMaster'), { scale: 2, useCORS: true }).then(canvas => {
+      html2canvas(document.getElementById('tempAdminMaster'), { scale: 2 }).then(canvas => {
         let imgData = canvas.toDataURL('image/jpeg', 0.98);
         document.body.removeChild(tempDiv);
-        Swal.fire({
-          title: '✨ डायरेक्टरी तैयार है!', imageUrl: imgData, imageWidth: '100%', imageAlt: 'Premium Master Directory',
-          showCancelButton: true, confirmButtonText: 'बंद करें', confirmButtonColor: '#64748b',
-          cancelButtonText: '📲 शेयर करें', cancelButtonColor: '#25D366', reverseButtons: true
-        }).then(async (result) => {
-          if (result.dismiss === Swal.DismissReason.cancel) {
-            try {
-              let blob = await (await fetch(imgData)).blob();
-              let file = new File([blob], 'Admin_Master_Directory.jpg', { type: 'image/jpeg' });
-              if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ title: 'मास्टर डायरेक्टरी', text: 'एडमिन मास्टर परिवार सूची।', files: [file] }); } 
-              else { let link = document.createElement('a'); link.href = imgData; link.download = 'Admin_Master_Directory.jpg'; link.click(); }
-            } catch(e) {}
-          }
-        });
+        Swal.fire({ title: 'डायरेक्टरी तैयार है!', imageUrl: imgData, imageWidth: '100%', confirmButtonText: 'बंद करें' });
       });
-    } catch(e) { Swal.fire({icon: 'error', text: 'डेटाबेस से सूची नहीं मिल पाई: ' + e.message}); }
+    } catch(e) { Swal.fire({icon: 'error', text: e.message}); }
   }
-
 </script>
-
-<script>
-  // Mobile Number Validation
-  document.addEventListener('input', function(e) {
-    let t = e.target;
-    if (t && t.tagName === 'INPUT') {
-      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
-                          (t.id && t.id.toLowerCase().includes('mobile')) ||
-                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
-                          (t.type === 'tel');
-      if (isMobileField) {
-        let cleaned = t.value.replace(/[^0-9]/g, '').slice(0, 10);
-        if (t.value !== cleaned) {
-          t.value = cleaned;
-        }
-      }
-    }
-  });
-
-  document.addEventListener('keydown', function(e) {
-    let t = e.target;
-    if (t && t.tagName === 'INPUT') {
-      let isMobileField = (t.name && t.name.toLowerCase().includes('mobile')) ||
-                          (t.id && t.id.toLowerCase().includes('mobile')) ||
-                          (t.placeholder && t.placeholder.includes('मोबाइल')) ||
-                          (t.type === 'tel');
-      if (isMobileField) {
-        if (['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) { return; }
-        if (e.ctrlKey || e.metaKey) { return; }
-        if (!/^[0-9]$/.test(e.key) || t.value.length >= 10) { e.preventDefault(); }
-      }
-    }
-  });
-</script>
-<script>
-    window.onload = function() {
-        if (typeof Android !== "undefined") {
-            Android.hideAds();
-        }
-    };
-</script>
-
 </body>
 </html>

@@ -19,9 +19,21 @@ body{
   -moz-osx-font-smoothing:grayscale;
   text-rendering:optimizeLegibility;
 }
+html {
+  min-height: 100%;
+  scroll-behavior: auto;
+  overflow-x: hidden;
+}
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overscroll-behavior-y: auto;
+}
 #app{
   max-width:500px;
   min-height:100vh;
+  min-height:100dvh;
   margin:auto;
   background:var(--bg);
   position:relative;
@@ -29,13 +41,13 @@ body{
   box-shadow:0 0 50px rgba(0,0,0,0.15);
   padding-bottom:20px; 
   transition: background 1.2s ease, color 0.5s ease;
-  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+  animation: pageFadeIn 0.25s ease-out both;
 }
 
 /* ⭐ Page Premium Pop-up Animation ⭐ */
-@keyframes pagePop {
-  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* SweetAlert2 पॉप-अप को हमेशा सबसे ऊपर रखने का फिक्स */
@@ -1051,11 +1063,24 @@ body{
   }
   loadHomeStats();
 
-  // ⭐ लॉगिन पेज से वापस (Back) आने पर डैशबोर्ड और स्टैटिस्टिक्स को तुरंत रीफ्रेश करने का फिक्स ⭐
-  window.addEventListener("pageshow", function(event) {
-    checkLoginSession();
-    loadHomeStats();
-  });
+  // FIX: login/register page se Back aane par dashboard ko top se dikhayein.
+  // #app par transform animation hata di gayi hai, taaki viewport/layout shift na ho.
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  function restoreDashboardPosition() {
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      checkLoginSession();
+      loadHomeStats();
+    });
+  }
+
+  window.addEventListener("pageshow", restoreDashboardPosition);
+  window.addEventListener("popstate", restoreDashboardPosition);
 </script>
 
 <script>

@@ -97,12 +97,12 @@ body{
       <p style="margin:0;font-size:11.5px;color:#1e3a8a;">समाज के सभी स्वीकृत परिवारों और सदस्यों की जानकारी यहाँ उपलब्ध है।</p>
     </div>
 
-    <!-- Horizontal PDF Download / Send Box -->
+    <!-- Horizontal PDF Preview & Share Box -->
     <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #bfdbfe;">
       <h3 style="margin:0 0 4px; font-size:13px; color:#1e40af;">📄 सम्पूर्ण परिवार हॉरिजॉन्टल पीडीएफ रिपोर्ट</h3>
-      <p style="margin:0 0 10px; font-size:11px; color:#1e3a8a;">अपने रजिस्टर्ड मोबाइल नंबर पर परिवार की पूरी सूची लैंडस्केप पीडीएफ में मंगाएं या डाउनलोड करें।</p>
-      <button onclick="downloadAndSendHorizontalPdf()" class="whatsapp-share-btn" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);">
-        <span>📥</span> हॉरिजॉन्टल पीडीएफ बनाएं और भेजें
+      <p style="margin:0 0 10px; font-size:11px; color:#1e3a8a;">परिवार की पूरी सूची लैंडस्केप पीडीएफ के रूप में देखें और शेयर करें।</p>
+      <button onclick="previewAndShareHorizontalPdf()" class="whatsapp-share-btn" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);">
+        <span>👁️</span> संपूर्ण परिवार पीडीएफ देखें और शेयर करें
       </button>
     </div>
 
@@ -156,8 +156,8 @@ async function loadFamilyDirectory() {
             📍 ग्राम/निवास: ${village}<br>
             🩸 रक्त समूह: ${blood} • 📞 मोबाइल: ${mobile}
           </div>
-          <button class="whatsapp-share-btn" onclick="shareFamilyDigitalCard('${name}', '${father}', '${village}', '${mobile}', '${gotra}', '${blood}')">
-            <span>💬</span> WhatsApp पर डिजिटल कार्ड भेजें
+          <button class="whatsapp-share-btn" onclick="previewAndShareDigitalCard('${name}', '${father}', '${village}', '${mobile}', '${gotra}', '${blood}')">
+            <span>👁️</span> डिजिटल आईडी कार्ड देखें और शेयर करें
           </button>
         </div>
       `;
@@ -166,26 +166,17 @@ async function loadFamilyDirectory() {
     container.innerHTML = html;
 
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:red;font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई।</div>`;
   }
 }
 
-// Horizontal (Landscape) PDF generator function
-async function downloadAndSendHorizontalPdf() {
-  let loggedMobile = localStorage.getItem("userLoggedInMobile");
-  if (!loggedMobile) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'लॉगिन आवश्यक है',
-      text: 'परिवार की पीडीएफ डाउनलोड करने के लिए कृपया पहले लॉगिन करें!',
-      confirmButtonColor: '#0757a3'
-    });
-    return;
-  }
+// 1. परिवार पीडीएफ प्रीव्यू, डाउनलोड और शेयर करने का फंक्शन
+async function previewAndShareHorizontalPdf() {
+  let loggedMobile = localStorage.getItem("userLoggedInMobile") || "";
 
   Swal.fire({
-    title: 'पीडीएफ रिपोर्ट तैयार हो रही है...',
-    html: 'कृपया प्रतीक्षा करें, आपके परिवार की सम्पूर्ण जानकारी लैंडस्केप फॉर्मेट में तैयार की जा रही है।',
+    title: 'पीडीएफ तैयार हो रही है...',
+    html: 'कृपया प्रतीक्षा करें, संपूर्ण परिवार की लैंडस्केप पीडीएफ रिपोर्ट तैयार की जा रही है।',
     allowOutsideClick: false,
     didOpen: () => { Swal.showLoading(); }
   });
@@ -193,10 +184,7 @@ async function downloadAndSendHorizontalPdf() {
   try {
     let snapshot = await db.collection("users").where("status", "==", "approved").get();
     let familyMembers = [];
-    
-    snapshot.forEach(doc => {
-      familyMembers.push(doc.data());
-    });
+    snapshot.forEach(doc => { familyMembers.push(doc.data()); });
 
     if (familyMembers.length === 0) {
       Swal.fire({ icon: 'info', title: 'डेटा नहीं मिला', text: 'कोई सदस्य उपलब्ध नहीं है।' });
@@ -216,7 +204,6 @@ async function downloadAndSendHorizontalPdf() {
     doc.setTextColor(30, 41, 59);
     doc.setFontSize(11);
     doc.text(`जारी दिनांक: ${new Date().toLocaleDateString('hi-IN')}`, 15, 33);
-    doc.text(`रजिस्टर्ड मोबाइल: ${loggedMobile}`, 220, 33);
 
     let startY = 43;
     doc.setFillColor(241, 245, 249);
@@ -250,38 +237,53 @@ async function downloadAndSendHorizontalPdf() {
     });
 
     let pdfBlob = doc.output('blob');
+    let pdfFile = new File([pdfBlob], 'Bhuihar_Family_Directory.pdf', { type: 'application/pdf' });
     let pdfUrl = URL.createObjectURL(pdfBlob);
 
     Swal.close();
 
+    // यूजर को स्क्रीन पर पीडीएफ देखने (Preview) और शेयर करने का विकल्प देना
     Swal.fire({
-      icon: 'success',
-      title: 'पीडीएफ तैयार है!',
-      text: 'आपकी परिवार पंजीका लैंडस्केप पीडीएफ रिपोर्ट तैयार है। क्या आप इसे अपने रजिस्टर्ड व्हाट्सएप नंबर पर भेजना चाहते हैं?',
+      title: '📄 परिवार पीडीएफ तैयार है',
+      text: 'आप चाहें तो इसे पहले देख सकते हैं या डायरेक्ट अपने व्हाट्सएप पर शेयर कर सकते हैं।',
+      icon: 'info',
       showCancelButton: true,
-      confirmButtonText: 'हाँ, व्हाट्सएप पर भेजें',
-      cancelButtonText: 'सीधे डाउनलोड करें',
+      showDenyButton: true,
+      confirmButtonText: '💬 व्हाट्सएप पर शेयर करें',
+      denyButtonText: '👁️ पीडीएफ देखें (Preview)',
+      cancelButtonText: '📥 डाउनलोड करें',
       confirmButtonColor: '#25D366',
-      cancelButtonColor: '#0757a3'
-    }).then((result) => {
+      denyButtonColor: '#0757a3',
+      cancelButtonColor: '#64748b'
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        let message = encodeURIComponent(`नमस्ते, यह रही भुईहर समाज पोर्टल से मेरे परिवार की संपूर्ण पंजीका लैंडस्केप पीडीएफ रिपोर्ट।`);
-        window.open(`https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${message}`, '_blank');
-        doc.save('Bhuihar_Family_Landscape_Directory.pdf');
-      } else {
-        doc.save('Bhuihar_Family_Landscape_Directory.pdf');
+        if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+          await navigator.share({ title: 'परिवार पंजीका पीडीएफ', files: [pdfFile] });
+        } else {
+          doc.save('Bhuihar_Family_Directory.pdf');
+          let waText = encodeURIComponent(`नमस्ते, यह रही भुईहर समाज पोर्टल से मेरे परिवार की संपूर्ण पंजीका पीडीएफ फाइल।`);
+          let waUrl = loggedMobile ? `https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${waText}` : `https://api.whatsapp.com/send?text=${waText}`;
+          window.open(waUrl, '_blank');
+        }
+      } else if (result.isDenied) {
+        window.open(pdfUrl, '_blank');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        doc.save('Bhuihar_Family_Directory.pdf');
       }
     });
 
   } catch (err) {
-    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'पीडीएफ बनाने में समस्या आई: ' + err.message });
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'पीडीएफ फाइल बनाने में समस्या आई: ' + err.message });
   }
 }
 
-async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, gotra, bloodGroup) {
+// 2. डिजिटल आईडी कार्ड प्रीव्यू, डाउनलोड और शेयर करने का फंक्शन
+async function previewAndShareDigitalCard(memberName, fatherName, village, mobile, gotra, bloodGroup) {
+  let loggedMobile = localStorage.getItem("userLoggedInMobile") || "";
+
   Swal.fire({
-    title: 'डिजिटल कार्ड बन रहा है...',
-    html: 'कृपया प्रतीक्षा करें, आपका सुंदर डिजिटल पहचान पत्र तैयार किया जा रहा है।',
+    title: 'आईडी कार्ड जनरेट हो रहा है...',
+    html: 'कृपया प्रतीक्षा करें, आपका डिजिटल पहचान पत्र तैयार किया जा रहा है।',
     allowOutsideClick: false,
     didOpen: () => { Swal.showLoading(); }
   });
@@ -308,7 +310,7 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
     </div>
 
     <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; padding: 20px;">
-      <div style="font-size: 22px; font-weight: 900; color: #f4b63f; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 8px;">
+      <div style="font-size: 22px; font-weight: 900; color: #f4f7fb; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 8px;">
         👤 ${memberName}
       </div>
       <div style="font-size: 14.5px; line-height: 1.8; color: #f8fafc;">
@@ -336,26 +338,50 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
     let blob = await (await fetch(imgData)).blob();
     let file = new File([blob], 'Bhuihar_Digital_ID.jpg', { type: 'image/jpeg' });
 
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      Swal.close();
-      await navigator.share({
-        title: 'डिजिटल परिवार कार्ड',
-        text: 'भुईहर समाज पोर्टल से मेरा डिजिटल पहचान कार्ड देखें।',
-        files: [file]
-      });
-    } else {
-      Swal.close();
-      let link = document.createElement('a');
-      link.href = imgData;
-      link.download = 'Bhuihar_Digital_ID.jpg';
-      link.click();
-      
-      let waText = encodeURIComponent(`नमस्ते, मेरा भुईहर समाज डिजिटल परिवार कार्ड देखें:\nनाम: ${memberName}\nअभिभावक: ${fatherName}\nग्राम: ${village}\nमोबाइल: ${mobile}`);
-      window.open(`https://api.whatsapp.com/send?text=${waText}`, '_blank');
-    }
+    Swal.close();
+
+    // यूजर को कार्ड देखने, शेयर करने या डाउनलोड करने का विकल्प देना
+    Swal.fire({
+      title: '🪪 डिजिटल आईडी कार्ड तैयार है',
+      text: 'आप इस कार्ड को देख सकते हैं या डायरेक्ट अपने नंबर पर व्हाट्सएप के जरिए शेयर कर सकते हैं।',
+      imageUrl: imgData,
+      imageWidth: '100%',
+      imageAlt: 'Digital ID Card',
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonText: '💬 व्हाट्सएप पर शेयर करें',
+      denyButtonText: '👁️ बड़ा करके देखें',
+      cancelButtonText: '📥 डाउनलोड करें',
+      confirmButtonColor: '#25D366',
+      denyButtonColor: '#0757a3',
+      cancelButtonColor: '#64748b'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ title: 'डिजिटल आईडी कार्ड', files: [file] });
+        } else {
+          let link = document.createElement('a');
+          link.href = imgData;
+          link.download = 'Bhuihar_Digital_ID.jpg';
+          link.click();
+          let waText = encodeURIComponent(`नमस्ते, यह रहा मेरा भुईहर समाज डिजिटल परिवार पहचान पत्र।`);
+          let waUrl = loggedMobile ? `https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${waText}` : `https://api.whatsapp.com/send?text=${waText}`;
+          window.open(waUrl, '_blank');
+        }
+      } else if (result.isDenied) {
+        let win = window.open();
+        win.document.write(`<iframe src="${imgData}" frameborder="0" style="border:0; top:0; left:0; bottom:0; right:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        let link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'Bhuihar_Digital_ID.jpg';
+        link.click();
+      }
+    });
+
   } catch (e) {
     if(cardDiv.parentNode) document.body.removeChild(cardDiv);
-    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'डिजिटल कार्ड बनाने में समस्या आई: ' + e.message });
+    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'आईडी कार्ड बनाने में समस्या आई: ' + e.message });
   }
 }
 

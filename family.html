@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
 <meta name="theme-color" content="#0757a3">
 <title>परिवार पंजीका एवं सदस्य सूची | भुईहर समाज पोर्टल</title>
-<!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
+<!-- Naya unique pop-up design (SweetAlert2) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- html2canvas लाइब्रेरी डिजिटल कार्ड इमेज बनाने के लिए -->
+<!-- html2canvas library digital card image banane ke liye -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- jsPDF library horizontal PDF generate karne ke liye -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -57,7 +59,6 @@ body{
 .member-badge{position:absolute;top:14px;right:14px;background:#eff6ff;color:var(--p);font-size:10px;font-weight:800;padding:3px 8px;border-radius:8px}
 .member-info{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}
 
-/* WhatsApp Share Button Style */
 .whatsapp-share-btn {
   background: linear-gradient(135deg, #25D366, #128C7E);
   color: #fff;
@@ -74,6 +75,7 @@ body{
   border: none;
   width: 100%;
   cursor: pointer;
+  margin-top: 6px;
 }
 .whatsapp-share-btn:active { transform: scale(0.98); }
 </style>
@@ -83,23 +85,32 @@ body{
 <div id="app">
   <div class="hero">
     <div class="back-btn-wrap">
-      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+      <a href="javascript:void(0);" onclick="goBackHome()" class="custom-back-btn"><span>←</span> mukhya prishth (wapas jayein)</a>
     </div>
     <div class="brand">
       <div class="logo">👨‍👩‍👧‍👦</div>
-      <div><h1>परिवार पंजीका</h1><p>भुईहर समाज के पंजीकृत परिवारों की सूची</p></div>
+      <div><h1>pariwar panjika</h1><p>bhuihar samaj ke panjikrit parivaron ki soochi</p></div>
     </div>
   </div>
 
   <div class="container">
     
     <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
-      <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📋 डिजिटल परिवार डायरेक्टरी</h3>
-      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">समाज के सभी स्वीकृत परिवारों और सदस्यों की जानकारी यहाँ उपलब्ध है[span_1](start_span)[span_1](end_span).</p>
+      <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📋 digital pariwar directory</h3>
+      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">samaj ke sabhi swikrit parivaron aur sadasyon ki jankari yahan uplabdh hai[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span).</p>
+    </div>
+
+    <!-- Horizontal PDF Download / Send Box -->
+    <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #bfdbfe;">
+      <h3 style="margin:0 0 4px; font-size:13px; color:#1e40af;">📄 sampurna pariwar horizontal PDF report</h3>
+      <p style="margin:0 0 10px; font-size:11px; color:#1e3a8a;">apne registered mobile number par parivar ki puri soochi landscape PDF mein mangayein ya download karein.</p>
+      <button onclick="downloadAndSendHorizontalPdf()" class="whatsapp-share-btn" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);">
+        <span>📥</span> horizontal PDF banayein aur bhejein
+      </button>
     </div>
 
     <div id="familyListContainer">
-      <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">परिवार सूची लोड हो रही है...</div>
+      <div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">pariwar soochi load ho rahi hai...</div>
     </div>
 
   </div>
@@ -125,31 +136,31 @@ async function loadFamilyDirectory() {
   try {
     let snapshot = await db.collection("users").where("status", "==", "approved").get();
     if(snapshot.empty) {
-      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई स्वीकृत परिवार सदस्य नहीं मिला।</div>`;
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">koi swikrit pariwar sadasya nahi mila.</div>`;
       return;
     }
 
     let html = "";
     snapshot.forEach(doc => {
       let m = doc.data();
-      let name = m.FullName || m.fullName || 'सदस्य नाम';
-      let father = m.fatherName || 'निर्धारित नहीं';
-      let village = m.village || 'महाराजगंज';
-      let mobile = m.mobileNumber || m.mobile || 'उपलब्ध नहीं';
-      let blood = m.bloodGroup || 'उल्लिखित नहीं';
-      let gotra = m.gothra || m.gotra || 'गोत्र';
+      let name = m.FullName || m.fullName || 'sadasya naam';
+      let father = m.fatherName || 'nirdharit nahi';
+      let village = m.village || 'maharajganj';
+      let mobile = m.mobileNumber || m.mobile || 'uplabdh nahi';
+      let blood = m.bloodGroup || 'ullikhit nahi';
+      let gotra = m.gothra || m.gotra || 'gotra';
 
       html += `
         <div class="member-card">
           <div class="member-badge">${gotra}</div>
           <h3 class="member-name">${name}</h3>
           <div class="member-info">
-            👤 अभिभावक: ${father}<br>
-            📍 ग्राम/निवास: ${village}<br>
-            🩸 रक्त समूह: ${blood} • 📞 मोबाइल: ${mobile}
+            👤 abhibhavak: ${father}<br>
+            📍 gram/niwas: ${village}<br>
+            🩸 rakt samuh: ${blood} • 📞 mobile: ${mobile}
           </div>
           <button class="whatsapp-share-btn" onclick="shareFamilyDigitalCard('${name}', '${father}', '${village}', '${mobile}', '${gotra}', '${blood}')">
-            <span>💬</span> WhatsApp पर डिजिटल कार्ड भेजें
+            <span>💬</span> WhatsApp par digital card bhejein
           </button>
         </div>
       `;
@@ -158,15 +169,123 @@ async function loadFamilyDirectory() {
     container.innerHTML = html;
 
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">data load karne mein truti hui.</div>`;
   }
 }
 
-// सुंदर डिजिटल कार्ड इमेज जनरेट करके व्हाट्सएप पर शेयर करने का फ़ंक्शन
+// Horizontal (Landscape) PDF generator function
+async function downloadAndSendHorizontalPdf() {
+  let loggedMobile = localStorage.getItem("userLoggedInMobile");
+  if (!loggedMobile) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'login aavashyak hai',
+      text: 'pariwar ki PDF download karne ke liye kripya pehle login karein!',
+      confirmButtonColor: '#0757a3'
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: 'PDF report taiyar ho rahi hai...',
+    html: 'kripya pratiksha karein, aapke parivar ki sampurna jankari landscape format mein compile ki ja rahi hai.',
+    allowOutsideClick: false,
+    didOpen: () => { Swal.showLoading(); }
+  });
+
+  try {
+    let snapshot = await db.collection("users").where("status", "==", "approved").get();
+    let familyMembers = [];
+    
+    snapshot.forEach(doc => {
+      familyMembers.push(doc.data());
+    });
+
+    if (familyMembers.length === 0) {
+      Swal.fire({ icon: 'info', title: 'data nahi mila', text: 'koi sadasya uplabdh nahi hai.' });
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    // 'l' stand for landscape (horizontal mode)
+    const doc = new jsPDF('l', 'mm', 'a4');
+
+    doc.setFillColor(8, 43, 84);
+    doc.rect(0, 0, 297, 25, "F");
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.text("bhuihar jati samaj - digital pariwar panjika (complete directory)", 15, 16);
+
+    doc.setTextColor(30, 41, 59);
+    doc.setFontSize(11);
+    doc.text(`jari dinank: ${new Date().toLocaleDateString('hi-IN')}`, 15, 33);
+    doc.text(`registered mobile: ${loggedMobile}`, 220, 33);
+
+    let startY = 43;
+    doc.setFillColor(241, 245, 249);
+    doc.rect(15, startY - 5, 267, 8, "F");
+    doc.setFont(undefined, 'bold');
+    doc.text("kram", 18, startY);
+    doc.text("sadasya ka naam", 35, startY);
+    doc.text("abhibhavak (pita/pati)", 95, startY);
+    doc.text("gotra", 150, startY);
+    doc.text("gram / pata", 185, startY);
+    doc.text("rakt samuh", 235, startY);
+    doc.text("mobile", 260, startY);
+
+    startY += 8;
+    doc.setFont(undefined, 'normal');
+    doc.setFontSize(10);
+
+    familyMembers.forEach((m, index) => {
+      if (startY > 185) {
+        doc.addPage('a4', 'l');
+        startY = 20;
+      }
+      doc.text(String(index + 1), 18, startY);
+      doc.text(m.FullName || m.fullName || '-', 35, startY);
+      doc.text(m.fatherName || '-', 95, startY);
+      doc.text(m.gothra || m.gotra || '-', 150, startY);
+      doc.text(m.village || '-', 185, startY);
+      doc.text(m.bloodGroup || '-', 235, startY);
+      doc.text(m.mobileNumber || m.mobile || '-', 260, startY);
+      startY += 8;
+    });
+
+    let pdfBlob = doc.output('blob');
+    let pdfUrl = URL.createObjectURL(pdfBlob);
+
+    Swal.close();
+
+    Swal.fire({
+      icon: 'success',
+      title: 'PDF taiyar hai!',
+      text: 'aapki pariwar panjika landscape PDF report taiyar hai. kya aap ise apne registered whatsapp number par bhejna chahte hain?',
+      showCancelButton: true,
+      confirmButtonText: 'haan, whatsapp par bhejein',
+      cancelButtonText: 'seedhe download karein',
+      confirmButtonColor: '#25D366',
+      cancelButtonColor: '#0757a3'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let message = encodeURIComponent(`namaste, yeh rahi bhuihar samaj portal se mere parivar ki sampurna panjika landscape PDF report.`);
+        window.open(`https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${message}`, '_blank');
+        doc.save('Bhuihar_Family_Landscape_Directory.pdf');
+      } else {
+        doc.save('Bhuihar_Family_Landscape_Directory.pdf');
+      }
+    });
+
+  } catch (err) {
+    Swal.fire({ icon: 'error', title: 'truti', text: 'PDF banane mein samasya aayi: ' + err.message });
+  }
+}
+
 async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, gotra, bloodGroup) {
   Swal.fire({
-    title: 'डिजिटल कार्ड बन रहा है...',
-    html: 'कृपया प्रतीक्षा करें, आपका सुंदर डिजिटल पहचान पत्र तैयार किया जा रहा है।',
+    title: 'digital card ban raha hai...',
+    html: 'kripya pratiksha karein, aapka sundar digital pehchan patr taiyar kiya ja raha hai.',
     allowOutsideClick: false,
     didOpen: () => { Swal.showLoading(); }
   });
@@ -187,8 +306,8 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
     <div style="display: flex; align-items: center; gap: 16px; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 20px;">
       <div style="width: 60px; height: 60px; background: #fff; border-radius: 16px; display: grid; place-items: center; font-size: 30px;">🌾</div>
       <div>
-        <h2 style="margin: 0; font-size: 22px; font-weight: 800; color: #fff;">भुईहर जाति समाज डिजिटल परिवार</h2>
-        <p style="margin: 3px 0 0; font-size: 13px; color: #f4b63f; font-weight: bold;">महाराजगंज • आधिकारिक डिजिटल पहचान पत्र</p>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 800; color: #fff;">bhuihar jati samaj digital pariwar</h2>
+        <p style="margin: 3px 0 0; font-size: 13px; color: #f4b63f; font-weight: bold;">maharajganj • adhikarik digital pehchan patr</p>
       </div>
     </div>
 
@@ -197,17 +316,17 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
         👤 ${memberName}
       </div>
       <div style="font-size: 14.5px; line-height: 1.8; color: #f8fafc;">
-        <div><b>अभिभावक:</b> ${fatherName}</div>
-        <div><b>ग्राम / निवास:</b> ${village}</div>
-        <div><b>गोत्र:</b> ${gotra}</div>
-        <div><b>रक्त समूह:</b> ${bloodGroup}</div>
-        <div><b>मोबाइल नंबर:</b> ${mobile}</div>
+        <div><b>abhibhavak:</b> ${fatherName}</div>
+        <div><b>gram / niwas:</b> ${village}</div>
+        <div><b>gotra:</b> ${gotra}</div>
+        <div><b>rakt samuh:</b> ${bloodGroup}</div>
+        <div><b>mobile number:</b> ${mobile}</div>
       </div>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 11px; opacity: 0.8;">
-      <span>✨ भुईहर समाज पोर्टल द्वारा सत्यापित</span>
-      <span>🔒 सुरक्षित डिजिटल आईडी</span>
+      <span>✨ bhuihar samaj portal dwara satyapit</span>
+      <span>🔒 surakshit digital ID</span>
     </div>
   `;
 
@@ -224,8 +343,8 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       Swal.close();
       await navigator.share({
-        title: 'डिजिटल परिवार कार्ड',
-        text: 'भुईहर समाज पोर्टल से मेरा डिजिटल पहचान कार्ड देखें[span_2](start_span)[span_2](end_span).',
+        title: 'digital pariwar card',
+        text: 'bhuihar samaj portal se mera digital pehchan card dekhein[span_3](start_span)[span_3](end_span)[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span).',
         files: [file]
       });
     } else {
@@ -235,12 +354,12 @@ async function shareFamilyDigitalCard(memberName, fatherName, village, mobile, g
       link.download = 'Bhuihar_Digital_ID.jpg';
       link.click();
       
-      let waText = encodeURIComponent(`नमस्ते, मेरा भुईहर समाज डिजिटल परिवार कार्ड देखें:\nनाम: ${memberName}\nअभिभावक: ${fatherName}\nग्राम: ${village}\nमोबाइल: ${mobile}`);
+      let waText = encodeURIComponent(`namaste, mera bhuihar samaj digital pariwar card dekhein:\nnaam: ${memberName}\nabhibhavak: ${fatherName}\ngram: ${village}\nmobile: ${mobile}`);
       window.open(`https://api.whatsapp.com/send?text=${waText}`, '_blank');
     }
   } catch (e) {
     if(cardDiv.parentNode) document.body.removeChild(cardDiv);
-    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'डिजिटल कार्ड बनाने में समस्या आई: ' + e.message });
+    Swal.fire({ icon: 'error', title: 'truti', text: 'digital card banane mein samasya aayi: ' + e.message });
   }
 }
 

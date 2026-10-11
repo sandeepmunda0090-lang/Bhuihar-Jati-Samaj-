@@ -1050,6 +1050,12 @@ body{
     }catch(e){}
   }
   loadHomeStats();
+
+  // ⭐ लॉगिन पेज से वापस (Back) आने पर डैशबोर्ड और स्टैटिस्टिक्स को तुरंत रीफ्रेश करने का फिक्स ⭐
+  window.addEventListener("pageshow", function(event) {
+    checkLoginSession();
+    loadHomeStats();
+  });
 </script>
 
 <script>
@@ -1107,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Math.abs(sliderCenter - cardCenter) < cardRect.width / 1.5) {
         card.classList.add("active-center");
       } else {
-        card.classList.remove("active-center");
+        card.classList.remove("active-card");
       }
     });
   }
@@ -1125,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const vehSlider = document.getElementById("homeVehicleSlider");
     if(vehSlider && vehSlider.children.length > 1 && !vehSlider.matches(':hover') && !vehSlider.matches(':active')) {
       if(vehSlider.scrollLeft + vehSlider.clientWidth >= vehSlider.scrollWidth - 10) {
-        vehSlider.scrollTo({ left: 0, behavior: 'smooth' });
+        vehSlider.scrollTo({ left: 0, behavior: 'smooth'});
       } else {
         vehSlider.scrollBy({ left: 220, behavior: 'smooth' });
       }

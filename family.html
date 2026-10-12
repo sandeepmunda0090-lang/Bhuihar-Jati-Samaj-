@@ -279,51 +279,94 @@ async function previewDigitalCard(index) {
   const result = await Swal.fire({
     title: "डिजिटल ID कार्ड Preview",
     html: `<div id="cardPreviewHost" style="width:100%;overflow-x:auto;padding:2px;">${buildCardHtml(m)}</div>
-      <p style="font-size:11px;color:#64748b;margin:12px 0 0;">डाउनलोड करने से पहले कार्ड की जानकारी जाँच लें।</p>`,
+      <p style="font-size:11px;color:#64748b;margin:12px 0 0;">डाउनलोड या शेयर करने से पहले कार्ड की जानकारी जाँच लें।</p>`,
     width: 680,
     showCancelButton: true,
-    confirmButtonText: "📥 JPG डाउनलोड करें",
+    showDenyButton: true,
+    confirmButtonText: "📤 JPG WhatsApp/Share करें",
+    denyButtonText: "⬇️ JPG डाउनलोड करें",
     cancelButtonText: "बंद करें",
-    confirmButtonColor: "#0757a3",
-    didOpen: () => {
-      const card = document.querySelector("#cardPreviewHost .digital-id-card");
-      if (card && window.innerWidth < 650) card.style.transformOrigin = "top left";
-    },
+    confirmButtonColor: "#25D366",
+    denyButtonColor: "#0757a3",
     preConfirm: async () => {
-      const card = document.querySelector("#cardPreviewHost .digital-id-card");
-      if (!card) return false;
       try {
+        const card = document.querySelector("#cardPreviewHost .digital-id-card");
+        if (!card) throw new Error("कार्ड Preview नहीं मिला।");
         const canvas = await html2canvas(card, {scale:2, backgroundColor:null, useCORS:true, logging:false});
         const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.95));
         if (!blob) throw new Error("JPG फाइल तैयार नहीं हो पाई।");
-        const fileName = `Bhuihar_Digital_ID_${String(m.cardNo).replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = fileName;
-        link.style.display = "none";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
-        return true;
+        const safeNo = String(m.cardNo || m.mobile || "member").replace(/[^a-zA-Z0-9_-]/g,"_");
+        return { blob, fileName: `Bhuihar_Digital_ID_${safeNo}.jpg` };
       } catch (err) {
-        Swal.showValidationMessage("कार्ड डाउनलोड नहीं हो पाया: " + err.message);
+        Swal.showValidationMessage("कार्ड नहीं बन पाया: " + (err.message || err));
         return false;
       }
     }
   });
+
+  // Confirm = actual JPG share sheet; Deny = download only.
+  if (!result.isConfirmed && !result.isDenied) return;
+  let blob, fileName;
+  if (result.value && result.value.blob) {
+    blob = result.value.blob;
+    fileName = result.value.fileName;
+  } else if (result.isDenied) {
+    // Deny path also creates the card JPG (SweetAlert's preConfirm runs for confirm only,
+    // so generate it here for the download-only option).
+    try {
+      const holder = document.createElement("div");
+      holder.style.cssText = "position:fixed;left:-20000px;top:0;width:600px;";
+      holder.innerHTML = buildCardHtml(m);
+      document.body.appendChild(holder);
+      const canvas = await html2canvas(holder.querySelector(".digital-id-card"), {scale:2,backgroundColor:null,useCORS:true,logging:false});
+      document.body.removeChild(holder);
+      blob = await new Promise(resolve => canvas.toBlob(resolve,"image/jpeg",0.95));
+      fileName = `Bhuihar_Digital_ID_${String(m.cardNo || m.mobile || "member").replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
+    } catch (e) {
+      Swal.fire({icon:"error",title:"JPG नहीं बन पाया",text:e.message || "कृपया फिर प्रयास करें।"}); return;
+    }
+  }
+  if (!blob) return;
+  const file = new File([blob], fileName, {type:"image/jpeg"});
   if (result.isConfirmed) {
-    const loggedMobile = (localStorage.getItem("userLoggedInMobile") || "").replace(/\D/g,"");
-    const phone = (loggedMobile.length === 10 ? "91" + loggedMobile : loggedMobile);
-    const waText = encodeURIComponent(`नमस्ते, यह रहा भुईहर जाति समाज का डिजिटल पहचान पत्र। डाउनलोड की गई JPG फाइल को WhatsApp में अटैच कर भेजें।`);
-    const waUrl = `https://api.whatsapp.com/send?${phone ? `phone=${phone}&` : ""}text=${waText}`;
-    await Swal.fire({
-      icon:"success", title:"ID कार्ड डाउनलोड हो गया",
-      text:"अब चाहें तो WhatsApp खोलकर डाउनलोड की गई JPG फाइल अटैच करें।",
-      showCancelButton:true, confirmButtonText:"WhatsApp खोलें", cancelButtonText:"अभी नहीं",
-      confirmButtonColor:"#25D366"
-    }).then(r => { if (r.isConfirmed) window.open(waUrl, "_blank"); });
+    const shared = await shareActualFile(file, "भुईहर जाति समाज डिजिटल ID कार्ड", "भुईहर जाति समाज का डिजिटल पहचान पत्र");
+    if (shared === "shared") {
+      Swal.fire({icon:"success",title:"शेयर मेन्यू खुल गया",text:"अब WhatsApp चुनें और JPG इमेज भेज दें।"});
+    } else if (shared === "unsupported") {
+      downloadBlob(blob, fileName);
+      Swal.fire({icon:"info",title:"JPG डाउनलोड हो गई",text:"इस ब्राउज़र में सीधे फाइल शेयर उपलब्ध नहीं है। WhatsApp खोलें, 📎 अटैचमेंट → Gallery/Document से डाउनलोड की गई JPG चुनें।"});
+    }
+  } else {
+    downloadBlob(blob, fileName);
+    Swal.fire({icon:"success",title:"JPG डाउनलोड शुरू",text:"फाइल Files/Downloads में देखें। WhatsApp में भेजने के लिए 📎 अटैचमेंट से JPG चुनें।"});
+  }
+}
+
+function downloadBlob(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 120000);
+}
+
+// Android Chrome में समर्थित होने पर असली JPG/PDF फाइल Share Sheet को दी जाती है,
+// केवल टेक्स्ट वाला WhatsApp लिंक नहीं खोला जाता।
+async function shareActualFile(file, title, text) {
+  try {
+    if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
+      await navigator.share({files:[file], title, text});
+      return "shared";
+    }
+    return "unsupported";
+  } catch (err) {
+    if (err && err.name === "AbortError") return "cancelled";
+    console.warn("File sharing failed:", err);
+    return "unsupported";
   }
 }
 
@@ -385,30 +428,21 @@ async function generateAndSendHorizontalPdf() {
       if (pageIndex>0) pdf.addPage("a4","landscape");
       pdf.addImage(canvas.toDataURL("image/jpeg",0.94),"JPEG",(pageW-imgW)/2,(pageH-imgH)/2,imgW,imgH,undefined,"FAST");
     }
-    // Android/mobile browsers में pdf.save() कभी-कभी डाउनलोड दिखाकर फाइल सेव नहीं करता;
-    // इसलिए PDF Blob बनाकर स्पष्ट डाउनलोड लिंक से सेव करें।
     const pdfBlob = pdf.output("blob");
     if (!pdfBlob || pdfBlob.size < 1000) throw new Error("PDF फाइल खाली बनी है। कृपया दोबारा प्रयास करें।");
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    const pdfLink = document.createElement("a");
-    pdfLink.href = pdfUrl;
-    pdfLink.download = "Bhuihar_Family_Directory_Landscape.pdf";
-    pdfLink.style.display = "none";
-    document.body.appendChild(pdfLink);
-    pdfLink.click();
-    pdfLink.remove();
-    setTimeout(() => URL.revokeObjectURL(pdfUrl), 120000);
+    const fileName = "Bhuihar_Family_Directory_Landscape.pdf";
+    const pdfFile = new File([pdfBlob], fileName, {type:"application/pdf"});
     Swal.close();
 
-    const phone = loggedMobile.length===10 ? "91"+loggedMobile : loggedMobile;
-    const waText = encodeURIComponent("नमस्ते, भुईहर जाति समाज पोर्टल की परिवार पंजीका PDF डाउनलोड हो गई है। कृपया डाउनलोड की गई PDF को WhatsApp में अटैच करके भेजें।");
-    const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${waText}`;
-    const res = await Swal.fire({
-      icon:"success",title:"PDF डाउनलोड हो गई!",
-      text:"डाउनलोड अनुरोध भेज दिया गया है। Chrome में ऊपर/नीचे Downloads देखें या Files > Downloads में Bhuihar_Family_Directory_Landscape.pdf खोजें। WhatsApp में PDF स्वयं अटैच करें।",
-      showCancelButton:true,confirmButtonText:"WhatsApp खोलें",cancelButtonText:"बंद करें",confirmButtonColor:"#25D366"
-    });
-    if (res.isConfirmed) window.open(waUrl,"_blank");
+    const shared = await shareActualFile(pdfFile, "भुईहर जाति समाज परिवार पंजीका", "भुईहर जाति समाज की परिवार पंजीका PDF");
+    if (shared === "shared") {
+      await Swal.fire({icon:"success",title:"PDF शेयर मेन्यू खुल गया",text:"अब WhatsApp चुनें। PDF फाइल मैसेज के साथ अटैच होगी; भेजने से पहले चैट में फाइल देख लें।"});
+    } else if (shared === "unsupported") {
+      downloadBlob(pdfBlob, fileName);
+      await Swal.fire({icon:"info",title:"PDF डाउनलोड हो गई",text:"आपके ब्राउज़र में फाइल शेयर उपलब्ध नहीं है। WhatsApp खोलें → 📎 अटैचमेंट → Document चुनें → Downloads से Bhuihar_Family_Directory_Landscape.pdf चुनें।"});
+    } else {
+      await Swal.fire({icon:"info",title:"शेयर रद्द हुआ",text:"PDF अभी डाउनलोड नहीं की गई। दोबारा बटन दबाकर शेयर करें, या डाउनलोड विकल्प चुनें।",showCancelButton:true,confirmButtonText:"PDF डाउनलोड करें",cancelButtonText:"बंद करें",confirmButtonColor:"#0757a3"}).then(r=>{if(r.isConfirmed) downloadBlob(pdfBlob,fileName);});
+    }
   } catch (err) {
     if (staging && staging.parentNode) staging.parentNode.removeChild(staging);
     console.error(err);

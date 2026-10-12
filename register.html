@@ -70,6 +70,7 @@ body{
 .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-control{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:13.5px inherit;background:#fafbfc;outline:none}
 .form-control:focus{border-color:var(--p)}
+.form-control:disabled{background:#e2e8f0; cursor:not-allowed;}
 
 .btn{border:0;border-radius:12px;padding:12px 14px;width:100%;font:700 14px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.18);text-align:center;display:inline-block;margin-top:8px;transition: transform 0.1s ease, opacity 0.2s;}
 .btn:active{transform: scale(0.98);}
@@ -89,7 +90,7 @@ body{
     </div>
     <div class="brand">
       <div class="logo">✨</div>
-      <div><h1>नया सदस्य पंजीकरण</h1><p>भुईहर समाज डिजिटल परिवार • महाराजगंज</p></div>
+      <div><h1>नया सदस्य पंजीकरण</h1><p>भुईहर समाज डिजिटल परिवार</p></div>
     </div>
   </div>
 
@@ -139,7 +140,28 @@ body{
       </div>
 
       <div class="form-group"><label>गोत्र *</label><input type="text" id="regGotra" class="form-control" placeholder="अपना गोत्र लिखें (जैसे- कश्यप, वत्स आदि)"></div>
-      <div class="form-group"><label>निवास / ग्राम (पता) *</label><input type="text" id="regAddress" class="form-control" placeholder="महाराजगंज, बलरामपुर या अन्य ग्राम"></div>
+      
+      <!-- नया 3-Level Location Section -->
+      <div class="form-group">
+        <label>निवास (ज़िला चुनें) *</label>
+        <select id="regDistrict" class="form-control" onchange="loadPanchayats()">
+          <option value="">-- लोडिंग... --</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>निवास (पंचायत चुनें) *</label>
+        <select id="regPanchayat" class="form-control" onchange="loadVillages()" disabled>
+          <option value="">-- पहले ज़िला चुनें --</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>निवास (गाँव/मोहल्ला चुनें) *</label>
+        <select id="regVillage" class="form-control" disabled>
+          <option value="">-- पहले पंचायत चुनें --</option>
+        </select>
+      </div>
 
       <hr style="border:0;border-top:1px solid var(--line);margin:16px 0;">
       <h4 style="margin:0 0 8px 0;color:var(--navy);font-size:13.5px;">🔐 खाता सुरक्षा (6-अंकों का MPIN)</h4>
@@ -164,10 +186,100 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const messaging = firebase.messaging();
 
+let locationData = [];
+
 function goBackHome() {
   if (window.history.length > 1) { window.history.back(); } 
   else { window.location.href = 'index.html'; }
 }
+
+// 1. डेटाबेस से सभी लोकेशन्स लोड करें
+async function fetchLocations() {
+  try {
+    let distSelect = document.getElementById('regDistrict');
+    let snap = await db.collection("locations").get();
+    locationData = [];
+    let districtsSet = new Set();
+    
+    snap.forEach(doc => {
+      let data = doc.data();
+      locationData.push(data);
+      if(data.district) districtsSet.add(data.district);
+    });
+    
+    if(districtsSet.size > 0) {
+      distSelect.innerHTML = `<option value="">-- अपना ज़िला चुनें --</option>`;
+      Array.from(districtsSet).sort().forEach(dist => {
+        distSelect.innerHTML += `<option value="${dist}">${dist}</option>`;
+      });
+    } else {
+      distSelect.innerHTML = `<option value="">-- एडमिन ने अभी गाँव नहीं जोड़े हैं --</option>`;
+    }
+  } catch(e) {
+    console.error("Location Error: ", e);
+  }
+}
+
+// 2. जब ज़िला चुना जाए, तो उसकी पंचायतें लोड करें
+function loadPanchayats() {
+  let selectedDist = document.getElementById('regDistrict').value;
+  let panchayatSelect = document.getElementById('regPanchayat');
+  let villageSelect = document.getElementById('regVillage');
+  
+  villageSelect.innerHTML = `<option value="">-- पहले पंचायत चुनें --</option>`;
+  villageSelect.disabled = true;
+
+  if(!selectedDist) {
+    panchayatSelect.innerHTML = `<option value="">-- पहले ज़िला चुनें --</option>`;
+    panchayatSelect.disabled = true;
+    return;
+  }
+  
+  panchayatSelect.disabled = false;
+  panchayatSelect.innerHTML = `<option value="">-- अपनी पंचायत चुनें --</option>`;
+  
+  let panchayatsSet = new Set();
+  locationData.forEach(loc => {
+    if(loc.district === selectedDist && loc.panchayat) {
+      panchayatsSet.add(loc.panchayat);
+    }
+  });
+  
+  Array.from(panchayatsSet).sort().forEach(pan => {
+    panchayatSelect.innerHTML += `<option value="${pan}">${pan}</option>`;
+  });
+}
+
+// 3. जब पंचायत चुनी जाए, तो उसके गाँव लोड करें
+function loadVillages() {
+  let selectedDist = document.getElementById('regDistrict').value;
+  let selectedPan = document.getElementById('regPanchayat').value;
+  let villageSelect = document.getElementById('regVillage');
+  
+  if(!selectedPan) {
+    villageSelect.innerHTML = `<option value="">-- पहले पंचायत चुनें --</option>`;
+    villageSelect.disabled = true;
+    return;
+  }
+  
+  villageSelect.disabled = false;
+  villageSelect.innerHTML = `<option value="">-- अपना गाँव/मोहल्ला चुनें --</option>`;
+  
+  let villagesSet = new Set();
+  locationData.forEach(loc => {
+    if(loc.district === selectedDist && loc.panchayat === selectedPan && loc.village) {
+      villagesSet.add(loc.village);
+    }
+  });
+  
+  Array.from(villagesSet).sort().forEach(vil => {
+    villageSelect.innerHTML += `<option value="${vil}">${vil}</option>`;
+  });
+}
+
+// पेज लोड होते ही लोकेशन डेटा मंगाएं
+window.onload = fetchLocations;
+
 
 async function handleRegister() {
   let fullName = document.getElementById("regName").value.trim();
@@ -180,12 +292,17 @@ async function handleRegister() {
   let maritalStatus = document.getElementById("regMaritalStatus").value;
   let bloodGroup = document.getElementById("regBloodGroup").value;
   let gotra = document.getElementById("regGotra").value.trim();
-  let address = document.getElementById("regAddress").value.trim();
+  
+  // नए लोकेशन फील्ड्स
+  let district = document.getElementById("regDistrict").value;
+  let panchayat = document.getElementById("regPanchayat").value;
+  let village = document.getElementById("regVillage").value;
+
   let mpin = document.getElementById("regMpin").value.trim();
   let confirmMpin = document.getElementById("regConfirmMpin").value.trim();
   let btn = document.getElementById("regSubmitBtn");
 
-  if(!fullName || !fatherNameInput || !mobile || !dob || !gotra || !address || !mpin || !confirmMpin) {
+  if(!fullName || !fatherNameInput || !mobile || !dob || !gotra || !district || !panchayat || !village || !mpin || !confirmMpin) {
     Swal.fire({ icon: 'warning', title: 'अधूरी जानकारी', text: 'कृपया सभी आवश्यक (*) और सुरक्षा (MPIN) से जुड़े कॉलम भरें।', confirmButtonColor: '#f4b63f' });
     return;
   }
@@ -215,10 +332,10 @@ async function handleRegister() {
       return;
     }
 
-    let duplicateCheck = await db.collection("users").where("FullName", "==", fullName).where("dateOfBirth", "==", dob).where("village", "==", address).get();
+    let duplicateCheck = await db.collection("users").where("FullName", "==", fullName).where("dateOfBirth", "==", dob).where("village", "==", village).get();
 
     if(!duplicateCheck.empty) {
-      Swal.fire({ icon: 'info', title: 'खाता मौजूद है', text: 'इस नाम, जन्म तिथि और पते के साथ एक सदस्य पहले ही पंजीकृत है!', confirmButtonColor: '#0757a3' });
+      Swal.fire({ icon: 'info', title: 'खाता मौजूद है', text: 'इस नाम, जन्म तिथि और गाँव के साथ एक सदस्य पहले ही पंजीकृत है!', confirmButtonColor: '#0757a3' });
       btn.disabled = false; btn.innerText = "✨ पंजीकरण फॉर्म जमा करें";
       return;
     }
@@ -237,7 +354,12 @@ async function handleRegister() {
       maritalStatus: maritalStatus,
       bloodGroup: bloodGroup || "उल्लिखित नहीं",
       gothra: gotra,
-      village: address || "महाराजगंज, बलरामपुर",
+      
+      // नया 3-लेवल लोकेशन डेटा
+      district: district,
+      panchayat: panchayat,
+      village: village,
+      
       mpin: mpin,
       fcmToken: fcmToken || "",
       role: "member",

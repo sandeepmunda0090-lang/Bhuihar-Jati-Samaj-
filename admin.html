@@ -149,7 +149,7 @@
       <h3>⏳ नए सदस्य पंजीकरण - पेंडिंग अप्रूवल (<span id="pendingCount">0</span>)</h3>
       <div class="table-responsive">
         <table>
-          <thead><tr><th style="width:40px;">क्रम</th><th>नाम व पिता</th><th>मोबाइल / पता</th><th>कार्रवाई</th></tr></thead>
+          <thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व पिता</th><th>मोबाइल / पता</th><th>कार्रवाई</th></tr></thead>
           <tbody id="pendingUsersTableBody"><tr><td colspan="4" style="text-align:center; color:var(--muted);">लोड हो रहा है...</td></tr></tbody>
         </table>
       </div>
@@ -177,7 +177,7 @@
         <div class="form-group"><label>ऑनलाइन अप्लाई लिंक (URL) *</label><input type="url" id="jobApplyLink" class="form-control" placeholder="https://example.com/apply"></div>
         <div class="form-group"><label>विशेष टैग / हाइलाइट</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert"></div>
         <button class="btn" style="background:#0284c7; margin-top:6px;" onclick="saveOrUpdateJob()">जॉब सुरक्षित / पोस्ट करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>शीर्षक / कंपनी / प्रकार</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>शीर्षक / कंपनी / प्रकार</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
       </div>
     </div>
 
@@ -192,7 +192,7 @@
         <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="offMobile" class="form-control" placeholder="9876543210"></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="offPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" onclick="saveOrUpdateOfficial()">पदाधिकारी सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>नाम व पद</th><th>कार्रवाई</th></tr></thead><tbody id="adminOfficialsTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व पद</th><th>कार्रवाई</th></tr></thead><tbody id="adminOfficialsTable"></tbody></table></div>
       </div>
     </div>
 
@@ -204,7 +204,7 @@
         <div class="form-group"><label>बैठक शीर्षक</label><input type="text" id="meetTitle" class="form-control" placeholder="वार्षिक महासभा"></div>
         <div class="form-group"><label>विवरण / संदेश</label><textarea id="meetDesc" class="form-control" placeholder="महाराजगंज में आगामी रविवार को बैठक..."></textarea></div>
         <button class="btn" style="background:var(--gold);" onclick="saveOrUpdateMeeting()">बैठक सूचना प्रकाशित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>शीर्षक व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminMeetingsTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>शीर्षक व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminMeetingsTable"></tbody></table></div>
       </div>
     </div>
 
@@ -220,7 +220,7 @@
         <div class="form-group"><label>प्रोत्साहन / सम्मान राशि (₹)</label><input type="text" id="achReward" class="form-control" placeholder="₹5,100"></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="achPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:#2563eb;" onclick="saveOrUpdateAchiever()">मेधावी छात्र सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminAchTable"></tbody></table></div>
       </div>
     </div>
 
@@ -234,7 +234,7 @@
         <div class="form-group"><label>प्रकार</label><select id="donType" class="form-control"><option value="credit">जमा (Credit)</option><option value="debit">खर्च (Debit)</option></select></div>
         <div class="form-group"><label>विवरण</label><input type="text" id="donDesc" class="form-control" placeholder="भवन निर्माण सहयोग"></div>
         <button class="btn" style="background:var(--green);" onclick="saveOrUpdateFund()">कोष प्रविष्टि सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>नाम व राशि</th><th>कार्रवाई</th></tr></thead><tbody id="adminFundTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व राशि</th><th>कार्रवाई</th></tr></thead><tbody id="adminFundTable"></tbody></table></div>
       </div>
     </div>
 
@@ -247,7 +247,7 @@
         <div class="form-group"><label>संक्षिप्त विवरण</label><textarea id="condDesc" class="form-control" placeholder="स्वर्गवास तिथि..."></textarea></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="condPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:var(--red);" onclick="saveOrUpdateCondolence()">शोक संदेश सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminCondTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminCondTable"></tbody></table></div>
       </div>
     </div>
 
@@ -270,7 +270,7 @@
         <div class="form-group"><label>मोबाइल नंबर</label><input type="tel" id="bizMobile" class="form-control" placeholder="9876543210" maxlength="10"></div>
         <div class="form-group"><label>पूरा पता / स्थान</label><input type="text" id="bizAddress" class="form-control" placeholder="मुख्य मार्ग, महाराजगंज"></div>
         <button class="btn" onclick="saveOrUpdateBusiness()">व्यवसाय सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>दुकान व संचालक</th><th>कार्रवाई</th></tr></thead><tbody id="adminBizTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>दुकान व संचालक</th><th>कार्रवाई</th></tr></thead><tbody id="adminBizTable"></tbody></table></div>
       </div>
     </div>
 
@@ -280,7 +280,7 @@
       <div class="card" style="border-left-color: #9333ea;">
         <div class="table-responsive">
           <table>
-            <thead><tr><th style="width:40px;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead>
+            <thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead>
             <tbody id="adminMatriTable"><tr><td colspan="3" style="text-align:center;">लोड हो रहा है...</td></tr></tbody>
           </table>
         </div>
@@ -300,7 +300,7 @@
         <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateTravelAdmin()">वाहन सेवा सुरक्षित करें</button>
         <div class="table-responsive">
           <table>
-            <thead><tr><th style="width:40px;">क्रम</th><th>सदस्य व विवरण</th><th>कार्रवाई</th></tr></thead>
+            <thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>सदस्य व विवरण</th><th>कार्रवाई</th></tr></thead>
             <tbody id="adminVehicleTable"><tr><td colspan="3" style="text-align:center;">लोड हो रहा है...</td></tr></tbody>
           </table>
         </div>
@@ -315,7 +315,7 @@
         <div class="form-group"><label>शीर्षक</label><input type="text" id="galTitle" class="form-control" placeholder="वार्षिक मिलन"></div>
         <div class="form-group"><label>फोटो URL</label><input type="text" id="galPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" onclick="saveOrUpdateGallery()">गैलरी सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>शीर्षक</th><th>कार्रवाई</th></tr></thead><tbody id="adminGalTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>शीर्षक</th><th>कार्रवाई</th></tr></thead><tbody id="adminGalTable"></tbody></table></div>
       </div>
     </div>
 
@@ -329,7 +329,7 @@
         <div class="form-group"><label>विकल्प 2 (Option 2) *</label><input type="text" id="pollOpt2" class="form-control" placeholder="नहीं"></div>
         <div class="form-group"><label>विकल्प 3 (Option 3 - वैकल्पिक)</label><input type="text" id="pollOpt3" class="form-control" placeholder="विचार करेंगे"></div>
         <button class="btn" style="background:var(--navy);" onclick="saveOrUpdatePoll()">पोल लाइव / सुरक्षित करें</button>
-        <div class="table-responsive"><table><thead><tr><th style="width:40px;">क्रम</th><th>पोल सवाल व विकल्प</th><th>कार्रवाई</th></tr></thead><tbody id="adminPollTable"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th style="width:40px; text-align:center;">क्रम</th><th>पोल सवाल व विकल्प</th><th>कार्रवाई</th></tr></thead><tbody id="adminPollTable"></tbody></table></div>
       </div>
     </div>
 
@@ -542,7 +542,7 @@
     let htmlUsers = ""; let count = 0; let uIndex = 1;
     snapUsers.forEach(doc => {
       let u = doc.data(); count++;
-      htmlUsers += `<tr><td style="text-align:center;">${uIndex++}</td><td><b>${u.FullName || u.fullName || 'अज्ञात'}</b><br><span style="color:var(--muted); font-size:10px;">${u.village || '-'}</span></td><td>📞 ${u.mobileNumber || u.mobile || '-'}</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${doc.id}')">Approve</button></td></tr>`;
+      htmlUsers += `<tr><td style="text-align:center; font-weight:bold;">${uIndex++}</td><td><b>${u.FullName || u.fullName || 'अज्ञात'}</b><br><span style="color:var(--muted); font-size:10px;">${u.village || '-'}</span></td><td>📞 ${u.mobileNumber || u.mobile || '-'}</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${doc.id}')">Approve</button></td></tr>`;
     });
     document.getElementById("pendingCount").innerText = count;
     document.getElementById("pendingUsersTableBody").innerHTML = htmlUsers || `<tr><td colspan="4" style="text-align:center; color:var(--muted);">पेंडिंग नहीं है</td></tr>`;
@@ -552,19 +552,19 @@
     
     // 3. Load Global Tables (Master Only)
     if(currentUserRole === "master_admin") {
-      loadAdminTable("jobs", "adminJobsTable", (d, id, idx) => { adminCache.jobs[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.company || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, false, targetVillage);
-      loadAdminTable("businesses", "adminBizTable", (d, id, idx) => { adminCache.businesses[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.bizName || ''}</b> (${d.owner || ''})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, false, targetVillage);
+      loadAdminTable("jobs", "adminJobsTable", (d, id, idx) => { adminCache.jobs[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.company || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editJob('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('jobs','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, false, targetVillage);
+      loadAdminTable("businesses", "adminBizTable", (d, id, idx) => { adminCache.businesses[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.bizName || ''}</b> (${d.owner || ''})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editBiz('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('businesses','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, false, targetVillage);
       loadPendingTravelApprovals();
     }
 
-    // 4. Load Local Tables (क्रम संख्या के साथ)
-    loadAdminTable("officials", "adminOfficialsTable", (d, id, idx) => { adminCache.officials[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.name || ''}</b> (${d.role || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("meetings", "adminMeetingsTable", (d, id, idx) => { adminCache.meetings[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.message || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("achievers", "adminAchTable", (d, id, idx) => { adminCache.achievers[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("funds", "adminFundTable", (d, id, idx) => { adminCache.funds[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.donorName || ''}</b> - ₹${d.amount || 0} (${d.type || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("condolences", "adminCondTable", (d, id, idx) => { adminCache.condolences[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.description || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("gallery", "adminGalTable", (d, id, idx) => { adminCache.gallery[id] = d; return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.title || ''}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
-    loadAdminTable("polls", "adminPollTable", (d, id, idx) => { adminCache.polls[id] = d; let opts = (d.options || []).join(", "); return `<tr><td style="text-align:center;">${idx}</td><td><b>${d.question || ''}</b><br><span style="color:var(--muted); font-size:10.5px;">विकल्प: [${opts}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    // 4. Load Local Tables
+    loadAdminTable("officials", "adminOfficialsTable", (d, id, idx) => { adminCache.officials[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.name || ''}</b> (${d.role || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("meetings", "adminMeetingsTable", (d, id, idx) => { adminCache.meetings[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.message || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("achievers", "adminAchTable", (d, id, idx) => { adminCache.achievers[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("funds", "adminFundTable", (d, id, idx) => { adminCache.funds[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.donorName || ''}</b> - ₹${d.amount || 0} (${d.type || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editFund('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('funds','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("condolences", "adminCondTable", (d, id, idx) => { adminCache.condolences[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.description || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editCond('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('condolences','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("gallery", "adminGalTable", (d, id, idx) => { adminCache.gallery[id] = d; return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.title || ''}</b></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editGal('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('gallery','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
+    loadAdminTable("polls", "adminPollTable", (d, id, idx) => { adminCache.polls[id] = d; let opts = (d.options || []).join(", "); return `<tr><td style="text-align:center; font-weight:bold;">${idx}</td><td><b>${d.question || ''}</b><br><span style="color:var(--muted); font-size:10.5px;">विकल्प: [${opts}]</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editPoll('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('polls','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
   }
 
   async function loadAdminTable(col, tableId, rowTemplate, isLocal, targetVillage) {
@@ -584,7 +584,7 @@
       let html = ""; let idx = 1;
       snap.forEach(doc => {
         let d = doc.data();
-        html += `<tr><td style="text-align:center;">${idx++}</td><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
+        html += `<tr><td style="text-align:center; font-weight:bold;">${idx++}</td><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
       });
       document.getElementById(tableId).innerHTML = html || `<tr><td colspan="3" style="text-align:center; color:var(--muted);">कोई पेंडिंग ${labelName} नहीं है</td></tr>`;
     } catch(e) {}
@@ -597,7 +597,7 @@
       snap.forEach(doc => {
         let d = doc.data(); let status = (d.status || "pending").toLowerCase();
         if(status === "pending") {
-          html += `<tr><td style="text-align:center;">${idx++}</td><td><b>${d.title || d.vehicleName || 'वाहन सेवा'}</b> (${d.driver || '-'})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
+          html += `<tr><td style="text-align:center; font-weight:bold;">${idx++}</td><td><b>${d.title || d.vehicleName || 'वाहन सेवा'}</b> (${d.driver || '-'})<br><span style="font-size:10px; color:var(--muted);">📞 ${d.mobile || '-'}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('travel', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('travel', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
         }
       });
       document.getElementById("adminVehicleTable").innerHTML = html || `<tr><td colspan="3" style="text-align:center; color:var(--muted);">कोई पेंडिंग वाहन सेवा नहीं है</td></tr>`;

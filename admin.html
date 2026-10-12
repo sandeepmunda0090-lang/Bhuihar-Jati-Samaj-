@@ -143,6 +143,19 @@
       </div>
     </div>
 
+    <!-- ⭐ न्यू: सदस्य खोज एवं नियंत्रण (ब्लॉक/अनब्लॉक/डिलीट) ⭐ -->
+    <button class="accordion-header">🔍 0.2 सदस्य खोज एवं नियंत्रण (Block/Delete) <span>▼</span></button>
+    <div class="accordion-content">
+      <div class="card" style="border-left-color: #2563eb;">
+        <p style="font-size:11.5px; color:var(--muted); margin-bottom:10px;">किसी भी रजिस्टर्ड सदस्य को मोबाइल नंबर से खोजकर ब्लॉक, अनब्लॉक या डिलीट करें।</p>
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <input type="text" id="searchUserMobile" class="form-control" placeholder="10 अंकों का मोबाइल नंबर..." maxlength="10">
+          <button class="btn" style="width:auto; padding:8px 14px; margin-top:0;" onclick="searchUserAdmin()">खोजें</button>
+        </div>
+        <div id="userSearchResult" style="font-size:12px; color:var(--muted);"></div>
+      </div>
+    </div>
+
     <!-- मास्टर डायरेक्टरी डाउनलोड (ग्लोबल) -->
     <div class="card master-only" style="border-left-color: #0757a3; text-align: center; background:#eff6ff;">
       <h3 style="margin-top:0; border-bottom:none;">📊 मास्टर परिवार डायरेक्टरी (सम्पूर्ण सूची)</h3>
@@ -161,11 +174,13 @@
       </div>
     </div>
 
-    <!-- 2. रोजगार / जॉब वेकेंसी (ग्लोबल - Master Only) -->
+    <!-- 2. रोजगार / जॉब वेकेंसी (प्रोफेशनल कॉलम-बाय-कॉलम फॉर्म) -->
     <button class="accordion-header master-only">💼 1. रोजगार / जॉब वेकेंसी पोस्टिंग <span>▼</span></button>
     <div class="accordion-content master-only">
       <div class="card" style="border-left-color: #0284c7;">
+        <h4 style="margin:0 0 10px; color:var(--navy); font-size:13.5px;">📝 नया जॉब या योजना फॉर्म</h4>
         <input type="hidden" id="editJobId" value="">
+        
         <div class="form-group">
           <label>जॉब श्रेणी (सरकारी या प्राइवेट)</label>
           <select id="jobCategory" class="form-control">
@@ -173,15 +188,26 @@
             <option value="private">🏢 प्राइवेट नौकरी</option>
           </select>
         </div>
-        <div class="form-group"><label>जॉब शीर्षक / पद का नाम</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर"></div>
-        <div class="form-group"><label>कंपनी / विभाग का नाम</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स"></div>
-        <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="महाराजगंज"></div>
-        <div class="form-group"><label>वेतन / सैलरी</label><input type="text" id="jobSalary" class="form-control" placeholder="₹15,000 - ₹20,000 / माह"></div>
-        <div class="form-group"><label>योग्यता</label><input type="text" id="jobQuali" class="form-control" placeholder="12वीं पास / स्नातक"></div>
-        <div class="form-group"><label>ऑनलाइन अप्लाई लिंक</label><input type="text" id="jobApplyLink" class="form-control" placeholder="https://..."></div>
-        <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="jobMobile" class="form-control" placeholder="9876543210"></div>
-        <div class="form-group"><label>विशेष टैग</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert"></div>
-        <button class="btn" style="background:#0284c7;" onclick="saveOrUpdateJob()">जॉब सुरक्षित / पोस्ट करें</button>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="form-group"><label>जॉब शीर्षक / पद का नाम *</label><input type="text" id="jobTitle" class="form-control" placeholder="डाटा एंट्री ऑपरेटर"></div>
+          <div class="form-group"><label>कंपनी / विभाग का नाम *</label><input type="text" id="jobCompany" class="form-control" placeholder="श्री राम ट्रेडर्स"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="form-group"><label>स्थान / लोकेशन</label><input type="text" id="jobLoc" class="form-control" placeholder="महाराजगंज"></div>
+          <div class="form-group"><label>वेतन / सैलरी</label><input type="text" id="jobSalary" class="form-control" placeholder="₹15,000 - ₹20,000"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="form-group"><label>योग्यता</label><input type="text" id="jobQuali" class="form-control" placeholder="12वीं पास / स्नातक"></div>
+          <div class="form-group"><label>मोबाइल नंबर</label><input type="text" id="jobMobile" class="form-control" placeholder="9876543210" maxlength="10"></div>
+        </div>
+
+        <div class="form-group"><label>ऑनलाइन अप्लाई लिंक (URL) *</label><input type="url" id="jobApplyLink" class="form-control" placeholder="https://example.com/apply"></div>
+        <div class="form-group"><label>विशेष टैग / हाइलाइट</label><input type="text" id="jobTag" class="form-control" placeholder="🔥 CG Vyapam Alert"></div>
+
+        <button class="btn" style="background:#0284c7; margin-top:6px;" onclick="saveOrUpdateJob()">जॉब सुरक्षित / पोस्ट करें</button>
         <div class="table-responsive"><table><thead><tr><th>शीर्षक / कंपनी / प्रकार</th><th>कार्रवाई</th></tr></thead><tbody id="adminJobsTable"></tbody></table></div>
       </div>
     </div>
@@ -261,6 +287,15 @@
         <div class="form-group"><label>फोटो URL</label><input type="text" id="condPhoto" class="form-control" placeholder="https://..."></div>
         <button class="btn" style="background:var(--red);" onclick="saveOrUpdateCondolence()">शोक संदेश सुरक्षित करें</button>
         <div class="table-responsive"><table><thead><tr><th>नाम व विवरण</th><th>कार्रवाई</th></tr></thead><tbody id="adminCondTable"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ⭐ न्यू: आपातकालीन रक्तदान प्रबंधन ⭐ -->
+    <button class="accordion-header">🩸 6.1 आपातकालीन रक्तदान प्रबंधन <span>▼</span></button>
+    <div class="accordion-content">
+      <div class="card" style="border-left-color: var(--red);">
+        <p style="font-size:11.5px; color:var(--muted); margin-bottom:10px;">रक्तदान डायरेक्ट्री और डोनर्स की सूची यहाँ से देखें।</p>
+        <button class="btn" style="background:var(--red);" onclick="window.location.href='blood.html'">रक्तदान डायरेक्ट्री खोलें</button>
       </div>
     </div>
 
@@ -345,7 +380,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-  // Firebase Configuration[span_2](start_span)[span_2](end_span)
+  // Firebase Configuration[span_0](start_span)[span_0](end_span)
   const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomain:"bhuihar-jati-samaj.firebaseapp.com",projectId:"bhuihar-jati-samaj",storageBucket:"bhuihar-jati-samaj.firebasestorage.app",messagingSenderId:"144637993197",appId:"1:144637993197:web:a61f8d61ed932b9062ece4"};
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
@@ -361,7 +396,7 @@
     if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
   }
 
-  // Accordion Logic[span_3](start_span)[span_3](end_span)
+  // Accordion Logic[span_1](start_span)[span_1](end_span)
   let acc = document.getElementsByClassName("accordion-header");
   for (let i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function() {
@@ -402,7 +437,6 @@
     
     auth.signInWithEmailAndPassword(email, pass).then(() => {
       Swal.fire({ icon: 'success', title: 'लॉग इन सफल!', text: 'आपका स्वागत है।', confirmButtonColor: '#16a34a', timer: 2000 });
-      // UI update is handled in onAuthStateChanged
     }).catch((err) => { 
       Swal.fire({ icon: 'error', title: 'लॉग इन फेल', text: 'ईमेल या पासवर्ड गलत है!', confirmButtonColor: '#dc2626' });
     });
@@ -422,7 +456,7 @@
     });
   }
 
-  // ✅ रोल के आधार पर UI (बटन्स/सेक्शन) छिपाना
+  // ✅ रोल के आधार पर UI छिपाना
   function applyRolePermissions() {
     let masterElements = document.querySelectorAll(".master-only");
     if (currentUserRole === "master_admin") {
@@ -438,7 +472,7 @@
     }
   }
 
-  // ✅ लोकेशन मैनेजर (जिला ➔ पंचायत ➔ गाँव)
+  // ✅ लोकेशन मैनेजर
   async function saveLocationHierarchy() {
     let district = document.getElementById("locDistrict").value.trim();
     let panchayat = document.getElementById("locPanchayat").value.trim();
@@ -465,7 +499,7 @@
     if(assignSelect) assignSelect.innerHTML = assignHtml;
   }
 
-  // ✅ सब-एडमिन (मुखिया) नियुक्त करें
+  // ✅ सब-एडमिन नियुक्त करें
   async function assignSubAdmin() {
     let mob = document.getElementById("assignAdminMobile").value.trim();
     let vil = document.getElementById("assignAdminVillage").value;
@@ -485,7 +519,60 @@
     } catch(e) { Swal.fire({icon: 'error', text: 'सिस्टम त्रुटि: ' + e.message}); }
   }
 
-  // ✅ वर्तमान एक्टिव गाँव (फिल्टर के अनुसार) प्राप्त करना
+  // ⭐ सदस्य खोज एवं ब्लॉक/अनब्लॉक/डिलीट फंक्शन ⭐
+  async function searchUserAdmin() {
+    let mob = document.getElementById("searchUserMobile").value.trim();
+    let resBox = document.getElementById("userSearchResult");
+    if(!mob || mob.length !== 10) { Swal.fire({icon:'warning', text:'कृपया 10 अंकों का वैध मोबाइल नंबर दर्ज करें!'}); return; }
+    
+    resBox.innerHTML = "खोज जारी है...";
+    try {
+      let snap = await db.collection("users").where("mobile", "==", mob).get();
+      if(snap.empty) {
+        snap = await db.collection("users").where("mobileNumber", "==", mob).get();
+      }
+      if(snap.empty) {
+        resBox.innerHTML = "<span style='color:red;'>यह मोबाइल नंबर पंजीकृत नहीं है।</span>";
+        return;
+      }
+      let doc = snap.docs[0];
+      let u = doc.data();
+      let isBlocked = u.status === "blocked";
+      
+      resBox.innerHTML = `
+        <div style="background:#f8fafc; padding:10px; border-radius:10px; border:1px solid var(--line); margin-top:6px;">
+          <b>नाम:</b> ${u.FullName || u.fullName || 'सदस्य'} <br>
+          <b>मोबाइल:</b> ${u.mobile || u.mobileNumber} <br>
+          <b>गाँव/पता:</b> ${u.village || 'निर्धारित नहीं'} <br>
+          <b>स्थिति:</b> <span style="color:${isBlocked?'red':'green'}; font-weight:bold;">${isBlocked ? 'ब्लॉक किया गया' : 'सक्रिय'}</span> <br>
+          <div style="display:flex; gap:6px; margin-top:8px;">
+            <button onclick="toggleBlockUser('${doc.id}', ${isBlocked})" style="flex:1; padding:6px; background:${isBlocked?'#16a34a':'#f59e0b'}; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">${isBlocked ? 'अनब्लॉक करें' : 'ब्लॉक करें'}</button>
+            <button onclick="deleteUserAdmin('${doc.id}')" style="flex:1; padding:6px; background:#dc2626; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">खाता डिलीट करें</button>
+          </div>
+        </div>
+      `;
+    } catch(e) {
+      resBox.innerHTML = "<span style='color:red;'>त्रुटि: डेटा खोजने में समस्या आई।</span>";
+    }
+  }
+
+  async function toggleBlockUser(docId, currentBlocked) {
+    let newStatus = currentBlocked ? "approved" : "blocked";
+    await db.collection("users").doc(docId).update({ status: newStatus });
+    Swal.fire({icon: 'success', text: currentBlocked ? 'यूज़र अनब्लॉक कर दिया गया है!' : 'यूज़र ब्लॉक कर दिया गया है!'});
+    searchUserAdmin();
+  }
+
+  async function deleteUserAdmin(docId) {
+    Swal.fire({ title: 'खाता डिलीट करें?', text: "क्या आप वाकई इस यूज़र का खाता हमेशा के लिए डिलीट करना चाहते हैं?", icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc2626', confirmButtonText: 'हाँ, डिलीट करें!' }).then(async (result) => {
+      if (result.isConfirmed) {
+        await db.collection("users").doc(docId).delete();
+        Swal.fire({icon: 'success', text: 'यूज़र का खाता डिलीट कर दिया गया है।'});
+        document.getElementById("userSearchResult").innerHTML = "";
+      }
+    });
+  }
+
   function getCurrentTargetVillage() {
     return (currentUserRole === "master_admin") ? document.getElementById("viewFilterSelect").value : currentUserVillage;
   }
@@ -494,7 +581,7 @@
     return true; 
   }
 
-  // ✅ डेटा लोडिंग (Dynamic Filters)
+  // ✅ डेटा लोडिंग
   async function loadAllAdminData() {
     let targetVillage = getCurrentTargetVillage();
     
@@ -510,7 +597,7 @@
     document.getElementById("pendingCount").innerText = count;
     document.getElementById("pendingUsersTableBody").innerHTML = htmlUsers || `<tr><td colspan="3" style="text-align:center; color:var(--muted);">पेंडिंग नहीं है</td></tr>`;
 
-    // 2. Load Matrimonial Pending (Filtered)
+    // 2. Load Matrimonial Pending
     loadPendingApprovalList("matrimonial", "adminMatriTable", "वैवाहिक बायोडाटा", targetVillage);
     
     // 3. Load Global Tables (Master Only)
@@ -520,7 +607,7 @@
       loadPendingTravelApprovals();
     }
 
-    // 4. Load Local Tables (Filtered)
+    // 4. Load Local Tables
     loadAdminTable("officials", "adminOfficialsTable", (d, id) => { adminCache.officials[id] = d; return `<tr><td><b>${d.name || ''}</b> (${d.role || ''})</td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editOfficial('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('officials','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
     loadAdminTable("meetings", "adminMeetingsTable", (d, id) => { adminCache.meetings[id] = d; return `<tr><td><b>${d.title || ''}</b><br><span style="color:var(--muted);">${d.message || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editMeeting('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('meetings','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
     loadAdminTable("achievers", "adminAchTable", (d, id) => { adminCache.achievers[id] = d; return `<tr><td><b>${d.name || ''}</b><br><span style="color:var(--muted);">${d.detail || ''}</span></td><td><button class="badge-btn" style="background:#2563eb; color:white;" onclick="editAch('${id}')">✏️</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('achievers','${id}',loadAllAdminData)">🗑️</button></td></tr>`; }, true, targetVillage);
@@ -576,19 +663,61 @@
     });
   }
 
-  // ⭐ जॉब सेव (Global) ⭐[span_4](start_span)[span_4](end_span)
+  // ⭐ जॉब सेव (प्रोफेशनल कॉलम-बाय-कॉलम फॉर्म) ⭐[span_2](start_span)[span_2](end_span)
   async function saveOrUpdateJob() {
-    let id = document.getElementById("editJobId").value, category = document.getElementById("jobCategory").value, title = document.getElementById("jobTitle").value.trim(), company = document.getElementById("jobCompany").value.trim(), location = document.getElementById("jobLoc").value.trim(), salary = document.getElementById("jobSalary").value.trim(), qualification = document.getElementById("jobQuali").value.trim(), applyLink = document.getElementById("jobApplyLink").value.trim(), mobile = document.getElementById("jobMobile").value.trim(), tag = document.getElementById("jobTag").value.trim();
-    if(!title || !company) { Swal.fire({ icon: 'warning', text: 'जॉब शीर्षक और कंपनी का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
+    let id = document.getElementById("editJobId").value;
+    let category = document.getElementById("jobCategory").value;
+    let title = document.getElementById("jobTitle").value.trim();
+    let company = document.getElementById("jobCompany").value.trim();
+    let location = document.getElementById("jobLoc").value.trim();
+    let salary = document.getElementById("jobSalary").value.trim();
+    let qualification = document.getElementById("jobQuali").value.trim();
+    let applyLink = document.getElementById("jobApplyLink").value.trim();
+    let mobile = document.getElementById("jobMobile").value.trim();
+    let tag = document.getElementById("jobTag").value.trim();
+
+    if(!title || !company || !applyLink) { 
+      Swal.fire({ icon: 'warning', text: 'कृपया जॉब शीर्षक, कंपनी और ऑनलाइन अप्लाई लिंक अनिवार्य रूप से भरें!', confirmButtonColor: '#1e3a8a' }); 
+      return; 
+    }
+
     let data = { category, title, company, location, salary, qualification, applyLink, mobile, tag, timestamp: Date.now() };
-    if(id) { await db.collection("jobs").doc(id).update(data); document.getElementById("editJobId").value=""; } else { await db.collection("jobs").add(data); }
-    Swal.fire({ icon: 'success', text: 'जॉब सुरक्षित हो गई!', confirmButtonColor: '#16a34a' });
-    document.getElementById("jobTitle").value=""; document.getElementById("jobCompany").value=""; document.getElementById("jobLoc").value=""; document.getElementById("jobSalary").value=""; document.getElementById("jobQuali").value=""; document.getElementById("jobApplyLink").value=""; document.getElementById("jobMobile").value=""; document.getElementById("jobTag").value="";
+    if(id) { 
+      await db.collection("jobs").doc(id).update(data); 
+      document.getElementById("editJobId").value = ""; 
+    } else { 
+      await db.collection("jobs").add(data); 
+    }
+    
+    Swal.fire({ icon: 'success', text: 'जॉब सफलतापूर्वक सुरक्षित और पोस्ट हो गई!', confirmButtonColor: '#16a34a' });
+    document.getElementById("jobTitle").value = ""; 
+    document.getElementById("jobCompany").value = ""; 
+    document.getElementById("jobLoc").value = ""; 
+    document.getElementById("jobSalary").value = ""; 
+    document.getElementById("jobQuali").value = ""; 
+    document.getElementById("jobApplyLink").value = ""; 
+    document.getElementById("jobMobile").value = ""; 
+    document.getElementById("jobTag").value = "";
     loadAllAdminData();
   }
-  function editJob(id) { let j = adminCache.jobs[id]; if(!j) return; document.getElementById("editJobId").value = id; document.getElementById("jobCategory").value = j.category || "government"; document.getElementById("jobTitle").value = j.title || ""; document.getElementById("jobCompany").value = j.company || ""; document.getElementById("jobLoc").value = j.location || ""; document.getElementById("jobSalary").value = j.salary || ""; document.getElementById("jobQuali").value = j.qualification || ""; document.getElementById("jobApplyLink").value = j.applyLink || ""; document.getElementById("jobMobile").value = j.mobile || ""; document.getElementById("jobTag").value = j.tag || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ पदाधिकारी सेव (Local) ⭐[span_5](start_span)[span_5](end_span)
+  function editJob(id) { 
+    let j = adminCache.jobs[id]; 
+    if(!j) return; 
+    document.getElementById("editJobId").value = id; 
+    document.getElementById("jobCategory").value = j.category || "government"; 
+    document.getElementById("jobTitle").value = j.title || ""; 
+    document.getElementById("jobCompany").value = j.company || ""; 
+    document.getElementById("jobLoc").value = j.location || ""; 
+    document.getElementById("jobSalary").value = j.salary || ""; 
+    document.getElementById("jobQuali").value = j.qualification || ""; 
+    document.getElementById("jobApplyLink").value = j.applyLink || ""; 
+    document.getElementById("jobMobile").value = j.mobile || ""; 
+    document.getElementById("jobTag").value = j.tag || ""; 
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); 
+  }
+
+  // ⭐ पदाधिकारी सेव (Local) ⭐[span_3](start_span)[span_3](end_span)
   async function saveOrUpdateOfficial() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editOfficialId").value, name = document.getElementById("offName").value.trim();
@@ -600,7 +729,7 @@
   }
   function editOfficial(id) { let o = adminCache.officials[id]; if(!o) return; document.getElementById("editOfficialId").value = id; document.getElementById("offName").value = o.name || ""; document.getElementById("offRole").value = o.role || "महतो"; document.getElementById("offGender").value = o.gender || "male"; document.getElementById("offMobile").value = o.mobile || ""; document.getElementById("offPhoto").value = o.photo || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ आगामी बैठक सेव (Local) ⭐[span_6](start_span)[span_6](end_span)
+  // ⭐ आगामी बैठक सेव (Local) ⭐[span_4](start_span)[span_4](end_span)
   async function saveOrUpdateMeeting() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editMeetingId").value, title = document.getElementById("meetTitle").value.trim(), message = document.getElementById("meetDesc").value.trim();
@@ -612,7 +741,7 @@
   }
   function editMeeting(id) { let m = adminCache.meetings[id]; if(!m) return; document.getElementById("editMeetingId").value = id; document.getElementById("meetTitle").value = m.title || ""; document.getElementById("meetDesc").value = m.message || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ मेधावी छात्र सेव (Local) ⭐[span_7](start_span)[span_7](end_span)
+  // ⭐ मेधावी छात्र सेव (Local) ⭐[span_5](start_span)[span_5](end_span)
   async function saveOrUpdateAchiever() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editAchId").value, name = document.getElementById("achName").value.trim();
@@ -624,7 +753,7 @@
   }
   function editAch(id) { let a = adminCache.achievers[id]; if(!a) return; document.getElementById("editAchId").value = id; document.getElementById("achName").value = a.name || ""; document.getElementById("achFather").value = a.fatherName || ""; document.getElementById("achMother").value = a.motherName || ""; document.getElementById("achDetail").value = a.detail || ""; document.getElementById("achReward").value = a.reward || ""; document.getElementById("achPhoto").value = a.photo || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ समाज दान कोष (Local) ⭐[span_8](start_span)[span_8](end_span)
+  // ⭐ समाज दान कोष (Local) ⭐[span_6](start_span)[span_6](end_span)
   async function saveOrUpdateFund() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editFundId").value, donorName = document.getElementById("donName").value.trim(), amount = document.getElementById("donAmount").value.trim();
@@ -636,7 +765,7 @@
   }
   function editFund(id) { let f = adminCache.funds[id]; if(!f) return; document.getElementById("editFundId").value = id; document.getElementById("donName").value = f.donorName || ""; document.getElementById("donAmount").value = f.amount || ""; document.getElementById("donType").value = f.type || "credit"; document.getElementById("donDesc").value = f.description || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ शोक संदेश (Local) ⭐[span_9](start_span)[span_9](end_span)
+  // ⭐ शोक संदेश (Local) ⭐[span_7](start_span)[span_7](end_span)
   async function saveOrUpdateCondolence() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editCondId").value, name = document.getElementById("condName").value.trim();
@@ -648,7 +777,7 @@
   }
   function editCond(id) { let c = adminCache.condolences[id]; if(!c) return; document.getElementById("editCondId").value = id; document.getElementById("condName").value = c.name || ""; document.getElementById("condDesc").value = c.description || ""; document.getElementById("condPhoto").value = c.photo || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ व्यवसाय (Global) ⭐[span_10](start_span)[span_10](end_span)
+  // ⭐ व्यवसाय (Global) ⭐[span_8](start_span)[span_8](end_span)
   async function saveOrUpdateBusiness() {
     let id = document.getElementById("editBizId").value, bizName = document.getElementById("bizName").value.trim();
     if(!bizName) { Swal.fire({ icon: 'warning', text: 'दुकान का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
@@ -659,7 +788,7 @@
   }
   function editBiz(id) { let b = adminCache.businesses[id]; if(!b) return; document.getElementById("editBizId").value = id; document.getElementById("bizName").value = b.bizName || ""; document.getElementById("bizOwner").value = b.owner || ""; document.getElementById("bizMobile").value = b.mobile || ""; document.getElementById("bizAddress").value = b.address || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ वाहन सेवा (Global) ⭐[span_11](start_span)[span_11](end_span)
+  // ⭐ वाहन सेवा (Global) ⭐[span_9](start_span)[span_9](end_span)
   async function saveOrUpdateTravelAdmin() {
     let id = document.getElementById("editTravelId").value, title = document.getElementById("travelTitleInput").value.trim();
     if(!title) { Swal.fire({ icon: 'warning', text: 'वाहन का नाम भरें!', confirmButtonColor: '#1e3a8a' }); return; }
@@ -669,7 +798,7 @@
     document.getElementById("travelTitleInput").value=""; document.getElementById("travelDriverInput").value=""; document.getElementById("travelMobileInput").value=""; document.getElementById("travelAddressInput").value=""; loadAllAdminData();
   }
 
-  // ⭐ गैलरी (Local) ⭐[span_12](start_span)[span_12](end_span)
+  // ⭐ गैलरी (Local) ⭐[span_10](start_span)[span_10](end_span)
   async function saveOrUpdateGallery() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editGalId").value, title = document.getElementById("galTitle").value.trim();
@@ -681,7 +810,7 @@
   }
   function editGal(id) { let g = adminCache.gallery[id]; if(!g) return; document.getElementById("editGalId").value = id; document.getElementById("galTitle").value = g.title || ""; document.getElementById("galPhoto").value = g.photo || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ जनमत पोल (Local) ⭐[span_13](start_span)[span_13](end_span)
+  // ⭐ जनमत पोल (Local) ⭐[span_11](start_span)[span_11](end_span)
   async function saveOrUpdatePoll() {
     let v = getCurrentTargetVillage(); if(!checkLocalVillage(v)) return;
     let id = document.getElementById("editPollId").value, question = document.getElementById("pollQue").value.trim(), opt1 = document.getElementById("pollOpt1").value.trim(), opt2 = document.getElementById("pollOpt2").value.trim(), opt3 = document.getElementById("pollOpt3").value.trim();
@@ -694,7 +823,7 @@
   }
   function editPoll(id) { let p = adminCache.polls[id]; if(!p) return; document.getElementById("editPollId").value = id; document.getElementById("pollQue").value = p.question || ""; let opts = p.options || []; document.getElementById("pollOpt1").value = opts[0] || ""; document.getElementById("pollOpt2").value = opts[1] || ""; document.getElementById("pollOpt3").value = opts[2] || ""; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
 
-  // ⭐ मास्टर डायरेक्टरी डाउनलोड ⭐[span_14](start_span)[span_14](end_span)
+  // ⭐ मास्टर डायरेक्टरी डाउनलोड ⭐[span_12](start_span)[span_12](end_span)
   async function downloadAdminMasterDirectory() {
     Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
     try {

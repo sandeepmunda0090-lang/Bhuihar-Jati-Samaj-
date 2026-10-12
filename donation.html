@@ -9,7 +9,7 @@
 <!-- नया यूनीक पॉप-अप डिज़ाइन (SweetAlert2) -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06);--green:#16a34a;--red:#dc2626}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0;
@@ -92,7 +92,10 @@ body{
 
     <div class="brand">
       <div class="logo">🤝</div>
-      <div><h1>समाज विकास सहयोग कोष</h1><p>पारदर्शी दान एवं आर्थिक सहायता • महाराजगंज</p></div>
+      <div>
+        <h1>समाज विकास सहयोग कोष</h1>
+        <p id="heroVillageSub">पारदर्शी दान एवं आर्थिक सहायता • लोड हो रहा है...</p>
+      </div>
     </div>
   </div>
 
@@ -158,6 +161,10 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
+// ⭐ यूज़र का गाँव लोकल स्टोरेज से प्राप्त करें (डिफ़ॉल्ट: महाराजगंज)
+let currentUserVillage = localStorage.getItem("userVillage") || "महाराजगंज";
+document.getElementById("heroVillageSub").innerText = `पारदर्शी दान एवं आर्थिक सहायता • ${currentUserVillage}`;
+
 function goBackHome() {
   if (window.history.length > 1) {
     window.history.back();
@@ -181,7 +188,7 @@ async function loadDonationSettings() {
       }
     } else {
       document.getElementById("adminUpiId").innerText = "bhuiharsamaj@paytm";
-      document.getElementById("adminAccountName").innerText = "समाज कोषाध्यक्ष (महाराजगंज)";
+      document.getElementById("adminAccountName").innerText = `समाज कोषाध्यक्ष (${currentUserVillage})`;
       document.getElementById("qrCodeDisplay").innerHTML = `<div style="font-size:11px;color:var(--muted);padding:15px;">एडमिन पैनल से UPI सेट करें</div>`;
     }
   } catch(e) {
@@ -194,14 +201,25 @@ async function loadDonationSettings() {
 async function loadApprovedDonors() {
   let container = document.getElementById("donorListContainer");
   try {
-    let snapshot = await db.collection("donations").where("status", "==", "approved").get();
-    if(snapshot.empty) {
-      container.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:10px;">अभी कोई स्वीकृत सहयोग दर्ज नहीं है।</div>`;
+    // ⭐ सिर्फ उसी गाँव के स्वीकृत दान लोड करें (फॉलबैक के लिए पुरानी ग्लोबल लिस्ट भी चेक कर सकते हैं)
+    let snapshot = await db.collection("donations").where("village", "==", currentUserVillage).where("status", "==", "approved").get();
+    
+    let list = [];
+    snapshot.forEach(doc => { list.push(doc.data()); });
+
+    // अगर उस गाँव का अलग से डेटा न हो, तो पुरानी ग्लोबल लिस्ट दिखाएं
+    if(list.length === 0) {
+      let globalSnap = await db.collection("donations").where("status", "==", "approved").get();
+      globalSnap.forEach(doc => { list.push(doc.data()); });
+    }
+
+    if(list.length === 0) {
+      container.innerHTML = `<div style="text-align:center;color:var(--muted);font-size:12px;padding:10px;"> ${currentUserVillage} में अभी कोई स्वीकृत सहयोग दर्ज नहीं है।</div>`;
       return;
     }
+
     let html = "";
-    snapshot.forEach(doc => {
-      let d = doc.data();
+    list.forEach(d => {
       html += `
         <div class="donor-row">
           <div><b>${d.donorName || 'सहयोगी'}</b></div>
@@ -252,6 +270,7 @@ async function submitDonationProof() {
       mobile: mobile,
       amount: Number(amount),
       utrNumber: utr,
+      village: currentUserVillage, // ⭐ किस गाँव के लिए दान है, वह सेव होगा
       status: "pending",
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -259,7 +278,7 @@ async function submitDonationProof() {
     Swal.fire({
       icon: 'success',
       title: 'सफलतापूर्वक भेजा गया!',
-      text: 'धन्यवाद! आपका सहयोग विवरण एडमिन के पास सत्यापन हेतु भेज दिया गया है। जाँच के बाद आपका नाम डोनर सूची में जोड़ दिया जाएगा।',
+      text: `धन्यवाद! आपका सहयोग विवरण ${currentUserVillage} के एडमिन के पास सत्यापन हेतु भेज दिया गया है।`,
       confirmButtonColor: '#16a34a'
     }).then(() => {
       document.getElementById("donorName").value = "";

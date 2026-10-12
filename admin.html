@@ -415,23 +415,29 @@
       document.getElementById("adminLoginCard").style.display = "none";
       document.getElementById("adminDashboardContent").style.display = "block";
       
-      // लॉगिन उपयोगकर्ता की पहचान: कोड में तय Master Admin ईमेल को प्राथमिकता दें।
+      // रोल Firebase Firestore के users रिकॉर्ड से पढ़ें; ईमेल/UID दोनों से खोजें।
       const signedInEmail = (user.email || "").trim().toLowerCase();
       currentUserVillage = "";
-      if (signedInEmail === "admin@bhuihar.com") {
-        currentUserRole = "master_admin";
-      } else {
-        const userDoc = await db.collection("users").where("email", "==", user.email).limit(1).get();
-        if (!userDoc.empty) {
-          const data = userDoc.docs[0].data();
-          currentUserRole = data.role === "master_admin" ? "master_admin" : "sub_admin";
-          currentUserVillage = data.village || "";
-        } else {
-          currentUserRole = "sub_admin";
+      let roleData = null;
+      try {
+        const uidDoc = await db.collection("users").doc(user.uid).get();
+        if (uidDoc.exists) roleData = uidDoc.data();
+        if (!roleData && signedInEmail) {
+          const emailSnap = await db.collection("users").where("email", "==", signedInEmail).limit(1).get();
+          if (!emailSnap.empty) roleData = emailSnap.docs[0].data();
         }
+      } catch (roleError) {
+        console.error("Admin role lookup failed:", roleError);
       }
+      const storedRole = String(roleData?.role || roleData?.adminRole || roleData?.userRole || "").trim().toLowerCase().replace(/[ -]/g, "_");
+      const isMasterInFirebase = ["master_admin", "super_admin", "masteradmin"].includes(storedRole);
+      // पुराने सेटअप के लिए स्पष्ट मास्टर ईमेल fallback; इसे अपने वास्तविक मास्टर ईमेल से मिलाएँ।
+      const masterEmailAllowlist = ["sandeepmunda0090@gmail.com", "admin@bhuihar.com"];
+      currentUserRole = (isMasterInFirebase || masterEmailAllowlist.includes(signedInEmail)) ? "master_admin" : "sub_admin";
+      currentUserVillage = roleData?.village || roleData?.Village || roleData?.gaon || "";
 
       applyRolePermissions(user);
+      renumberVisibleServices();
       loadAllAdminData();
     } else {
       document.getElementById("adminLoginCard").style.display = "block";
@@ -465,6 +471,29 @@
     });
   }
 
+  // प्रत्येक लॉगिन रोल के लिए दिख रहे सेक्शनों की नंबरिंग 1 से लगातार शुरू करें।
+  function renumberVisibleServices() {
+    const items = [];
+    document.querySelectorAll(".accordion-header, #adminDashboardContent h3").forEach(el => {
+      if (el.closest(".master-only") && currentUserRole !== "master_admin") return;
+      if (el.closest(".accordion-content") && el.closest(".accordion-content").style.display === "none") return;
+      const span = el.querySelector("span");
+      const textNode = el.childNodes.length ? el.childNodes[0] : null;
+      const raw = el.dataset.originalServiceLabel || (textNode && textNode.nodeType === Node.TEXT_NODE ? textNode.textContent : el.textContent);
+      if (!raw || !/^\s*(?:[📍👤🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?\d+\.\s*/u.test(raw)) return;
+      if (!el.dataset.originalServiceLabel) el.dataset.originalServiceLabel = raw;
+      items.push({el, raw: el.dataset.originalServiceLabel, textNode, span});
+    });
+    let n = 0;
+    items.forEach(item => {
+      n++;
+      const updated = item.raw.replace(/^(\s*(?:[📍👤🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?)\d+\.\s*/u, `$1${n}. `);
+      if (item.textNode && item.textNode.nodeType === Node.TEXT_NODE) item.textNode.textContent = updated;
+      else item.el.textContent = updated;
+      if (item.span && !item.el.contains(item.span)) item.el.appendChild(item.span);
+    });
+  }
+
   // ✅ रोल के आधार पर UI छिपाना
   function applyRolePermissions(user) {
     const masterElements = document.querySelectorAll(".master-only");
@@ -485,6 +514,7 @@
       loginInfo.innerHTML = `<span style="background:#dcfce7;color:#166534;padding:5px 9px;border-radius:999px;">🛡️ SUB-ADMIN</span><span>📧 ${escapeHtml(signedInEmail)}</span><span>📍 ${escapeHtml(currentUserVillage || "गाँव निर्धारित नहीं")}</span>`;
       masterElements.forEach(el => el.style.display = "none");
     }
+    renumberVisibleServices();
   }
 
   function escapeHtml(value) {

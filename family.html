@@ -94,7 +94,7 @@ body{
     
     <div class="card" style="background:#eff6ff;border-color:#bfdbfe;padding:12px 14px;">
       <h3 style="margin:0 0 2px;font-size:13px;color:#1e40af;">📋 डिजिटल परिवार डायरेक्टरी</h3>
-      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">समाज के सभी स्वीकृत परिवारों और सदस्यों की जानकारी यहाँ उपलब्ध है।</p>
+      <p style="margin:0;font-size:11.5px;color:#1e3a8a;">स्वीकृत सदस्य और उनके परिवार की उपलब्ध जानकारी यहाँ देखें।</p>
     </div>
 
     <!-- Horizontal PDF Download / Send Box -->
@@ -128,236 +128,271 @@ function goBackHome() {
   }
 }
 
+
+// सभी स्वीकृत यूजर और उनके users/{uid}/families सब-कलेक्शन से डेटा लोड करें।
+let directoryMembers = [];
+
+function safeText(value, fallback = "—") {
+  if (value === null || value === undefined || String(value).trim() === "") return fallback;
+  return String(value);
+}
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+function calculateAge(dob, savedAge) {
+  if (dob) {
+    const d = new Date(dob);
+    if (!Number.isNaN(d.getTime())) {
+      const today = new Date();
+      let age = today.getFullYear() - d.getFullYear();
+      const beforeBirthday = today.getMonth() < d.getMonth() ||
+        (today.getMonth() === d.getMonth() && today.getDate() < d.getDate());
+      if (beforeBirthday) age--;
+      if (age >= 0 && age < 130) return String(age);
+    }
+  }
+  return safeText(savedAge, "—");
+}
+function normalizeMember(data, options = {}) {
+  const m = data || {};
+  const name = m.memberName || m.fullName || m.FullName || m.name || m.nameHindi || "सदस्य नाम उपलब्ध नहीं";
+  return {
+    name,
+    father: m.fatherName || m.fatherHusbandName || m.guardianName || "",
+    relation: m.relation || (options.isOwner ? "मुखिया" : ""),
+    gender: m.gender || "",
+    dob: m.dateOfBirth || m.dob || "",
+    age: calculateAge(m.dateOfBirth || m.dob, m.age),
+    mobile: m.mobileNumber || m.mobile || m.ownerMobile || "",
+    occupation: m.occupation || m.jobCategory || "",
+    district: m.district || m.districts || "",
+    panchayat: m.panchayat || "",
+    village: m.village || "",
+    gotra: m.gotra || m.gothra || "",
+    blood: m.bloodGroup || "",
+    cardNo: m.cardNumber || m.familyId || options.docId || options.ownerId || "BJS-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
+    ownerMobile: m.ownerMobile || options.ownerMobile || m.mobileNumber || "",
+    isOwner: !!options.isOwner
+  };
+}
+
 async function loadFamilyDirectory() {
-  let container = document.getElementById("familyListContainer");
+  const container = document.getElementById("familyListContainer");
+  container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">परिवार सूची लोड हो रही है...</div>`;
   try {
-    let snapshot = await db.collection("users").where("status", "==", "approved").get();
-    if(snapshot.empty) {
-      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई स्वीकृत परिवार सदस्य नहीं मिला।</div>`;
+    const usersSnapshot = await db.collection("users").where("status", "==", "approved").get();
+    if (usersSnapshot.empty) {
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई स्वीकृत सदस्य नहीं मिला।</div>`;
       return;
     }
 
-    let html = "";
-    snapshot.forEach(doc => {
-      let m = doc.data();
-      let name = m.FullName || m.fullName || 'सदस्य नाम';
-      let father = m.fatherName || 'निर्धारित नहीं';
-      let village = m.village || 'महाराजगंज';
-      let mobile = m.mobileNumber || m.mobile || 'उपलब्ध नहीं';
-      let blood = m.bloodGroup || 'उल्लिखित नहीं';
-      let gotra = m.gothra || m.gotra || 'गोत्र';
+    const allMembers = [];
+    for (const userDoc of usersSnapshot.docs) {
+      const user = userDoc.data() || {};
+      const ownerMobile = user.mobileNumber || user.mobile || userDoc.id;
+      const owner = normalizeMember(user, {isOwner:true, ownerId:userDoc.id, ownerMobile});
+      // मुखिया/पंजीकृत यूजर को भी डायरेक्टरी में दिखाएँ।
+      allMembers.push(owner);
 
-      html += `
+      // स्क्रीनशॉट के अनुसार families, users/{userId}/families के अंदर सब-कलेक्शन है।
+      try {
+        const familySnapshot = await db.collection("users").doc(userDoc.id).collection("families").get();
+        familySnapshot.forEach(familyDoc => {
+          const familyData = familyDoc.data() || {};
+          const member = normalizeMember(familyData, {
+            docId: familyData.familyId || familyDoc.id,
+            ownerId: userDoc.id,
+            ownerMobile
+          });
+          // अगर family record में नाम नहीं है तो खाली/गलत कार्ड न बनाएं।
+          if (familyData.memberName || familyData.fullName || familyData.FullName || familyData.name) {
+            allMembers.push(member);
+          }
+        });
+      } catch (subError) {
+        console.warn("परिवार सब-कलेक्शन पढ़ने में समस्या:", userDoc.id, subError);
+      }
+    }
+
+    directoryMembers = allMembers;
+    if (!directoryMembers.length) {
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार सदस्य उपलब्ध नहीं है।</div>`;
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="card" style="padding:12px 14px;">
+        <h3 style="margin:0;color:var(--navy);font-size:14px;">👨‍👩‍👧‍👦 सदस्य सूची</h3>
+        <p style="margin:4px 0 0;color:var(--muted);font-size:11px;">कुल दिखाई दे रहे सदस्य: <b>${directoryMembers.length}</b></p>
+      </div>
+      ${directoryMembers.map((m, i) => `
         <div class="member-card">
-          <div class="member-badge">${gotra}</div>
-          <h3 class="member-name">${name}</h3>
+          <div class="member-badge">${escapeHtml(safeText(m.relation, "सदस्य"))}</div>
+          <h3 class="member-name">${escapeHtml(m.name)}</h3>
           <div class="member-info">
-            👤 अभिभावक: ${father}<br>
-            📍 ग्राम/निवास: ${village}<br>
-            🩸 रक्त समूह: ${blood} • 📞 मोबाइल: ${mobile}
+            ${m.father ? `👤 पिता/अभिभावक: ${escapeHtml(m.father)}<br>` : ""}
+            🎂 उम्र: ${escapeHtml(m.age)} वर्ष ${m.dob ? `• जन्मतिथि: ${escapeHtml(m.dob)}` : ""}<br>
+            📍 जिला/पंचायत/ग्राम: ${escapeHtml([m.district,m.panchayat,m.village].filter(Boolean).join(" / ") || "उपलब्ध नहीं")}<br>
+            💼 व्यवसाय: ${escapeHtml(safeText(m.occupation))}<br>
+            📞 मोबाइल: ${escapeHtml(safeText(m.mobile))}${m.gotra ? `<br>🌿 गोत्र: ${escapeHtml(m.gotra)}` : ""}${m.blood ? ` • 🩸 रक्त समूह: ${escapeHtml(m.blood)}` : ""}
           </div>
-          <button class="whatsapp-share-btn" onclick="shareFamilyDigitalCardImage('${name}', '${father}', '${village}', '${mobile}', '${gotra}', '${blood}')">
-            <span>💬</span> आईडी कार्ड डाउनलोड करें और भेजें
-          </button>
+          <button class="whatsapp-share-btn" onclick="previewDigitalCard(${i})"><span>🪪</span> ID कार्ड देखें / डाउनलोड करें</button>
         </div>
-      `;
-    });
-
-    container.innerHTML = html;
-
-  } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:red;font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई।</div>`;
-  }
-}
-
-// अपने ही नंबर पर PDF ऑटो-डाउनलोड और सेंड करने का फंक्शन
-async function generateAndSendHorizontalPdf() {
-  let loggedMobile = localStorage.getItem("userLoggedInMobile") || "";
-  if (!loggedMobile) {
-    Swal.fire({ icon: 'warning', title: 'लॉगिन आवश्यक है', text: 'पीडीएफ फाइल बनाने के लिए कृपया पहले लॉगिन करें!', confirmButtonColor: '#0757a3' });
-    return;
-  }
-
-  Swal.fire({
-    title: 'पीडीएफ बन रही है...',
-    html: 'कृपया प्रतीक्षा करें, पीडीएफ फाइल तैयार करके डाउनलोड की जा रही है।',
-    allowOutsideClick: false,
-    didOpen: () => { Swal.showLoading(); }
-  });
-
-  try {
-    let snapshot = await db.collection("users").where("status", "==", "approved").get();
-    let familyMembers = [];
-    snapshot.forEach(doc => { familyMembers.push(doc.data()); });
-
-    if (familyMembers.length === 0) {
-      Swal.fire({ icon: 'info', title: 'डेटा नहीं मिला', text: 'कोई सदस्य उपलब्ध नहीं है।' });
-      return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('l', 'mm', 'a4');
-
-    doc.setFillColor(8, 43, 84);
-    doc.rect(0, 0, 297, 25, "F");
-    
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(16);
-    doc.text("भुईहर जाति समाज - डिजिटल परिवार पंजीका (संपूर्ण डायरेक्टरी)", 15, 16);
-
-    doc.setTextColor(30, 41, 59);
-    doc.setFontSize(11);
-    doc.text(`जारी दिनांक: ${new Date().toLocaleDateString('hi-IN')}`, 15, 33);
-
-    let startY = 43;
-    doc.setFillColor(241, 245, 249);
-    doc.rect(15, startY - 5, 267, 8, "F");
-    doc.setFont(undefined, 'bold');
-    doc.text("क्र.", 18, startY);
-    doc.text("सदस्य का नाम", 35, startY);
-    doc.text("अभिभावक (पिता/पति)", 95, startY);
-    doc.text("गोत्र", 150, startY);
-    doc.text("ग्राम / पता", 185, startY);
-    doc.text("रक्त समूह", 235, startY);
-    doc.text("मोबाइल", 260, startY);
-
-    startY += 8;
-    doc.setFont(undefined, 'normal');
-    doc.setFontSize(10);
-
-    familyMembers.forEach((m, index) => {
-      if (startY > 185) {
-        doc.addPage('a4', 'l');
-        startY = 20;
-      }
-      doc.text(String(index + 1), 18, startY);
-      doc.text(m.FullName || m.fullName || '-', 35, startY);
-      doc.text(m.fatherName || '-', 95, startY);
-      doc.text(m.gothra || m.gotra || '-', 150, startY);
-      doc.text(m.village || '-', 185, startY);
-      doc.text(m.bloodGroup || '-', 235, startY);
-      doc.text(m.mobileNumber || m.mobile || '-', 260, startY);
-      startY += 8;
-    });
-
-    // 1. फाइल को तुरंत फोन में डाउनलोड (Save) करना
-    doc.save('Bhuihar_Family_Directory.pdf');
-
-    Swal.close();
-
-    // 2. यूजर को सूचित करना और उसका अपना व्हाट्सएप चैट ओपन करना
-    let waText = encodeURIComponent(`नमस्ते, यह रही भुईहर समाज पोर्टल से मेरे परिवार की संपूर्ण पंजीका।\n\n*(कृपया 📎 अटैचमेंट बटन दबाकर अभी डाउनलोड हुई 'Bhuihar_Family_Directory.pdf' फाइल को यहाँ भेज लें)*`);
-    let waUrl = `https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${waText}`;
-
-    Swal.fire({
-      icon: 'success',
-      title: 'पीडीएफ डाउनलोड हो गई!',
-      text: 'फाइल आपके फोन में सेव हो गई है। अब आपका अपना व्हाट्सएप चैट खुल रहा है, वहाँ 📎 (पिन) दबाकर इस पीडीएफ फाइल को अटैच कर लें।',
-      confirmButtonText: 'अपना व्हाट्सएप खोलें',
-      confirmButtonColor: '#25D366',
-      allowOutsideClick: false
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.open(waUrl, '_blank');
-      }
-    });
-
-  } catch (err) {
-    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'पीडीएफ फाइल बनाने में समस्या आई: ' + err.message });
-  }
-}
-
-// अपने ही नंबर पर ID Card Image ऑटो-डाउनलोड और सेंड करने का फंक्शन
-async function shareFamilyDigitalCardImage(memberName, fatherName, village, mobile, gotra, bloodGroup) {
-  let loggedMobile = localStorage.getItem("userLoggedInMobile") || "";
-  
-  if (!loggedMobile) {
-    Swal.fire({ icon: 'warning', title: 'लॉगिन आवश्यक है', text: 'आईडी कार्ड शेयर करने के लिए कृपया पहले लॉगिन करें!', confirmButtonColor: '#0757a3' });
-    return;
-  }
-
-  Swal.fire({
-    title: 'आईडी कार्ड बन रहा है...',
-    html: 'कृपया प्रतीक्षा करें, डिजिटल पहचान पत्र तैयार करके डाउनलोड किया जा रहा है।',
-    allowOutsideClick: false,
-    didOpen: () => { Swal.showLoading(); }
-  });
-
-  let cardDiv = document.createElement('div');
-  cardDiv.style.position = "absolute";
-  cardDiv.style.left = "-9999px";
-  cardDiv.style.width = "600px";
-  cardDiv.style.padding = "30px";
-  cardDiv.style.background = "linear-gradient(135deg, #082b54, #0757a3)";
-  cardDiv.style.borderRadius = "24px";
-  cardDiv.style.color = "#ffffff";
-  cardDiv.style.fontFamily = "system-ui, 'Noto Sans Devanagari', sans-serif";
-  cardDiv.style.boxShadow = "0 20px 40px rgba(0,0,0,0.3)";
-  cardDiv.style.border = "4px solid #f4b63f";
-
-  cardDiv.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 16px; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 20px;">
-      <div style="width: 60px; height: 60px; background: #fff; border-radius: 16px; display: grid; place-items: center; font-size: 30px;">🌾</div>
-      <div>
-        <h2 style="margin: 0; font-size: 22px; font-weight: 800; color: #fff;">भुईहर जाति समाज डिजिटल परिवार</h2>
-        <p style="margin: 3px 0 0; font-size: 13px; color: #f4b63f; font-weight: bold;">महाराजगंज • आधिकारिक डिजिटल पहचान पत्र</p>
-      </div>
-    </div>
-
-    <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; padding: 20px;">
-      <div style="font-size: 22px; font-weight: 900; color: #f4f7fb; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 8px;">
-        👤 ${memberName}
-      </div>
-      <div style="font-size: 14.5px; line-height: 1.8; color: #f8fafc;">
-        <div><b>अभिभावक:</b> ${fatherName}</div>
-        <div><b>ग्राम / निवास:</b> ${village}</div>
-        <div><b>गोत्र:</b> ${gotra}</div>
-        <div><b>रक्त समूह:</b> ${bloodGroup}</div>
-        <div><b>मोबाइल नंबर:</b> ${mobile}</div>
-      </div>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 11px; opacity: 0.8;">
-      <span>✨ भुईहर समाज पोर्टल द्वारा सत्यापित</span>
-      <span>🔒 सुरक्षित डिजिटल आईडी</span>
-    </div>
-  `;
-
-  document.body.appendChild(cardDiv);
-
-  try {
-    let canvas = await html2canvas(cardDiv, { scale: 2, useCORS: true });
-    let imgData = canvas.toDataURL('image/jpeg', 0.95);
-    document.body.removeChild(cardDiv);
-
-    // 1. इमेज को तुरंत फोन की गैलरी में डाउनलोड करना
-    let link = document.createElement('a');
-    link.href = imgData;
-    link.download = 'Bhuihar_Digital_ID.jpg';
-    link.click();
-
-    Swal.close();
-
-    // 2. यूजर को सूचित करके उसका खुद का व्हाट्सएप खोलना
-    let waText = encodeURIComponent(`नमस्ते, यह रहा मेरा भुईहर समाज डिजिटल परिवार पहचान पत्र।\n\n*(कृपया 📎 पिन आइकन दबाकर अभी डाउनलोड हुई 'Bhuihar_Digital_ID.jpg' फोटो को गैलरी से यहाँ अटैच कर लें)*`);
-    let waUrl = `https://api.whatsapp.com/send?phone=91${loggedMobile}&text=${waText}`;
-    
-    Swal.fire({
-      icon: 'success',
-      title: 'आईडी कार्ड गैलरी में आ गया!',
-      text: 'डिजिटल कार्ड आपकी गैलरी में डाउनलोड हो गया है। अब आपका अपना व्हाट्सएप चैट खुलेगा, वहाँ गैलरी से इस फोटो को भेज लें।',
-      confirmButtonText: 'अपना व्हाट्सएप खोलें',
-      confirmButtonColor: '#25D366',
-      allowOutsideClick: false
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.open(waUrl, '_blank');
-      }
-    });
-
+      `).join("")}
+    `;
   } catch (e) {
-    if(cardDiv.parentNode) document.body.removeChild(cardDiv);
-    Swal.fire({ icon: 'error', title: 'त्रुटि', text: 'आईडी कार्ड बनाने में समस्या आई: ' + e.message });
+    console.error(e);
+    container.innerHTML = `<div class="card" style="text-align:center;color:#b91c1c;font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई। Firebase Rules और users में status = approved जाँचें।<br><small>${escapeHtml(e.message || "")}</small></div>`;
+  }
+}
+
+function buildCardHtml(m) {
+  return `
+    <div class="digital-id-card" style="width:600px;max-width:100%;padding:22px;background:linear-gradient(135deg,#082b54,#0757a3 70%,#0d7bd3);border:4px solid #f4b63f;border-radius:20px;color:#fff;font-family:Arial,'Noto Sans Devanagari',sans-serif;box-sizing:border-box;">
+      <div style="display:flex;align-items:center;gap:14px;border-bottom:2px solid rgba(255,255,255,.25);padding-bottom:12px;margin-bottom:14px;">
+        <div style="width:58px;height:58px;flex-shrink:0;background:#fff;color:#0757a3;border-radius:14px;display:grid;place-items:center;font-size:30px;">🌾</div>
+        <div><div style="font-size:23px;font-weight:800;line-height:1.4;">भुईहर जाति समाज</div><div style="font-size:12px;color:#f4b63f;font-weight:bold;">डिजिटल परिवार पहचान पत्र</div></div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="width:94px;height:112px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:45px;">👤</div>
+        <div style="font-size:13px;line-height:1.85;overflow-wrap:anywhere;">
+          <div style="font-size:19px;font-weight:800;margin-bottom:4px;">${escapeHtml(m.name)}</div>
+          <div><b>कार्ड नंबर:</b> ${escapeHtml(m.cardNo)}</div>
+          ${m.father ? `<div><b>पिता/अभिभावक:</b> ${escapeHtml(m.father)}</div>` : ""}
+          ${m.gender ? `<div><b>लिंग:</b> ${escapeHtml(m.gender)}</div>` : ""}
+          <div><b>मोबाइल:</b> ${escapeHtml(safeText(m.mobile))}</div>
+          <div><b>उम्र:</b> ${escapeHtml(m.age)} वर्ष</div>
+          <div><b>निवास:</b> ${escapeHtml([m.village,m.panchayat,m.district].filter(Boolean).join(", ") || "उपलब्ध नहीं")}</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.22);font-size:10px;color:#eaf2ff;">
+        <span>भुईहर समाज पोर्टल</span><span>यह डिजिटल पहचान पत्र है</span>
+      </div>
+    </div>`;
+}
+
+async function previewDigitalCard(index) {
+  const m = directoryMembers[index];
+  if (!m) return;
+  const result = await Swal.fire({
+    title: "डिजिटल ID कार्ड Preview",
+    html: `<div id="cardPreviewHost" style="width:100%;overflow-x:auto;padding:2px;">${buildCardHtml(m)}</div>
+      <p style="font-size:11px;color:#64748b;margin:12px 0 0;">डाउनलोड करने से पहले कार्ड की जानकारी जाँच लें।</p>`,
+    width: 680,
+    showCancelButton: true,
+    confirmButtonText: "📥 JPG डाउनलोड करें",
+    cancelButtonText: "बंद करें",
+    confirmButtonColor: "#0757a3",
+    didOpen: () => {
+      const card = document.querySelector("#cardPreviewHost .digital-id-card");
+      if (card && window.innerWidth < 650) card.style.transformOrigin = "top left";
+    },
+    preConfirm: async () => {
+      const card = document.querySelector("#cardPreviewHost .digital-id-card");
+      if (!card) return false;
+      try {
+        const canvas = await html2canvas(card, {scale:2, backgroundColor:null, useCORS:true, logging:false});
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/jpeg", 0.95);
+        link.download = `Bhuihar_Digital_ID_${String(m.cardNo).replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
+        link.click();
+        return true;
+      } catch (err) {
+        Swal.showValidationMessage("कार्ड डाउनलोड नहीं हो पाया: " + err.message);
+        return false;
+      }
+    }
+  });
+  if (result.isConfirmed) {
+    const loggedMobile = (localStorage.getItem("userLoggedInMobile") || "").replace(/\D/g,"");
+    const phone = (loggedMobile.length === 10 ? "91" + loggedMobile : loggedMobile);
+    const waText = encodeURIComponent(`नमस्ते, यह रहा भुईहर जाति समाज का डिजिटल पहचान पत्र। डाउनलोड की गई JPG फाइल को WhatsApp में अटैच कर भेजें।`);
+    const waUrl = `https://api.whatsapp.com/send?${phone ? `phone=${phone}&` : ""}text=${waText}`;
+    await Swal.fire({
+      icon:"success", title:"ID कार्ड डाउनलोड हो गया",
+      text:"अब चाहें तो WhatsApp खोलकर डाउनलोड की गई JPG फाइल अटैच करें।",
+      showCancelButton:true, confirmButtonText:"WhatsApp खोलें", cancelButtonText:"अभी नहीं",
+      confirmButtonColor:"#25D366"
+    }).then(r => { if (r.isConfirmed) window.open(waUrl, "_blank"); });
+  }
+}
+
+// A4 Landscape PDF: HTML/Canvas rendering से हिंदी टेक्स्ट को सही रूप में रखें।
+async function generateAndSendHorizontalPdf() {
+  const loggedMobile = (localStorage.getItem("userLoggedInMobile") || "").replace(/\D/g,"");
+  if (!loggedMobile) {
+    Swal.fire({icon:"warning",title:"लॉगिन आवश्यक है",text:"PDF बनाने के लिए पहले लॉगिन करें।",confirmButtonColor:"#0757a3"});
+    return;
+  }
+  if (!directoryMembers.length) await loadFamilyDirectory();
+  if (!directoryMembers.length) {
+    Swal.fire({icon:"info",title:"डेटा नहीं मिला",text:"PDF बनाने के लिए कोई सदस्य उपलब्ध नहीं है।"});
+    return;
+  }
+
+  Swal.fire({title:"हॉरिजॉन्टल PDF बन रही है...",html:"कृपया प्रतीक्षा करें।",allowOutsideClick:false,didOpen:()=>Swal.showLoading()});
+  let staging;
+  try {
+    const {jsPDF} = window.jspdf;
+    const pdf = new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+    const rowsPerPage = 13;
+    const pages = Math.ceil(directoryMembers.length / rowsPerPage);
+
+    for (let pageIndex=0; pageIndex<pages; pageIndex++) {
+      const pageMembers = directoryMembers.slice(pageIndex*rowsPerPage,(pageIndex+1)*rowsPerPage);
+      staging = document.createElement("div");
+      staging.style.cssText = "position:fixed;left:-20000px;top:0;width:1120px;background:#fff;color:#172033;padding:28px;font-family:Arial,'Noto Sans Devanagari',sans-serif;box-sizing:border-box;";
+      staging.innerHTML = `
+        <div style="text-align:center;background:#082b54;color:#fff;padding:14px 10px;border-bottom:5px solid #f4b63f;">
+          <div style="font-size:27px;font-weight:800;">भुईहर जाति समाज</div>
+          <div style="font-size:16px;margin-top:3px;">परिवार पंजीका एवं सदस्य सूची</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin:12px 0;">
+          <span>जारी दिनांक: ${escapeHtml(new Date().toLocaleDateString("hi-IN"))}</span>
+          <span>पृष्ठ ${pageIndex+1} / ${pages} • कुल सदस्य: ${directoryMembers.length}</span>
+        </div>
+        <table style="border-collapse:collapse;width:100%;font-size:12px;table-layout:fixed;">
+          <thead><tr style="background:#dbeafe;color:#082b54;">
+            ${["क्र.","सदस्य का नाम","पिता/अभिभावक","रिश्ता","उम्र","जन्मतिथि","मोबाइल","व्यवसाय","जिला","पंचायत / ग्राम"].map((h,i)=>`<th style="border:1px solid #94a3b8;padding:8px 5px;text-align:center;width:${[4,15,14,8,5,10,11,10,9,14][i]}%;">${h}</th>`).join("")}
+          </tr></thead>
+          <tbody>${pageMembers.map((m,i)=>`<tr style="background:${i%2?"#f8fafc":"#fff"};">
+            ${[String(pageIndex*rowsPerPage+i+1),m.name,m.father||"—",m.relation||"—",m.age,m.dob||"—",m.mobile||"—",m.occupation||"—",m.district||"—",[m.panchayat,m.village].filter(Boolean).join(" / ")||"—"].map(v=>`<td style="border:1px solid #cbd5e1;padding:8px 5px;vertical-align:middle;overflow-wrap:anywhere;text-align:center;">${escapeHtml(v)}</td>`).join("")}
+          </tr>`).join("")}</tbody>
+        </table>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:28px;font-size:12px;">
+          <span>भुईहर जाति समाज • डिजिटल परिवार पंजीका</span>
+          <span style="min-width:180px;text-align:center;border-top:1px solid #334155;padding-top:7px;">मुखिया हस्ताक्षर</span>
+        </div>`;
+      document.body.appendChild(staging);
+      const canvas = await html2canvas(staging,{scale:1.5,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      document.body.removeChild(staging); staging=null;
+
+      // प्रत्येक रिपोर्ट पेज को A4 Landscape की सीमा में फिट करें।
+      const pageW=297, pageH=210, margin=7;
+      const usableW=pageW-margin*2, usableH=pageH-margin*2;
+      const ratio=Math.min(usableW/canvas.width,usableH/canvas.height);
+      const imgW=canvas.width*ratio, imgH=canvas.height*ratio;
+      if (pageIndex>0) pdf.addPage("a4","landscape");
+      pdf.addImage(canvas.toDataURL("image/jpeg",0.94),"JPEG",(pageW-imgW)/2,(pageH-imgH)/2,imgW,imgH,undefined,"FAST");
+    }
+    pdf.save("Bhuihar_Family_Directory_Landscape.pdf");
+    Swal.close();
+
+    const phone = loggedMobile.length===10 ? "91"+loggedMobile : loggedMobile;
+    const waText = encodeURIComponent("नमस्ते, भुईहर जाति समाज पोर्टल की परिवार पंजीका PDF डाउनलोड हो गई है। कृपया डाउनलोड की गई PDF को WhatsApp में अटैच करके भेजें।");
+    const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${waText}`;
+    const res = await Swal.fire({
+      icon:"success",title:"PDF डाउनलोड हो गई!",
+      text:"A4 हॉरिजॉन्टल PDF सेव हो गई है। WhatsApp में इसे स्वयं अटैच करें।",
+      showCancelButton:true,confirmButtonText:"WhatsApp खोलें",cancelButtonText:"बंद करें",confirmButtonColor:"#25D366"
+    });
+    if (res.isConfirmed) window.open(waUrl,"_blank");
+  } catch (err) {
+    if (staging && staging.parentNode) staging.parentNode.removeChild(staging);
+    console.error(err);
+    Swal.fire({icon:"error",title:"PDF बनाने में त्रुटि",text:err.message || "कृपया दोबारा प्रयास करें।"});
   }
 }
 

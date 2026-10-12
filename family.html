@@ -172,7 +172,7 @@ function normalizeMember(data, options = {}) {
     village: m.village || "",
     gotra: m.gotra || m.gothra || "",
     blood: m.bloodGroup || "",
-    cardNo: m.cardNumber || m.familyId || options.docId || options.ownerId || "BJS-" + Math.random().toString(36).slice(2, 8).toUpperCase(),
+    cardNo: String(m.mobileNumber || m.mobile || m.ownerMobile || options.ownerMobile || options.ownerId || "उपलब्ध नहीं"),
     ownerMobile: m.ownerMobile || options.ownerMobile || m.mobileNumber || "",
     isOwner: !!options.isOwner
   };
@@ -259,7 +259,7 @@ function buildCardHtml(m) {
         <div style="width:94px;height:112px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:45px;">👤</div>
         <div style="font-size:13px;line-height:1.85;overflow-wrap:anywhere;">
           <div style="font-size:19px;font-weight:800;margin-bottom:4px;">${escapeHtml(m.name)}</div>
-          <div><b>कार्ड नंबर:</b> ${escapeHtml(m.cardNo)}</div>
+          <div><b>यूनिक नंबर (मोबाइल):</b> ${escapeHtml(m.cardNo)}</div>
           ${m.father ? `<div><b>पिता/अभिभावक:</b> ${escapeHtml(m.father)}</div>` : ""}
           ${m.gender ? `<div><b>लिंग:</b> ${escapeHtml(m.gender)}</div>` : ""}
           <div><b>मोबाइल:</b> ${escapeHtml(safeText(m.mobile))}</div>
@@ -294,10 +294,18 @@ async function previewDigitalCard(index) {
       if (!card) return false;
       try {
         const canvas = await html2canvas(card, {scale:2, backgroundColor:null, useCORS:true, logging:false});
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.95));
+        if (!blob) throw new Error("JPG फाइल तैयार नहीं हो पाई।");
+        const fileName = `Bhuihar_Digital_ID_${String(m.cardNo).replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
+        const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/jpeg", 0.95);
-        link.download = `Bhuihar_Digital_ID_${String(m.cardNo).replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
+        link.href = url;
+        link.download = fileName;
+        link.style.display = "none";
+        document.body.appendChild(link);
         link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
         return true;
       } catch (err) {
         Swal.showValidationMessage("कार्ड डाउनलोड नहीं हो पाया: " + err.message);
@@ -377,7 +385,19 @@ async function generateAndSendHorizontalPdf() {
       if (pageIndex>0) pdf.addPage("a4","landscape");
       pdf.addImage(canvas.toDataURL("image/jpeg",0.94),"JPEG",(pageW-imgW)/2,(pageH-imgH)/2,imgW,imgH,undefined,"FAST");
     }
-    pdf.save("Bhuihar_Family_Directory_Landscape.pdf");
+    // Android/mobile browsers में pdf.save() कभी-कभी डाउनलोड दिखाकर फाइल सेव नहीं करता;
+    // इसलिए PDF Blob बनाकर स्पष्ट डाउनलोड लिंक से सेव करें।
+    const pdfBlob = pdf.output("blob");
+    if (!pdfBlob || pdfBlob.size < 1000) throw new Error("PDF फाइल खाली बनी है। कृपया दोबारा प्रयास करें।");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const pdfLink = document.createElement("a");
+    pdfLink.href = pdfUrl;
+    pdfLink.download = "Bhuihar_Family_Directory_Landscape.pdf";
+    pdfLink.style.display = "none";
+    document.body.appendChild(pdfLink);
+    pdfLink.click();
+    pdfLink.remove();
+    setTimeout(() => URL.revokeObjectURL(pdfUrl), 120000);
     Swal.close();
 
     const phone = loggedMobile.length===10 ? "91"+loggedMobile : loggedMobile;
@@ -385,7 +405,7 @@ async function generateAndSendHorizontalPdf() {
     const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${waText}`;
     const res = await Swal.fire({
       icon:"success",title:"PDF डाउनलोड हो गई!",
-      text:"A4 हॉरिजॉन्टल PDF सेव हो गई है। WhatsApp में इसे स्वयं अटैच करें।",
+      text:"डाउनलोड अनुरोध भेज दिया गया है। Chrome में ऊपर/नीचे Downloads देखें या Files > Downloads में Bhuihar_Family_Directory_Landscape.pdf खोजें। WhatsApp में PDF स्वयं अटैच करें।",
       showCancelButton:true,confirmButtonText:"WhatsApp खोलें",cancelButtonText:"बंद करें",confirmButtonColor:"#25D366"
     });
     if (res.isConfirmed) window.open(waUrl,"_blank");

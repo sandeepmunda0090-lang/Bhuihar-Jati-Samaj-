@@ -103,7 +103,7 @@ body{
     <!-- प्रोफेशनल फॉर्म विथ ऑटो एज कैलकुलेटर -->
     <div class="card" style="margin-top:16px;">
       <h4 style="margin:0 0 6px;color:var(--navy);font-size:13.5px;">➕ अपना वैवाहिक बायोडाटा भेजें</h4>
-      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी[span_4](start_span)[span_4](end_span)。</p>
+      <p style="font-size:11px;color:var(--muted);margin:0 0 10px;">एडमिन सत्यापन के बाद प्रोफाइल यहाँ लाइव दिखाई देगी[span_5](start_span)[span_5](end_span)。</p>
       
       <div class="form-group">
         <label>श्रेणी चुनें</label>
@@ -166,6 +166,9 @@ const firebaseConfig={apiKey:"AIzaSyDc8P_DPoUUknLW9t7WY81i8-R4Fng04pA",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
+// यूज़र का अपना गाँव (लोकल अप्रूवल के लिए)
+let currentUserVillage = localStorage.getItem("userVillage") || "महाराजगंज";
+
 function goBackHome() {
   if (window.history.length > 1) {
     window.history.back();
@@ -220,7 +223,7 @@ async function loadMatrimonialProfiles() {
 
     renderProfiles();
   } catch(e) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">प्रोफाइल लोड करने में त्रुटि हुई।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--red);font-size:12px;padding:20px;">प्रोफाइल लोड करने में त्रुटि हुई[span_6](start_span)[span_6](end_span)。</div>`;
   }
 }
 
@@ -229,7 +232,7 @@ function renderProfiles() {
   let filtered = allProfiles.filter(p => p.category === currentCategory);
 
   if(filtered.length === 0) {
-    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत प्रोफाइल उपलब्ध नहीं है।</div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">इस श्रेणी में अभी कोई स्वीकृत प्रोफाइल उपलब्ध नहीं है[span_7](start_span)[span_7](end_span)。</div>`;
     return;
   }
 
@@ -262,7 +265,7 @@ function renderProfiles() {
         <h3 class="profile-name">${p.name || 'प्रोफाइल'}</h3>
         <div class="profile-info">
           🎓 शिक्षा: ${p.education || 'निर्धारित नहीं'}<br>
-          🎂 आयु: ${p.age || 'निर्धारित नहीं'} • 📍 निवास: ${p.address || 'क्षेत्रीय'}<br>
+          🎂 आयु: ${p.age || 'निर्धारित नहीं'} • 📍 निवास: ${p.address || p.village || 'क्षेत्रीय'}<br>
           📝 विवरण: ${p.details || p.desc || 'सुयोग्य परिवार से।'}
         </div>
         ${contactSection}
@@ -331,7 +334,8 @@ async function submitMatrimonialRequest() {
       education: education,
       gotra: gotra,
       age: `${age} (जन्म: ${dob})`,
-      address: address || "क्षेत्रीय",
+      address: address || currentUserVillage,
+      village: currentUserVillage, // ⭐ सब-एडमिन अप्रूवल के लिए गाँव टैग किया गया
       mobile: mobile,
       category: category,
       details: details || "विशेष विवरण उपलब्ध नहीं।",
@@ -342,7 +346,7 @@ async function submitMatrimonialRequest() {
     Swal.fire({
       icon: 'success',
       title: 'सफलतापूर्वक भेजा गया!',
-      text: 'आपका वैवाहिक बायोडाटा सफलतापूर्वक एडमिन के पास भेज दिया गया है। एडमिन के सत्यापन के बाद यह पोर्टल पर लाइव हो जाएगा।',
+      text: `आपका वैवाहिक बायोडाटा ${currentUserVillage} के एडमिन के पास सत्यापन हेतु भेज दिया गया है[span_8](start_span)[span_8](end_span)।`,
       confirmButtonColor: '#16a34a'
     }).then(() => {
       document.getElementById("bioName").value = "";

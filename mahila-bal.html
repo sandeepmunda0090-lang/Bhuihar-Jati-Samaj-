@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,minimum-scale=1.0,user-scalable=yes">
+<meta name="theme-color" content="#0757a3">
+<title>महिला एवं बाल विकास | भुईहर समाज पोर्टल</title>
+<!-- SweetAlert2 पॉप-अप के लिए -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+:root{--p:#0757a3;--p2:#0d7bd3;--navy:#082b54;--gold:#f4b63f;--bg:#f4f7fb;--card:#ffffff;--text:#152238;--muted:#66758a;--line:#e2e8f0;--shadow:0 8px 24px rgba(20,42,72,0.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,"Noto Sans Devanagari",Arial,sans-serif;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+@keyframes pagePop {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#app{
+  max-width:500px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  position:relative;
+  overflow-x:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,0.1);
+  padding-bottom:25px;
+  animation: pagePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+.hero{background:linear-gradient(145deg,var(--navy),var(--p),var(--p2));color:#fff;padding:14px 16px 22px;border-radius:0 0 24px 24px;position:relative;}
+
+.back-btn-wrap{padding:4px 0 12px 0;}
+.custom-back-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.38);color:#fff;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.12);backdrop-filter:blur(4px)}
+
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.brand h1{margin:0;font-size:17px}.brand p{margin:2px 0 0;font-size:11px;opacity:.88}
+
+.container{padding:16px 12px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow);position:relative; border-left: 5px solid var(--p);}
+.card h3{margin:0 0 8px; font-size:15px; color:var(--navy); border-bottom:1px solid var(--line); padding-bottom:8px;}
+.card p{margin:0; font-size:12.5px; color:var(--muted); line-height:1.6;}
+
+.btn{border:0;border-radius:12px;padding:11px 14px;width:100%;font:700 13px inherit;cursor:pointer;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 12px rgba(7,87,163,.2);text-align:center;text-decoration:none;display:inline-block;margin-top:12px; transition: 0.2s;}
+.btn:active{transform:scale(0.98)}
+
+.btn-gold { background: linear-gradient(135deg, #e89f13, #f6c95b); color: #4b3200; box-shadow: 0 4px 12px rgba(232,159,19,0.2); }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="hero">
+    <div class="back-btn-wrap">
+      <a href="index.html" class="custom-back-btn"><span>←</span> मुख्य पृष्ठ (वापस जाएं)</a>
+    </div>
+    <div class="brand">
+      <div class="logo">👩‍👧‍👦</div>
+      <div><h1>महिला एवं बाल विकास</h1><p>मातृशक्ति और बाल कल्याण योजनाएं</p></div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <div class="card" style="background:#eff6ff; border-left-color:#3b82f6;">
+      <h3 style="color:#1e40af;">ℹ️ योजना निर्देशिका</h3>
+      <p style="color:#1e3a8a;">समाज की महिलाओं, बेटियों और बच्चों के उज्जवल भविष्य व कल्याण के लिए चलाए जा रहे विभिन्न कार्यक्रम और सरकारी योजनाओं की जानकारी यहाँ प्राप्त करें।</p>
+    </div>
+
+    <!-- Scheme 1 -->
+    <div class="card" style="border-left-color: #ec4899;">
+      <h3>📚 सुकन्या समृद्धि एवं शिक्षा योजना</h3>
+      <p><b>उद्देश्य:</b> समाज की बेटियों की उच्च शिक्षा और उनके सुरक्षित भविष्य के लिए मार्गदर्शन।<br>
+      <b>लाभ:</b> सरकारी योजनाओं (जैसे सुकन्या समृद्धि खाता, सरस्वती साइकिल योजना) में आवेदन करने की पूरी जानकारी एवं समाज द्वारा सहायता।</p>
+      <button class="btn" style="background: linear-gradient(135deg, #db2777, #f472b6);" onclick="contactAdmin('शिक्षा सहायता')">सहायता के लिए संपर्क करें</button>
+    </div>
+
+    <!-- Scheme 2 -->
+    <div class="card" style="border-left-color: #10b981;">
+      <h3>🏥 मातृ वंदना एवं स्वास्थ्य पोषण</h3>
+      <p><b>उद्देश्य:</b> गर्भवती महिलाओं और नवजात शिशुओं के स्वास्थ्य एवं पोषण का ध्यान रखना।<br>
+      <b>लाभ:</b> प्रधानमंत्री मातृ वंदना योजना (PMMVY) के तहत मिलने वाली आर्थिक सहायता और टीकाकरण की जानकारी।</p>
+      <button class="btn" style="background: linear-gradient(135deg, #059669, #34d399);" onclick="contactAdmin('स्वास्थ्य एवं पोषण')">सहायता के लिए संपर्क करें</button>
+    </div>
+
+    <!-- Scheme 3 -->
+    <div class="card" style="border-left-color: #8b5cf6;">
+      <h3>🧵 महिला स्वरोजगार एवं कौशल विकास</h3>
+      <p><b>उद्देश्य:</b> समाज की महिलाओं को आत्मनिर्भर बनाना और रोजगार के अवसर प्रदान करना।<br>
+      <b>लाभ:</b> सिलाई, कढ़ाई, ब्यूटी पार्लर, या कुटीर उद्योग लगाने हेतु स्वयं सहायता समूह (SHG) योजना और लोन मार्गदर्शन।</p>
+      <button class="btn" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);" onclick="contactAdmin('महिला स्वरोजगार')">सहायता के लिए संपर्क करें</button>
+    </div>
+
+    <!-- Scheme 4 -->
+    <div class="card" style="border-left-color: var(--gold);">
+      <h3>🤝 विधवा एवं निराश्रित महिला पेंशन</h3>
+      <p><b>उद्देश्य:</b> समाज की जरूरतमंद महिलाओं को आर्थिक संबल प्रदान करना।<br>
+      <b>लाभ:</b> सरकारी पेंशन योजनाओं के फॉर्म भरने और विभाग में जमा करने में समाज के पदाधिकारियों द्वारा मदद।</p>
+      <button class="btn btn-gold" onclick="contactAdmin('पेंशन सहायता')">सहायता के लिए संपर्क करें</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // संपर्क बटन क्लिक करने पर पॉप-अप
+  function contactAdmin(schemeName) {
+    Swal.fire({
+      icon: 'info',
+      title: schemeName,
+      text: 'इस योजना की अधिक जानकारी और फॉर्म भरने में मदद के लिए कृपया समाज के अध्यक्ष या सचिव से संपर्क करें।',
+      confirmButtonText: 'ठीक है',
+      confirmButtonColor: '#0757a3'
+    });
+  }
+</script>
+</body>
+</html>

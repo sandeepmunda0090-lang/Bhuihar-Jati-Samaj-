@@ -100,9 +100,9 @@ body{
     <!-- Horizontal PDF Download / Send Box -->
     <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #bfdbfe;">
       <h3 style="margin:0 0 4px; font-size:13px; color:#1e40af;">📄 सम्पूर्ण परिवार हॉरिजॉन्टल पीडीएफ</h3>
-      <p style="margin:0 0 10px; font-size:11px; color:#1e3a8a;">अपने परिवार की सूची A4 Landscape PDF में बनाएँ। पहले फाइल तैयार होगी, फिर डाउनलोड या WhatsApp पर फाइल शेयर चुनें।</p>
+      <p style="margin:0 0 10px; font-size:11px; color:#1e3a8a;">परिवार की पूरी सूची को पीडीएफ में डाउनलोड करके अपने व्हाट्सएप नंबर पर भेजें।</p>
       <button onclick="generateAndSendHorizontalPdf()" class="whatsapp-share-btn" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);">
-        <span>📥</span> पीडीएफ डाउनलोड करें और शेयर करें
+        <span>📥</span> PDF तुरंत डाउनलोड करें
       </button>
     </div>
 
@@ -172,7 +172,6 @@ function normalizeMember(data, options = {}) {
     village: m.village || "",
     gotra: m.gotra || m.gothra || "",
     blood: m.bloodGroup || "",
-    photoUrl: m.profilePhoto || m.profilePhotoURL || m.photoURL || m.photoUrl || m.photo || m.imageUrl || "",
     cardNo: String(m.mobileNumber || m.mobile || m.ownerMobile || options.ownerMobile || options.ownerId || "उपलब्ध नहीं"),
     ownerMobile: m.ownerMobile || options.ownerMobile || m.mobileNumber || "",
     isOwner: !!options.isOwner
@@ -181,116 +180,71 @@ function normalizeMember(data, options = {}) {
 
 async function loadFamilyDirectory() {
   const container = document.getElementById("familyListContainer");
-  container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">आपका परिवार लोड हो रहा है...</div>`;
+  container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">परिवार सूची लोड हो रही है...</div>`;
   try {
-    // इस पेज पर केवल लॉगिन किए हुए यूजर का अपना कार्ड और अपना परिवार दिखाएँ।
-    const rawLoginMobile = (localStorage.getItem("userLoggedInMobile") || localStorage.getItem("userMobile") || localStorage.getItem("loggedInMobile") || "").replace(/\D/g, "");
-    const loggedMobile = rawLoginMobile.length > 10 ? rawLoginMobile.slice(-10) : rawLoginMobile;
-    if (!loggedMobile) {
-      directoryMembers = [];
-      container.innerHTML = `<div class="card" style="text-align:center;padding:22px;">
-        <div style="font-size:34px;margin-bottom:8px;">🔐</div>
-        <h3 style="margin:0 0 6px;color:var(--navy);">लॉगिन आवश्यक है</h3>
-        <p style="font-size:12px;color:var(--muted);">अपना ID कार्ड और परिवार विवरण देखने के लिए पहले पोर्टल में लॉगिन करें।</p>
-        <button class="whatsapp-share-btn" onclick="location.href='index.html'">लॉगिन पेज पर जाएँ</button>
-      </div>`;
+    const usersSnapshot = await db.collection("users").where("status", "==", "approved").get();
+    if (usersSnapshot.empty) {
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई स्वीकृत सदस्य नहीं मिला।</div>`;
       return;
     }
 
-    let userDoc = null;
-    // आपके Firestore स्क्रीनशॉट में users डॉक्यूमेंट ID मोबाइल नंबर है।
-    const directDoc = await db.collection("users").doc(loggedMobile).get();
-    if (directDoc.exists) userDoc = directDoc;
-    // यदि किसी पुराने रिकॉर्ड में डॉक्यूमेंट ID मोबाइल नंबर नहीं है, तो फ़ील्ड से खोजें।
-    if (!userDoc) {
-      let snap = await db.collection("users").where("mobileNumber", "==", loggedMobile).limit(1).get();
-      if (snap.empty && rawLoginMobile && rawLoginMobile !== loggedMobile) snap = await db.collection("users").where("mobileNumber", "==", rawLoginMobile).limit(1).get();
-      if (snap.empty) snap = await db.collection("users").where("mobile", "==", loggedMobile).limit(1).get();
-      if (snap.empty && rawLoginMobile && rawLoginMobile !== loggedMobile) snap = await db.collection("users").where("mobile", "==", rawLoginMobile).limit(1).get();
-      if (!snap.empty) userDoc = snap.docs[0];
+    const allMembers = [];
+    for (const userDoc of usersSnapshot.docs) {
+      const user = userDoc.data() || {};
+      const ownerMobile = user.mobileNumber || user.mobile || userDoc.id;
+      const owner = normalizeMember(user, {isOwner:true, ownerId:userDoc.id, ownerMobile});
+      // मुखिया/पंजीकृत यूजर को भी डायरेक्टरी में दिखाएँ।
+      allMembers.push(owner);
+
+      // स्क्रीनशॉट के अनुसार families, users/{userId}/families के अंदर सब-कलेक्शन है।
+      try {
+        const familySnapshot = await db.collection("users").doc(userDoc.id).collection("families").get();
+        familySnapshot.forEach(familyDoc => {
+          const familyData = familyDoc.data() || {};
+          const member = normalizeMember(familyData, {
+            docId: familyData.familyId || familyDoc.id,
+            ownerId: userDoc.id,
+            ownerMobile
+          });
+          // अगर family record में नाम नहीं है तो खाली/गलत कार्ड न बनाएं।
+          if (familyData.memberName || familyData.fullName || familyData.FullName || familyData.name) {
+            allMembers.push(member);
+          }
+        });
+      } catch (subError) {
+        console.warn("परिवार सब-कलेक्शन पढ़ने में समस्या:", userDoc.id, subError);
+      }
     }
 
-    if (!userDoc) {
-      directoryMembers = [];
-      container.innerHTML = `<div class="card" style="text-align:center;padding:22px;">
-        <div style="font-size:34px;margin-bottom:8px;">🔎</div>
-        <h3 style="margin:0 0 6px;color:var(--navy);">आपका अकाउंट नहीं मिला</h3>
-        <p style="font-size:12px;color:var(--muted);">लॉगिन मोबाइल नंबर और Firebase users डॉक्यूमेंट ID जाँचें।</p>
-      </div>`;
+    directoryMembers = allMembers;
+    if (!directoryMembers.length) {
+      container.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">कोई परिवार सदस्य उपलब्ध नहीं है।</div>`;
       return;
     }
 
-    const user = userDoc.data() || {};
-    const statusValue = String(user.status || "").toLowerCase();
-    if (statusValue && statusValue !== "approved") {
-      directoryMembers = [];
-      container.innerHTML = `<div class="card" style="text-align:center;padding:22px;">
-        <div style="font-size:34px;margin-bottom:8px;">⏳</div>
-        <h3 style="margin:0 0 6px;color:var(--navy);">अकाउंट की स्वीकृति बाकी है</h3>
-        <p style="font-size:12px;color:var(--muted);">आपका स्टेटस: ${escapeHtml(statusValue)}। स्वीकृत होने के बाद ID कार्ड और परिवार विवरण यहाँ दिखेंगे।</p>
-      </div>`;
-      return;
-    }
-
-    const ownerMobile = user.mobileNumber || user.mobile || loggedMobile;
-    const owner = normalizeMember(user, {isOwner:true, ownerId:userDoc.id, ownerMobile});
-    owner.mobile = ownerMobile;
-    owner.cardNo = String(ownerMobile); // ID कार्ड नंबर = यूजर का मोबाइल नंबर
-    const ownMembers = [owner];
-
-    // Firestore स्क्रीनशॉट के अनुसार परिवार users/{userId}/families में सब-कलेक्शन है।
-    const familySnapshot = await db.collection("users").doc(userDoc.id).collection("families").get();
-    familySnapshot.forEach(familyDoc => {
-      const familyData = familyDoc.data() || {};
-      if (!(familyData.memberName || familyData.fullName || familyData.FullName || familyData.name)) return;
-      const member = normalizeMember(familyData, {docId:familyData.familyId || familyDoc.id, ownerId:userDoc.id, ownerMobile});
-      // अगर परिवार सदस्य का मोबाइल नहीं है, तो कार्ड नंबर के रूप में मुखिया का मोबाइल दिखाएँ।
-      member.cardNo = String(familyData.mobileNumber || familyData.mobile || ownerMobile);
-      ownMembers.push(member);
-    });
-
-    directoryMembers = ownMembers;
     container.innerHTML = `
-      <div class="card" style="background:linear-gradient(135deg,#082b54,#0757a3);color:white;border:0;padding:17px;">
-        <div style="font-size:11px;opacity:.85;">भुईहर जाति समाज • आपका परिवार डैशबोर्ड</div>
-        <h2 style="margin:5px 0 3px;font-size:20px;">नमस्ते, ${escapeHtml(owner.name)}</h2>
-        <div style="font-size:12px;opacity:.9;">मोबाइल नंबर ही आपका ID कार्ड नंबर है</div>
-        <div style="display:flex;gap:8px;margin-top:14px;">
-          <div style="flex:1;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px;">
-            <div style="font-size:10px;opacity:.8;">परिवार सदस्य</div><div style="font-size:22px;font-weight:800;">${ownMembers.length}</div>
-          </div>
-          <div style="flex:1;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px;">
-            <div style="font-size:10px;opacity:.8;">आपका ID नंबर</div><div style="font-size:14px;font-weight:800;overflow-wrap:anywhere;">${escapeHtml(ownerMobile)}</div>
-          </div>
-        </div>
-      </div>
       <div class="card" style="padding:12px 14px;">
-        <h3 style="margin:0;color:var(--navy);font-size:14px;">🪪 आपका ID कार्ड और परिवार</h3>
-        <p style="margin:4px 0 0;color:var(--muted);font-size:11px;">ID कार्ड देखने, PNG डाउनलोड करने या फाइल शेयर करने के लिए संबंधित बटन दबाएँ। PDF में केवल आपका परिवार रहेगा।</p>
+        <h3 style="margin:0;color:var(--navy);font-size:14px;">👨‍👩‍👧‍👦 सदस्य सूची</h3>
+        <p style="margin:4px 0 0;color:var(--muted);font-size:11px;">कुल दिखाई दे रहे सदस्य: <b>${directoryMembers.length}</b></p>
       </div>
-      ${ownMembers.map((m, i) => `
+      ${directoryMembers.map((m, i) => `
         <div class="member-card">
-          <div class="member-badge">${escapeHtml(safeText(m.relation, i === 0 ? "मुखिया" : "सदस्य"))}</div>
+          <div class="member-badge">${escapeHtml(safeText(m.relation, "सदस्य"))}</div>
           <h3 class="member-name">${escapeHtml(m.name)}</h3>
           <div class="member-info">
             ${m.father ? `👤 पिता/अभिभावक: ${escapeHtml(m.father)}<br>` : ""}
             🎂 उम्र: ${escapeHtml(m.age)} वर्ष ${m.dob ? `• जन्मतिथि: ${escapeHtml(m.dob)}` : ""}<br>
-            📍 जिला/पंचायत/ग्राम: ${escapeHtml([m.district,m.panchayat,m.village].filter(Boolean).join(" / ") || "उपलब्ध नहीं")}<br>
+            📍 जिला: ${escapeHtml(safeText(m.district))}<br>🏢 पंचायत: ${escapeHtml(safeText(m.panchayat))}<br>🏡 ग्राम: ${escapeHtml(safeText(m.village))}<br>
             💼 व्यवसाय: ${escapeHtml(safeText(m.occupation))}<br>
             📞 मोबाइल: ${escapeHtml(safeText(m.mobile))}${m.gotra ? `<br>🌿 गोत्र: ${escapeHtml(m.gotra)}` : ""}${m.blood ? ` • 🩸 रक्त समूह: ${escapeHtml(m.blood)}` : ""}
           </div>
-          <button class="whatsapp-share-btn" onclick="previewDigitalCard(${i})"><span>🪪</span> ID कार्ड देखें / PNG डाउनलोड करें</button>
+          <button class="whatsapp-share-btn" onclick="previewDigitalCard(${i})"><span>🪪</span> ID कार्ड देखें / डाउनलोड करें</button>
         </div>
       `).join("")}
-      <div class="card" style="background:#f0fdf4;border-color:#bbf7d0;">
-        <h3 style="margin:0 0 5px;color:#166534;font-size:14px;">📄 आपकी परिवार PDF</h3>
-        <p style="margin:0;font-size:12px;color:#166534;">PDF में केवल आपके परिवार के सदस्य आएँगे। A4 Landscape टेबल फॉर्मेट में डाउनलोड या WhatsApp पर फाइल शेयर करें।</p>
-      </div>
     `;
   } catch (e) {
     console.error(e);
-    directoryMembers = [];
-    container.innerHTML = `<div class="card" style="text-align:center;color:#b91c1c;font-size:12px;padding:20px;">आपका परिवार लोड नहीं हो पाया। Firebase Rules और लॉगिन मोबाइल की जाँच करें।<br><small>${escapeHtml(e.message || "")}</small></div>`;
+    container.innerHTML = `<div class="card" style="text-align:center;color:#b91c1c;font-size:12px;padding:20px;">डेटा लोड करने में त्रुटि हुई। Firebase Rules और users में status = approved जाँचें।<br><small>${escapeHtml(e.message || "")}</small></div>`;
   }
 }
 
@@ -302,7 +256,7 @@ function buildCardHtml(m) {
         <div><div style="font-size:23px;font-weight:800;line-height:1.4;">भुईहर जाति समाज</div><div style="font-size:12px;color:#f4b63f;font-weight:bold;">डिजिटल परिवार पहचान पत्र</div></div>
       </div>
       <div style="display:flex;gap:16px;align-items:flex-start;">
-        <div style="width:94px;height:112px;flex-shrink:0;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:42px;">${m.photoUrl ? `<img src="${escapeHtml(m.photoUrl)}" alt="सदस्य फोटो" crossorigin="anonymous" style="width:100%;height:100%;object-fit:cover;" onerror="this.remove();this.parentNode.textContent='👤';">` : "👤"}</div>
+        <div style="width:94px;height:112px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:45px;">👤</div>
         <div style="font-size:13px;line-height:1.85;overflow-wrap:anywhere;">
           <div style="font-size:19px;font-weight:800;margin-bottom:4px;">${escapeHtml(m.name)}</div>
           <div><b>यूनिक नंबर (मोबाइल):</b> ${escapeHtml(m.cardNo)}</div>
@@ -310,7 +264,9 @@ function buildCardHtml(m) {
           ${m.gender ? `<div><b>लिंग:</b> ${escapeHtml(m.gender)}</div>` : ""}
           <div><b>मोबाइल:</b> ${escapeHtml(safeText(m.mobile))}</div>
           <div><b>उम्र:</b> ${escapeHtml(m.age)} वर्ष</div>
-          <div><b>निवास:</b> ${escapeHtml([m.village,m.panchayat,m.district].filter(Boolean).join(", ") || "उपलब्ध नहीं")}</div>
+          <div><b>जिला:</b> ${escapeHtml(safeText(m.district))}</div>
+          <div><b>पंचायत:</b> ${escapeHtml(safeText(m.panchayat))}</div>
+          <div><b>ग्राम:</b> ${escapeHtml(safeText(m.village))}</div>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.22);font-size:10px;color:#eaf2ff;">
@@ -322,131 +278,73 @@ function buildCardHtml(m) {
 async function previewDigitalCard(index) {
   const m = directoryMembers[index];
   if (!m) return;
-
-  const preview = await Swal.fire({
+  const result = await Swal.fire({
     title: "डिजिटल ID कार्ड Preview",
     html: `<div id="cardPreviewHost" style="width:100%;overflow-x:auto;padding:2px;">${buildCardHtml(m)}</div>
-      <p style="font-size:12px;color:#64748b;margin:12px 0 0;">कार्ड सही हो तो आगे बढ़ें। अगले चरण में JPG शेयर या डाउनलोड चुनें।</p>`,
+      <p style="font-size:11px;color:#64748b;margin:12px 0 0;">डाउनलोड या शेयर करने से पहले कार्ड की जानकारी जाँच लें।</p>`,
     width: 680,
     showCancelButton: true,
-    confirmButtonText: "JPG तैयार करें",
+    showDenyButton: true,
+    confirmButtonText: "📤 JPG WhatsApp/Share करें",
+    denyButtonText: "⬇️ JPG डाउनलोड करें",
     cancelButtonText: "बंद करें",
-    confirmButtonColor: "#0757a3"
+    confirmButtonColor: "#25D366",
+    denyButtonColor: "#0757a3",
+    preConfirm: async () => {
+      try {
+        const card = document.querySelector("#cardPreviewHost .digital-id-card");
+        if (!card) throw new Error("कार्ड Preview नहीं मिला।");
+        const canvas = await html2canvas(card, {scale:1.35, backgroundColor:"#ffffff", useCORS:true, logging:false, removeContainer:true});
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.95));
+        if (!blob) throw new Error("JPG फाइल तैयार नहीं हो पाई।");
+        const safeNo = String(m.cardNo || m.mobile || "member").replace(/[^a-zA-Z0-9_-]/g,"_");
+        return { blob, fileName: `Bhuihar_Digital_ID_${safeNo}.jpg` };
+      } catch (err) {
+        Swal.showValidationMessage("कार्ड नहीं बन पाया: " + (err.message || err));
+        return false;
+      }
+    }
   });
-  if (!preview.isConfirmed) return;
 
-  let holder;
-  try {
-    Swal.fire({title:"ID कार्ड JPG तैयार हो रहा है...",text:"कृपया इस स्क्रीन को खुला रखें।",allowOutsideClick:false,didOpen:()=>Swal.showLoading()});
-    holder = document.createElement("div");
-    holder.style.cssText = "position:fixed;left:-20000px;top:0;width:600px;background:#fff;";
-    holder.innerHTML = buildCardHtml(m);
-    document.body.appendChild(holder);
-    const canvas = await html2canvas(holder.querySelector(".digital-id-card"), {scale:2,backgroundColor:null,useCORS:true,logging:false});
-    const blob = await new Promise((resolve,reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error("JPG फाइल तैयार नहीं हो पाई।")), "image/png"));
-    document.body.removeChild(holder); holder = null;
-    const safeNo = String(m.cardNo || m.mobile || "member").replace(/[^a-zA-Z0-9_-]/g,"_");
-    const fileName = `Bhuihar_Digital_ID_${safeNo}.png`;
-    Swal.close();
-    await showFileActions(blob, fileName, "image/png", "भुईहर जाति समाज डिजिटल ID कार्ड", "भुईहर जाति समाज का डिजिटल पहचान पत्र");
-  } catch (err) {
-    if (holder && holder.parentNode) holder.parentNode.removeChild(holder);
-    console.error(err);
-    Swal.fire({icon:"error",title:"JPG/PNG नहीं बन पाया",text:err.message || "कृपया दोबारा प्रयास करें।"});
+  // Confirm = actual JPG share sheet; Deny = download only.
+  if (!result.isConfirmed && !result.isDenied) return;
+  let blob, fileName;
+  if (result.value && result.value.blob) {
+    blob = result.value.blob;
+    fileName = result.value.fileName;
+  } else if (result.isDenied) {
+    // Deny path also creates the card JPG (SweetAlert's preConfirm runs for confirm only,
+    // so generate it here for the download-only option).
+    try {
+      const holder = document.createElement("div");
+      holder.style.cssText = "position:fixed;left:-20000px;top:0;width:600px;";
+      holder.innerHTML = buildCardHtml(m);
+      document.body.appendChild(holder);
+      const canvas = await html2canvas(holder.querySelector(".digital-id-card"), {scale:1.35,backgroundColor:"#ffffff",useCORS:true,logging:false,removeContainer:true});
+      document.body.removeChild(holder);
+      blob = await new Promise(resolve => canvas.toBlob(resolve,"image/jpeg",0.95));
+      fileName = `Bhuihar_Digital_ID_${String(m.cardNo || m.mobile || "member").replace(/[^a-zA-Z0-9_-]/g,"_")}.jpg`;
+    } catch (e) {
+      Swal.fire({icon:"error",title:"JPG नहीं बन पाया",text:e.message || "कृपया फिर प्रयास करें।"}); return;
+    }
+  }
+  if (!blob) return;
+  const file = new File([blob], fileName, {type:"image/jpeg"});
+  if (result.isConfirmed) {
+    const shared = await shareActualFile(file, "भुईहर जाति समाज डिजिटल ID कार्ड", "भुईहर जाति समाज का डिजिटल पहचान पत्र");
+    if (shared === "shared") {
+      Swal.fire({icon:"success",title:"शेयर मेन्यू खुल गया",text:"अब WhatsApp चुनें और JPG इमेज भेज दें।"});
+    } else if (shared === "unsupported") {
+      downloadBlob(blob, fileName);
+      Swal.fire({icon:"info",title:"JPG डाउनलोड हो गई",text:"इस ब्राउज़र में सीधे फाइल शेयर उपलब्ध नहीं है। WhatsApp खोलें, 📎 अटैचमेंट → Gallery/Document से डाउनलोड की गई JPG चुनें।"});
+    }
+  } else {
+    downloadBlob(blob, fileName);
+    Swal.fire({icon:"success",title:"JPG डाउनलोड शुरू",text:"फाइल Files/Downloads में देखें। WhatsApp में भेजने के लिए 📎 अटैचमेंट से JPG चुनें।"});
   }
 }
 
-/*
- * महत्वपूर्ण: share/download को फाइल बनने के बाद अलग, स्पष्ट बटन पर रखा गया है।
- * Android Chrome में navigator.share({files}) को सीधे user tap से कॉल करना जरूरी है।
- * इससे केवल टेक्स्ट वाला WhatsApp संदेश खुलने की संभावना कम होती है।
- */
-async function showFileActions(blob, fileName, mimeType, title, shareText) {
-  const isPdf = mimeType === "application/pdf";
-  const file = new File([blob], fileName, {type:mimeType, lastModified:Date.now()});
-  const canShareFile = !!(navigator.share && navigator.canShare && navigator.canShare({files:[file]}));
-
-  await Swal.fire({
-    title: isPdf ? "परिवार PDF तैयार है" : "ID कार्ड इमेज तैयार है",
-    html: `<div style="text-align:left;font-size:14px;line-height:1.6;">
-      <p style="margin-top:0;">फाइल तैयार है: <b>${escapeHtml(fileName)}</b></p>
-      <p style="color:#475569;">${canShareFile
-        ? "WhatsApp पर फाइल भेजने के लिए “फाइल शेयर करें” दबाएँ, फिर WhatsApp चुनें।"
-        : "इस ब्राउज़र में फाइल शेयर की सुविधा उपलब्ध नहीं दिख रही। “फाइल डाउनलोड करें” दबाकर सेव करें, फिर WhatsApp में 📎 से अटैच करें।"}</p>
-      <div style="display:grid;gap:10px;margin-top:16px;">
-        ${canShareFile ? `<button id="shareActualFileBtn" type="button" style="border:0;border-radius:10px;background:#128C7E;color:#fff;padding:13px;font-weight:700;font-size:15px;">📤 फाइल शेयर करें (WhatsApp)</button>` : ""}
-        <button id="downloadActualFileBtn" type="button" style="border:0;border-radius:10px;background:#0757a3;color:#fff;padding:13px;font-weight:700;font-size:15px;">⬇️ फाइल डाउनलोड करें</button>
-      </div>
-      <p id="fileActionStatus" style="font-size:12px;color:#64748b;margin-bottom:0;"></p>
-    </div>`,
-    showConfirmButton:false,
-    showCloseButton:true,
-    allowOutsideClick:true,
-    didOpen: () => {
-      const shareBtn = document.getElementById("shareActualFileBtn");
-      const downloadBtn = document.getElementById("downloadActualFileBtn");
-      const status = document.getElementById("fileActionStatus");
-
-      if (shareBtn) shareBtn.addEventListener("click", async () => {
-        // navigator.share() को tap handler के अंदर तुरंत call करें।
-        try {
-          if (!navigator.share || !navigator.canShare || !navigator.canShare({files:[file]})) {
-            status.textContent = "फाइल शेयर समर्थित नहीं है। कृपया डाउनलोड करके WhatsApp में Document/Photo से अटैच करें।";
-            return;
-          }
-          const sharePromise = navigator.share({files:[file], title, text:shareText});
-          status.textContent = "शेयर मेन्यू खुल रहा है…";
-          await sharePromise;
-          status.textContent = "शेयर मेन्यू बंद हुआ। WhatsApp में भेजने से पहले जाँचें कि फाइल अटैच है।";
-        } catch (err) {
-          if (err && err.name === "AbortError") {
-            status.textContent = "शेयर रद्द किया गया। चाहें तो डाउनलोड बटन दबाएँ।";
-          } else {
-            console.error("Native file share failed:", err);
-            status.textContent = "शेयर नहीं हो पाया। फाइल डाउनलोड करें और WhatsApp में 📎 से अटैच करें।";
-          }
-        }
-      });
-
-      downloadBtn.addEventListener("click", () => {
-        let url = null;
-        try {
-          // Android Chrome: वास्तविक user tap से Blob URL का download शुरू करें।
-          url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = fileName;
-          a.rel = "noopener";
-          a.style.position = "fixed";
-          a.style.left = "-9999px";
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          status.innerHTML = `डाउनलोड अनुरोध भेज दिया गया। यदि Chrome में फाइल न दिखे, तो <b>फाइल शेयर करें</b> दबाएँ या नीचे वाले लिंक से फाइल खोलें।`;
-          // जल्दी revoke करने से Android में डाउनलोड अधूरा रह सकता है, इसलिए URL को 30 मिनट रखें।
-          setTimeout(() => { try { URL.revokeObjectURL(url); } catch (_) {} }, 30 * 60 * 1000);
-          let fallback = document.getElementById("openFileFallback");
-          if (!fallback) {
-            fallback = document.createElement("a");
-            fallback.id = "openFileFallback";
-            fallback.href = url;
-            fallback.target = "_blank";
-            fallback.rel = "noopener";
-            fallback.textContent = isPdf ? "PDF अभी खोलें / सेव करें" : "PNG इमेज अभी खोलें / सेव करें";
-            fallback.style.cssText = "display:block;margin-top:10px;text-align:center;color:#0757a3;font-weight:700;text-decoration:underline;";
-            status.parentNode.insertBefore(fallback, status.nextSibling);
-          }
-        } catch (err) {
-          console.error("Download failed:", err);
-          status.textContent = "डाउनलोड शुरू नहीं हो पाया। फाइल शेयर बटन दबाएँ या पेज को सीधे Chrome में खोलें।";
-        }
-      });
-    }
-  });
-}
-
 function downloadBlob(blob, fileName) {
-  // Legacy helper; prefer showFileActions() so the final click is a direct user gesture.
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -455,7 +353,23 @@ function downloadBlob(blob, fileName) {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10 * 60 * 1000);
+  setTimeout(() => URL.revokeObjectURL(url), 120000);
+}
+
+// Android Chrome में समर्थित होने पर असली JPG/PDF फाइल Share Sheet को दी जाती है,
+// केवल टेक्स्ट वाला WhatsApp लिंक नहीं खोला जाता।
+async function shareActualFile(file, title, text) {
+  try {
+    if (navigator.share && navigator.canShare && navigator.canShare({files:[file]})) {
+      await navigator.share({files:[file], title, text});
+      return "shared";
+    }
+    return "unsupported";
+  } catch (err) {
+    if (err && err.name === "AbortError") return "cancelled";
+    console.warn("File sharing failed:", err);
+    return "unsupported";
+  }
 }
 
 // A4 Landscape PDF: HTML/Canvas rendering से हिंदी टेक्स्ट को सही रूप में रखें।
@@ -476,7 +390,7 @@ async function generateAndSendHorizontalPdf() {
   try {
     const {jsPDF} = window.jspdf;
     const pdf = new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
-    const rowsPerPage = 13;
+    const rowsPerPage = 20;
     const pages = Math.ceil(directoryMembers.length / rowsPerPage);
 
     for (let pageIndex=0; pageIndex<pages; pageIndex++) {
@@ -494,10 +408,10 @@ async function generateAndSendHorizontalPdf() {
         </div>
         <table style="border-collapse:collapse;width:100%;font-size:12px;table-layout:fixed;">
           <thead><tr style="background:#dbeafe;color:#082b54;">
-            ${["क्र.","सदस्य का नाम","पिता/अभिभावक","रिश्ता","उम्र","जन्मतिथि","मोबाइल","व्यवसाय","जिला","पंचायत / ग्राम"].map((h,i)=>`<th style="border:1px solid #94a3b8;padding:8px 5px;text-align:center;width:${[4,15,14,8,5,10,11,10,9,14][i]}%;">${h}</th>`).join("")}
+            ${["क्र.","सदस्य का नाम","पिता/अभिभावक","रिश्ता","उम्र","जन्मतिथि","मोबाइल","व्यवसाय","जिला","पंचायत","ग्राम"].map((h,i)=>`<th style="border:1px solid #94a3b8;padding:6px 4px;text-align:center;width:${[4,14,12,7,4,9,10,9,9,10,12][i]}%;">${h}</th>`).join("")}
           </tr></thead>
           <tbody>${pageMembers.map((m,i)=>`<tr style="background:${i%2?"#f8fafc":"#fff"};">
-            ${[String(pageIndex*rowsPerPage+i+1),m.name,m.father||"—",m.relation||"—",m.age,m.dob||"—",m.mobile||"—",m.occupation||"—",m.district||"—",[m.panchayat,m.village].filter(Boolean).join(" / ")||"—"].map(v=>`<td style="border:1px solid #cbd5e1;padding:8px 5px;vertical-align:middle;overflow-wrap:anywhere;text-align:center;">${escapeHtml(v)}</td>`).join("")}
+            ${[String(pageIndex*rowsPerPage+i+1),m.name,m.father||"—",m.relation||"—",m.age,m.dob||"—",m.mobile||"—",m.occupation||"—",m.district||"—",m.panchayat||"—",m.village||"—"].map(v=>`<td style="border:1px solid #cbd5e1;padding:5px 3px;vertical-align:middle;overflow-wrap:anywhere;text-align:center;">${escapeHtml(v)}</td>`).join("")}
           </tr>`).join("")}</tbody>
         </table>
         <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:28px;font-size:12px;">
@@ -505,7 +419,7 @@ async function generateAndSendHorizontalPdf() {
           <span style="min-width:180px;text-align:center;border-top:1px solid #334155;padding-top:7px;">मुखिया हस्ताक्षर</span>
         </div>`;
       document.body.appendChild(staging);
-      const canvas = await html2canvas(staging,{scale:1.5,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      const canvas = await html2canvas(staging,{scale:1.0,backgroundColor:"#ffffff",useCORS:true,logging:false,removeContainer:true});
       document.body.removeChild(staging); staging=null;
 
       // प्रत्येक रिपोर्ट पेज को A4 Landscape की सीमा में फिट करें।
@@ -519,16 +433,25 @@ async function generateAndSendHorizontalPdf() {
     const pdfBlob = pdf.output("blob");
     if (!pdfBlob || pdfBlob.size < 1000) throw new Error("PDF फाइल खाली बनी है। कृपया दोबारा प्रयास करें।");
     const fileName = "Bhuihar_Family_Directory_Landscape.pdf";
+    const pdfFile = new File([pdfBlob], fileName, {type:"application/pdf"});
     Swal.close();
-
-    // फाइल तैयार करने के बाद नया बटन-टैप लें; उसी टैप से native share/download शुरू होगा।
-    await showFileActions(
-      pdfBlob,
-      fileName,
-      "application/pdf",
-      "भुईहर जाति समाज परिवार पंजीका",
-      "भुईहर जाति समाज की परिवार पंजीका PDF"
-    );
+    // डाउनलोड पहले शुरू करें ताकि शेयर शीट के इंतजार में फाइल रुके नहीं।
+    downloadBlob(pdfBlob, fileName);
+    const action = await Swal.fire({
+      icon:"success",
+      title:"PDF तैयार है — डाउनलोड शुरू",
+      html:"PDF डाउनलोड तुरंत शुरू कर दी गई है। मोबाइल में Chrome के Downloads या Files → Downloads में देखें।<br><br>क्या अब PDF WhatsApp पर भी शेयर करनी है?",
+      showCancelButton:true,
+      confirmButtonText:"📤 अभी शेयर करें",
+      cancelButtonText:"अभी नहीं",
+      confirmButtonColor:"#25D366"
+    });
+    if (action.isConfirmed) {
+      const shared = await shareActualFile(pdfFile, "भुईहर जाति समाज परिवार पंजीका", "भुईहर जाति समाज की परिवार पंजीका PDF");
+      if (shared === "unsupported") {
+        await Swal.fire({icon:"info",title:"PDF डाउनलोड हो रही है",text:"WhatsApp खोलें → 📎 → Document → Downloads से PDF चुनें।"});
+      }
+    }
   } catch (err) {
     if (staging && staging.parentNode) staging.parentNode.removeChild(staging);
     console.error(err);

@@ -151,7 +151,7 @@
     </div>
 
     <!-- संयुक्त गाँव / सब-एडमिन समूह प्रबंधन -->
-    <button class="accordion-header master-only">🔗 2.1 संयुक्त गाँव और सब-एडमिन समूह <span>▼</span></button>
+    <button class="accordion-header master-only">🔗 3. संयुक्त गाँव और सब-एडमिन समूह <span>▼</span></button>
     <div class="accordion-content master-only">
       <div class="card" style="border-left-color:#0f766e;">
         <p style="font-size:12px;color:var(--muted);">कम सदस्य संख्या होने पर कई गाँवों को एक सब-एडमिन के अंतर्गत जोड़ें। बाद में गाँव अलग करते समय हर गाँव के लिए अलग सब-एडमिन नियुक्त करें। सदस्यों का मूल गाँव रिकॉर्ड नहीं बदलेगा।</p>
@@ -502,14 +502,14 @@
       const span = el.querySelector("span");
       const textNode = el.childNodes.length ? el.childNodes[0] : null;
       const raw = el.dataset.originalServiceLabel || (textNode && textNode.nodeType === Node.TEXT_NODE ? textNode.textContent : el.textContent);
-      if (!raw || !/^\s*(?:[📍👤🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?\d+\.\s*/u.test(raw)) return;
+      if (!raw || !/^\s*(?:[📍👤🔗🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?\d+\.\s*/u.test(raw)) return;
       if (!el.dataset.originalServiceLabel) el.dataset.originalServiceLabel = raw;
       items.push({el, raw: el.dataset.originalServiceLabel, textNode, span});
     });
     let n = 0;
     items.forEach(item => {
       n++;
-      const updated = item.raw.replace(/^(\s*(?:[📍👤🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?)\d+\.\s*/u, `$1${n}. `);
+      const updated = item.raw.replace(/^(\s*(?:[📍👤🔗🔍📊⏳💼👔📢🏆💰🕯️🩸🏪💍🚗🖼️📊]+\s*)?)\d+\.\s*/u, `$1${n}. `);
       if (item.textNode && item.textNode.nodeType === Node.TEXT_NODE) item.textNode.textContent = updated;
       else item.el.textContent = updated;
       if (item.span && !item.el.contains(item.span)) item.el.appendChild(item.span);
@@ -614,16 +614,20 @@
       }
       locationDistrictChanged();
       const select = document.getElementById("viewFilterSelect");
+      const districtFilter = document.getElementById("viewDistrictSelect");
+      const panchayatFilter = document.getElementById("viewPanchayatSelect");
       const assignSelect = document.getElementById("assignAdminVillage");
-      let html = '<option value="ALL">सभी जिले एवं गाँव (संपूर्ण समाज)</option>';
+      const districts = [...new Set(locationCache.map(x => x.district).filter(Boolean))].sort();
+      if (districtFilter) districtFilter.innerHTML = '<option value="ALL">सभी जिले (संपूर्ण समाज)</option>' + districts.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+      if (panchayatFilter) panchayatFilter.innerHTML = '<option value="ALL">सभी पंचायत</option>';
+      if (select) select.innerHTML = '<option value="ALL">सभी गाँव</option>';
       let assignHtml = '<option value="">-- गाँव चुनें --</option>';
       locationCache.forEach(d => {
         const label = `${d.village || 'गाँव'} (पं: ${d.panchayat || '-'}, जि: ${d.district || '-'})`;
-        html += `<option value="${escapeHtml(d.village || '')}">${escapeHtml(label)}</option>`;
         assignHtml += `<option value="${escapeHtml(d.village || '')}">${escapeHtml(label)}</option>`;
       });
-      if (select) select.innerHTML = html;
       if (assignSelect) assignSelect.innerHTML = assignHtml;
+      masterDistrictChanged(false);
       const jointSelect = document.getElementById("jointVillagesSelect");
       if (jointSelect) jointSelect.innerHTML = locationCache.map(d => `<option value="${escapeHtml(d.village || '')}">${escapeHtml(`${d.village || 'गाँव'} (पं: ${d.panchayat || '-'}, जि: ${d.district || '-'})`)}</option>`).join("");
       await loadVillageAdminGroups();
@@ -776,8 +780,37 @@
     });
   }
 
+  function masterDistrictChanged(reload = true) {
+    const district = document.getElementById("viewDistrictSelect")?.value || "ALL";
+    const pSelect = document.getElementById("viewPanchayatSelect");
+    const vSelect = document.getElementById("viewFilterSelect");
+    const panchayats = [...new Set(locationCache.filter(x => district === "ALL" || x.district === district).map(x => x.panchayat).filter(Boolean))].sort();
+    if (pSelect) pSelect.innerHTML = '<option value="ALL">सभी पंचायत</option>' + panchayats.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+    masterPanchayatChanged(false);
+    if (reload) loadAllAdminData();
+  }
+  function masterPanchayatChanged(reload = true) {
+    const district = document.getElementById("viewDistrictSelect")?.value || "ALL";
+    const panchayat = document.getElementById("viewPanchayatSelect")?.value || "ALL";
+    const vSelect = document.getElementById("viewFilterSelect");
+    const villages = locationCache.filter(x => (district === "ALL" || x.district === district) && (panchayat === "ALL" || x.panchayat === panchayat));
+    if (vSelect) vSelect.innerHTML = '<option value="ALL">सभी गाँव</option>' + villages.map(x => `<option value="${escapeHtml(x.village || '')}">${escapeHtml(x.village || 'गाँव')}</option>`).join('');
+    if (reload) loadAllAdminData();
+  }
+  function matchesMasterLocation(data) {
+    if (currentUserRole !== "master_admin") return true;
+    const district = document.getElementById("viewDistrictSelect")?.value || "ALL";
+    const panchayat = document.getElementById("viewPanchayatSelect")?.value || "ALL";
+    const village = document.getElementById("viewFilterSelect")?.value || "ALL";
+    const v = data.village || data.Village || "";
+    if (village !== "ALL") return v === village;
+    if (district === "ALL" && panchayat === "ALL") return true;
+    const loc = locationCache.find(x => x.village === v);
+    if (!loc) return false;
+    return (district === "ALL" || loc.district === district) && (panchayat === "ALL" || loc.panchayat === panchayat);
+  }
   function getCurrentTargetVillage() {
-    return (currentUserRole === "master_admin") ? document.getElementById("viewFilterSelect").value : (currentUserVillage || (currentUserVillages[0] || ""));
+    return (currentUserRole === "master_admin") ? (document.getElementById("viewFilterSelect")?.value || "ALL") : (currentUserVillage || (currentUserVillages[0] || ""));
   }
   function canAccessVillage(village) {
     return currentUserRole === "master_admin" || currentUserVillages.includes(village) || village === currentUserVillage;
@@ -799,6 +832,7 @@
     snapUsers.forEach(doc => {
       let u = doc.data();
       if (currentUserRole !== "master_admin" && !canAccessVillage(u.village || "")) return;
+      if (currentUserRole === "master_admin" && !matchesMasterLocation(u)) return;
       count++;
       htmlUsers += `<tr><td><b>${u.FullName || u.fullName || 'अज्ञात'}</b><br><span style="color:var(--muted); font-size:10px;">${u.village || '-'}</span></td><td>📞 ${u.mobileNumber || u.mobile || '-'}</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${doc.id}')">Approve</button></td></tr>`;
     });
@@ -833,7 +867,7 @@
     snap.forEach(doc => {
       const data = doc.data();
       if (isLocal && currentUserRole !== "master_admin" && !canAccessVillage(data.village || "")) return;
-      if (isLocal && currentUserRole === "master_admin" && targetVillage === "ALL" && !data.village) { /* global/local legacy record: show only in ALL view */ }
+      if (isLocal && currentUserRole === "master_admin" && !matchesMasterLocation(data)) return;
       html += rowTemplate(data, doc.id);
     });
     document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई डेटा नहीं</td></tr>`;
@@ -848,6 +882,7 @@
       snap.forEach(doc => {
         let d = doc.data();
         if (currentUserRole !== "master_admin" && !canAccessVillage(d.village || "")) return;
+        if (currentUserRole === "master_admin" && !matchesMasterLocation(d)) return;
         html +=  `<tr><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
       });
       document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई पेंडिंग ${labelName} नहीं है</td></tr>`;
@@ -1042,7 +1077,7 @@
     Swal.fire({ title: 'रिपोर्ट बन रही है...', html: 'कृपया प्रतीक्षा करें...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
     try {
       let snap = await db.collection("users").get();
-      let allFamilies = []; snap.forEach(doc => { allFamilies.push(doc.data()); });
+      let allFamilies = []; snap.forEach(doc => { const d = doc.data(); if (matchesMasterLocation(d)) allFamilies.push(d); });
       if(allFamilies.length === 0) { Swal.fire({icon: 'info', title: 'डेटा नहीं मिला'}); return; }
       
       let tableRows = "";

@@ -345,15 +345,26 @@ async function previewDigitalCard(index) {
 }
 
 function downloadBlob(blob, fileName) {
+  // Android browsers/WebViews can need the anchor to remain in the DOM briefly.
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = fileName;
-  link.style.display = "none";
+  link.setAttribute("download", fileName);
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.style.cssText = "position:fixed;left:-9999px;top:0;opacity:0;";
   document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 120000);
+  try {
+    link.click();
+  } catch (err) {
+    console.warn("Direct download click failed; opening file URL as fallback", err);
+    window.open(url, "_blank", "noopener");
+  }
+  // Keep the Blob URL alive longer for slower Android download managers.
+  setTimeout(() => { try { link.remove(); } catch (_) {} }, 60000);
+  setTimeout(() => { try { URL.revokeObjectURL(url); } catch (_) {} }, 10 * 60 * 1000);
+  return url;
 }
 
 // Android Chrome में समर्थित होने पर असली JPG/PDF फाइल Share Sheet को दी जाती है,
@@ -435,21 +446,29 @@ async function generateAndSendHorizontalPdf() {
     const fileName = "Bhuihar_Family_Directory_Landscape.pdf";
     const pdfFile = new File([pdfBlob], fileName, {type:"application/pdf"});
     Swal.close();
-    // डाउनलोड पहले शुरू करें ताकि शेयर शीट के इंतजार में फाइल रुके नहीं।
-    downloadBlob(pdfBlob, fileName);
+    // Download request is triggered; browsers do not expose a reliable signal that
+    // the user-visible file has actually been saved, so do not claim it is complete.
+    const pdfUrl = downloadBlob(pdfBlob, fileName);
     const action = await Swal.fire({
-      icon:"success",
-      title:"PDF तैयार है — डाउनलोड शुरू",
-      html:"PDF डाउनलोड तुरंत शुरू कर दी गई है। मोबाइल में Chrome के Downloads या Files → Downloads में देखें।<br><br>क्या अब PDF WhatsApp पर भी शेयर करनी है?",
+      icon:"info",
+      title:"PDF तैयार है",
+      html:"डाउनलोड का अनुरोध भेज दिया गया है। कुछ मोबाइल ब्राउज़र फाइल सेव करने की अनुमति अलग से माँगते हैं।<br><br><b>पहले:</b> Chrome → ⋮ → Downloads देखें।<br><b>न मिले:</b> नीचे PDF खोलें, फिर PDF व्यूअर के Download/Save बटन से सेव करें।",
+      showDenyButton:true,
       showCancelButton:true,
-      confirmButtonText:"📤 अभी शेयर करें",
-      cancelButtonText:"अभी नहीं",
-      confirmButtonColor:"#25D366"
+      confirmButtonText:"📄 PDF खोलें / सेव करें",
+      denyButtonText:"📤 WhatsApp शेयर",
+      cancelButtonText:"बंद करें",
+      confirmButtonColor:"#1d4ed8",
+      denyButtonColor:"#25D366"
     });
     if (action.isConfirmed) {
+      window.open(pdfUrl, "_blank", "noopener");
+    } else if (action.isDenied) {
       const shared = await shareActualFile(pdfFile, "भुईहर जाति समाज परिवार पंजीका", "भुईहर जाति समाज की परिवार पंजीका PDF");
       if (shared === "unsupported") {
-        await Swal.fire({icon:"info",title:"PDF डाउनलोड हो रही है",text:"WhatsApp खोलें → 📎 → Document → Downloads से PDF चुनें।"});
+        await Swal.fire({icon:"info",title:"शेयर विकल्प उपलब्ध नहीं",text:"Chrome → Downloads में PDF देखें या ऊपर ‘PDF खोलें / सेव करें’ विकल्प इस्तेमाल करें।"});
+      } else if (shared === "cancelled") {
+        await Swal.fire({icon:"info",title:"शेयर रद्द हुआ",text:"PDF तैयार है। Chrome के Downloads में जाँचें या दोबारा डाउनलोड करें।"});
       }
     }
   } catch (err) {

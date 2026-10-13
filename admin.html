@@ -112,18 +112,22 @@
       <div class="card" style="border-left-color: #10b981;">
         <p style="font-size:11.5px; color:var(--muted); margin-bottom:10px;">यहाँ से आप नया जिला, पंचायत और गाँव सिस्टम में जोड़ सकते हैं।</p>
         <div class="form-group">
-          <label>1. जिला का नाम</label>
-          <input type="text" id="locDistrict" class="form-control" placeholder="जैसे: बलरामपुर">
+          <label>1. पहले से मौजूद जिला चुनें</label>
+          <select id="locDistrictSelect" class="form-control" onchange="locationDistrictChanged()"><option value="">— जिला चुनें या नीचे नया लिखें —</option></select>
+          <input type="text" id="locDistrict" class="form-control" style="margin-top:6px;" placeholder="नया जिला (सिर्फ नया जिला हो तो)">
         </div>
         <div class="form-group">
-          <label>2. ग्राम पंचायत का नाम</label>
-          <input type="text" id="locPanchayat" class="form-control" placeholder="जैसे: कुसमी">
+          <label>2. पहले से मौजूद पंचायत चुनें</label>
+          <select id="locPanchayatSelect" class="form-control"><option value="">— पंचायत चुनें या नीचे नया लिखें —</option></select>
+          <input type="text" id="locPanchayat" class="form-control" style="margin-top:6px;" placeholder="नई पंचायत (सिर्फ नई पंचायत हो तो)">
         </div>
         <div class="form-group">
           <label>3. गाँव / मोहल्ले का नाम</label>
-          <input type="text" id="locVillage" class="form-control" placeholder="जैसे: महाराजगंज">
+          <input type="text" id="locVillage" class="form-control" placeholder="हर बार सिर्फ गाँव का नाम लिखें">
         </div>
-        <button class="btn" style="background:#10b981;" onclick="saveLocationHierarchy()">लोकेशन डेटाबेस में जोड़ें</button>
+        <button class="btn" style="background:#10b981;" onclick="saveLocationHierarchy()">+ गाँव / लोकेशन जोड़ें</button>
+        <div style="margin-top:16px;font-weight:800;color:var(--navy);">📋 पहले से जोड़े गए गाँव — एडिट / डिलीट</div>
+        <div id="locationRecordsList" style="margin-top:8px;overflow-x:auto;"><p>लोकेशन लोड हो रही हैं...</p></div>
       </div>
     </div>
 
@@ -521,31 +525,92 @@
     return String(value).replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" }[ch]));
   }
 
-  // ✅ लोकेशन मैनेजर
+  // ✅ लोकेशन मैनेजर: जिला/पंचायत दोबारा बनाए बिना अनेक गाँव, साथ में एडिट/डिलीट
+  let locationCache = [];
+  let editingLocationId = null;
+
+  function locationDistrictChanged() {
+    const district = document.getElementById("locDistrictSelect")?.value || "";
+    const pSelect = document.getElementById("locPanchayatSelect");
+    if (!pSelect) return;
+    const names = [...new Set(locationCache.filter(x => !district || x.district === district).map(x => x.panchayat).filter(Boolean))].sort();
+    pSelect.innerHTML = `<option value="">— पंचायत चुनें या नीचे नया लिखें —</option>` + names.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("");
+  }
+
   async function saveLocationHierarchy() {
-    let district = document.getElementById("locDistrict").value.trim();
-    let panchayat = document.getElementById("locPanchayat").value.trim();
-    let village = document.getElementById("locVillage").value.trim();
-    if(!district || !panchayat || !village) { Swal.fire({icon: 'warning', text: 'कृपया जिला, पंचायत और गाँव तीनों भरें।'}); return; }
-    await db.collection("locations").add({ district: district, panchayat: panchayat, village: village, timestamp: Date.now() });
-    Swal.fire({icon: 'success', text: 'लोकेशन सफलतापूर्वक जोड़ दी गई!'});
-    document.getElementById("locDistrict").value = ""; document.getElementById("locPanchayat").value = ""; document.getElementById("locVillage").value = "";
-    loadLocationDropdown();
+    const districtSelect = document.getElementById("locDistrictSelect");
+    const panchayatSelect = document.getElementById("locPanchayatSelect");
+    const district = (document.getElementById("locDistrict").value.trim() || districtSelect.value.trim());
+    const panchayat = (document.getElementById("locPanchayat").value.trim() || panchayatSelect.value.trim());
+    const village = document.getElementById("locVillage").value.trim();
+    if (!district || !panchayat || !village) {
+      Swal.fire({icon:'warning', text:'जिला और पंचायत चुनें (या नया नाम लिखें), फिर गाँव का नाम भरें।'}); return;
+    }
+    const norm = v => String(v || "").trim().toLocaleLowerCase('hi');
+    const duplicate = locationCache.find(x => norm(x.district) === norm(district) && norm(x.panchayat) === norm(panchayat) && norm(x.village) === norm(village) && x.id !== editingLocationId);
+    if (duplicate) { Swal.fire({icon:'info', title:'यह गाँव पहले से मौजूद है', text:'इसी जिले और पंचायत में यही गाँव पहले ही जोड़ा गया है।'}); return; }
+    try {
+      const payload = { district, panchayat, village, timestamp: Date.now() };
+      if (editingLocationId) await db.collection("locations").doc(editingLocationId).update(payload);
+      else await db.collection("locations").add(payload);
+      Swal.fire({icon:'success', text: editingLocationId ? 'लोकेशन अपडेट हो गई।' : 'गाँव सफलतापूर्वक जोड़ दिया गया।'});
+      editingLocationId = null;
+      document.getElementById("locDistrict").value = "";
+      document.getElementById("locPanchayat").value = "";
+      document.getElementById("locVillage").value = "";
+      document.getElementById("locDistrictSelect").value = "";
+      document.getElementById("locPanchayatSelect").innerHTML = '<option value="">— पंचायत चुनें या नीचे नया लिखें —</option>';
+      const btn = document.querySelector('button[onclick="saveLocationHierarchy()"]'); if (btn) btn.textContent = '+ गाँव / लोकेशन जोड़ें';
+      await loadLocationDropdown();
+    } catch(e) { Swal.fire({icon:'error', title:'सेव नहीं हो पाया', text:e.message || 'Firebase अनुमति और कनेक्शन जाँचें।'}); }
+  }
+
+  async function editLocation(id) {
+    const item = locationCache.find(x => x.id === id); if (!item) return;
+    editingLocationId = id;
+    document.getElementById("locDistrictSelect").value = "";
+    document.getElementById("locDistrict").value = item.district || "";
+    document.getElementById("locPanchayat").value = item.panchayat || "";
+    document.getElementById("locVillage").value = item.village || "";
+    const btn = document.querySelector('button[onclick="saveLocationHierarchy()"]'); if (btn) btn.textContent = '✏️ बदलाव सेव करें';
+    document.getElementById("locDistrict").scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  async function deleteLocation(id) {
+    const item = locationCache.find(x => x.id === id); if (!item) return;
+    const answer = await Swal.fire({icon:'warning', title:'गाँव हटाएँ?', text:`${item.village} — ${item.panchayat}, ${item.district}`, showCancelButton:true, confirmButtonText:'हाँ, हटाएँ', cancelButtonText:'रद्द करें'});
+    if (!answer.isConfirmed) return;
+    try { await db.collection("locations").doc(id).delete(); await loadLocationDropdown(); Swal.fire({icon:'success', text:'लोकेशन हटा दी गई।'}); }
+    catch(e) { Swal.fire({icon:'error', title:'डिलीट नहीं हुआ', text:e.message || 'Firebase अनुमति जाँचें।'}); }
   }
 
   async function loadLocationDropdown() {
-    let snap = await db.collection("locations").get();
-    let select = document.getElementById("viewFilterSelect");
-    let assignSelect = document.getElementById("assignAdminVillage");
-    let html = `<option value="ALL">सभी जिले एवं गाँव (संपूर्ण समाज)</option>`;
-    let assignHtml = `<option value="">-- गाँव चुनें --</option>`;
-    snap.forEach(doc => {
-      let d = doc.data();
-      let optionText = `<option value="${d.village}">${d.village} (पं: ${d.panchayat}, जि: ${d.district})</option>`;
-      html += optionText; assignHtml += optionText;
-    });
-    if(select) select.innerHTML = html;
-    if(assignSelect) assignSelect.innerHTML = assignHtml;
+    try {
+      const snap = await db.collection("locations").get();
+      locationCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const districtSelect = document.getElementById("locDistrictSelect");
+      if (districtSelect) {
+        const districts = [...new Set(locationCache.map(x => x.district).filter(Boolean))].sort();
+        districtSelect.innerHTML = '<option value="">— जिला चुनें या नीचे नया लिखें —</option>' + districts.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+      }
+      locationDistrictChanged();
+      const select = document.getElementById("viewFilterSelect");
+      const assignSelect = document.getElementById("assignAdminVillage");
+      let html = '<option value="ALL">सभी जिले एवं गाँव (संपूर्ण समाज)</option>';
+      let assignHtml = '<option value="">-- गाँव चुनें --</option>';
+      locationCache.forEach(d => {
+        const label = `${d.village || 'गाँव'} (पं: ${d.panchayat || '-'}, जि: ${d.district || '-'})`;
+        html += `<option value="${escapeHtml(d.village || '')}">${escapeHtml(label)}</option>`;
+        assignHtml += `<option value="${escapeHtml(d.village || '')}">${escapeHtml(label)}</option>`;
+      });
+      if (select) select.innerHTML = html;
+      if (assignSelect) assignSelect.innerHTML = assignHtml;
+      const list = document.getElementById("locationRecordsList");
+      if (list) {
+        if (!locationCache.length) list.innerHTML = '<p>अभी कोई गाँव नहीं जोड़ा गया है।</p>';
+        else list.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid var(--line);">जिला</th><th style="text-align:left;padding:8px;border-bottom:1px solid var(--line);">पंचायत</th><th style="text-align:left;padding:8px;border-bottom:1px solid var(--line);">गाँव</th><th style="padding:8px;border-bottom:1px solid var(--line);">कार्रवाई</th></tr></thead><tbody>${locationCache.map(x => `<tr><td style="padding:8px;border-bottom:1px solid var(--line);">${escapeHtml(x.district || '')}</td><td style="padding:8px;border-bottom:1px solid var(--line);">${escapeHtml(x.panchayat || '')}</td><td style="padding:8px;border-bottom:1px solid var(--line);">${escapeHtml(x.village || '')}</td><td style="padding:8px;border-bottom:1px solid var(--line);white-space:nowrap;"><button class="btn" style="width:auto;padding:6px 9px;background:#2563eb;" onclick="editLocation('${x.id}')">✏️ एडिट</button> <button class="btn" style="width:auto;padding:6px 9px;background:#dc2626;" onclick="deleteLocation('${x.id}')">🗑️ डिलीट</button></td></tr>`).join('')}</tbody></table>`;
+      }
+    } catch(e) { console.error('Location load error', e); }
   }
 
   // ✅ सब-एडमिन नियुक्त करें

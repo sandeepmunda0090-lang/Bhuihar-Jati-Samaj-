@@ -355,6 +355,22 @@ body {
 .services-two-row::-webkit-scrollbar { display: none; }
 .services-two-row:active { cursor: grabbing; }
 
+
+/* Dashboard Back confirmation popup — matches the existing blue/gold theme */
+.swal2-popup.bhuihar-back-popup {
+  border-radius: 24px !important;
+  padding: 1.35em 1.15em 1.2em !important;
+  border: 1px solid #e5ebf3 !important;
+  box-shadow: 0 20px 55px rgba(8,43,84,.24) !important;
+  font-family: system-ui, "Noto Sans Devanagari", Arial, sans-serif !important;
+}
+.bhuihar-back-title { color: #082b54 !important; font-weight: 850 !important; }
+.bhuihar-back-confirm, .bhuihar-back-cancel {
+  border-radius: 12px !important;
+  padding: 10px 15px !important;
+  font-weight: 800 !important;
+}
+
 </style>
 </head>
 <body>
@@ -967,6 +983,70 @@ body {
     const achSlider = document.getElementById("achieversSlider");
     if(achSlider) { achSlider.addEventListener("scroll", updateAchiever3D); window.addEventListener("resize", updateAchiever3D); setTimeout(updateAchiever3D, 300); }
   });
+
+  // ===== Dashboard Browser-Back Confirmation (existing features kept intact) =====
+  let dashboardBackPromptOpen = false;
+
+  function installDashboardBackGuard() {
+    try {
+      if (!history.state || history.state.bhuiharDashboardGuard !== true) {
+        const currentState = (history.state && typeof history.state === "object") ? history.state : {};
+        history.pushState({ ...currentState, bhuiharDashboardGuard: true }, "", window.location.href);
+      }
+    } catch (e) {
+      // Some embedded browsers may restrict History API; the rest of the dashboard still works.
+    }
+  }
+
+  window.addEventListener("pageshow", installDashboardBackGuard);
+
+  window.addEventListener("popstate", function dashboardBackConfirmation() {
+    if (dashboardBackPromptOpen) return;
+    dashboardBackPromptOpen = true;
+
+    if (typeof Swal === "undefined") {
+      const leave = window.confirm("क्या आप भुईहर जाति समाज पोर्टल से बाहर जाना चाहते हैं?");
+      dashboardBackPromptOpen = false;
+      if (leave) {
+        history.back();
+      } else {
+        installDashboardBackGuard();
+      }
+      return;
+    }
+
+    Swal.fire({
+      icon: "question",
+      title: "पोर्टल से बाहर जाएँ?",
+      text: "क्या आप भुईहर जाति समाज पोर्टल छोड़ना चाहते हैं?",
+      showCancelButton: true,
+      confirmButtonText: "हाँ, बाहर जाएँ",
+      cancelButtonText: "नहीं, यहीं रहें",
+      confirmButtonColor: "#0757a3",
+      cancelButtonColor: "#64748b",
+      reverseButtons: true,
+      allowOutsideClick: false,
+      customClass: {
+        popup: "bhuihar-back-popup",
+        title: "bhuihar-back-title",
+        confirmButton: "bhuihar-back-confirm",
+        cancelButton: "bhuihar-back-cancel"
+      }
+    }).then(function (result) {
+      dashboardBackPromptOpen = false;
+      if (result.isConfirmed) {
+        // The first Back returned to this page's guard entry; this second Back exits it.
+        history.back();
+      } else {
+        installDashboardBackGuard();
+        restoreDashboardPosition();
+      }
+    }).catch(function () {
+      dashboardBackPromptOpen = false;
+      installDashboardBackGuard();
+    });
+  });
+
 </script>
 
          

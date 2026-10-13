@@ -150,6 +150,19 @@
       </div>
     </div>
 
+    <!-- संयुक्त गाँव / सब-एडमिन समूह प्रबंधन -->
+    <button class="accordion-header master-only">🔗 2.1 संयुक्त गाँव और सब-एडमिन समूह <span>▼</span></button>
+    <div class="accordion-content master-only">
+      <div class="card" style="border-left-color:#0f766e;">
+        <p style="font-size:12px;color:var(--muted);">कम सदस्य संख्या होने पर कई गाँवों को एक सब-एडमिन के अंतर्गत जोड़ें। बाद में गाँव अलग करते समय हर गाँव के लिए अलग सब-एडमिन नियुक्त करें। सदस्यों का मूल गाँव रिकॉर्ड नहीं बदलेगा।</p>
+        <div class="form-group"><label>संयुक्त सब-एडमिन का रजिस्टर्ड मोबाइल</label><input id="jointAdminMobile" type="tel" class="form-control" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर"></div>
+        <div class="form-group"><label>जोड़ने के लिए गाँव चुनें (एक से अधिक चुनने के लिए दबाकर रखें)</label><select id="jointVillagesSelect" class="form-control" multiple size="5" style="min-height:110px;"></select></div>
+        <button class="btn" style="background:#0f766e;" onclick="createVillageAdminGroup()">🤝 संयुक्त सब-एडमिन समूह बनाएँ</button>
+        <div style="margin-top:16px;font-weight:800;color:var(--navy);">मौजूदा संयुक्त समूह</div>
+        <div id="villageAdminGroupsList" style="margin-top:8px;overflow-x:auto;">समूह लोड हो रहे हैं...</div>
+      </div>
+    </div>
+
     <!-- ⭐ न्यू: सदस्य खोज एवं नियंत्रण (ब्लॉक/अनब्लॉक/डिलीट) ⭐ -->
     <button class="accordion-header">🔍 3. सदस्य खोज एवं नियंत्रण (Block/Delete) <span>▼</span></button>
     <div class="accordion-content">
@@ -398,6 +411,8 @@
   // ग्लोबल रोल मैनेजमेंट वैरिएबल्स
   let currentUserRole = "sub_admin";
   let currentUserVillage = "";
+  let currentUserVillages = [];
+  let villageGroupCache = [];
 
   function goBackHome() {
     if (window.history.length > 1) { window.history.back(); } else { window.location.href = 'index.html'; }
@@ -439,6 +454,9 @@
       const masterEmailAllowlist = ["sandeepmunda0090@gmail.com", "admin@bhuihar.com"];
       currentUserRole = (isMasterInFirebase || masterEmailAllowlist.includes(signedInEmail)) ? "master_admin" : "sub_admin";
       currentUserVillage = roleData?.village || roleData?.Village || roleData?.gaon || "";
+      currentUserVillages = Array.isArray(roleData?.villages) ? roleData.villages.filter(Boolean) : [];
+      if (currentUserVillage && !currentUserVillages.includes(currentUserVillage)) currentUserVillages.unshift(currentUserVillage);
+      if (!currentUserVillages.length && currentUserVillage) currentUserVillages = [currentUserVillage];
 
       applyRolePermissions(user);
       renumberVisibleServices();
@@ -514,8 +532,9 @@
       });
       loadLocationDropdown();
     } else {
-      roleText.textContent = currentUserVillage ? `सब-एडमिन (मुखिया) — ${currentUserVillage}` : "सब-एडमिन (मुखिया)";
-      loginInfo.innerHTML = `<span style="background:#dcfce7;color:#166534;padding:5px 9px;border-radius:999px;">🛡️ SUB-ADMIN</span><span>📧 ${escapeHtml(signedInEmail)}</span><span>📍 ${escapeHtml(currentUserVillage || "गाँव निर्धारित नहीं")}</span>`;
+      const villageLabel = currentUserVillages.length ? currentUserVillages.join(" + ") : currentUserVillage;
+      roleText.textContent = villageLabel ? `सब-एडमिन (मुखिया) — ${villageLabel}` : "सब-एडमिन (मुखिया)";
+      loginInfo.innerHTML = `<span style="background:#dcfce7;color:#166534;padding:5px 9px;border-radius:999px;">🛡️ SUB-ADMIN</span><span>📧 ${escapeHtml(signedInEmail)}</span><span>📍 ${escapeHtml(villageLabel || "गाँव निर्धारित नहीं")}</span>`;
       masterElements.forEach(el => el.style.display = "none");
     }
     renumberVisibleServices();
@@ -605,6 +624,9 @@
       });
       if (select) select.innerHTML = html;
       if (assignSelect) assignSelect.innerHTML = assignHtml;
+      const jointSelect = document.getElementById("jointVillagesSelect");
+      if (jointSelect) jointSelect.innerHTML = locationCache.map(d => `<option value="${escapeHtml(d.village || '')}">${escapeHtml(`${d.village || 'गाँव'} (पं: ${d.panchayat || '-'}, जि: ${d.district || '-'})`)}</option>`).join("");
+      await loadVillageAdminGroups();
       const list = document.getElementById("locationRecordsList");
       if (list) {
         if (!locationCache.length) list.innerHTML = '<p>अभी कोई गाँव नहीं जोड़ा गया है।</p>';
@@ -614,6 +636,12 @@
   }
 
   // ✅ सब-एडमिन नियुक्त करें
+  async function findMemberByMobile(mob) {
+    let snap = await db.collection("users").where("mobileNumber", "==", mob).get();
+    if (snap.empty) snap = await db.collection("users").where("mobile", "==", mob).get();
+    return snap.empty ? null : snap.docs[0];
+  }
+
   async function assignSubAdmin() {
     let mob = document.getElementById("assignAdminMobile").value.trim();
     let vil = document.getElementById("assignAdminVillage").value;
@@ -621,16 +649,77 @@
     if(!vil) { Swal.fire({icon: 'warning', text: 'कृपया ड्रॉपडाउन से गाँव चुनें!'}); return; }
     Swal.fire({ title: 'जाँच हो रही है...', didOpen: () => { Swal.showLoading(); }});
     try {
-      let snap = await db.collection("users").where("mobileNumber", "==", mob).get();
-      if(snap.empty) snap = await db.collection("users").where("mobile", "==", mob).get();
-      if(snap.empty) { Swal.fire({icon: 'error', text: 'इस मोबाइल नंबर से समाज में कोई सदस्य रजिस्टर्ड नहीं है।'}); return; }
-      let docId = snap.docs[0].id;
-      let userData = snap.docs[0].data();
-      let memberName = userData.FullName || userData.fullName || "सदस्य";
-      await db.collection("users").doc(docId).update({ role: "sub_admin", village: vil });
-      Swal.fire({ icon: 'success', title: 'पावर दी गई!', text: `${memberName} को अब ${vil} का मुखिया बना दिया गया है।` });
+      const memberDoc = await findMemberByMobile(mob);
+      if(!memberDoc) { Swal.fire({icon: 'error', text: 'इस मोबाइल नंबर से समाज में कोई सदस्य रजिस्टर्ड नहीं है।'}); return; }
+      const userData = memberDoc.data();
+      await db.collection("users").doc(memberDoc.id).update({ role: "sub_admin", village: vil, villages: [vil], villageGroupId: firebase.firestore.FieldValue.delete() });
+      Swal.fire({ icon: 'success', title: 'पावर दी गई!', text: `${userData.FullName || userData.fullName || "सदस्य"} को ${vil} का मुखिया बनाया गया है।` });
       document.getElementById("assignAdminMobile").value = "";
+      await loadLocationDropdown();
     } catch(e) { Swal.fire({icon: 'error', text: 'सिस्टम त्रुटि: ' + e.message}); }
+  }
+
+  // संयुक्त गाँव समूह: सदस्य के village रिकॉर्ड को बदले बिना सब-एडमिन की जिम्मेदारी बदलें।
+  async function createVillageAdminGroup() {
+    const mob = document.getElementById("jointAdminMobile").value.trim();
+    const select = document.getElementById("jointVillagesSelect");
+    const villages = [...select.selectedOptions].map(o => o.value).filter(Boolean);
+    if (!/^\\d{10}$/.test(mob)) { Swal.fire({icon:"warning",text:"संयुक्त सब-एडमिन का सही 10 अंकों का मोबाइल नंबर डालें।"}); return; }
+    if (villages.length < 2) { Swal.fire({icon:"warning",text:"कम से कम दो गाँव चुनें।"}); return; }
+    try {
+      Swal.fire({title:"समूह बनाया जा रहा है...",allowOutsideClick:false,didOpen:()=>Swal.showLoading()});
+      const memberDoc = await findMemberByMobile(mob);
+      if (!memberDoc) { Swal.fire({icon:"error",text:"इस मोबाइल नंबर से कोई रजिस्टर्ड सदस्य नहीं मिला।"}); return; }
+      const memberData = memberDoc.data();
+      const batch = db.batch();
+      const groupRef = db.collection("villageAdminGroups").doc();
+      batch.set(groupRef, { villages, adminUserId: memberDoc.id, adminMobile: mob, adminName: memberData.FullName || memberData.fullName || "सदस्य", status:"active", createdAt: Date.now(), updatedAt: Date.now() });
+      batch.update(db.collection("users").doc(memberDoc.id), { role:"sub_admin", village:villages[0], villages, villageGroupId:groupRef.id });
+      await batch.commit();
+      document.getElementById("jointAdminMobile").value = "";
+      [...select.options].forEach(o => o.selected = false);
+      await loadLocationDropdown();
+      Swal.fire({icon:"success",title:"संयुक्त समूह तैयार",text:`${villages.join(" + ")} की जिम्मेदारी एक सब-एडमिन को दी गई।`});
+    } catch(e) { Swal.fire({icon:"error",title:"समूह नहीं बन पाया",text:e.message || "Firebase नियम जाँचें।"}); }
+  }
+
+  async function loadVillageAdminGroups() {
+    const box = document.getElementById("villageAdminGroupsList");
+    if (!box) return;
+    try {
+      const snap = await db.collection("villageAdminGroups").get();
+      villageGroupCache = snap.docs.map(d => ({id:d.id,...d.data()}));
+      box.innerHTML = villageGroupCache.length ? `<table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr><th>गाँव</th><th>संयुक्त सब-एडमिन</th><th>कार्रवाई</th></tr></thead><tbody>${villageGroupCache.map(g => `<tr><td>${escapeHtml((g.villages||[]).join(" + "))}</td><td>${escapeHtml(g.adminName||"-")}<br>${escapeHtml(g.adminMobile||"")}</td><td><button class="badge-btn" style="background:#d97706;color:white;" onclick="splitVillageAdminGroup('${g.id}')">गाँव अलग करें</button></td></tr>`).join("")}</tbody></table>` : '<p style="font-size:12px;color:var(--muted);">अभी कोई संयुक्त समूह नहीं है।</p>';
+    } catch(e) { box.innerHTML = '<p style="color:#dc2626;font-size:12px;">समूह लोड नहीं हुए। Firestore rules जाँचें।</p>'; }
+  }
+
+  async function splitVillageAdminGroup(groupId) {
+    const group = villageGroupCache.find(g => g.id === groupId);
+    if (!group || !Array.isArray(group.villages) || group.villages.length < 2) return;
+    const fields = group.villages.map((v,i) => `<label style="text-align:left;margin-top:8px;">${escapeHtml(v)} के नए सब-एडमिन का मोबाइल</label><input id="splitMobile${i}" class="swal2-input" inputmode="numeric" maxlength="10" placeholder="10 अंकों का मोबाइल">`).join("");
+    const result = await Swal.fire({title:"गाँव अलग करें",html:`<p style="font-size:13px;">हर गाँव के लिए अलग सब-एडमिन का रजिस्टर्ड मोबाइल भरें। सदस्यों का मूल गाँव नहीं बदलेगा।</p>${fields}`,showCancelButton:true,confirmButtonText:"गाँव अलग करें",cancelButtonText:"रद्द करें",focusConfirm:false,preConfirm:()=>{const mobiles=group.villages.map((v,i)=>document.getElementById("splitMobile"+i).value.trim());if(mobiles.some(m=>!/^\\d{10}$/.test(m))){Swal.showValidationMessage("हर गाँव के लिए सही 10 अंकों का मोबाइल नंबर भरें।");return false;}if(new Set(mobiles).size!==mobiles.length){Swal.showValidationMessage("हर गाँव के लिए अलग सब-एडमिन मोबाइल दें।");return false;}return mobiles;}});
+    if (!result.isConfirmed) return;
+    try {
+      Swal.fire({title:"गाँव अलग किए जा रहे हैं...",allowOutsideClick:false,didOpen:()=>Swal.showLoading()});
+      const memberDocs = [];
+      for (const mob of result.value) {
+        const doc = await findMemberByMobile(mob);
+        if (!doc) throw new Error(`मोबाइल ${mob} से कोई सदस्य नहीं मिला।`);
+        memberDocs.push(doc);
+      }
+      const batch = db.batch();
+      group.villages.forEach((v,i) => {
+        const d = memberDocs[i];
+        batch.update(db.collection("users").doc(d.id), {role:"sub_admin", village:v, villages:[v], villageGroupId:firebase.firestore.FieldValue.delete(), updatedAt:Date.now()});
+      });
+      if (!memberDocs.some(d => d.id === group.adminUserId)) {
+        batch.update(db.collection("users").doc(group.adminUserId), {role:"member", villages:firebase.firestore.FieldValue.delete(), villageGroupId:firebase.firestore.FieldValue.delete(), village:firebase.firestore.FieldValue.delete(), updatedAt:Date.now()});
+      }
+      batch.delete(db.collection("villageAdminGroups").doc(groupId));
+      await batch.commit();
+      await loadLocationDropdown();
+      Swal.fire({icon:"success",title:"गाँव अलग हो गए",text:"हर गाँव का अलग सब-एडमिन नियुक्त हुआ। सदस्यों के रिकॉर्ड उनके मूल गाँव के अनुसार ही रहेंगे।"});
+    } catch(e) { Swal.fire({icon:"error",title:"अलग नहीं हो पाए",text:e.message || "Firebase नियम जाँचें।"}); }
   }
 
   // ⭐ सदस्य खोज एवं ब्लॉक/अनब्लॉक/डिलीट फंक्शन ⭐
@@ -688,7 +777,10 @@
   }
 
   function getCurrentTargetVillage() {
-    return (currentUserRole === "master_admin") ? document.getElementById("viewFilterSelect").value : currentUserVillage;
+    return (currentUserRole === "master_admin") ? document.getElementById("viewFilterSelect").value : (currentUserVillage || (currentUserVillages[0] || ""));
+  }
+  function canAccessVillage(village) {
+    return currentUserRole === "master_admin" || currentUserVillages.includes(village) || village === currentUserVillage;
   }
   function checkLocalVillage(v) { 
     if(v==="ALL"){ Swal.fire({icon:'warning', text:'नया रिकॉर्ड जोड़ने के लिए ऊपर ड्रॉपडाउन से कोई एक विशिष्ट गाँव (लोकेशन) चुनें!'}); return false; } 
@@ -701,11 +793,13 @@
     
     // 1. Pending Approvals
     let queryUsers = db.collection("users").where("status", "==", "pending");
-    if(targetVillage !== "ALL") queryUsers = queryUsers.where("village", "==", targetVillage);
+    if(currentUserRole === "master_admin" && targetVillage !== "ALL") queryUsers = queryUsers.where("village", "==", targetVillage);
     let snapUsers = await queryUsers.get();
     let htmlUsers = ""; let count = 0;
     snapUsers.forEach(doc => {
-      let u = doc.data(); count++;
+      let u = doc.data();
+      if (currentUserRole !== "master_admin" && !canAccessVillage(u.village || "")) return;
+      count++;
       htmlUsers += `<tr><td><b>${u.FullName || u.fullName || 'अज्ञात'}</b><br><span style="color:var(--muted); font-size:10px;">${u.village || '-'}</span></td><td>📞 ${u.mobileNumber || u.mobile || '-'}</td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveUser('${doc.id}')">Approve</button></td></tr>`;
     });
     document.getElementById("pendingCount").innerText = count;
@@ -733,22 +827,28 @@
 
   async function loadAdminTable(col, tableId, rowTemplate, isLocal, targetVillage) {
     let q = db.collection(col);
-    if(isLocal && targetVillage !== "ALL") q = q.where("village", "==", targetVillage);
+    if(isLocal && currentUserRole === "master_admin" && targetVillage !== "ALL") q = q.where("village", "==", targetVillage);
     let snap = await q.get();
     let html = "";
-    snap.forEach(doc => { html += rowTemplate(doc.data(), doc.id); });
+    snap.forEach(doc => {
+      const data = doc.data();
+      if (isLocal && currentUserRole !== "master_admin" && !canAccessVillage(data.village || "")) return;
+      if (isLocal && currentUserRole === "master_admin" && targetVillage === "ALL" && !data.village) { /* global/local legacy record: show only in ALL view */ }
+      html += rowTemplate(data, doc.id);
+    });
     document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई डेटा नहीं</td></tr>`;
   }
 
   async function loadPendingApprovalList(col, tableId, labelName, targetVillage) {
     try {
       let q = db.collection(col).where("status", "==", "pending");
-      if(targetVillage !== "ALL") q = q.where("village", "==", targetVillage);
+      if(currentUserRole === "master_admin" && targetVillage !== "ALL") q = q.where("village", "==", targetVillage);
       let snap = await q.get();
       let html = "";
       snap.forEach(doc => {
         let d = doc.data();
-        html += `<tr><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
+        if (currentUserRole !== "master_admin" && !canAccessVillage(d.village || "")) return;
+        html +=  `<tr><td><b>${d.name || d.title || labelName}</b><br><span style="font-size:10px; color:var(--muted);">${d.details || d.address || ''}</span></td><td><button class="badge-btn" style="background:var(--green); color:white;" onclick="approveDynamicDoc('${col}', '${doc.id}')">Approve</button><button class="badge-btn" style="background:var(--red); color:white;" onclick="deleteDoc('${col}', '${doc.id}', loadAllAdminData)">🗑️</button></td></tr>`;
       });
       document.getElementById(tableId).innerHTML = html || `<tr><td colspan="2" style="text-align:center; color:var(--muted);">कोई पेंडिंग ${labelName} नहीं है</td></tr>`;
     } catch(e) {}

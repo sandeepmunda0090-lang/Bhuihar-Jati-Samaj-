@@ -105,11 +105,8 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
 function goBackHome() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = 'index.html';
-  }
+  // लॉगिन स्क्रीन से Back दबाने पर सीधे मुख्य पृष्ठ खोलें।
+  window.location.href = 'index.html';
 }
 
 async function handleUserLogin() {

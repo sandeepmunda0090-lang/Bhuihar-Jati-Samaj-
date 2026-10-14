@@ -121,11 +121,8 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 
 function goBackHome() {
-  if (window.history.length > 1) {
-    window.history.back();
-  } else {
-    window.location.href = 'index.html';
-  }
+  // हमेशा मुख्य पृष्ठ पर जाएँ; browser history में पिछला पेज login/register हो सकता है।
+  window.location.href = 'index.html';
 }
 
 

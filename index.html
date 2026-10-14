@@ -1015,12 +1015,15 @@ body {
       return;
     }
 
+    const isLoggedIn = !!localStorage.getItem("userLoggedInMobile");
     Swal.fire({
       icon: "question",
-      title: "पोर्टल से बाहर जाएँ?",
-      text: "क्या आप भुईहर जाति समाज पोर्टल छोड़ना चाहते हैं?",
+      title: isLoggedIn ? "लॉगआउट करें?" : "पोर्टल से बाहर जाएँ?",
+      text: isLoggedIn
+        ? "क्या आप अपने खाते से लॉगआउट करना चाहते हैं?"
+        : "क्या आप भुईहर जाति समाज पोर्टल छोड़ना चाहते हैं?",
       showCancelButton: true,
-      confirmButtonText: "हाँ, बाहर जाएँ",
+      confirmButtonText: isLoggedIn ? "हाँ, लॉगआउट करें" : "हाँ, बाहर जाएँ",
       cancelButtonText: "नहीं, यहीं रहें",
       confirmButtonColor: "#0757a3",
       cancelButtonColor: "#64748b",
@@ -1034,8 +1037,15 @@ body {
       }
     }).then(function (result) {
       dashboardBackPromptOpen = false;
-      if (result.isConfirmed) {
-        // The first Back returned to this page's guard entry; this second Back exits it.
+      if (result.isConfirmed && isLoggedIn) {
+        // Confirming Back logs the member out but keeps the Home Page open.
+        ["userLoggedInMobile", "userMobile", "loggedInMobile", "userName",
+         "userPhotoUrl", "userRole", "userVillage", "bhuiharPortalUser"].forEach(function (key) {
+          localStorage.removeItem(key);
+        });
+        window.location.reload();
+      } else if (result.isConfirmed) {
+        // For a guest, keep the original leave-page behavior.
         history.back();
       } else {
         installDashboardBackGuard();
